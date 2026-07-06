@@ -45,7 +45,7 @@ public class AdminTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Admin.TeamUpdated, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpDelete("teams/{teamId:guid}")]
+    [HttpPatch("teams/{teamId:guid}/delete")]
     public async Task<IActionResult> DeleteTeam(Guid teamId)
     {
         await _teamService.DeleteTeam(teamId);

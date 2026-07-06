@@ -1,4 +1,4 @@
-# DELETE /api/v1/admin/teams/{teamId}
+# PATCH /api/v1/admin/teams/{teamId}/delete
 
 > Admin xoá mềm team (set IsDisable = true).
 

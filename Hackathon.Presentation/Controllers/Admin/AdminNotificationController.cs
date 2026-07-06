@@ -52,7 +52,7 @@ public class AdminNotificationController : ControllerBase
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Admin.NotificationUpdated, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpDelete("notifications/{notificationId:guid}")]
+    [HttpPatch("notifications/{notificationId:guid}/delete")]
     public async Task<IActionResult> DeleteNotification(Guid notificationId)
     {
         await _notificationService.DeleteNotification(new DeleteNotificationRequest { NotificationId = notificationId });
