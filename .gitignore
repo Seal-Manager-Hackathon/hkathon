@@ -1,5 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/aspnetcore,dotnetcore,windows,rider,intellij
 # Edit at https://www.toptal.com/developers/gitignore?templates=aspnetcore,dotnetcore,windows,rider,intellij
+# .gitnexus
 
 ### ASPNETCore ###
 ## Ignore Visual Studio temporary files, build results, and
@@ -479,5 +480,4 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/aspnetcore,dotnetcore,windows,rider,intellij
 Hackathon.Api/appsettings.json
 Hackathon.Api/appsettings.Development.json
-.claude/
 swagger-local.json

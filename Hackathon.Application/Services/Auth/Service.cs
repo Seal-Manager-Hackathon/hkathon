@@ -120,7 +120,7 @@ public class Service : IAuthService
         var claims = new List<Claim>
         {
             new("UserId", user.Id.ToString()),
-            new(ClaimTypes.Role, user.Role.ToString()),
+            // new(ClaimTypes.Role, user.Role.ToString()),
             new("IsVerified", user.IsVerified.ToString()!.ToLower())
         };
 
@@ -139,7 +139,7 @@ public class Service : IAuthService
         var claims = new List<Claim>
         {
             new("UserId", user.Id.ToString()),
-            new(ClaimTypes.Role, user.Role.ToString()),
+            // new(ClaimTypes.Role, user.Role.ToString()),
             new("IsVerified", user.IsVerified!.ToString()!.ToLower())
         };
 
@@ -150,7 +150,7 @@ public class Service : IAuthService
             Id = Guid.NewGuid(),
             UserId = user.Id,
             TokenHash = emailToken,
-            ExpiredAt = DateTimeOffset.UtcNow.AddMinutes(2),
+            ExpiredAt = DateTimeOffset.UtcNow.AddMinutes(5),
             Status = EmailVerificationStatusEnum.Pending,
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow

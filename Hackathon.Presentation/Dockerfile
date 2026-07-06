@@ -1,22 +1,26 @@
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER $APP_UID
 WORKDIR /app
-EXPOSE 80
+EXPOSE 8080
+EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["BE-SEAL-HACKATHON.Presentation/BE-SEAL-HACKATHON.Presentation.csproj", "BE-SEAL-HACKATHON.Presentation/"]
-COPY ["BE-SEAL-HACKATHON.Infrastructure/BE-SEAL-HACKATHON.Infrastructure.csproj", "BE-SEAL-HACKATHON.Infrastructure/"]
-COPY ["BE-SEAL-HACKATHON.Application/BE-SEAL-HACKATHON.Application.csproj", "BE-SEAL-HACKATHON.Application/"]
-COPY ["BE-SEAL-HACKATHON.Domain/BE-SEAL-HACKATHON.Domain.csproj", "BE-SEAL-HACKATHON.Domain/"]
-RUN dotnet restore "BE-SEAL-HACKATHON.Presentation/BE-SEAL-HACKATHON.Presentation.csproj"
+COPY ["Hackathon.Presentation/Hackathon.Presentation.csproj", "Hackathon.Presentation/"]
+COPY ["Hackathon.Application/Hackathon.Application.csproj", "Hackathon.Application/"]
+COPY ["Hackathon.Domain/Hackathon.Domain.csproj", "Hackathon.Domain/"]
+COPY ["Hackathon.Infrastructure/Hackathon.Infrastructure.csproj", "Hackathon.Infrastructure/"]
+RUN dotnet restore "Hackathon.Presentation/Hackathon.Presentation.csproj"
 COPY . .
-WORKDIR "/src/BE-SEAL-HACKATHON.Presentation"
-RUN dotnet build "BE-SEAL-HACKATHON.Presentation.csproj" -c Release -o /app/build
+WORKDIR "/src/Hackathon.Presentation"
+RUN dotnet build "./Hackathon.Presentation.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "BE-SEAL-HACKATHON.Presentation.csproj" -c Release -o /app/publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./Hackathon.Presentation.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "BE-SEAL-HACKATHON.Presentation.dll"]
+ENTRYPOINT ["dotnet", "Hackathon.Presentation.dll"]
