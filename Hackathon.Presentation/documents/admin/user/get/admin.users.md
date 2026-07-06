@@ -4,9 +4,10 @@
 
 ## Nghiệp vụ
 - Keyword search trên: email, firstName, lastName, fullName (firstName + " " + lastName)
-- Các filter: Role, IsDisable, IsVerified
+- Các filter: Role, IsDisable, IsVerified, FromDate, ToDate
 - Mặc định page 1, page size 10
 - Không truyền filter gì → lấy tất cả
+- Sắp xếp gần nhất trên cùng
 
 ## Phân quyền
 - ✅ Admin
@@ -18,6 +19,8 @@
 | Role | string | ❌ | `Staff` | ⚠️ Enum: Admin, Staff, Student, Lecturer |
 | IsDisable | bool | ❌ | `false` | Lọc disable |
 | IsVerified | bool | ❌ | `true` | Lọc verified |
+| FromDate | datetime | ❌ | `2026-07-01T00:00:00Z` | Lọc CreatedAt từ ngày |
+| ToDate | datetime | ❌ | `2026-07-07T23:59:59Z` | Lọc CreatedAt đến ngày |
 | PageIndex | int | ❌ | `1` | Mặc định 1 |
 | PageSize | int | ❌ | `10` | Mặc định 10 |
 
@@ -26,7 +29,7 @@
 GET /api/v1/admin/users                                         → Tất cả, page 1
 GET /api/v1/admin/users?Keyword=john&Role=Staff                 → Search + filter role
 GET /api/v1/admin/users?IsVerified=true&PageSize=20             → 20 items/page, verified only
-GET /api/v1/admin/users?Keyword=Nguyen Van&PageIndex=2          → Search fullName, page 2
+GET /api/v1/admin/users?FromDate=...&ToDate=...                 → Lọc thời gian tạo
 GET /api/v1/admin/users?IsDisable=true&Role=Student             → Disabled students
 ```
 

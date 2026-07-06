@@ -1,3 +1,4 @@
+using Hackathon.Application.Common.Helpers;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
@@ -79,6 +80,8 @@ public class Service : IUserService
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
+        PaginationHelper.Validate(request.PageIndex, request.PageSize);
+
         RoleEnum? role = null;
         if (!string.IsNullOrWhiteSpace(request.Role))
         {
@@ -89,6 +92,7 @@ public class Service : IUserService
 
         var (items, totalCount) = await _userRepository.SearchAsync(
             request.Keyword, role, request.IsDisable, request.IsVerified,
+            request.FromDate, request.ToDate,
             request.PageIndex, request.PageSize);
 
         return new GetAllUsersResponse

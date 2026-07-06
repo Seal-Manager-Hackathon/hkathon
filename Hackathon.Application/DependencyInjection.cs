@@ -4,6 +4,7 @@ using Hackathon.Application.Services.Event;
 using Hackathon.Application.Services.Report;
 using Hackathon.Application.Services.Team;
 using Hackathon.Application.Services.User;
+using Hackathon.Application.Services.Notification;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hackathon.Application;
@@ -18,6 +19,7 @@ public static class DependencyInjection
         services.AddScoped<ITeamService, Services.Team.Service>();
         services.AddScoped<IReportService, Services.Report.Service>();
         services.AddScoped<IAuthorizationService, Services.Auth.AuthorizationService>();
+        services.AddScoped<INotificationService, Services.Notification.Service>();
 
         return services;
     }

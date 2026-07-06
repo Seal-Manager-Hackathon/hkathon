@@ -16,10 +16,46 @@ public class AdminTeamController : ControllerBase
         _teamService = teamService;
     }
 
+    [HttpGet("teams")]
+    public async Task<IActionResult> GetTeams([FromQuery] GetTeamsRequest request)
+    {
+        var result = await _teamService.GetTeams(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.TeamsFetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("teams/{teamId:guid}")]
+    public async Task<IActionResult> GetTeamDetail(Guid teamId)
+    {
+        var result = await _teamService.GetTeamDetail(teamId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.TeamDetailFetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("teams/count")]
     public async Task<IActionResult> GetTeamCount([FromQuery] GetTeamCountRequest request)
     {
         var result = await _teamService.GetTeamCount(request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.TeamCountFetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPut("teams/{teamId:guid}")]
+    public async Task<IActionResult> UpdateTeam(Guid teamId, [FromBody] UpdateTeamRequest request)
+    {
+        request.TeamId = teamId;
+        await _teamService.UpdateTeam(request);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Admin.TeamUpdated, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpDelete("teams/{teamId:guid}")]
+    public async Task<IActionResult> DeleteTeam(Guid teamId)
+    {
+        await _teamService.DeleteTeam(teamId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Deleted, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPatch("teams/{teamId:guid}/restore")]
+    public async Task<IActionResult> RestoreTeam(Guid teamId)
+    {
+        await _teamService.RestoreTeam(teamId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
     }
 }

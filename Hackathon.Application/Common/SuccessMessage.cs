@@ -88,5 +88,11 @@ public static class SuccessMessage
         public const string UserUnbanned = "User Unbanned Successfully";
         public const string RoleUpdated = "User Role Updated Successfully";
         public const string UserUpdated = "User Updated Successfully";
+        public const string NotificationsFetched = "Notifications Fetched Successfully";
+        public const string NotificationDetailFetched = "Notification Detail Fetched Successfully";
+        public const string NotificationUpdated = "Notification Updated Successfully";
+        public const string TeamsFetched = "Teams Fetched Successfully";
+        public const string TeamDetailFetched = "Team Detail Fetched Successfully";
+        public const string TeamUpdated = "Team Updated Successfully";
     }
 }

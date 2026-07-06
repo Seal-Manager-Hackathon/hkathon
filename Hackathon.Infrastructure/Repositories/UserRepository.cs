@@ -29,6 +29,7 @@ public class UserRepository : IUserRepository
 
     public async Task<(List<Users> Items, int TotalCount)> SearchAsync(
         string? keyword, Domain.Enums.User.RoleEnum? role, bool? isDisable, bool? isVerified,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate,
         int pageIndex, int pageSize)
     {
         var query = _context.Users.AsQueryable();
@@ -52,6 +53,12 @@ public class UserRepository : IUserRepository
         if (isVerified.HasValue)
             query = query.Where(u => u.IsVerified == isVerified.Value);
 
+        if (fromDate.HasValue)
+            query = query.Where(u => u.CreatedAt >= fromDate.Value);
+
+        if (toDate.HasValue)
+            query = query.Where(u => u.CreatedAt <= toDate.Value);
+
         var totalCount = await query.CountAsync();
 
         var items = await query
@@ -62,6 +69,9 @@ public class UserRepository : IUserRepository
 
         return (items, totalCount);
     }
+
+    public async Task<List<Users>> GetAllAsync()
+        => await _context.Users.ToListAsync();
 
     public async Task<Users?> GetByEmailAsync(string email)
         => await _context.Users.FirstOrDefaultAsync(x => x.Email.ToLower() == email.ToLower());

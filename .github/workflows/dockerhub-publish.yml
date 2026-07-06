@@ -48,10 +48,10 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-#      - name: Trigger Render Deploy
-#        if: github.ref == 'refs/heads/main'
-#        run: |
-#          curl -i -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+      - name: Trigger Render Deploy
+        if: github.ref == 'refs/heads/main'
+        run: |
+          curl -i -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
 
 #      - name: Deploy to VPS via SSH
 #        if: github.ref == 'refs/heads/main'
