@@ -2,6 +2,14 @@ namespace Hackathon.Application.Exceptions;
 
 public static class ErrorMessage
 {
+    public static class Event
+    {
+        public const string EndTimeMustBeAfterStartTime = "End Time Must Be After Start Time";
+        public const string StartTimeMustBeAfterNow = "Start Time Must Be After Current Time";
+        public const string RegisterLimitTimeMustBeBeforeEndTime = "Register Limit Time Must Be Before End Time";
+        public const string RegisterLimitTimeMustBeAfterStartTime = "Register Limit Time Must Be After Start Time";
+    }
+
     public static class Common
     {
         public const string UnexpectedError = "An Unexpected Error Occurred";
@@ -61,5 +69,4 @@ public static class ErrorMessage
         public const string FileTooLarge = "File Is Too Large Maximum 50Mb";
         public const string UploadFailed = "Image Upload Failed Please Try Again Later";
     }
-
 }

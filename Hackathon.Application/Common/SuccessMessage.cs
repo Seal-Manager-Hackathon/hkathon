@@ -94,5 +94,10 @@ public static class SuccessMessage
         public const string TeamsFetched = "Teams Fetched Successfully";
         public const string TeamDetailFetched = "Team Detail Fetched Successfully";
         public const string TeamUpdated = "Team Updated Successfully";
+        public const string RegisterTeamsFetched = "Register Teams Fetched Successfully";
+        public const string RegisterTeamDetailFetched = "Register Team Detail Fetched Successfully";
+        public const string RegisterTeamUpdated = "Register Team Updated Successfully";
+        public const string EventsFetched = "Events Fetched Successfully";
+        public const string EventCreated = "Event Created Successfully";
     }
 }

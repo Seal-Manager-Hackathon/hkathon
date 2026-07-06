@@ -17,6 +17,15 @@ public class EventRepository : IEventRepository
     public async Task<List<Events>> GetAllAsync()
         => await _context.Events.ToListAsync();
 
+    public async Task<Events?> GetByIdAsync(Guid id)
+        => await _context.Events.FindAsync(id);
+
+    public async Task AddAsync(Events ev)
+        => await _context.Events.AddAsync(ev);
+
+    public async Task AddLeaderBoardAsync(LeaderBoards leaderBoard)
+        => await _context.Set<LeaderBoards>().AddAsync(leaderBoard);
+
     public async Task<List<Events>> GetRecentAsync(int count)
         => await _context.Events
             .OrderByDescending(e => e.CreatedAt)
@@ -28,10 +37,41 @@ public class EventRepository : IEventRepository
         var query = _context.Events.AsQueryable();
 
         if (status.HasValue)
-        {
             query = query.Where(e => e.Status == status.Value);
-        }
 
         return await query.CountAsync();
+    }
+
+    public async Task<(List<Events> Items, int TotalCount)> SearchAsync(
+        string? keyword, EventStatusEnum? status,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate,
+        int pageIndex, int pageSize)
+    {
+        var query = _context.Events.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var kw = keyword.Trim().ToLower();
+            query = query.Where(e => e.Name.ToLower().Contains(kw));
+        }
+
+        if (status.HasValue)
+            query = query.Where(e => e.Status == status.Value);
+
+        if (fromDate.HasValue)
+            query = query.Where(e => e.CreatedAt >= fromDate.Value);
+
+        if (toDate.HasValue)
+            query = query.Where(e => e.CreatedAt <= toDate.Value);
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderByDescending(e => e.CreatedAt)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
     }
 }

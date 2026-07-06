@@ -175,6 +175,7 @@ public class {Role}Controller : ControllerBase
 - Chỉ Controller mới được lấy từ `HttpContext` — không truyền `IHttpContextAccessor` vào Application
 - **Soft-delete (xóa mềm) dùng `[HttpPatch]` + route `/{id}/delete`** — không dùng `[HttpDelete]`
 - **Restore (khôi phục) dùng `[HttpPatch]` + route `/{id}/restore`**
+- **GET response luôn trả về ID của entity gốc** — thừa còn hơn thiếu, tránh FE thiếu field phải hỏi lại
 
 ---
 
