@@ -1,41 +1,29 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Hackathon.Service.JwtServices;
-using Microsoft.Extensions.Configuration;
+using Hackathon.Application.Common.Interfaces;
+using Hackathon.Application.Exceptions;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Hackathon.Service.JwtServices;
+namespace Hackathon.Infrastructure.Services.Jwt;
 
-public class Service: IService
+public class Service : IJwtService
 {
-    private readonly JwtOption _jwtOption = new();
+    private readonly JwtOption _jwtOption;
+    private readonly ILogger<Service> _logger;
 
-    public Service(IConfiguration configuration)
+    public Service(IOptions<JwtOption> jwtOption, ILogger<Service> logger)
     {
-        configuration.GetSection("JwtOptions").Bind(_jwtOption);
+        _jwtOption = jwtOption.Value;
+        _logger = logger;
     }
-    
+
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOption.SecretKey));
-  
-        var signingCredentials = new SigningCredentials(
-            secretKey, 
-            SecurityAlgorithms.HmacSha256);
-
-        var tokenOptions = new JwtSecurityToken( 
-            issuer: _jwtOption.Issuer, 
-            audience: _jwtOption.Audience, 
-            claims: claims, 
-            expires: DateTime.Now.AddMinutes(_jwtOption.ExpireMinutes),
-            signingCredentials: signingCredentials
-        );
-        
-        var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-     
-        return tokenString;
+        return GenerateToken(claims, _jwtOption.ExpireMinutes);
     }
 
     public string GenerateRefreshToken()
@@ -48,56 +36,58 @@ public class Service: IService
 
     public string GenerateEmailVerificationToken(IEnumerable<Claim> claims, double expiration)
     {
+        return GenerateToken(claims, expiration);
+    }
+
+    private string GenerateToken(IEnumerable<Claim> claims, double expireMinutes)
+    {
         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOption.SecretKey));
-  
+
         var signingCredentials = new SigningCredentials(
-            secretKey, 
+            secretKey,
             SecurityAlgorithms.HmacSha256);
 
-        var tokenOptions = new JwtSecurityToken( 
-            issuer: _jwtOption.Issuer, 
-            audience: _jwtOption.Audience, 
-            claims: claims, 
-            expires: DateTime.Now.AddMinutes(expiration),
+        var tokenOptions = new JwtSecurityToken(
+            issuer: _jwtOption.Issuer,
+            audience: _jwtOption.Audience,
+            claims: claims,
+            expires: DateTime.UtcNow.AddMinutes(expireMinutes),
             signingCredentials: signingCredentials
         );
-        
-        var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-     
-        return tokenString;
+
+        return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
     }
 
     public ClaimsPrincipal ValidateToken(string token)
     {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.UTF8.GetBytes(_jwtOption.SecretKey);
+
+        var validationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = true,
+            ValidIssuer = _jwtOption.Issuer,
+            ValidateAudience = true,
+            ValidAudience = _jwtOption.Audience,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
+
         try
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(_jwtOption.SecretKey); // Sử dụng _jwtOption 
-
-            var validationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = true,
-                ValidIssuer = _jwtOption.Issuer,
-                ValidateAudience = true,
-                ValidAudience = _jwtOption.Audience,
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
-            };
-
-            var principal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
-            return principal;
+            return tokenHandler.ValidateToken(token, validationParameters, out _);
         }
         catch (SecurityTokenException ex)
         {
-            Console.WriteLine($"Token validation failed: {ex.Message}");
-            return null!;
+            _logger.LogWarning(ex, "Token Validation Failed");
+            throw new UnauthorizedException(ErrorMessage.Auth.TokenValidationFailed);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Unexpected error during token validation: {ex.Message}");
-            return null!;
+            _logger.LogError(ex, "Unexpected Error During Token Validation");
+            throw new UnauthorizedException(ErrorMessage.Auth.InvalidOrExpiredToken);
         }
     }
 }

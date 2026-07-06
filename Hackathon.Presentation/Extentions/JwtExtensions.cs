@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using System.Text;
 using Hackathon.Domain.Enums.User;
+using Hackathon.Infrastructure.Services.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 

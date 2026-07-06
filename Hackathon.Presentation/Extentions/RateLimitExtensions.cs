@@ -21,7 +21,6 @@ public static class RateLimitExtensions
                     title = "Too Many Requests",
                     status = 429,
                     message = ErrorMessage.Common.TooManyRequestsRetryAfter60S,
-                    messageCode = ErrorCode4Xx.TooManyRequest,
                     timestampUtc = DateTime.UtcNow
                 };
 

@@ -25,4 +25,30 @@ public static class ErrorMessage
         public const string PageSizeMustBeBetween1And100 = "Page Size Must Be Between 1 And 100";
     }
 
+    public static class Auth
+    {
+        public const string InvalidOrExpiredToken = "Invalid Or Expired Token";
+        public const string TokenValidationFailed = "Token Validation Failed";
+        public const string RefreshTokenMissing = "Refresh Token Missing";
+        public const string AccessTokenStillValid = "Access Token Still Valid";
+        public const string EmailAlreadyExists = "Email Already Exists";
+        public const string UserNotFound = "User Not Found";
+        public const string InvalidEmailOrPassword = "Invalid Email Or Password";
+        public const string RegistrationSuccessful = "Registration Successful";
+        public const string LogoutSuccessful = "Logout Successful";
+        public const string PasswordChangedSuccessfully = "Password Changed Successfully";
+        public const string EmailVerificationSent = "Email Verification Sent";
+        public const string ForgotPasswordRequestAccepted = "Forgot Password Request Accepted";
+        public const string PasswordResetSuccessfully = "Password Reset Successfully";
+        public const string UnverifiedAccountPleaseLoginToVerify = "Unverified Account Please Login To Verify";
+        public const string EmailUnverifiedOtpSent = "Email Unverified Otp Sent";
+        public const string UserIsBanned = "User Is Banned";
+        public const string UserAlreadyLoggedOut = "User Already Logged Out";
+        public const string InvalidRefreshToken = "Invalid Refresh Token";
+        public const string UserAlreadyVerified = "User Already Verified";
+        public const string CurrentPasswordInvalid = "Current Password Invalid";
+        public const string NewPasswordMustBeDifferentFromOldPassword = "New Password Must Be Different From Old Password";
+        public const string InvalidOrExpiredEmailVerificationToken = "Invalid Or Expired Email Verification Token";
+    }
+
 }

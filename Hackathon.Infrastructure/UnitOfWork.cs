@@ -18,7 +18,7 @@ public async Task<int> SaveChangesAsync()
         }
         catch (DbUpdateException)
         {
-            throw new ServerException(ErrorCode5Xx.InternalServerError, ErrorMessage.Database.SaveChangesFailed);
+            throw new ServerException(ErrorMessage.Database.SaveChangesFailed);
         }
     }
 }
