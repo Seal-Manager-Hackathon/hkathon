@@ -8,4 +8,5 @@ public interface IUserService
     Task<GetAllUsersResponse> GetAllUsers(GetAllUsersRequest request);
     Task<UserDetailResponse> GetUserDetail(GetUserDetailRequest request);
     Task<GetMyProfileResponse> GetMyProfile();
+    Task UpdateUser(UpdateUserRequest request);
 }

@@ -44,6 +44,14 @@ public class AdminUserController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.UserDetailFetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpPut("users/{userId:guid}")]
+    public async Task<IActionResult> UpdateUser(Guid userId, [FromForm] UpdateUserRequest request)
+    {
+        request.UserId = userId;
+        await _userService.UpdateUser(request);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Admin.UserUpdated, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpPost("users")]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
     {

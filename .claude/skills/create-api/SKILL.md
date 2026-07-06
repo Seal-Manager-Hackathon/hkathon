@@ -19,7 +19,8 @@ Base: c:\Users\phamq\OneDrive\Desktop\New folder (4)\BE-SEAL-HACKATHON
 - [ ] Step 7: Handle enum fields
 - [ ] Step 8: Validate error messages (use ErrorMessage.cs)
 - [ ] Step 9: Add success message (use SuccessMessage.cs)
-- [ ] Step 10: Register DI
+- [ ] Step 10: Write/update documentation
+- [ ] Step 11: Register DI
 
 ---
 
@@ -37,8 +38,9 @@ Base: c:\Users\phamq\OneDrive\Desktop\New folder (4)\BE-SEAL-HACKATHON
 7. Xử lý Enum fields (body / query / route)
 8. Kiểm tra & thêm ErrorMessage constants nếu thiếu
 9. Kiểm tra & dùng SuccessMessage constants
-10. Đăng ký DI (Application + Infrastructure)
-11. Build & verify
+10. Ghi doc: tạo file mới trong `documents/{role}/{entity}/{method}/` hoặc sửa file đã có nếu request/response thay đổi
+11. Đăng ký DI (Application + Infrastructure)
+12. Build & verify
 ```
 
 ---

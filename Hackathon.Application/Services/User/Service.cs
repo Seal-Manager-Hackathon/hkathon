@@ -13,6 +13,7 @@ public class Service : IUserService
     private readonly IPasswordService _passwordService;
     private readonly IAuthorizationService _authorizationService;
     private readonly ICurrentUserService _currentUserService;
+    private readonly IMediaService _mediaService;
     private readonly IUnitOfWork _unitOfWork;
 
     public Service(
@@ -20,12 +21,14 @@ public class Service : IUserService
         IPasswordService passwordService,
         IAuthorizationService authorizationService,
         ICurrentUserService currentUserService,
+        IMediaService mediaService,
         IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
         _passwordService = passwordService;
         _authorizationService = authorizationService;
         _currentUserService = currentUserService;
+        _mediaService = mediaService;
         _unitOfWork = unitOfWork;
     }
 
@@ -171,6 +174,52 @@ public class Service : IUserService
             CreatedAt = user.CreatedAt,
             UpdatedAt = user.UpdatedAt
         };
+    }
+
+    public async Task UpdateUser(UpdateUserRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var user = await _userRepository.GetByIdAsync(request.UserId);
+        if (user == null)
+            throw new NotFoundException(ErrMsg.Auth.UserNotFound);
+
+        // Chỉ update các field được phép
+        if (request.FirstName != null)
+            user.FirstName = request.FirstName;
+        if (request.LastName != null)
+            user.LastName = request.LastName;
+        if (request.PhoneNumber != null)
+            user.PhoneNumber = request.PhoneNumber;
+        if (request.AvatarFile != null)
+            user.AvatarUrl = await _mediaService.UploadImageAsync(request.AvatarFile, "avatars");
+        if (request.Bio != null)
+            user.Bio = request.Bio;
+        if (request.Address != null)
+            user.Address = request.Address;
+        if (request.DateOfBirth.HasValue)
+            user.DateOfBirth = request.DateOfBirth.Value;
+        if (request.StudentId != null)
+            user.StudentId = request.StudentId;
+        if (request.College != null)
+            user.College = request.College;
+        if (request.ImgUrl != null)
+            user.ImgUrl = request.ImgUrl;
+        if (request.LinkUrl != null)
+            user.LinkUrl = request.LinkUrl;
+        if (request.Status != null)
+        {
+            if (!Enum.TryParse<UserStatusEnum>(request.Status, true, out var status))
+                throw new BadRequestException("Invalid Status. Must be: Active, Inactive");
+            user.Status = status;
+        }
+        if (request.IsDisable.HasValue)
+            user.IsDisable = request.IsDisable.Value;
+
+        user.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _userRepository.UpdateAsync(user);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task<CreateUserResponse> CreateUser(CreateUserRequest request)

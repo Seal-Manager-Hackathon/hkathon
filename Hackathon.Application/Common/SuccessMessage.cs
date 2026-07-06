@@ -87,5 +87,6 @@ public static class SuccessMessage
         public const string UserBanned = "User Banned Successfully";
         public const string UserUnbanned = "User Unbanned Successfully";
         public const string RoleUpdated = "User Role Updated Successfully";
+        public const string UserUpdated = "User Updated Successfully";
     }
 }

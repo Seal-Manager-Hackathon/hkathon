@@ -1,0 +1,1 @@
+- [API doc requirement](api-doc-requirement.md) — Mỗi API mới phải tạo doc, mỗi lần đổi request/response phải cập nhật doc
