@@ -1,0 +1,39 @@
+using Hackathon.Application.Common;
+using Hackathon.Application.Common.Models;
+using Hackathon.Application.Services.User;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Hackathon.Presentation.Controllers.Admin;
+
+[Route("api/v1/admin")]
+[ApiController]
+public class AdminUserController : ControllerBase
+{
+    private readonly IUserService _userService;
+
+    public AdminUserController(IUserService userService)
+    {
+        _userService = userService;
+    }
+
+    [HttpGet("users/recent")]
+    public async Task<IActionResult> GetRecentUsers()
+    {
+        var result = await _userService.GetRecentUsers();
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RecentUsersFetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("users/count")]
+    public async Task<IActionResult> GetUserCount([FromQuery] GetUserCountRequest request)
+    {
+        var result = await _userService.GetUserCount(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.UserCountFetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("users")]
+    public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
+    {
+        var result = await _userService.CreateUser(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.UserCreated, status: 201, traceId: HttpContext.TraceIdentifier));
+    }
+}

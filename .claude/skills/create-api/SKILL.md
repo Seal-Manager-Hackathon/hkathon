@@ -17,53 +17,357 @@ Base: c:\Users\phamq\OneDrive\Desktop\New folder (4)\BE-SEAL-HACKATHON
 - [ ] Step 5: Check/create Application Service
 - [ ] Step 6: Write use case logic
 - [ ] Step 7: Handle enum fields
-- [ ] Step 8: Validate error messages
-- [ ] Step 9: Register DI
+- [ ] Step 8: Validate error messages (use ErrorMessage.cs)
+- [ ] Step 9: Add success message (use SuccessMessage.cs)
+- [ ] Step 10: Register DI
 
 ---
 
-## Step 0: Check Entities and Enums
+## Phần 1: Flow các hành động
 
-Find entity in Hackathon.Domain/Entities/, enums in Hackathon.Domain/Enums/. Check properties, relationships, HasConversion in AppDbContext.OnModelCreating. Note foreign keys.
+### START → [Yêu cầu tạo API]
 
-## Step 1: Role and Controller
+```
+1. Xác định Entity & Enum
+2. Xác định Role → Controller (Admin/Staff/Lecturer/Student/Public)
+3. Tạo Controller (Hackathon.Presentation/Controllers/)
+4. Tạo Repository Interface & Implementation (nếu cần custom query)
+5. Tạo Service Interface + Request + Response (Hackathon.Application/Services/{Entity}/)
+6. Viết Business Logic trong Service
+7. Xử lý Enum fields (body / query / route)
+8. Kiểm tra & thêm ErrorMessage constants nếu thiếu
+9. Kiểm tra & dùng SuccessMessage constants
+10. Đăng ký DI (Application + Infrastructure)
+11. Build & verify
+```
 
-Mapping: Admin->AdminController/AdminPolicy, Staff->StaffController/StaffPolicy, Lecturer->LecturerController/LecturerPolicy, Student->StudentController/StudentPolicy, Public->resource named/AllowAnonymous.
+---
 
-REST: GET/POST/PUT/DELETE /api/{role}/{resource}
+## Phần 2: Sơ đồ đi (Layer Mapping)
 
-## Step 2: Controller
+```
+┌──────────────────────────────────────────────────────────────┐
+│                     PRESENTATION LAYER                       │
+│  Hackathon.Presentation/Controllers/                         │
+│    └── {Role}Controller.cs                                    │
+│        → injects I{Entity}Service (từ Services/{Entity}/)     │
+│        → dùng ApiResponseFactory + SuccessMessage             │
+│        → trả về IActionResult                                 │
+│        → lấy HttpContext.Connection, Headers... pass vào DTO  │
+└──────────────────────┬───────────────────────────────────────┘
+                       │ gọi
+                       ▼
+┌──────────────────────────────────────────────────────────────┐
+│                     APPLICATION LAYER                         │
+│  Hackathon.Application/                                      │
+│    ├── Services/{Entity}/                                     │
+│    │    ├── I{Entity}Service.cs      ← interface service      │
+│    │    ├── Service.cs               ← business logic         │
+│    │    ├── Request.cs               ← input DTOs             │
+│    │    └── Response.cs              ← output DTOs            │
+│    │                                                          │
+│    ├── Common/Interfaces/                                     │
+│    │    ├── IJwtService.cs           ← shared services        │
+│    │    ├── IPasswordService.cs                               │
+│    │    ├── IMailService.cs                                   │
+│    │    ├── IMediaService.cs                                  │
+│    │    └── IUnitOfWork.cs                                    │
+│    │                                                          │
+│    ├── Common/IRepository/                                    │
+│    │    ├── I{Entity}Repository.cs   ← repository interfaces  │
+│    │    └── ...                                               │
+│    │                                                          │
+│    └── Common/                                               │
+│         ├── Models/ApiResponse*.cs                            │
+│         ├── Exceptions/ErrorMessage.cs                        │
+│         └── SuccessMessage.cs                                 │
+└──────────────────────┬───────────────────────────────────────┘
+                       │ gọi interface (I{Entity}Repository)
+                       ▼
+┌──────────────────────────────────────────────────────────────┐
+│                     INFRASTRUCTURE LAYER                      │
+│  Hackathon.Infrastructure/                                    │
+│    ├── Repositories/                                          │
+│    │    ├── {Entity}Repository.cs     ← implements IRepository│
+│    │    └── ...                                               │
+│    ├── Services/                                              │
+│    │    ├── Jwt/Service.cs                                    │
+│    │    ├── Password/Service.cs                                │
+│    │    ├── Mail/Service.cs                                    │
+│    │    └── Cloudinary/Service.cs                              │
+│    ├── AppDbContext.cs                                         │
+│    ├── UnitOfWork.cs                                           │
+│    └── DependencyInjection.cs                                 │
+└──────────────────────────────────────────────────────────────┘
+```
 
-Path: Hackathon.Presentation/Controllers/. Create with [Route("api/{role}")], [ApiController], inject I{Entity}Service, ApiResponseFactory.
+---
 
-## Step 3: Repository
+## Phần 3: Chi tiết từng folder — quy tắc đặt tên, cấu trúc bên trong
 
-Path: Hackathon.Infrastructure/Repositories/. Generic IRepository<T> in Application with CRUD. Implement with EF Core DbSet<T>. Custom only for complex queries.
+### 3.1. Presentation Layer — Controllers
 
-## Step 4: Interface
+**Folder:** `Hackathon.Presentation/Controllers/`
 
-Generic IRepository<T> covers basic. Custom goes in Application/Common/Interfaces/.
+**Quy tắc đặt tên:**
+- File: `{Role}Controller.cs` (vd: `AuthController.cs`, `AdminController.cs`, `StaffController.cs`)
+- Route: `[Route("api/v1/{controller}")]` (vd: `api/v1/auth`)
+- Class: kế thừa `ControllerBase`, attribute `[ApiController]`
 
-## Step 5: Application Service
+**Cấu trúc bên trong:**
+```csharp
+using Hackathon.Application.Common;
+using Hackathon.Application.Common.Models;
+using Hackathon.Application.Services.{Entity};
+using Microsoft.AspNetCore.Mvc;
 
-Path: Hackathon.Application/Services/{Entity}/. Create Request.cs, Response.cs, Service.cs + interface in Application/Common/Interfaces/.
+namespace Hackathon.Presentation.Controllers;
 
-## Step 6: Logic
+[Route("api/v1/{controller}")]
+[ApiController]
+public class {Role}Controller : ControllerBase
+{
+    private readonly I{Entity}Service _{entity}Service;
 
-Application: validate, call interface, business rules, map, return. No EF Core. Infrastructure: queries, external services, SaveChangesAsync.
+    public {Role}Controller(I{Entity}Service {entity}Service)
+    {
+        _{entity}Service = {entity}Service;
+    }
 
-## Step 7: Handle Enum Fields
+    [HttpPost("{action}")]
+    public async Task<IActionResult> {Action}([FromBody] {Action}Request request)
+    {
+        // Lấy thông tin HttpContext gán vào request nếu cần
+        // request.IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+        // request.UserAgent = HttpContext.Request.Headers.UserAgent.ToString();
 
-Enum flow: FE sends string -> JsonStringEnumConverter parses to enum in Controller -> Application uses enum for logic -> Response serializes enum back to string for FE.
+        var result = await _{entity}Service.{Action}(request);
+        return Ok(ApiResponseFactory.Success(
+            result,
+            message: SuccessMessage.{Category}.{Name},
+            status: 201,
+            traceId: HttpContext.TraceIdentifier
+        ));
+    }
 
-- Body enum in Request DTO: declare property as domain enum type (e.g. EventStatusEnum Status). JsonStringEnumConverter auto-parses FE string -> enum and enum -> string. Invalid value -> JsonException -> GlobalExceptionHandlerMiddleware -> BadRequestException(ErrorMessage.Common.InvalidRequestData).
-- Query/route string enum: declare as string in Request. In Service call EnumParser.ParseOrThrow<TEnum>(value, "FieldName") -> BadRequestException on invalid.
-- ERROR MESSAGES: check ErrorMessage.cs. If missing, add new constant in appropriate category (e.g. ErrorMessage.Enum or ErrorMessage.{Entity}). Call via ErrorMessage.{Category}.{Name} when throwing.
+    [HttpGet("{action}")]
+    public async Task<IActionResult> {Action}([FromQuery] {Action}Request request)
+    {
+        var result = await _{entity}Service.{Action}(request);
+        return Ok(ApiResponseFactory.Success(
+            result,
+            message: SuccessMessage.{Category}.{Name},
+            traceId: HttpContext.TraceIdentifier
+        ));
+    }
+}
+```
 
-## Step 8: Errors
+**Lưu ý:**
+- Không dùng hậu tố `Async` trong tên method (vd: `Login` thay vì `LoginAsync`)
+- `using` chỉ cần `Hackathon.Application.Services.{Entity}` — namespace chứa cả interface và DTOs
+- `SuccessMessage` ở `Hackathon.Application.Common`
+- Chỉ Controller mới được lấy từ `HttpContext` — không truyền `IHttpContextAccessor` vào Application
 
-Constants in ErrorMessage.cs. Format: Capitalize Each Word. Call via ErrorMessage.{Category}.{Name}.
+---
 
-## Step 9: DI
+### 3.2. Application Layer — Services
 
-Infrastructure DI: repos, services, options. Application DI: AddScoped. Program.cs: verify AddApplication+AddInfrastructure and JsonStringEnumConverter.
+**Folder:** `Hackathon.Application/Services/{Entity}/`
+
+**Quy tắc đặt tên:**
+| File | Mục đích | Ví dụ |
+|------|----------|-------|
+| `I{Entity}Service.cs` | Interface service | `IAuthService.cs` |
+| `Service.cs` | Implementation | `Service.cs` |
+| `Request.cs` | Input DTOs (tất cả request cho entity này) | `Request.cs` |
+| `Response.cs` | Output DTOs (tất cả response cho entity này) | `Response.cs` |
+
+**Quy tắc method name:** Không hậu tố `Async`. VD: `Login`, `Register`, `GetById`, `Create`.
+
+**Cấu trúc Interface:**
+```csharp
+namespace Hackathon.Application.Services.{Entity};
+
+public interface I{Entity}Service
+{
+    Task<{Action}Response> {Action}({Action}Request request);
+}
+```
+
+**Cấu trúc Service:**
+```csharp
+using Hackathon.Application.Common.Interfaces;    // shared services
+using Hackathon.Application.Common.IRepository;   // repository interfaces
+using Hackathon.Application.Exceptions;           // ErrorMessage
+using Hackathon.Domain.Entities;                 // Domain entities
+using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
+using SuccMsg = Hackathon.Application.Common.SuccessMessage;
+
+namespace Hackathon.Application.Services.{Entity};
+
+public class Service : I{Entity}Service
+{
+    private readonly I{Entity}Repository _{entity}Repository;
+    private readonly IUnitOfWork _unitOfWork;
+    // + các shared service (IJwtService, IPasswordService, ...)
+
+    public Service(
+        I{Entity}Repository {entity}Repository,
+        IUnitOfWork unitOfWork /*, ... */)
+    {
+        _{entity}Repository = {entity}Repository;
+        _unitOfWork = unitOfWork;
+    }
+
+    public async Task<{Action}Response> {Action}({Action}Request request)
+    {
+        // 1. Validation / business rules
+        // 2. Call repository
+        // 3. _unitOfWork.SaveChangesAsync()
+        // 4. Map & return Response DTO
+    }
+}
+```
+
+**Request DTO — quy tắc:**
+- Dùng `[Required]`, `[EmailAddress]`, `[StringLength]` attributes
+- Field không bắt buộc → nullable (`string?`, `int?`)
+- Nếu cần thông tin từ HttpContext (IpAddress, UserAgent) → thêm field optional
+
+**Response DTO — quy tắc:**
+- Chỉ chứa dữ liệu trả về
+- Field không có → nullable (`string?`)
+- AccessToken + RefreshToken response dùng chung pattern
+
+**Lưu ý:**
+- Không dùng `IHttpContextAccessor` trong Application layer
+- Không dùng DbContext, EF Core ở đây — qua Repository interface
+- Throw `NotFoundException`, `BadRequestException`, `ConflictException` qua `ErrorMessage`
+- Auth policy claims trong JWT: **chỉ chứa `UserId`** — không đẩy Role, IsVerified hay field khác
+
+---
+
+### 3.3. Application Layer — Common/IRepository
+
+**Folder:** `Hackathon.Application/Common/IRepository/`
+
+**Quy tắc đặt tên:** `I{Entity}Repository.cs` — mỗi entity một file.
+
+**Cấu trúc:**
+```csharp
+using Hackathon.Domain.Entities;
+
+namespace Hackathon.Application.Common.IRepository;
+
+public interface I{Entity}Repository
+{
+    // CRUD methods — chỉ định nghĩa nếu cần custom query
+    Task<{Entity}?> GetByIdAsync(Guid id);
+    Task AddAsync({Entity} entity);
+    Task UpdateAsync({Entity} entity);
+}
+```
+
+**Lưu ý:** Chỉ tạo khi cần custom query. Generic CRUD cơ bản có thể dùng pattern riêng.
+
+---
+
+### 3.4. Application Layer — Common/Interfaces
+
+**Folder:** `Hackathon.Application/Common/Interfaces/`
+
+Chỉ chứa interface của các **shared/dùng chung services**:
+
+| File | Mô tả |
+|------|-------|
+| `IJwtService.cs` | JWT token generation + validation |
+| `IPasswordService.cs` | Hash + verify password |
+| `IMailService.cs` | Gửi email |
+| `IMediaService.cs` | Upload file/image |
+| `IUnitOfWork.cs` | SaveChanges |
+
+Các interface này không liên quan đến entity cụ thể, dùng chung toàn bộ application.
+
+---
+
+### 3.5. Application Layer — Exceptions & Messages
+
+| File | Mô tả | Format |
+|------|-------|--------|
+| `ErrorMessage.cs` | Lỗi — `throw new BadRequestException(ErrMsg.Auth.UserNotFound)` | Capitalize Each Word |
+| `SuccessMessage.cs` | Thành công — `SuccessMessage.Auth.LoginSuccessful` | Capitalize Each Word |
+
+---
+
+### 3.6. Infrastructure Layer — Repositories
+
+**Folder:** `Hackathon.Infrastructure/Repositories/`
+
+**Quy tắc đặt tên:** `{Entity}Repository.cs` — implements `I{Entity}Repository` từ `Common/IRepository/`.
+
+```csharp
+using Hackathon.Application.Common.IRepository;
+using Hackathon.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace Hackathon.Infrastructure.Repositories;
+
+public class {Entity}Repository : I{Entity}Repository
+{
+    private readonly AppDbContext _context;
+
+    public {Entity}Repository(AppDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<{Entity}?> GetByIdAsync(Guid id)
+        => await _context.{Entities}.FindAsync(id);
+
+    public async Task AddAsync({Entity} entity)
+        => await _context.{Entities}.AddAsync(entity);
+
+    public Task UpdateAsync({Entity} entity)
+    {
+        _context.{Entities}.Update(entity);
+        return Task.CompletedTask;
+    }
+}
+```
+
+---
+
+### 3.7. DI Registration
+
+**Infrastructure (`Hackathon.Infrastructure/DependencyInjection.cs`):**
+```csharp
+using Hackathon.Application.Common.Interfaces;
+using Hackathon.Application.Common.IRepository;
+
+services.AddScoped<I{Entity}Repository, Repositories.{Entity}Repository>();
+```
+
+**Application (`Hackathon.Application/DependencyInjection.cs`):**
+```csharp
+using Hackathon.Application.Services.{Entity};
+
+services.AddScoped<I{Entity}Service, Services.{Entity}.Service>();
+```
+
+---
+
+## Tham chiếu mẫu
+
+Xem các file sau để tham khảo cách implement:
+
+| File | Chức năng |
+|------|-----------|
+| `Services/Auth/IAuthService.cs` | Service interface mẫu |
+| `Services/Auth/Service.cs` | Service implementation mẫu (Login, Register, VerifyEmail) |
+| `Services/Auth/Request.cs` | Request DTOs mẫu |
+| `Services/Auth/Response.cs` | Response DTOs mẫu |
+| `Common/IRepository/IUserRepository.cs` | Repository interface mẫu |
+| `Infrastructure/Repositories/UserRepository.cs` | Repository implementation mẫu |
+| `Controllers/AuthController.cs` | Controller mẫu |
+| `Common/Interfaces/IJwtService.cs` | Shared service interface mẫu |

@@ -1,5 +1,4 @@
 using Hackathon.Application.Common;
-using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.Models;
 using Hackathon.Application.Services.Auth;
 using Microsoft.AspNetCore.Mvc;
@@ -36,5 +35,12 @@ public class AuthController : ControllerBase
     {
         var result = await _authService.Login(request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Auth.LoginSuccessful, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("me")]
+    public async Task<IActionResult> GetCurrentUser()
+    {
+        var result = await _authService.GetCurrentUser();
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 }

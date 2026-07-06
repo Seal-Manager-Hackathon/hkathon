@@ -75,6 +75,14 @@ public static class SuccessMessage
 
     public static class Admin
     {
+        public const string UserCountFetched = "User Count Fetched Successfully";
+        public const string TeamCountFetched = "Team Count Fetched Successfully";
+        public const string RecentReportsFetched = "Recent Reports Fetched Successfully";
+        public const string RecentUsersFetched = "Recent Users Fetched Successfully";
+        public const string RecentEventsFetched = "Recent Events Fetched Successfully";
+        public const string EventCountFetched = "Event Count Fetched Successfully";
+        public const string UserCreated = "User Created Successfully";
+        public const string UserFetched = "Users Fetched Successfully";
         public const string UserBanned = "User Banned Successfully";
         public const string UserUnbanned = "User Unbanned Successfully";
         public const string RoleUpdated = "User Role Updated Successfully";

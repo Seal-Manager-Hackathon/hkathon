@@ -1,4 +1,4 @@
-using Hackathon.Application.Common.Interfaces;
+using Hackathon.Application.Common.IRepository;
 using Hackathon.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +11,20 @@ public class UserRepository : IUserRepository
     public UserRepository(AppDbContext context)
     {
         _context = context;
+    }
+
+    public async Task<List<Users>> GetRecentAsync(int count)
+        => await _context.Users
+            .OrderByDescending(u => u.CreatedAt)
+            .Take(count)
+            .ToListAsync();
+
+    public async Task<int> CountByRoleAsync(Domain.Enums.User.RoleEnum? role)
+    {
+        var query = _context.Users.AsQueryable();
+        if (role.HasValue)
+            query = query.Where(u => u.Role == role.Value);
+        return await query.CountAsync();
     }
 
     public async Task<Users?> GetByEmailAsync(string email)

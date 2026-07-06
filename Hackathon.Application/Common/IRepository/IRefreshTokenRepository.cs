@@ -1,6 +1,6 @@
 using Hackathon.Domain.Entities;
 
-namespace Hackathon.Application.Common.Interfaces;
+namespace Hackathon.Application.Common.IRepository;
 
 public interface IRefreshTokenRepository
 {

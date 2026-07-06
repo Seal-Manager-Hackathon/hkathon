@@ -6,14 +6,11 @@ namespace Hackathon.Presentation.Middleware;
 
 public class GlobalExceptionHandlerMiddleware : IMiddleware
 {
-    private readonly IHostEnvironment _environment;
     private readonly ILogger<GlobalExceptionHandlerMiddleware> _logger;
 
     public GlobalExceptionHandlerMiddleware(
-        IHostEnvironment environment,
         ILogger<GlobalExceptionHandlerMiddleware> logger)
     {
-        _environment = environment;
         _logger = logger;
     }
 
@@ -48,15 +45,11 @@ public class GlobalExceptionHandlerMiddleware : IMiddleware
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = appEx.StatusCode;
 
-            object? errorDetail = _environment.IsDevelopment()
-                ? new { detail = ex.Message, stackTrace = ex.StackTrace }
-                : null;
-
             var response = ApiResponseFactory.Error(
                 title: appEx.Title,
                 status: appEx.StatusCode,
                 message: appEx.Message,
-                error: errorDetail,
+                error: null,
                 traceId: context.TraceIdentifier);
 
             await context.Response.WriteAsJsonAsync(response);

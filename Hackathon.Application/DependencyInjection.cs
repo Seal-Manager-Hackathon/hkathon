@@ -1,4 +1,9 @@
 ﻿using Hackathon.Application.Common.Interfaces;
+using Hackathon.Application.Services.Auth;
+using Hackathon.Application.Services.Event;
+using Hackathon.Application.Services.Report;
+using Hackathon.Application.Services.Team;
+using Hackathon.Application.Services.User;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hackathon.Application;
@@ -8,6 +13,11 @@ public static class DependencyInjection
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddScoped<IAuthService, Services.Auth.Service>();
+        services.AddScoped<IUserService, Services.User.Service>();
+        services.AddScoped<IEventService, Services.Event.Service>();
+        services.AddScoped<ITeamService, Services.Team.Service>();
+        services.AddScoped<IReportService, Services.Report.Service>();
+        services.AddScoped<IAuthorizationService, Services.Auth.AuthorizationService>();
 
         return services;
     }

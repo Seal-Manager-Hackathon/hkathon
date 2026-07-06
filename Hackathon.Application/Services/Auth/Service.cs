@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Hackathon.Application.Common.Interfaces;
+using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
 using Hackathon.Domain.Entities;
 using Hackathon.Domain.Enums.EmailVerification;
@@ -18,6 +19,7 @@ public class Service : IAuthService
     private readonly IPasswordService _passwordService;
     private readonly IJwtService _jwtService;
     private readonly IMailService _mailService;
+    private readonly ICurrentUserService _currentUserService;
 
     public Service(
         IUserRepository userRepository,
@@ -26,7 +28,8 @@ public class Service : IAuthService
         IUnitOfWork unitOfWork,
         IPasswordService passwordService,
         IJwtService jwtService,
-        IMailService mailService)
+        IMailService mailService,
+        ICurrentUserService currentUserService)
     {
         _userRepository = userRepository;
         _emailVerificationRepository = emailVerificationRepository;
@@ -35,6 +38,7 @@ public class Service : IAuthService
         _passwordService = passwordService;
         _jwtService = jwtService;
         _mailService = mailService;
+        _currentUserService = currentUserService;
     }
 
     public async Task<RegisterResponse> Register(RegisterRequest request)
@@ -123,9 +127,7 @@ public class Service : IAuthService
 
         var claims = new List<Claim>
         {
-            new("UserId", user.Id.ToString()),
-            // new(ClaimTypes.Role, user.Role.ToString()),
-            new("IsVerified", user.IsVerified.ToString()!.ToLower())
+            new("UserId", user.Id.ToString())
         };
 
         var accessToken = _jwtService.GenerateAccessToken(claims);
@@ -179,9 +181,7 @@ public class Service : IAuthService
 
         var claims = new List<Claim>
         {
-            new("UserId", user.Id.ToString()),
-            new(ClaimTypes.Role, user.Role.ToString()),
-            new("IsVerified", user.IsVerified.ToString()!.ToLower())
+            new("UserId", user.Id.ToString())
         };
 
         var accessToken = _jwtService.GenerateAccessToken(claims);
@@ -192,6 +192,8 @@ public class Service : IAuthService
             Id = Guid.NewGuid(),
             RefreshTokenHash = refreshToken,
             UserId = user.Id,
+            DeviceLabel = string.Empty,
+            RevokedAt = null,
             ExpiredAt = DateTimeOffset.UtcNow.AddDays(7),
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
@@ -204,6 +206,30 @@ public class Service : IAuthService
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken
+        };
+    }
+
+    public async Task<CurrentUserResponse> GetCurrentUser()
+    {
+        var userId = _currentUserService.UserId;
+        if (userId == null)
+        {
+            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
+        }
+
+        var user = await _userRepository.GetByIdAsync(userId.Value);
+        if (user == null)
+        {
+            throw new NotFoundException(ErrMsg.Auth.UserNotFound);
+        }
+
+        return new CurrentUserResponse
+        {
+            Id = user.Id,
+            Email = user.Email,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Role = user.Role.ToString()
         };
     }
 

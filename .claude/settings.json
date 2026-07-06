@@ -48,7 +48,14 @@
       "Bash(sed -i 's/Hackathon\\\\.Repository\\\\.AppDbContext/Hackathon.Infrastructure.Data.AppDbContext/' Hackathon.Infrastructure/Data/Migrations/*.cs)",
       "Bash(git ls-tree *)",
       "PowerShell(Remove-Item -Path \"c:\\\\Users\\\\phamq\\\\OneDrive\\\\Desktop\\\\New folder \\(4\\)\\\\BE-SEAL-HACKATHON\\\\Hackathon.Domain\\\\Exceptions\\\\CommonExceptions.cs\" -Force -Confirm:$false)",
-      "PowerShell(Move-Item -Path \"c:\\\\Users\\\\phamq\\\\OneDrive\\\\Desktop\\\\New folder \\(4\\)\\\\BE-SEAL-HACKATHON\\\\Hackathon.Domain\\\\Common\\\\ErrorCode.cs\" -Destination \"c:\\\\Users\\\\phamq\\\\OneDrive\\\\Desktop\\\\New folder \\(4\\)\\\\BE-SEAL-HACKATHON\\\\Hackathon.Domain\\\\Exceptions\\\\ErrorCode.cs\" -Force)"
+      "PowerShell(Move-Item -Path \"c:\\\\Users\\\\phamq\\\\OneDrive\\\\Desktop\\\\New folder \\(4\\)\\\\BE-SEAL-HACKATHON\\\\Hackathon.Domain\\\\Common\\\\ErrorCode.cs\" -Destination \"c:\\\\Users\\\\phamq\\\\OneDrive\\\\Desktop\\\\New folder \\(4\\)\\\\BE-SEAL-HACKATHON\\\\Hackathon.Domain\\\\Exceptions\\\\ErrorCode.cs\" -Force)",
+      "mcp__filesystem__read_text_file",
+      "Edit(/.claude/skills/write-doc/**)",
+      "mcp__filesystem__create_directory",
+      "PowerShell(Stop-Process -Id 38476 -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Id 29952 -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Id 38016 -Force -ErrorAction SilentlyContinue)",
+      "Bash(cat)"
     ],
     "additionalDirectories": [
       "c:\\Users\\phamq\\.claude\\projects\\c--Users-phamq-OneDrive-Desktop-New-folder--4--BE-SEAL-HACKATHON\\memory"

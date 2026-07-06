@@ -1,10 +1,12 @@
 ﻿using Hackathon.Application.Common.Interfaces;
+using Hackathon.Application.Common.IRepository;
 using Hackathon.Infrastructure.Services.Cloudinary;
 using Hackathon.Infrastructure.Services.Jwt;
 using Hackathon.Infrastructure.Services.Mail;
 using Hackathon.Infrastructure.Services.Password;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hackathon.Infrastructure;
@@ -33,6 +35,12 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, Repositories.UserRepository>();
         services.AddScoped<IEmailVerificationRepository, Repositories.EmailVerificationRepository>();
         services.AddScoped<IRefreshTokenRepository, Repositories.RefreshTokenRepository>();
+        services.AddScoped<IEventRepository, Repositories.EventRepository>();
+        services.AddScoped<ITeamRepository, Repositories.TeamRepository>();
+        services.AddScoped<IReportRepository, Repositories.ReportRepository>();
+
+        services.AddHttpContextAccessor();
+        services.AddScoped<ICurrentUserService, Services.CurrentUserService>();
 
         return services;
     }

@@ -1,4 +1,4 @@
-using Hackathon.Application.Common.Interfaces;
+using Hackathon.Application.Common.IRepository;
 using Hackathon.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
