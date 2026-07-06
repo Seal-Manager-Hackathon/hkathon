@@ -49,7 +49,7 @@ public static class ApiResponseFactory
 
     public static ErrorResponse Error(
         string title, int status, string message,
-        string messageCode, object? error = null, string? traceId = null)
+        object? error = null, string? traceId = null)
     {
         return new ErrorResponse
         {
@@ -57,7 +57,6 @@ public static class ApiResponseFactory
             Title = title,
             Status = status,
             Message = message,
-            MessageCode = messageCode,
             Error = error,
             TraceId = traceId
         };

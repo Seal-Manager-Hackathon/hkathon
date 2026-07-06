@@ -1,3 +1,4 @@
+using Hackathon.Application.Common.Models;
 using Hackathon.Application.Exceptions;
 
 namespace Hackathon.Presentation.Middleware;
@@ -23,8 +24,7 @@ public class GlobalExceptionHandlerMiddleware : IMiddleware
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "UNHANDLED_EXCEPTION_PATH: {Path}",
-                            context.Request.Path);
+            _logger.LogError(ex, "Unhandled Exception Path: {Path}", context.Request.Path);
 
             if (context.Response.HasStarted)
             {
@@ -32,26 +32,21 @@ public class GlobalExceptionHandlerMiddleware : IMiddleware
                 throw;
             }
 
+            var appEx = ex as AppException ?? new ServerException(ErrorMessage.Common.UnexpectedError);
+
             context.Response.ContentType = "application/json";
-
-            AppException appEx = ex switch
-            {
-                AppException alreadyAppEx => alreadyAppEx,
-                _ => new ServerException("An Unexpected Error Occurred")
-            };
-
             context.Response.StatusCode = appEx.StatusCode;
 
-            var response = new
-            {
-                title = appEx.Title,
-                status = appEx.StatusCode,
-                message = appEx.Message,
-                messageCode = appEx.MessageCode,
-                errors = _environment.IsDevelopment() ? new { detail = ex.Message } : null,
-                traceId = context.TraceIdentifier,
-                timestampUtc = DateTime.UtcNow
-            };
+            object? errorDetail = _environment.IsDevelopment()
+                ? new { detail = ex.Message, stackTrace = ex.StackTrace }
+                : null;
+
+            var response = ApiResponseFactory.Error(
+                title: appEx.Title,
+                status: appEx.StatusCode,
+                message: appEx.Message,
+                error: errorDetail,
+                traceId: context.TraceIdentifier);
 
             await context.Response.WriteAsJsonAsync(response);
         }

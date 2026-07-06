@@ -1,4 +1,4 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Threading.RateLimiting;
 using Hackathon.Application.Exceptions;
 
@@ -20,7 +20,7 @@ public static class RateLimitExtensions
                 {
                     title = "Too Many Requests",
                     status = 429,
-                    message = ErrorMessage.Common.TooManyRequestsRetryAfter60s,
+                    message = ErrorMessage.Common.TooManyRequestsRetryAfter60S,
                     messageCode = ErrorCode4Xx.TooManyRequest,
                     timestampUtc = DateTime.UtcNow
                 };

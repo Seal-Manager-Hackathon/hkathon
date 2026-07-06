@@ -1,4 +1,5 @@
 ﻿namespace Hackathon.Application.Common.Models;
+
 public abstract class ApiResponse
 {
     public bool IsSuccess { get; set; }
@@ -18,6 +19,5 @@ public class ErrorResponse : ApiResponse
 {
     public string Title { get; set; } = null!;
     public string Message { get; set; } = null!;
-    public string MessageCode { get; set; } = null!;
     public object? Error { get; set; }
 }
