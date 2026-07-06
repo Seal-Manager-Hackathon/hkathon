@@ -12,17 +12,20 @@ public class Service : IUserService
     private readonly IUserRepository _userRepository;
     private readonly IPasswordService _passwordService;
     private readonly IAuthorizationService _authorizationService;
+    private readonly ICurrentUserService _currentUserService;
     private readonly IUnitOfWork _unitOfWork;
 
     public Service(
         IUserRepository userRepository,
         IPasswordService passwordService,
         IAuthorizationService authorizationService,
+        ICurrentUserService currentUserService,
         IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
         _passwordService = passwordService;
         _authorizationService = authorizationService;
+        _currentUserService = currentUserService;
         _unitOfWork = unitOfWork;
     }
 
@@ -104,6 +107,69 @@ public class Service : IUserService
             TotalCount = totalCount,
             PageIndex = request.PageIndex,
             PageSize = request.PageSize
+        };
+    }
+
+    public async Task<GetMyProfileResponse> GetMyProfile()
+    {
+        _authorizationService.Authenticate();
+
+        var userId = _currentUserService.UserId;
+        if (userId == null)
+            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
+
+        var user = await _userRepository.GetByIdAsync(userId.Value);
+        if (user == null)
+            throw new NotFoundException(ErrMsg.Auth.UserNotFound);
+
+        return new GetMyProfileResponse
+        {
+            Id = user.Id,
+            Email = user.Email,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            AvatarUrl = string.IsNullOrEmpty(user.AvatarUrl) ? null : user.AvatarUrl,
+            Bio = user.Bio,
+            Role = user.Role.ToString(),
+            Status = user.Status?.ToString(),
+            IsVerified = user.IsVerified,
+            College = string.IsNullOrEmpty(user.College) ? null : user.College,
+            CreatedAt = user.CreatedAt
+        };
+    }
+
+    public async Task<UserDetailResponse> GetUserDetail(GetUserDetailRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var user = await _userRepository.GetByIdAsync(request.UserId);
+        if (user == null)
+            throw new NotFoundException(ErrMsg.Auth.UserNotFound);
+
+        return new UserDetailResponse
+        {
+            Id = user.Id,
+            Email = user.Email,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            PhoneNumber = string.IsNullOrEmpty(user.PhoneNumber) ? null : user.PhoneNumber,
+            AvatarUrl = string.IsNullOrEmpty(user.AvatarUrl) ? null : user.AvatarUrl,
+            Bio = user.Bio,
+            Address = user.Address,
+            DateOfBirth = user.DateOfBirth == DateTimeOffset.MinValue ? null : user.DateOfBirth,
+            StudentId = string.IsNullOrEmpty(user.StudentId) ? null : user.StudentId,
+            College = string.IsNullOrEmpty(user.College) ? null : user.College,
+            ImgUrl = user.ImgUrl,
+            LinkUrl = user.LinkUrl,
+            Role = user.Role.ToString(),
+            Status = user.Status?.ToString(),
+            IsVerified = user.IsVerified,
+            IsDisable = user.IsDisable,
+            BanReason = user.BanReason,
+            BannedAt = user.BannedAt,
+            VerifyEmailAt = user.VerifyEmailAt,
+            CreatedAt = user.CreatedAt,
+            UpdatedAt = user.UpdatedAt
         };
     }
 

@@ -17,6 +17,11 @@ public class GetAllUsersRequest
     public int PageSize { get; set; } = 10;
 }
 
+public class GetUserDetailRequest
+{
+    public Guid UserId { get; set; }
+}
+
 public class CreateUserRequest
 {
     [Required(ErrorMessage = "Email Is Required")]

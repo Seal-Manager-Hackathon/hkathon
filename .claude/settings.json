@@ -55,7 +55,9 @@
       "PowerShell(Stop-Process -Id 38476 -Force -ErrorAction SilentlyContinue)",
       "PowerShell(Stop-Process -Id 29952 -Force -ErrorAction SilentlyContinue)",
       "PowerShell(Stop-Process -Id 38016 -Force -ErrorAction SilentlyContinue)",
-      "Bash(cat)"
+      "Bash(cat)",
+      "PowerShell(Stop-Process -Id 33260 -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Id 4664 -Force -ErrorAction SilentlyContinue)"
     ],
     "additionalDirectories": [
       "c:\\Users\\phamq\\.claude\\projects\\c--Users-phamq-OneDrive-Desktop-New-folder--4--BE-SEAL-HACKATHON\\memory"

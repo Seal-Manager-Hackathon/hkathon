@@ -83,6 +83,7 @@ public static class SuccessMessage
         public const string EventCountFetched = "Event Count Fetched Successfully";
         public const string UserCreated = "User Created Successfully";
         public const string UserFetched = "Users Fetched Successfully";
+        public const string UserDetailFetched = "User Detail Fetched Successfully";
         public const string UserBanned = "User Banned Successfully";
         public const string UserUnbanned = "User Unbanned Successfully";
         public const string RoleUpdated = "User Role Updated Successfully";

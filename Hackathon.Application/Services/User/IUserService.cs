@@ -6,4 +6,6 @@ public interface IUserService
     Task<CreateUserResponse> CreateUser(CreateUserRequest request);
     Task<GetUserCountResponse> GetUserCount(GetUserCountRequest request);
     Task<GetAllUsersResponse> GetAllUsers(GetAllUsersRequest request);
+    Task<UserDetailResponse> GetUserDetail(GetUserDetailRequest request);
+    Task<GetMyProfileResponse> GetMyProfile();
 }
