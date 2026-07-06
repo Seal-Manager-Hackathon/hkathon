@@ -27,6 +27,42 @@ public class UserRepository : IUserRepository
         return await query.CountAsync();
     }
 
+    public async Task<(List<Users> Items, int TotalCount)> SearchAsync(
+        string? keyword, Domain.Enums.User.RoleEnum? role, bool? isDisable, bool? isVerified,
+        int pageIndex, int pageSize)
+    {
+        var query = _context.Users.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var kw = keyword.Trim().ToLower();
+            query = query.Where(u =>
+                u.Email.ToLower().Contains(kw) ||
+                u.FirstName.ToLower().Contains(kw) ||
+                u.LastName.ToLower().Contains(kw) ||
+                (u.FirstName.ToLower() + " " + u.LastName.ToLower()).Contains(kw));
+        }
+
+        if (role.HasValue)
+            query = query.Where(u => u.Role == role.Value);
+
+        if (isDisable.HasValue)
+            query = query.Where(u => u.IsDisable == isDisable.Value);
+
+        if (isVerified.HasValue)
+            query = query.Where(u => u.IsVerified == isVerified.Value);
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderByDescending(u => u.CreatedAt)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
+
     public async Task<Users?> GetByEmailAsync(string email)
         => await _context.Users.FirstOrDefaultAsync(x => x.Email.ToLower() == email.ToLower());
 

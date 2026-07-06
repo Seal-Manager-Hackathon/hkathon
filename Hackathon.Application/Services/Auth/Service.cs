@@ -229,7 +229,21 @@ public class Service : IAuthService
             Email = user.Email,
             FirstName = user.FirstName,
             LastName = user.LastName,
-            Role = user.Role.ToString()
+            PhoneNumber = user.PhoneNumber,
+            AvatarUrl = user.AvatarUrl,
+            Bio = user.Bio,
+            Address = user.Address,
+            DateOfBirth = user.DateOfBirth,
+            StudentId = user.StudentId,
+            College = user.College,
+            ImgUrl = user.ImgUrl,
+            LinkUrl = user.LinkUrl,
+            Role = user.Role.ToString(),
+            VerifyEmailAt = user.VerifyEmailAt,
+            Status = user.Status?.ToString(),
+            BanReason = user.BanReason,
+            BannedAt = user.BannedAt,
+            IsVerified = user.IsVerified
         };
     }
 

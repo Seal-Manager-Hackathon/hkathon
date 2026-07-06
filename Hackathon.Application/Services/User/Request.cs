@@ -4,11 +4,17 @@ namespace Hackathon.Application.Services.User;
 
 public class GetUserCountRequest
 {
-    /// <summary>
-    /// Lọc theo role. Không truyền = lấy tất cả.
-    /// Enum: Admin, Staff, Student, Lecturer
-    /// </summary>
     public string? Role { get; set; }
+}
+
+public class GetAllUsersRequest
+{
+    public string? Keyword { get; set; }
+    public string? Role { get; set; }
+    public bool? IsDisable { get; set; }
+    public bool? IsVerified { get; set; }
+    public int PageIndex { get; set; } = 1;
+    public int PageSize { get; set; } = 10;
 }
 
 public class CreateUserRequest

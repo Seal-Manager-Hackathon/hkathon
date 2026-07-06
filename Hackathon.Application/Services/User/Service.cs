@@ -69,6 +69,44 @@ public class Service : IUserService
         };
     }
 
+    public async Task<GetAllUsersResponse> GetAllUsers(GetAllUsersRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        RoleEnum? role = null;
+        if (!string.IsNullOrWhiteSpace(request.Role))
+        {
+            if (!Enum.TryParse<RoleEnum>(request.Role, true, out var parsedRole))
+                throw new BadRequestException("Invalid Role. Must be: Admin, Staff, Student, Lecturer");
+            role = parsedRole;
+        }
+
+        var (items, totalCount) = await _userRepository.SearchAsync(
+            request.Keyword, role, request.IsDisable, request.IsVerified,
+            request.PageIndex, request.PageSize);
+
+        return new GetAllUsersResponse
+        {
+            Users = items.Select(u => new UserCard
+            {
+                Id = u.Id,
+                Email = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Role = u.Role.ToString(),
+                Status = u.Status?.ToString(),
+                IsVerified = u.IsVerified,
+                IsDisable = u.IsDisable,
+                AvatarUrl = u.AvatarUrl,
+                College = u.College,
+                CreatedAt = u.CreatedAt
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = request.PageIndex,
+            PageSize = request.PageSize
+        };
+    }
+
     public async Task<CreateUserResponse> CreateUser(CreateUserRequest request)
     {
         _authorizationService.Authorize(RoleEnum.Admin);

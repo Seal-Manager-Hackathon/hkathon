@@ -30,6 +30,13 @@ public class AdminUserController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.UserCountFetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpGet("users")]
+    public async Task<IActionResult> GetAllUsers([FromQuery] GetAllUsersRequest request)
+    {
+        var result = await _userService.GetAllUsers(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.UserFetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpPost("users")]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
     {
