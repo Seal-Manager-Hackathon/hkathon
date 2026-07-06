@@ -30,6 +30,9 @@ public static class DependencyInjection
         services.Configure<SecurityOptions>(configuration.GetSection("SecurityOptions"));
         services.AddScoped<IPasswordService, Services.Password.Service>();
 
+        services.AddScoped<IUserRepository, Repositories.UserRepository>();
+        services.AddScoped<IEmailVerificationRepository, Repositories.EmailVerificationRepository>();
+
         return services;
     }
 }

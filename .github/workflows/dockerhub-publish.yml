@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  IMAGE_NAME: seal-hackathon-deploy
+  IMAGE_NAME: hkathon-deploy
 
 jobs:
   docker:
@@ -41,7 +41,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: Hackathon.Api/Dockerfile
+          file: Hackathon.Presentation/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -64,16 +64,16 @@ jobs:
           script: |
             cd ~/hackathon
 
-            docker pull hackathonseal/seal-hackathon-deploy:latest
+            docker pull hackathonseal/hkathon-deploy:latest
 
-            docker stop seal-hackathon3 || true
-            docker rm seal-hackathon3 || true
+            docker stop hkathon-deploy || true
+            docker rm hkathon-deploy || true
 
             docker run -d \
-              --name seal-hackathon3 \
+              --name hkathon-deploy \
               --env-file .env \
               -p 8080:8080 \
               --restart unless-stopped \
-              hackathonseal/seal-hackathon-deploy:latest
+              hackathonseal/hkathon-deploy:latest
 
             docker image prune -f
