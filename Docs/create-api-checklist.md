@@ -38,7 +38,13 @@
 - [ ] SaveChangesAsync duoc goi sau mutation
 - [ ] IUnitOfWork duoc inject dung
 
-### 5. Error Messages
+### 5. Enum Handling
+
+- [ ] Body enum: property dung domain enum type (JsonStringEnumConverter tu dong parse)
+- [ ] Query/route string enum: dung EnumParser.ParseOrThrow<TEnum>(value, "FieldName")
+- [ ] Invalid enum -> JsonException (body) hoac BadRequestException (query) -> message trong ErrorMessage.cs
+- [ ] JsonStringEnumConverter registered trong Program.cs
+- [ ] Khi tra ve response, enum tu dong serialize thanh string (#5. Enum Handling)
 
 - [ ] Tat ca throw dung ErrorMessage.* constants
 - [ ] Format **Capitalize Each Word**

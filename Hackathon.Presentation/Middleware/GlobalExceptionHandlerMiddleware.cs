@@ -36,9 +36,14 @@ public class GlobalExceptionHandlerMiddleware : IMiddleware
             var appEx = ex switch
             {
                 AppException alreadyAppEx => alreadyAppEx,
-                JsonException => new BadRequestException(ErrorMessage.Common.InvalidRequestData),
+                JsonException jsonEx => jsonEx.Message.Contains("JSON") || jsonEx.Message.Contains("Path")
+                    ? new BadRequestException(ErrorMessage.Common.InvalidJsonFormat)
+                    : jsonEx.Message.Contains("enum") || jsonEx.Message.Contains("flag")
+                        ? new BadRequestException(ErrorMessage.Common.InvalidEnumValue)
+                        : new BadRequestException(ErrorMessage.Common.InvalidRequestData),
                 _ => new ServerException(ErrorMessage.Common.UnexpectedError)
             };
+            _logger.LogDebug("Mapped exception: {ExceptionType} -> {Message}", ex.GetType().Name, appEx.Message);
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = appEx.StatusCode;
