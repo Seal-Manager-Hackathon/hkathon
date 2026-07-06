@@ -1,38 +1,34 @@
-﻿namespace Hackathon.Application.Exceptions;
+namespace Hackathon.Application.Exceptions;
 
 public static class ErrorMessage
 {
     public static class Common
     {
-        // 400
-        public const string BadRequest = "BAD_REQUEST";
-        // 401
-        public const string Unauthorized = "UNAUTHORIZED";
-        // 403
-        public const string Forbidden = "FORBIDDEN";
-        // 404
-        public const string NotFound = "NOT_FOUND";
-        // 409
-        public const string Conflict = "CONFLICT";
-        // 429
-        public const string TooManyRequest = "TOO_MANY_REQUEST";
-        public const string TooManyRequestRetryLater = "TOO_MANY_REQUESTS_RETRY_AFTER_60S";
-        // 500
-        public const string InternalServerError = "INTERNAL_SERVER_ERROR";
-        public const string FileUploadFailed = "FILE_UPLOAD_FAILED";
-        // 503
-        public const string ServiceUnavailable = "SERVICE_UNAVAILABLE";
+        public const string UnexpectedError = "An Unexpected Error Occurred";
+        public const string TooManyRequestsRetryAfter60s = "Too Many Requests Retry After 60s";
     }
 
     public static class Database
     {
-        // 500
-        public const string SaveChangesFailed = "SAVE_CHANGES_FAILED";
-        public const string UpdateFailed = "UPDATE_FAILED";
-        public const string DeleteFailed = "DELETE_FAILED";
-        public const string ConcurrencyConflict = "CONCURRENCY_CONFLICT";
-        public const string UniqueConstraintViolation = "UNIQUE_CONSTRAINT_VIOLATION";
-        public const string ForeignKeyViolation = "FOREIGN_KEY_VIOLATION";
-        public const string NotNullViolation = "NOT_NULL_VIOLATION";
+        public const string SaveChangesFailed = "Save Changes Failed";
+        public const string UpdateFailed = "Update Failed";
+        public const string DeleteFailed = "Delete Failed";
+        public const string ConcurrencyConflict = "Concurrency Conflict";
+        public const string UniqueConstraintViolation = "Unique Constraint Violation";
+        public const string ForeignKeyViolation = "Foreign Key Violation";
+        public const string NotNullViolation = "Not Null Violation";
+    }
+
+    public static class Events
+    {
+        public const string NameRequired = "Event Name Is Required";
+        public const string LimitTeamNegative = "Limit Team Must Not Be Negative";
+        public const string MinMemberNegative = "Min Member Must Not Be Negative";
+        public const string MaxMemberNegative = "Max Member Must Not Be Negative";
+        public const string MaxMemberLessThanMin = "Max Member Must Not Be Less Than Min Member";
+        public const string StartTimeInPast = "Event Start Time Must Not Be In Past";
+        public const string RegisterLimitTimeInPast = "Event Register Limit Time Must Not Be In Past";
+        public const string EndTimeBeforeStart = "Event End Time Must Be After Start Time";
+        public const string RegisterLimitTimeRange = "Event Register Limit Time Must Be Between Start And End";
     }
 }

@@ -28,7 +28,7 @@ public class GlobalExceptionHandlerMiddleware : IMiddleware
 
             if (context.Response.HasStarted)
             {
-                _logger.LogWarning("RESPONSE_ALREADY_STARTED: {Path}", context.Request.Path);
+                _logger.LogWarning("Response Already Started: {Path}", context.Request.Path);
                 throw;
             }
 
@@ -37,7 +37,7 @@ public class GlobalExceptionHandlerMiddleware : IMiddleware
             AppException appEx = ex switch
             {
                 AppException alreadyAppEx => alreadyAppEx,
-                _ => new ServerException("AN_UNEXPECTED_ERROR_OCCURRED")
+                _ => new ServerException("An Unexpected Error Occurred")
             };
 
             context.Response.StatusCode = appEx.StatusCode;
