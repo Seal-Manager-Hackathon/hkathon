@@ -6,7 +6,7 @@ public static class CookieExtensions
     public const string RefreshTokenCookieName = "Refresh-Token";
 
     
-    public static void WriteAuthCookies(this HttpResponse response, string accessToken, string refreshToken)
+    public static void WriteAuthCookies(this HttpResponse response, string accessToken, string refreshToken, int accessTokenExpireMinutes = 15, int refreshTokenExpireDays = 7)
     {
       
         var accessOptions = new CookieOptions
@@ -15,7 +15,7 @@ public static class CookieExtensions
             Secure = true,
             SameSite = SameSiteMode.Lax,
             Path = "/",
-            Expires = DateTimeOffset.UtcNow.AddMinutes(15)
+            Expires = DateTimeOffset.UtcNow.AddMinutes(accessTokenExpireMinutes)
         };
 
         var refreshOptions = new CookieOptions
@@ -24,7 +24,7 @@ public static class CookieExtensions
             Secure = true,
             SameSite = SameSiteMode.Lax,
             Path = "/",
-            Expires = DateTimeOffset.UtcNow.AddDays(7)
+            Expires = DateTimeOffset.UtcNow.AddDays(refreshTokenExpireDays)
         };
         response.Cookies.Append(AccessTokenCookieName, accessToken, accessOptions);
         response.Cookies.Append(RefreshTokenCookieName, refreshToken, refreshOptions);

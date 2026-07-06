@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Hackathon.Application.Common.Models;
 using Hackathon.Application.Exceptions;
 
@@ -32,7 +33,12 @@ public class GlobalExceptionHandlerMiddleware : IMiddleware
                 throw;
             }
 
-            var appEx = ex as AppException ?? new ServerException(ErrorMessage.Common.UnexpectedError);
+            var appEx = ex switch
+            {
+                AppException alreadyAppEx => alreadyAppEx,
+                JsonException => new BadRequestException(ErrorMessage.Common.InvalidRequestData),
+                _ => new ServerException(ErrorMessage.Common.UnexpectedError)
+            };
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = appEx.StatusCode;

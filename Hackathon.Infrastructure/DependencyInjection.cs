@@ -1,6 +1,8 @@
 ﻿using Hackathon.Application.Common.Interfaces;
+using Hackathon.Infrastructure.Services.Cloudinary;
 using Hackathon.Infrastructure.Services.Jwt;
 using Hackathon.Infrastructure.Services.Mail;
+using Hackathon.Infrastructure.Services.Password;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,11 +18,17 @@ public static class DependencyInjection
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-        services.Configure<JwtOption>(configuration.GetSection("JwtOptions"));
+        services.Configure<JwtOptions>(configuration.GetSection("JwtOptions"));
         services.AddScoped<IJwtService, Services.Jwt.Service>();
 
-        services.Configure<MailOption>(configuration.GetSection("MailOptions"));
+        services.Configure<MailOptions>(configuration.GetSection("MailOptions"));
         services.AddScoped<IMailService, Services.Mail.Service>();
+
+        services.Configure<CloudinaryOptions>(configuration.GetSection("CloudinaryOptions"));
+        services.AddScoped<IMediaService, Services.Cloudinary.Service>();
+
+        services.Configure<SecurityOptions>(configuration.GetSection("SecurityOptions"));
+        services.AddScoped<IPasswordService, Services.Password.Service>();
 
         return services;
     }

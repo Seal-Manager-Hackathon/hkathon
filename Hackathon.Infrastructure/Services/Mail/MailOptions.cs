@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hackathon.Infrastructure.Services.Mail;
 
-public class MailOption
+public class MailOptions
 {
     [Required] public string Mail { get; set; } = null!;
     [Required] public string DisplayName { get; set; } = null!;

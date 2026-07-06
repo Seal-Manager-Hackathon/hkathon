@@ -6,6 +6,7 @@ public static class ErrorMessage
     {
         public const string UnexpectedError = "An Unexpected Error Occurred";
         public const string TooManyRequestsRetryAfter60S = "Too Many Requests Retry After 60s";
+        public const string InvalidRequestData = "Invalid Request Data";
     }
 
     public static class Database
@@ -49,6 +50,19 @@ public static class ErrorMessage
         public const string CurrentPasswordInvalid = "Current Password Invalid";
         public const string NewPasswordMustBeDifferentFromOldPassword = "New Password Must Be Different From Old Password";
         public const string InvalidOrExpiredEmailVerificationToken = "Invalid Or Expired Email Verification Token";
+    }
+
+    public static class Mail
+    {
+        public const string SendFailed = "Failed To Send Email Please Try Again Later";
+    }
+
+    public static class Media
+    {
+        public const string FileEmpty = "File Is Empty";
+        public const string InvalidImageFormat = "Invalid Image Format Only Jpg Jpeg Png Gif Webp Are Allowed";
+        public const string FileTooLarge = "File Is Too Large Maximum 50Mb";
+        public const string UploadFailed = "Image Upload Failed Please Try Again Later";
     }
 
 }

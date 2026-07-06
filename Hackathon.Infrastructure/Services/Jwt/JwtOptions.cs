@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Hackathon.Infrastructure.Services.Jwt;
 
-public class JwtOption
+public class JwtOptions
 {
     [Required] public string Issuer { get; set; } = null!;
     [Required] public string Audience { get; set; } = null!;

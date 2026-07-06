@@ -10,10 +10,10 @@ namespace Hackathon.Infrastructure.Services.Mail;
 
 public class Service : IMailService
 {
-    private readonly MailOption _mailOption;
+    private readonly MailOptions _mailOption;
     private readonly ILogger<Service> _logger;
 
-    public Service(IOptions<MailOption> mailOption, ILogger<Service> logger)
+    public Service(IOptions<MailOptions> mailOption, ILogger<Service> logger)
     {
         _mailOption = mailOption.Value;
         _logger = logger;
@@ -41,7 +41,7 @@ public class Service : IMailService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to send mail to {To}", mailContent.To);
-            throw new ServerException("Failed To Send Email Please Try Again Later");
+            throw new ServerException(ErrorMessage.Mail.SendFailed);
         }
     }
 

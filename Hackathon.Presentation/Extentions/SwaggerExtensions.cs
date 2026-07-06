@@ -3,7 +3,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace Hackathon.Presentation.Extentions;
 
-public static class SwaggerExtentions
+public static class SwaggerExtensions
 {
     public static void AddSwaggerServices(this IServiceCollection services)
     {

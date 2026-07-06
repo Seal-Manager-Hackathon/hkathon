@@ -19,7 +19,7 @@ public static class JwtExtensions
     
     public static void AddJwtServices(this IServiceCollection services, IConfiguration configuration)
     {
-        JwtOption jwtOption = new JwtOption();
+        JwtOptions jwtOption = new JwtOptions();
         configuration.GetSection("JwtOptions").Bind(jwtOption);
         var key = Encoding.UTF8.GetBytes(jwtOption.SecretKey);
     

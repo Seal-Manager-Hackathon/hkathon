@@ -12,10 +12,10 @@ namespace Hackathon.Infrastructure.Services.Jwt;
 
 public class Service : IJwtService
 {
-    private readonly JwtOption _jwtOption;
+    private readonly JwtOptions _jwtOption;
     private readonly ILogger<Service> _logger;
 
-    public Service(IOptions<JwtOption> jwtOption, ILogger<Service> logger)
+    public Service(IOptions<JwtOptions> jwtOption, ILogger<Service> logger)
     {
         _jwtOption = jwtOption.Value;
         _logger = logger;
