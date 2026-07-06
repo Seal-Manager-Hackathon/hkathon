@@ -5,6 +5,7 @@ using Hackathon.Domain.Entities;
 using Hackathon.Domain.Enums.EmailVerification;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
+using SuccMsg = Hackathon.Application.Common.SuccessMessage;
 
 namespace Hackathon.Application.Services.Auth;
 
@@ -12,6 +13,7 @@ public class Service : IAuthService
 {
     private readonly IUserRepository _userRepository;
     private readonly IEmailVerificationRepository _emailVerificationRepository;
+    private readonly IRefreshTokenRepository _refreshTokenRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPasswordService _passwordService;
     private readonly IJwtService _jwtService;
@@ -20,6 +22,7 @@ public class Service : IAuthService
     public Service(
         IUserRepository userRepository,
         IEmailVerificationRepository emailVerificationRepository,
+        IRefreshTokenRepository refreshTokenRepository,
         IUnitOfWork unitOfWork,
         IPasswordService passwordService,
         IJwtService jwtService,
@@ -27,13 +30,14 @@ public class Service : IAuthService
     {
         _userRepository = userRepository;
         _emailVerificationRepository = emailVerificationRepository;
+        _refreshTokenRepository = refreshTokenRepository;
         _unitOfWork = unitOfWork;
         _passwordService = passwordService;
         _jwtService = jwtService;
         _mailService = mailService;
     }
 
-    public async Task<RegisterResponse> RegisterAsync(RegisterRequest request)
+    public async Task<RegisterResponse> Register(RegisterRequest request)
     {
         var existingUser = await _userRepository.GetByEmailAsync(request.Email.ToLower());
 
@@ -70,11 +74,11 @@ public class Service : IAuthService
 
         return new RegisterResponse
         {
-            Message = ErrMsg.Auth.RegistrationSuccessful
+            Message = SuccMsg.Auth.RegisterSuccessful
         };
     }
 
-    public async Task<VerifyEmailResponse> VerifyEmailAsync(VerifyEmailRequest request)
+    public async Task<VerifyEmailResponse> VerifyEmail(VerifyEmailRequest request)
     {
         var principal = _jwtService.ValidateToken(request.Token);
         if (principal == null)
@@ -134,12 +138,80 @@ public class Service : IAuthService
         };
     }
 
+    public async Task<LoginResponse> Login(LoginRequest request)
+    {
+        var user = await _userRepository.GetByEmailAsync(request.Email.Trim().ToLower());
+
+        if (user == null)
+        {
+            throw new NotFoundException(ErrMsg.Auth.UserNotFound);
+        }
+
+        if (user.Status == UserStatusEnum.Banned)
+        {
+            throw new ForbiddenException(ErrMsg.Auth.UserIsBanned);
+        }
+
+        var isPasswordValid = _passwordService.VerifyPassword(request.Password, user.HashPassword);
+        if (!isPasswordValid)
+        {
+            throw new UnauthorizedException(ErrMsg.Auth.InvalidEmailOrPassword);
+        }
+
+        // If unverified, disable old pending verifications and send new one
+        if (user.IsVerified == false)
+        {
+            var oldVerifications = await _emailVerificationRepository.GetPendingByUserIdAsync(user.Id);
+            if (oldVerifications.Count > 0)
+            {
+                var now = DateTimeOffset.UtcNow;
+                foreach (var old in oldVerifications)
+                {
+                    old.IsDisable = true;
+                    old.UpdatedAt = now;
+                }
+                await _emailVerificationRepository.UpdateRangeAsync(oldVerifications);
+            }
+
+            await SendVerificationEmailAsync(user);
+            throw new UnauthorizedException(ErrMsg.Auth.EmailUnverifiedOtpSent);
+        }
+
+        var claims = new List<Claim>
+        {
+            new("UserId", user.Id.ToString()),
+            new(ClaimTypes.Role, user.Role.ToString()),
+            new("IsVerified", user.IsVerified.ToString()!.ToLower())
+        };
+
+        var accessToken = _jwtService.GenerateAccessToken(claims);
+        var refreshToken = _jwtService.GenerateRefreshToken();
+
+        var refreshTokenEntity = new RefreshTokens
+        {
+            Id = Guid.NewGuid(),
+            RefreshTokenHash = refreshToken,
+            UserId = user.Id,
+            ExpiredAt = DateTimeOffset.UtcNow.AddDays(7),
+            CreatedAt = DateTimeOffset.UtcNow,
+            UpdatedAt = DateTimeOffset.UtcNow
+        };
+
+        await _refreshTokenRepository.AddAsync(refreshTokenEntity);
+        await _unitOfWork.SaveChangesAsync();
+
+        return new LoginResponse
+        {
+            AccessToken = accessToken,
+            RefreshToken = refreshToken
+        };
+    }
+
     private async Task SendVerificationEmailAsync(Users user)
     {
         var claims = new List<Claim>
         {
             new("UserId", user.Id.ToString()),
-            // new(ClaimTypes.Role, user.Role.ToString()),
             new("IsVerified", user.IsVerified!.ToString()!.ToLower())
         };
 

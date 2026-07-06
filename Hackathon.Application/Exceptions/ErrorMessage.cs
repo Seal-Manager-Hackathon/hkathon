@@ -38,12 +38,6 @@ public static class ErrorMessage
         public const string EmailAlreadyExists = "Email Already Exists";
         public const string UserNotFound = "User Not Found";
         public const string InvalidEmailOrPassword = "Invalid Email Or Password";
-        public const string RegistrationSuccessful = "Registration Successful";
-        public const string LogoutSuccessful = "Logout Successful";
-        public const string PasswordChangedSuccessfully = "Password Changed Successfully";
-        public const string EmailVerificationSent = "Email Verification Sent";
-        public const string ForgotPasswordRequestAccepted = "Forgot Password Request Accepted";
-        public const string PasswordResetSuccessfully = "Password Reset Successfully";
         public const string UnverifiedAccountPleaseLoginToVerify = "Unverified Account Please Login To Verify";
         public const string EmailUnverifiedOtpSent = "Email Unverified Otp Sent";
         public const string UserIsBanned = "User Is Banned";

@@ -26,3 +26,13 @@ public class VerifyEmailRequest
     [Required(ErrorMessage = "Token Is Required")]
     public string Token { get; set; } = null!;
 }
+
+public class LoginRequest
+{
+    [Required(ErrorMessage = "Email Is Required")]
+    [EmailAddress(ErrorMessage = "Invalid Email Format")]
+    public string Email { get; set; } = null!;
+
+    [Required(ErrorMessage = "Password Is Required")]
+    public string Password { get; set; } = null!;
+}

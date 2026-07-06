@@ -4,6 +4,7 @@ namespace Hackathon.Application.Common.Interfaces;
 
 public interface IAuthService
 {
-    Task<RegisterResponse> RegisterAsync(RegisterRequest request);
-    Task<VerifyEmailResponse> VerifyEmailAsync(VerifyEmailRequest request);
+    Task<RegisterResponse> Register(RegisterRequest request);
+    Task<VerifyEmailResponse> VerifyEmail(VerifyEmailRequest request);
+    Task<LoginResponse> Login(LoginRequest request);
 }
