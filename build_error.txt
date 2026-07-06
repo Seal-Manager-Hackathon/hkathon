@@ -1,0 +1,12 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Hackathon.Repository -> C:\Users\Admin\Downloads\BE-SEAL-HACKATHON\Hackathon.Repository\bin\Debug\net8.0\Hackathon.Repository.dll
+C:\Users\Admin\Downloads\BE-SEAL-HACKATHON\Hackathon.Service\Admin\Service.cs(244,77): error CS0118: 'Rounds' is a namespace but is used like a type [C:\Users\Admin\Downloads\BE-SEAL-HACKATHON\Hackathon.Service\Hackathon.Service.csproj]
+
+Build FAILED.
+
+C:\Users\Admin\Downloads\BE-SEAL-HACKATHON\Hackathon.Service\Admin\Service.cs(244,77): error CS0118: 'Rounds' is a namespace but is used like a type [C:\Users\Admin\Downloads\BE-SEAL-HACKATHON\Hackathon.Service\Hackathon.Service.csproj]
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:01.11

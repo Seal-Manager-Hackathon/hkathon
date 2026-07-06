@@ -1,0 +1,79 @@
+![[Pasted image 20260703203817.png]]
+
+phần tạo cuộc thi ở Season nên để thành field cho admin chọn chứ không cho truyền vào
+=> Done
+
+-----
+![[Pasted image 20260703204225.png]] phần này là profile của student nên thống nhất là hệ thống này chỉ dành cho sinh viên của trường thôi hay cho phép bên ngoài tham gia nữa để biết mà fix cứng trường chỉ hiện lên cho sinh viên coi thôi không cho chỉnh sửa cả phần mã sinh viên nữa
+=> Done, thống nhất chỉ sinh viên FPT
+
+---
+![[Pasted image 20260703204601.png]] 
+
+phần năm sinh trong profile của sinh viên nên chốt có nên cấm để năm sinh lớn hơn năm hiện tại trừ cho 18 để đảm bảo không khai gian năm sinh không
+=> Backend xử lý đi
+
+----
+![[Pasted image 20260703205116.png]]
+
+nên chốt lại xem phần thông báo lời mời này chỉ cần để ở bên invitation thông hay nên để bên cả notification
+=> Backend xử lý đi
+
+---
+![[Pasted image 20260703205415.png]]
+
+phần xem thông báo của 1 team hiện tại đang bị lỗi khi bấm vào view thì nó lại hiện nằm đè lên thông báo bên dưới và nên căn nhắc xem là cái này chỉ nên để thông báo của mentor hoặc staff gì đó trong event thôi hay là để cả hiển thị thông báo các lời mời như này (tài khoản student là member trong team)
+=> Done
+=> Ý kiến: phần nầy để thông báo mentor thôi
+
+----
+![[Pasted image 20260703205700.png]]
+
+phần thông báo của team nên sửa lại để chữ Notification thôi bỏ cái vòng tròn đi
+=> Done
+
+----
+![[Pasted image 20260703205808.png]]
+
+hiện tại sau khi bị admin xóa ra khỏi team thì khi load lại bên member thì nó vẫn tương tác được với team như bình thường chứ không tự out ra nên kiểm tra lại
+=> Backend cần báo lỗi ra khi view detail, mà member không nằm trong team
+
+---
+
+![[Pasted image 20260703210307.png]]
+
+Event mới vừa tạo chưa kịp add in gì hết gì khi bấm tạo round thì nó báo event đã bất đầu
+Vấn đề là khi t tạo event mới mà chỉnh giờ bắt đầu trước hoặc ngay lúc tạo thì nó sẽ không cho tạo track nữa cần chỉnh lại vấn đề này
+=> Backend xử lý đi
+
+---
+![[Pasted image 20260703210621.png]]
+
+phần fillter event khi chọn để fillter thì nó không chạy khi bấm reset lần 1 thì nó mới bắt đầu lọc và khi bấm reset lần 2 thì nó xóa hết những thứ mình fillter và nó không lưu lại cái admin chọn khi fillter
+=> Done
+
+---
+![[Pasted image 20260703212439.png]]
+
+hiện tại thì thời gian bắt đầu round có thể set trước cả khi sự kiện bắt đầu xảy ra chỉnh lại thêm điều kiện
+=> Backend xử lý đi
+
+---
+![[Pasted image 20260703212913.png]]
+
+Hiện tại có thể set thời gian bắt đầu của round 2 sớm hơn thời gian của round thứ nhất mà nếu đổi lại thứ tự khi chỉnh thời gian thì có thể xảy ra xung đột đề xuất là cái thứ tự của round nên để tự sinh chỉ được thêm chứ không được chỉnh thứ tự của round nữa
+=> Backend xử lý đi
+
+---
+![[Pasted image 20260703213301.png]]
+
+giải thưởng sao có thể chỉnh âm cả 2 giá trị như vậy
+=> Backend xử lý đi
+
+---
+![[Pasted image 20260703213607.png]]
+
+có thể tạo được giải đồng hạng trong cuộc thi cần thống nhất lại
+=> Backend xử lý đi
+
+---

@@ -1,0 +1,405 @@
+================================================================================
+                       PAGE → API MAPPING
+                       SEAL Hackathon Frontend
+================================================================================
+
+Route: /
+Page: Home
+APIs:
+	- GET  /events
+	- GET  /events/most-participants
+	- GET  /leaderboards/year/{year}
+
+Route: /hackathons
+Page: Hackathons
+APIs:
+	- GET  /events
+
+Route: /hackathons/:id
+Page: HackathonDetail
+APIs:
+	- GET  /users/profile
+	- GET  /events/{id}
+	- GET  /events/{id}/rounds
+	- GET  /events/{id}/awards
+	- GET  /events/{id}/event-criteria
+	- GET  /events/{id}/summary
+	- GET  /events/{id}/leaderboard
+	- GET  /teams/me
+	- POST /register-teams
+
+Route: /leaderboard/year
+Page: YearLeaderboard
+APIs:
+	- GET  /users/profile
+	- GET  /leaderboards/year/{year}
+
+Route: /login
+Page: Login
+APIs:
+	- POST /auth/login
+	- GET  /users/profile
+
+Route: /register
+Page: Register
+APIs:
+	- POST /auth/register
+
+Route: /forgot-password
+Page: ForgotPassword
+APIs:
+	- POST /auth/forgot-password
+
+Route: /reset-password
+Page: ResetPassword
+APIs:
+	- POST /auth/reset-password
+
+Route: auth/verify-email
+Page: VerifyEmail
+APIs:
+	- POST /auth/email-verifications
+
+Route: /reports
+Page: MyReports
+APIs:
+	- GET  /users/profile
+	- GET  /users/reports/me
+	- POST /users/system-report
+
+Route: /notifications
+Page: Notifications
+APIs:
+	- GET  /users/profile
+	- GET  /notifications/me
+	- PATCH /notifications/{notificationId}/read
+	- PATCH /notifications/read-all
+
+Route: /profile
+Page: Profile
+APIs:
+	- GET  /users/profile
+	- PATCH /users/profile
+	- PATCH /users/me/avatar
+
+Route: /change-password
+Page: ChangePassword
+APIs:
+	- GET  /users/profile
+	- PATCH /auth/change-password
+
+Route: /my-team
+Page: MyTeam
+APIs:
+	- GET  /users/profile
+	- GET  /teams/me
+	- POST /teams
+
+Route: /my-team/invitations
+Page: TeamInvitations
+APIs:
+	- GET  /users/profile
+	- GET  /teams/invitations/me
+	- POST /teams/invitations/{id}/accept
+	- POST /teams/invitations/{id}/reject
+
+Route: /my-team/registrations
+Page: MyRegistrations
+APIs:
+	- GET  /users/profile
+	- GET  /teams/me/register-teams
+
+Route: /my-team/registrations/:teamId
+Page: RegistrationDetailPage
+APIs:
+	- GET  /users/profile
+	- GET  /register-teams/{registerId}
+	- GET  /teams/{teamId}
+	- GET  /teams/{teamId}/notifications
+	- GET  /register-teams/{registerId}/assignment-status
+	- GET  /events/{id}
+	- GET  /events/{id}/rounds
+
+Route: /my-team/registrations/:teamId/rounds/:roundIndex
+Page: RoundDetailPage
+APIs:
+	- GET  /users/profile
+	- GET  /register-teams/{registerId}
+	- GET  /teams/{teamId}
+	- GET  /register-teams/{registerTeamId}/topic
+	- POST /register-teams/submissions
+	- GET  /register-teams/{registerTeamId}/submissions
+	- GET  /submissions/{submissionId}
+	- GET  /topics/{topicId}
+	- POST /teams/{teamId}/submissions/{submissionId}/appeal
+	- POST /teams/{teamId}/rounds/{roundId}/appeal
+	- GET  /events/{id}/rounds
+
+Route: /my-team/:id
+Page: TeamDetail
+APIs:
+	- GET  /users/profile
+	- GET  /teams/{teamId}
+	- POST /teams/{teamId}/invitations
+	- POST /teams/{teamId}/members/remove
+	- POST /teams/{teamId}/transfer-leader
+	- POST /teams/{teamId}/leave
+	- PATCH /teams/{teamId}/lock
+	- PATCH /teams/{teamId}/unlock
+	- GET  /teams/{teamId}/notifications
+	- GET  /teams/me/register-teams
+
+Route: /admin
+Page: AdminDashboard
+APIs:
+	- GET  /users/profile
+	- GET  /admin/hackathons
+	- GET  /admin/users
+	- GET  /admin/teams
+
+Route: /admin/hackathons
+Page: AdminHackathons
+APIs:
+	- GET  /users/profile
+	- GET  /admin/hackathons
+
+Route: /admin/hackathons/:id
+Page: AdminHackathonDetail
+APIs:
+	- GET  /users/profile
+	- GET  /admin/hackathons/{id}
+	- GET  /admin/hackathons/{id}/setup-status
+	- GET  /admin/events/{eventId}/assignments
+	- POST /admin/events/{eventId}/assign-lecturers
+	- PUT  /admin/events/{eventId}/lecturers/{assignEventId}/role
+	- DELETE /admin/events/{eventId}/lecturers/{assignEventId}
+	- GET  /admin/rounds?eventId={eventId}
+	- GET  /admin/rounds/{roundId}/submissions
+	- GET  /admin/submissions/{submissionId}
+	- DELETE /admin/rounds/{roundId}
+	- POST /admin/rounds/{roundId}/end-final
+	- GET  /admin/tracks?eventId={eventId}
+	- PATCH /admin/tracks/{trackId}/visibility
+	- GET  /events/{id}/awards
+	- POST /admin/hackathons/{eventId}/recalculate-leaderboard
+	- POST /admin/hackathons/{eventId}/lock-leaderboard
+	- POST /admin/hackathons/{eventId}/publish-leaderboard
+	- POST /admin/hackathons/{eventId}/assign-award
+	- POST /admin/hackathons/{eventId}/close
+	- POST /admin/hackathons/{eventId}/restore
+	- DELETE /admin/hackathons/{eventId}
+	- PUT  /admin/awards/{awardId}
+	- DELETE /admin/awards/{awardId}
+	- GET  /events/{id}/leaderboard
+	- GET  /staff/events/{eventId}/register-teams
+	- GET  /register-teams/staff/{registerTeamId}
+	- PUT  /register-teams/staff/{registerId}/approve
+	- PUT  /register-teams/staff/{registerId}/reject
+	- PATCH /register-teams/staff/{registerId}/ban
+	- PATCH /register-teams/staff/{registerId}/unban
+	- GET  /register-teams/registrations/{registerTeamId}/submissions
+	- GET  /staff/events/{eventId}/available-lecturers
+	- GET  /staff/events/{eventId}/assignments
+	- POST /staff/events/{eventId}/tracks/{trackId}/assign-lecturers
+	- DELETE /staff/events/{eventId}/tracks/{trackId}/remove-lecturer/{lecturerId}
+	- GET  /events/{id}/rounds
+
+Route: /admin/teams
+Page: AdminTeams
+APIs:
+	- GET  /users/profile
+	- GET  /admin/teams
+	- GET  /teams/{teamId}
+	- PATCH /admin/teams/{teamId}/disable
+	- PATCH /teams/{teamId}/lock
+	- PATCH /teams/{teamId}/unlock
+
+Route: /admin/users
+Page: AdminUsers
+APIs:
+	- GET  /users/profile
+	- GET  /admin/users
+	- POST /admin/users
+
+Route: /admin/profile
+Page: AdminProfile
+APIs:
+	- GET  /users/profile
+	- PATCH /users/profile
+	- PATCH /users/me/avatar
+
+Route: /admin/change-password
+Page: AdminChangePassword
+APIs:
+	- GET  /users/profile
+	- PATCH /auth/change-password
+
+Route: /admin/notifications
+Page: Notifications
+APIs:
+	- GET  /users/profile
+	- GET  /notifications/me
+	- PATCH /notifications/{notificationId}/read
+	- PATCH /notifications/read-all
+
+Route: /staff
+Page: StaffDashboard
+APIs:
+	- GET  /users/profile
+	- GET  /staff/events/current
+
+Route: /staff/hackathons
+Page: StaffHackathons
+APIs:
+	- GET  /users/profile
+	- GET  /staff/events/current
+
+Route: /staff/hackathons/:id
+Page: StaffHackathonDetail
+APIs:
+	- GET  /users/profile
+	- GET  /events/{eventId}
+	- GET  /rounds?eventId={eventId}
+	- GET  /tracks?eventId={eventId}
+	- GET  /events/{eventId}/awards
+	- GET  /events/{eventId}/leaderboard
+	- GET  /staff/events/{eventId}/register-teams
+	- GET  /register-teams/staff/{registerTeamId}
+	- PUT  /register-teams/staff/{registerId}/approve
+	- PUT  /register-teams/staff/{registerId}/reject
+	- PATCH /register-teams/staff/{registerId}/ban
+	- PATCH /register-teams/staff/{registerId}/unban
+	- GET  /register-teams/registrations/{registerTeamId}/submissions
+	- POST /staff/events/{eventId}/register-teams/{registerTeamId}/track
+	- POST /staff/events/{eventId}/register-teams/{registerTeamId}/topic
+	- GET  /tracks/{trackId}/topics
+	- GET  /staff/events/{eventId}/available-lecturers
+	- GET  /staff/events/{eventId}/assignments
+	- POST /staff/events/{eventId}/assign-lecturers
+	- POST /staff/events/{eventId}/tracks/{trackId}/assign-lecturers
+	- DELETE /staff/events/{eventId}/tracks/{trackId}/remove-lecturer/{lecturerId}
+	- DELETE /staff/events/{eventId}/remove-lecturer/{assignEventId}
+	- GET  /staff/rounds/{roundId}/submissions
+	- GET  /staff/submissions/{submissionId}
+	- POST /staff/submissions/{submissionId}/assign-judges
+
+Route: /staff/reports
+Page: StaffReports
+APIs:
+	- GET  /users/profile
+	- GET  /staff/reports
+	- GET  /staff/reports/{reportId}
+	- PUT  /staff/reports/{reportId}/status
+	- POST /staff/reports/{reportId}/approve-regrade
+
+Route: /staff/regrade
+Page: StaffRegradeSubmissions
+APIs:
+	- GET  /users/profile
+	- GET  /staff/regrade-submissions
+	- POST /staff/reports/{reportId}/approve-regrade
+	- GET  /staff/submissions/{submissionId}
+
+Route: /staff/profile
+Page: StaffProfile
+APIs:
+	- GET  /users/profile
+	- PATCH /users/profile
+	- PATCH /users/me/avatar
+
+Route: /staff/change-password
+Page: StaffChangePassword
+APIs:
+	- GET  /users/profile
+	- PATCH /auth/change-password
+
+Route: /staff/notifications
+Page: Notifications
+APIs:
+	- GET  /users/profile
+	- GET  /notifications/me
+	- PATCH /notifications/{notificationId}/read
+	- PATCH /notifications/read-all
+
+Route: /lecture
+Page: LecturerDashboard
+APIs:
+	- GET  /users/profile
+	- GET  /lecturers/events
+	- GET  /lecturers/events/current
+	- GET  /me/assignments
+
+Route: /lecture/hackathons
+Page: LecturerHackathons
+APIs:
+	- GET  /users/profile
+	- GET  /lecturers/events
+	- GET  /lecturers/events/search
+
+Route: /lecture/hackathons/:id
+Page: LecturerHackathonDetail
+APIs:
+	- GET  /users/profile
+	- GET  /events/{eventId}
+	- GET  /rounds?eventId={eventId}
+	- GET  /events/{eventId}/awards
+	- GET  /events/{eventId}/leaderboard
+	- GET  /judge/events/{eventId}/submissions
+	- GET  /judge/submissions/pending
+	- GET  /judge/submissions/{submissionId}/scores/me
+	- GET  /judge/submissions/search
+	- GET  /judge/submissions/regrade
+	- GET  /mentor/events
+	- GET  /mentor/tracks
+	- GET  /mentor/tracks/{trackId}/teams
+	- POST /mentor/tracks/{trackId}/notifications
+	- POST /mentor/teams/{teamId}/notifications
+	- GET  /register-teams/{registerId}
+	- GET  /teams/{teamId}
+	- GET  /lecturers/events
+	- GET  /lecturers/rounds/{roundId}/submissions
+
+Route: /lecture/score/:submissionId
+Page: LecturerScoringPage
+APIs:
+	- GET  /users/profile
+	- GET  /judge/submissions/{submissionId}/criteria
+	- GET  /judge/submissions/{submissionId}/scores/me
+	- GET  /judge/submissions/{submissionId}/scores
+	- POST /judge/submissions/{submissionId}/scores
+	- POST /judge/submissions/{submissionId}/mock-scores
+	- PUT  /judge/scores/{scoreId}
+	- POST /judge/scores/{scoreId}/finalize
+	- POST /judge/submissions/{submissionId}/retake
+	- GET  /staff/submissions/{submissionId}
+	- GET  /teams/{teamId}
+	- GET  /register-teams/{registerId}/assignment-status
+	- GET  /events/{id}
+	- GET  /events/{id}/rounds
+
+Route: /lecture/profile
+Page: LecturerProfile
+APIs:
+	- GET  /users/profile
+	- PATCH /users/profile
+	- PATCH /users/me/avatar
+
+Route: /lecture/change-password
+Page: LecturerChangePassword
+APIs:
+	- GET  /users/profile
+	- PATCH /auth/change-password
+
+Route: /lecture/notifications
+Page: Notifications
+APIs:
+	- GET  /users/profile
+	- GET  /notifications/me
+	- PATCH /notifications/{notificationId}/read
+	- PATCH /notifications/read-all
+
+================================================================================
+SHARED AUTH CONTEXT (called on app init for all authenticated pages)
+================================================================================
+	- GET  /users/profile                  (fetchMe - gets current user info)
+	- POST /auth/tokens/refresh             (Axios interceptor - auto-refresh token)
