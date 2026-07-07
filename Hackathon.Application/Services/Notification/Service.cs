@@ -35,7 +35,7 @@ public class Service : INotificationService
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
-        var items = await _notificationRepository.GetRecentAsync(5);
+        var items = await _notificationRepository.GetRecentAsync(10);
 
         return new GetRecentNotificationsResponse
         {

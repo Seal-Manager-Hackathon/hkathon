@@ -18,6 +18,7 @@
         "email": "staff@fpt.edu.vn",
         "firstName": "Staff",
         "lastName": "User",
+        "avatarUrl": "https://robohash.org/staff@fpt.edu.vn",
         "role": "Staff",
         "createdAt": "2026-07-07T12:00:00Z"
       }

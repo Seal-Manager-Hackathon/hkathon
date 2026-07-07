@@ -37,7 +37,7 @@ public class Service : IUserService
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
-        var users = await _userRepository.GetRecentAsync(5);
+        var users = await _userRepository.GetRecentAsync(10);
 
         return new GetRecentUsersResponse
         {
@@ -47,6 +47,7 @@ public class Service : IUserService
                 Email = u.Email,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
+                AvatarUrl = string.IsNullOrEmpty(u.AvatarUrl) ? null : u.AvatarUrl,
                 Role = u.Role.ToString(),
                 CreatedAt = u.CreatedAt
             }).ToList()

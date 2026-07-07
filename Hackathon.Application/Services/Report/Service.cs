@@ -19,7 +19,7 @@ public class Service : IReportService
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
-        var reports = await _reportRepository.GetRecentAsync(5);
+        var reports = await _reportRepository.GetRecentAsync(10);
 
         return new GetRecentReportsResponse
         {

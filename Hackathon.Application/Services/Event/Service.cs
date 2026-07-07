@@ -93,7 +93,7 @@ public class Service : IEventService
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
-        var events = await _eventRepository.GetRecentAsync(5);
+        var events = await _eventRepository.GetRecentAsync(10);
 
         return new GetRecentEventsResponse
         {
