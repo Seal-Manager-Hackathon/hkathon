@@ -128,6 +128,8 @@
 | Method | Route | Chức năng |
 |--------|-------|-----------|
 | GET | `/events/{eventId}/submissions` | Danh sách bài nộp (filter round/track/topic/registerTeam, last + records) |
+| GET | `/rounds/{roundId}/submissions` | Danh sách bài nộp trong 1 round |
+| GET | `/register-teams/{registerTeamId}/submissions` | Bài nộp của team trong event (lọc theo round, ko truyền = all) |
 
 ---
 

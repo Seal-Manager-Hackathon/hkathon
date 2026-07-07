@@ -14,7 +14,7 @@ public class SubmissionRepository : ISubmissionRepository
     }
 
     public async Task<(List<RoundDetails> Items, int TotalCount)> GetSubmissionsAsync(
-        Guid eventId, Guid? roundId, Guid? trackId, Guid? topicId, Guid? registerTeamId,
+        Guid eventId, Guid? roundId, Guid? trackId, Guid? topicId, Guid? registerTeamId, string? keyword,
         int pageIndex, int pageSize)
     {
         var query = _context.Set<RoundDetails>()
@@ -41,6 +41,11 @@ public class SubmissionRepository : ISubmissionRepository
             query = query.Where(rd => rd.RegisterTeam.TopicId == topicId.Value);
         if (registerTeamId.HasValue)
             query = query.Where(rd => rd.RegisterTeamId == registerTeamId.Value);
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var kw = keyword.Trim().ToLower();
+            query = query.Where(rd => rd.RegisterTeam.Team.Name.ToLower().Contains(kw));
+        }
 
         var totalCount = await query.CountAsync();
 

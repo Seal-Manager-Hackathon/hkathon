@@ -25,9 +25,23 @@ public class AdminSubmissionController : ControllerBase
     }
 
     [HttpGet("rounds/{roundId:guid}/submissions")]
-    public async Task<IActionResult> GetSubmissionsByRound(Guid roundId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+    public async Task<IActionResult> GetSubmissionsByRound(Guid roundId, [FromQuery] string? keyword, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
     {
-        var result = await _submissionService.GetSubmissionsByRound(roundId, pageIndex, pageSize);
+        var result = await _submissionService.GetSubmissionsByRound(roundId, keyword, pageIndex, pageSize);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("register-teams/{registerTeamId:guid}/submissions")]
+    public async Task<IActionResult> GetSubmissionsByRegisterTeam(Guid registerTeamId, [FromQuery] Guid? roundId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+    {
+        var result = await _submissionService.GetSubmissionsByRegisterTeam(registerTeamId, roundId, pageIndex, pageSize);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("tracks/{trackId:guid}/submissions")]
+    public async Task<IActionResult> GetSubmissionsByTrack(Guid trackId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+    {
+        var result = await _submissionService.GetSubmissionsByTrack(trackId, pageIndex, pageSize);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 }

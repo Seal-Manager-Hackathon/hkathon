@@ -11,6 +11,7 @@ public class GetSubmissionsRequest
     public Guid? TrackId { get; set; }
     public Guid? TopicId { get; set; }
     public Guid? RegisterTeamId { get; set; }
+    public string? Keyword { get; set; }
 
     public int PageIndex { get; set; } = 1;
     public int PageSize { get; set; } = 10;
