@@ -13,9 +13,17 @@ public class CriteriaTemplateRepository : ICriteriaTemplateRepository
         _context = context;
     }
 
+    public async Task<CriteriaTemplates?> GetByIdAsync(Guid id)
+        => await _context.Set<CriteriaTemplates>()
+            .Include(ct => ct.CriteriaItems)
+            .FirstOrDefaultAsync(ct => ct.Id == id);
+
     public async Task<List<CriteriaTemplates>> GetByRoundIdAsync(Guid roundId)
         => await _context.Set<CriteriaTemplates>()
             .Include(ct => ct.CriteriaItems)
             .Where(ct => ct.RoundId == roundId)
             .ToListAsync();
+
+    public async Task AddAsync(CriteriaTemplates template)
+        => await _context.Set<CriteriaTemplates>().AddAsync(template);
 }

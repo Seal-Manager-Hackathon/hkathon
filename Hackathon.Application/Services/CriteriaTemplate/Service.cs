@@ -1,6 +1,7 @@
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
+using Hackathon.Domain.Entities;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
 
@@ -11,15 +12,18 @@ public class Service : ICriteriaTemplateService
     private readonly ICriteriaTemplateRepository _criteriaTemplateRepository;
     private readonly IRoundRepository _roundRepository;
     private readonly IAuthorizationService _authorizationService;
+    private readonly IUnitOfWork _unitOfWork;
 
     public Service(
         ICriteriaTemplateRepository criteriaTemplateRepository,
         IRoundRepository roundRepository,
-        IAuthorizationService authorizationService)
+        IAuthorizationService authorizationService,
+        IUnitOfWork unitOfWork)
     {
         _criteriaTemplateRepository = criteriaTemplateRepository;
         _roundRepository = roundRepository;
         _authorizationService = authorizationService;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<GetCriteriaTemplatesByRoundResponse> GetCriteriaTemplatesByRound(GetCriteriaTemplatesByRoundRequest request)
@@ -77,5 +81,86 @@ public class Service : ICriteriaTemplateService
             PageIndex = request.PageIndex,
             PageSize = request.PageSize
         };
+    }
+
+    public async Task CreateCriteriaTemplate(CreateCriteriaTemplateRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var round = await _roundRepository.GetByIdAsync(request.RoundId);
+        if (round == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        var now = DateTimeOffset.UtcNow;
+        var template = new CriteriaTemplates
+        {
+            Id = Guid.NewGuid(),
+            RoundId = request.RoundId,
+            Title = request.Title,
+            Description = request.Description,
+            IsDisable = false,
+            CreatedAt = now,
+            UpdatedAt = now
+        };
+
+        template.CriteriaItems = request.Items.Select(item => new CriteriaItems
+        {
+            Id = Guid.NewGuid(),
+            CriteriaTemplateId = template.Id,
+            Name = item.Name,
+            Description = item.Description,
+            Score = item.Score,
+            IsDisable = false,
+            CreatedAt = now,
+            UpdatedAt = now
+        }).ToList();
+
+        await _criteriaTemplateRepository.AddAsync(template);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task UpdateCriteriaTemplate(UpdateCriteriaTemplateRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var template = await _criteriaTemplateRepository.GetByIdAsync(request.TemplateId);
+        if (template == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        if (request.Title != null)
+            template.Title = request.Title;
+        if (request.Description != null)
+            template.Description = request.Description;
+        if (request.IsDisable.HasValue)
+            template.IsDisable = request.IsDisable.Value;
+
+        template.UpdatedAt = DateTimeOffset.UtcNow;
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task DeleteCriteriaTemplate(Guid templateId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var template = await _criteriaTemplateRepository.GetByIdAsync(templateId);
+        if (template == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        template.IsDisable = true;
+        template.UpdatedAt = DateTimeOffset.UtcNow;
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task RestoreCriteriaTemplate(Guid templateId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var template = await _criteriaTemplateRepository.GetByIdAsync(templateId);
+        if (template == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        template.IsDisable = false;
+        template.UpdatedAt = DateTimeOffset.UtcNow;
+        await _unitOfWork.SaveChangesAsync();
     }
 }

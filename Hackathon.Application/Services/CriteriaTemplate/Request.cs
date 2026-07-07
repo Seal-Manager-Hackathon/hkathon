@@ -34,6 +34,41 @@ public class CriteriaTemplateItem
     public DateTimeOffset UpdatedAt { get; set; }
 }
 
+public class CreateCriteriaTemplateRequest
+{
+    [Required(ErrorMessage = "RoundId Is Required")]
+    public Guid RoundId { get; set; }
+
+    [Required(ErrorMessage = "Title Is Required")]
+    [StringLength(200, ErrorMessage = "Title Must Not Exceed 200 Characters")]
+    public string Title { get; set; } = null!;
+
+    public string? Description { get; set; }
+
+    [MinLength(1, ErrorMessage = "At Least One Criteria Item Is Required")]
+    public List<CreateCriteriaItemRequest> Items { get; set; } = new();
+}
+
+public class CreateCriteriaItemRequest
+{
+    [Required(ErrorMessage = "Name Is Required")]
+    public string Name { get; set; } = null!;
+
+    public string? Description { get; set; }
+
+    [Range(0, double.MaxValue, ErrorMessage = "Score Must Be Greater Than Or Equal To 0")]
+    public decimal Score { get; set; }
+}
+
+public class UpdateCriteriaTemplateRequest
+{
+    public Guid TemplateId { get; set; }
+
+    public string? Title { get; set; }
+    public string? Description { get; set; }
+    public bool? IsDisable { get; set; }
+}
+
 public class CriteriaTemplateItemDetail
 {
     public Guid Id { get; set; }
