@@ -24,16 +24,6 @@
         "title": "Đánh giá ý tưởng",
         "description": "Tiêu chí đánh giá ý tưởng vòng 1",
         "isDisable": false,
-        "items": [
-          {
-            "id": "guid",
-            "name": "Tính sáng tạo",
-            "description": "Mức độ mới lạ và sáng tạo của ý tưởng",
-            "score": 25,
-            "isDisable": false,
-            "createdAt": "2026-07-07T12:00:00Z"
-          }
-        ],
         "createdAt": "2026-07-07T12:00:00Z",
         "updatedAt": "2026-07-07T12:00:00Z"
       }

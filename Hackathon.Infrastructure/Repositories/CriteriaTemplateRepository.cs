@@ -20,7 +20,6 @@ public class CriteriaTemplateRepository : ICriteriaTemplateRepository
 
     public async Task<List<CriteriaTemplates>> GetByRoundIdAsync(Guid roundId)
         => await _context.Set<CriteriaTemplates>()
-            .Include(ct => ct.CriteriaItems)
             .Where(ct => ct.RoundId == roundId)
             .ToListAsync();
 
