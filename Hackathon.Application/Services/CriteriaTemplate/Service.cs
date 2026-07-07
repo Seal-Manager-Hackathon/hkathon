@@ -83,6 +83,55 @@ public class Service : ICriteriaTemplateService
         };
     }
 
+    public async Task<GetCriteriaItemsByTemplateResponse> GetCriteriaItemsByTemplate(GetCriteriaItemsByTemplateRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var template = await _criteriaTemplateRepository.GetByIdAsync(request.TemplateId);
+        if (template == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        var allItems = await _criteriaTemplateRepository.GetItemsByTemplateIdAsync(request.TemplateId);
+
+        var query = allItems.AsEnumerable();
+
+        if (!string.IsNullOrWhiteSpace(request.Keyword))
+        {
+            var kw = request.Keyword.Trim().ToLower();
+            query = query.Where(i => i.Name.ToLower().Contains(kw));
+        }
+
+        if (request.IsDisable.HasValue)
+            query = query.Where(i => i.IsDisable == request.IsDisable.Value);
+
+        var totalCount = query.Count();
+
+        var items = query
+            .OrderByDescending(i => i.CreatedAt)
+            .Skip((request.PageIndex - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .Select(i => new CriteriaItemInfo
+            {
+                Id = i.Id,
+                CriteriaTemplateId = i.CriteriaTemplateId,
+                Name = i.Name,
+                Description = i.Description,
+                Score = i.Score,
+                IsDisable = i.IsDisable,
+                CreatedAt = i.CreatedAt,
+                UpdatedAt = i.UpdatedAt
+            })
+            .ToList();
+
+        return new GetCriteriaItemsByTemplateResponse
+        {
+            Items = items,
+            TotalCount = totalCount,
+            PageIndex = request.PageIndex,
+            PageSize = request.PageSize
+        };
+    }
+
     public async Task CreateCriteriaTemplate(CreateCriteriaTemplateRequest request)
     {
         _authorizationService.Authorize(RoleEnum.Admin);

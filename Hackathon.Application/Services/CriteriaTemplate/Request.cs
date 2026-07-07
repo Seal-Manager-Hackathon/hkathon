@@ -34,6 +34,38 @@ public class CriteriaTemplateItem
     public DateTimeOffset UpdatedAt { get; set; }
 }
 
+public class GetCriteriaItemsByTemplateRequest
+{
+    [Required(ErrorMessage = "TemplateId Is Required")]
+    public Guid TemplateId { get; set; }
+
+    public string? Keyword { get; set; }
+    public bool? IsDisable { get; set; }
+    public int PageIndex { get; set; } = 1;
+    [Range(1, 100, ErrorMessage = "PageSize Must Be Between 1 And 100")]
+    public int PageSize { get; set; } = 10;
+}
+
+public class GetCriteriaItemsByTemplateResponse
+{
+    public List<CriteriaItemInfo> Items { get; set; } = new();
+    public int TotalCount { get; set; }
+    public int PageIndex { get; set; }
+    public int PageSize { get; set; }
+}
+
+public class CriteriaItemInfo
+{
+    public Guid Id { get; set; }
+    public Guid CriteriaTemplateId { get; set; }
+    public string Name { get; set; } = null!;
+    public string? Description { get; set; }
+    public decimal Score { get; set; }
+    public bool IsDisable { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
+}
+
 public class CreateCriteriaTemplateRequest
 {
     [Required(ErrorMessage = "RoundId Is Required")]

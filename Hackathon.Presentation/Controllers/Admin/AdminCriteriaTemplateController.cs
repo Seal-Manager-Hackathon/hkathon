@@ -24,6 +24,14 @@ public class AdminCriteriaTemplateController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpGet("criteria-templates/{templateId:guid}/criteria-items")]
+    public async Task<IActionResult> GetCriteriaItemsByTemplate(Guid templateId, [FromQuery] GetCriteriaItemsByTemplateRequest request)
+    {
+        request.TemplateId = templateId;
+        var result = await _criteriaTemplateService.GetCriteriaItemsByTemplate(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpPost("rounds/{roundId:guid}/criteria-templates")]
     public async Task<IActionResult> CreateCriteriaTemplate(Guid roundId, [FromBody] CreateCriteriaTemplateRequest request)
     {

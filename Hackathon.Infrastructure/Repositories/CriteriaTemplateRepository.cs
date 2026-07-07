@@ -24,6 +24,11 @@ public class CriteriaTemplateRepository : ICriteriaTemplateRepository
             .Where(ct => ct.RoundId == roundId)
             .ToListAsync();
 
+    public async Task<List<CriteriaItems>> GetItemsByTemplateIdAsync(Guid templateId)
+        => await _context.Set<CriteriaItems>()
+            .Where(ci => ci.CriteriaTemplateId == templateId)
+            .ToListAsync();
+
     public async Task AddAsync(CriteriaTemplates template)
         => await _context.Set<CriteriaTemplates>().AddAsync(template);
 }
