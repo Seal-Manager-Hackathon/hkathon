@@ -19,7 +19,7 @@ Base: c:\Users\phamq\OneDrive\Desktop\New folder (4)\BE-SEAL-HACKATHON
 - [ ] Step 7: Handle enum fields
 - [ ] Step 8: Helper check — nếu logic đã lặp lại ở ≥2 nơi (vd: pagination validation, date filter, ...), tách vào class ở `Hackathon.Application/Common/Helpers/` hoặc `Hackathon.Infrastructure/Helpers/`
 - [ ] Step 9: Add success message (use SuccessMessage.cs)
-- [ ] Step 10: Write/update documentation
+- [ ] **Step 10: Write/update documentation ngay lập tức** — tạo file mới trong `documents/{role}/{entity}/{method}/` hoặc sửa file đã có nếu request/response thay đổi. KHÔNG ĐỢI NHẮC.
 - [ ] Step 11: Register DI
 - [ ] Step 12: Check exception handling — các lỗi có thể xảy ra (404 not found, 400 validation/enum, 409 conflict, 401, 403, 409 đã disable...)
 
