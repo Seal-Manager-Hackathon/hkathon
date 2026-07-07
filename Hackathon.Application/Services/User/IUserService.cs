@@ -9,4 +9,8 @@ public interface IUserService
     Task<UserDetailResponse> GetUserDetail(GetUserDetailRequest request);
     Task<GetMyProfileResponse> GetMyProfile();
     Task UpdateUser(UpdateUserRequest request);
+    Task DeleteUser(Guid userId);
+    Task RestoreUser(Guid userId);
+    Task BanUser(BanUserRequest request);
+    Task UnbanUser(Guid userId);
 }

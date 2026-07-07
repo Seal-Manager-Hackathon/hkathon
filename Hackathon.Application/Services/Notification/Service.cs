@@ -106,27 +106,28 @@ public class Service : INotificationService
 
         if (targetType == NotificationTargetTypeEnum.System)
         {
-            // Gửi cho tất cả users
-            var allUsers = await _userRepository.GetAllAsync();
-            var notifications = allUsers.Select(u => new Notifications
+            // System — chỉ tạo 1 thông báo, ko gán ai, ko quan tâm UserId/TeamId
+            var systemNotification = new Notifications
             {
                 Id = Guid.NewGuid(),
-                UserId = u.Id,
+                UserId = null,
+                TeamId = null,
                 Title = request.Title,
                 Description = request.Description,
                 TargetType = NotificationTargetTypeEnum.System,
                 Status = NotificationStatusEnum.Unread,
                 CreatedAt = now,
                 UpdatedAt = now
-            }).ToList();
+            };
 
-            await _notificationRepository.AddRangeAsync(notifications);
+            await _notificationRepository.AddAsync(systemNotification);
             await _unitOfWork.SaveChangesAsync();
             return;
         }
 
         if (targetType == NotificationTargetTypeEnum.Team)
         {
+            // Team — chỉ nhận TeamId, có truyền UserId cũng bỏ qua
             if (!request.TeamId.HasValue)
                 throw new BadRequestException("TeamId Is Required When TargetType Is Team");
 
@@ -134,7 +135,6 @@ public class Service : INotificationService
             if (team == null)
                 throw new NotFoundException("Team Not Found");
 
-            // Chỉ tạo 1 thông báo cho team — không gửi cho từng thành viên
             var teamNotification = new Notifications
             {
                 Id = Guid.NewGuid(),
@@ -153,7 +153,7 @@ public class Service : INotificationService
             return;
         }
 
-        // Personal — gửi cho 1 người
+        // Personal — gửi cho 1 người, chỉ nhận UserId
         if (!request.UserId.HasValue)
             throw new BadRequestException("UserId Is Required When TargetType Is Personal");
 
@@ -161,19 +161,11 @@ public class Service : INotificationService
         if (user == null)
             throw new NotFoundException(ErrMsg.Auth.UserNotFound);
 
-        // Nếu vừa có UserId vừa có TeamId → check user có trong team không
-        if (request.TeamId.HasValue)
-        {
-            var isInTeam = await _teamRepository.IsUserInTeamAsync(request.TeamId.Value, request.UserId.Value);
-            if (!isInTeam)
-                throw new BadRequestException("User Is Not In The Specified Team");
-        }
-
-        var notification = new Notifications
+        var personalNotification = new Notifications
         {
             Id = Guid.NewGuid(),
             UserId = request.UserId,
-            TeamId = request.TeamId,
+            TeamId = null,
             Title = request.Title,
             Description = request.Description,
             TargetType = NotificationTargetTypeEnum.Personal,
@@ -182,7 +174,7 @@ public class Service : INotificationService
             UpdatedAt = now
         };
 
-        await _notificationRepository.AddAsync(notification);
+        await _notificationRepository.AddAsync(personalNotification);
         await _unitOfWork.SaveChangesAsync();
     }
 

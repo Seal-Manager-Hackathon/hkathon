@@ -24,6 +24,14 @@ public class GetUserDetailRequest
     public Guid UserId { get; set; }
 }
 
+public class BanUserRequest
+{
+    public Guid UserId { get; set; }
+
+    [Required(ErrorMessage = "BanReason Is Required")]
+    public string BanReason { get; set; } = null!;
+}
+
 public class UpdateUserRequest
 {
     public Guid UserId { get; set; }

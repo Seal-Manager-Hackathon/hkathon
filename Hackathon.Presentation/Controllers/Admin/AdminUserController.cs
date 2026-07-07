@@ -62,6 +62,35 @@ public class AdminUserController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.UserCreated, status: 201, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpPost("users/{userId:guid}/delete")]
+    public async Task<IActionResult> DeleteUser(Guid userId)
+    {
+        await _userService.DeleteUser(userId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Deleted, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("users/{userId:guid}/restore")]
+    public async Task<IActionResult> RestoreUser(Guid userId)
+    {
+        await _userService.RestoreUser(userId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.OperationSuccessful, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("users/{userId:guid}/ban")]
+    public async Task<IActionResult> BanUser(Guid userId, [FromBody] BanUserRequest request)
+    {
+        request.UserId = userId;
+        await _userService.BanUser(request);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Admin.UserBanned, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("users/{userId:guid}/unban")]
+    public async Task<IActionResult> UnbanUser(Guid userId)
+    {
+        await _userService.UnbanUser(userId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Admin.UserUnbanned, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("users/{userId:guid}/teams")]
     public async Task<IActionResult> GetUserTeams(Guid userId, [FromQuery] GetUserTeamsRequest request)
     {

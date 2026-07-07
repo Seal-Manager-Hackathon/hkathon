@@ -227,6 +227,65 @@ public class Service : IUserService
         await _unitOfWork.SaveChangesAsync();
     }
 
+    public async Task DeleteUser(Guid userId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+            throw new NotFoundException(ErrMsg.Auth.UserNotFound);
+
+        user.IsDisable = true;
+        user.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task RestoreUser(Guid userId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+            throw new NotFoundException(ErrMsg.Auth.UserNotFound);
+
+        user.IsDisable = false;
+        user.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task BanUser(BanUserRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var user = await _userRepository.GetByIdAsync(request.UserId);
+        if (user == null)
+            throw new NotFoundException(ErrMsg.Auth.UserNotFound);
+
+        user.BanReason = request.BanReason;
+        user.BannedAt = DateTimeOffset.UtcNow;
+        // IsDisable vẫn false — ban ko ẩn user
+        user.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task UnbanUser(Guid userId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+            throw new NotFoundException(ErrMsg.Auth.UserNotFound);
+
+        user.BanReason = null;
+        user.BannedAt = null;
+        user.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _unitOfWork.SaveChangesAsync();
+    }
+
     public async Task<CreateUserResponse> CreateUser(CreateUserRequest request)
     {
         _authorizationService.Authorize(RoleEnum.Admin);
