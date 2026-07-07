@@ -25,4 +25,45 @@ public class RoundRepository : IRoundRepository
 
     public async Task AddRoundDetailAsync(RoundDetails roundDetail)
         => await _context.Set<RoundDetails>().AddAsync(roundDetail);
+
+    public async Task AddAsync(Rounds round)
+        => await _context.Set<Rounds>().AddAsync(round);
+
+    public async Task<Rounds?> GetByEventIdAndRoundNoAsync(Guid eventId, int roundNo)
+        => await _context.Set<Rounds>()
+            .Where(r => r.EventId == eventId && r.RoundNo == roundNo)
+            .FirstOrDefaultAsync();
+
+    public async Task<int?> GetMaxRoundNoAsync(Guid eventId)
+        => await _context.Set<Rounds>()
+            .Where(r => r.EventId == eventId)
+            .MaxAsync(r => (int?)r.RoundNo);
+
+    public async Task<(List<Rounds> Items, int TotalCount)> SearchByEventIdAsync(
+        Guid eventId, string? keyword, int? roundNo,
+        int pageIndex, int pageSize)
+    {
+        var query = _context.Set<Rounds>()
+            .Where(r => r.EventId == eventId)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var kw = keyword.Trim().ToLower();
+            query = query.Where(r => r.Name.ToLower().Contains(kw));
+        }
+
+        if (roundNo.HasValue)
+            query = query.Where(r => r.RoundNo == roundNo.Value);
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderBy(r => r.RoundNo)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
 }

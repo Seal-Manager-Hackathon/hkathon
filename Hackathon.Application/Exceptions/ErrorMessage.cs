@@ -20,6 +20,17 @@ public static class ErrorMessage
         public const string InvalidDataType = "Invalid Data Type";
     }
 
+    public static class Round
+    {
+        public const string EndTimeMustBeAfterStartTime = "Round End Time Must Be After Start Time";
+        public const string StartSubmissionMustBeAfterStartTime = "Start Submission Must Be After Or Equal Start Time";
+        public const string EndSubmissionMustBeBeforeEndTime = "End Submission Must Be Before Or Equal End Time";
+        public const string LimitTeamMustBeAtLeast1 = "Limit Team Must Be At Least 1";
+        public const string RoundTimeMustBeWithinEventTime = "Round Time Must Be Within Event Time Range";
+        public const string StartTimeMustBeAfterRegisterLimitTime = "Round Start Time Must Be After Event Register Limit Time";
+        public const string RoundStartTimeMustBeAfterPreviousRoundEndTime = "Round Start Time Must Be After Or Equal Previous Round End Time";
+    }
+
     public static class Database
     {
         public const string SaveChangesFailed = "Save Changes Failed";
