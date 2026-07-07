@@ -5,6 +5,7 @@ namespace Hackathon.Application.Common.IRepository;
 public interface IRoundRepository
 {
     Task<Rounds?> GetByIdAsync(Guid id);
+    Task<Rounds?> GetDetailByIdAsync(Guid id);
     Task<Rounds?> GetFirstRoundByEventIdAsync(Guid eventId);
     Task<int> CountTeamsInRoundAsync(Guid roundId);
     Task AddRoundDetailAsync(RoundDetails roundDetail);

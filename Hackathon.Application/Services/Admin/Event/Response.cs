@@ -37,6 +37,12 @@ public class GetRecentEventsResponse
     public List<EventItem> Events { get; set; } = new();
 }
 
+public class SetupCheckResponse
+{
+    public bool IsComplete { get; set; }
+    public List<string> MissingFields { get; set; } = new();
+}
+
 public class EventItem
 {
     public Guid Id { get; set; }

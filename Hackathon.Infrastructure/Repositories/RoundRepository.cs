@@ -16,6 +16,11 @@ public class RoundRepository : IRoundRepository
     public async Task<Rounds?> GetByIdAsync(Guid id)
         => await _context.Set<Rounds>().FindAsync(id);
 
+    public async Task<Rounds?> GetDetailByIdAsync(Guid id)
+        => await _context.Set<Rounds>()
+            .Include(r => r.Event)
+            .FirstOrDefaultAsync(r => r.Id == id);
+
     public Task UpdateAsync(Rounds round)
     {
         _context.Set<Rounds>().Update(round);

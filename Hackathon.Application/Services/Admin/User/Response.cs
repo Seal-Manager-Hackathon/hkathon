@@ -76,7 +76,10 @@ public class UserCard
     public string? Status { get; set; }
     public bool? IsVerified { get; set; }
     public bool IsDisable { get; set; }
+    public string? BanReason { get; set; }
+    public DateTimeOffset? BannedAt { get; set; }
     public string? AvatarUrl { get; set; }
     public string? College { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
 }
+

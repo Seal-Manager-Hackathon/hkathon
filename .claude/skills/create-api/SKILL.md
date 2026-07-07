@@ -195,7 +195,34 @@ public class {Role}Controller : ControllerBase
 
 **Quy tắc method name:** Không hậu tố `Async`. VD: `Login`, `Register`, `GetById`, `Create`.
 
-**Cấu trúc Interface:**
+**Cấu trúc folder Services (từ bản refactor):**
+
+Services được chia làm 2 nhóm chính:
+
+```
+Hackathon.Application/Services/
+├── Admin/                          ← API cho Admin
+│   ├── Award/
+│   ├── Event/
+│   ├── Notification/
+│   ├── User/                       ← admin user ops (CRUD, ban, ...)
+│   ├── ... (mỗi entity 1 folder)
+│   └── DependencyInjection.cs      ← AddAdminServices()
+└── Base/                           ← API cho user thường
+    ├── Auth/
+    ├── User/                       ← hồ sơ cá nhân (GetMyProfile)
+    └── DependencyInjection.cs      ← AddBaseServices()
+```
+
+**Quy tắc:**
+- **Tên folder = số ít** — `Award` không phải `Awards`, `Event` không phải `Events`, `User` không phải `Users`. Dùng tên entity (không số nhiều) tránh conflict namespace.
+- **Controller nào → Service đó:** `AdminUserController` → dùng `Admin/User/`, `UserController` (user thường) → dùng `Base/User/`, `AuthController` → dùng `Base/Auth/`.
+- **Mỗi nhóm có DI riêng:** `Admin/DependencyInjection.cs` chứa `AddAdminServices()`, `Base/DependencyInjection.cs` chứa `AddBaseServices()`. Root DI (`Application/DependencyInjection.cs`) gọi cả 2.
+- **User visibility:** API cho role ≠ Admin → filter `IsDisable == false`. User bị ban (`BanReason != null`) vẫn visible với mọi role. [[user-visibility-ban-vs-disable]]
+
+**Interface:**
+```csharp
+namespace Hackathon.Application.Services.Admin.{Entity};
 ```csharp
 namespace Hackathon.Application.Services.{Entity};
 

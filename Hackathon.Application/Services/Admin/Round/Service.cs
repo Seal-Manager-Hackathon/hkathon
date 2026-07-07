@@ -272,6 +272,33 @@ public class Service : IRoundService
         return await _roundRepository.GetMaxRoundNoAsync(eventId);
     }
 
+    public async Task<GetRoundDetailResponse> GetRoundDetail(Guid roundId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var round = await _roundRepository.GetDetailByIdAsync(roundId);
+        if (round == null)
+            throw new NotFoundException(ErrMsg.Round.RoundNoNotFound);
+
+        return new GetRoundDetailResponse
+        {
+            Id = round.Id,
+            EventId = round.EventId,
+            EventName = round.Event?.Name,
+            Name = round.Name,
+            Description = round.Description,
+            RoundNo = round.RoundNo,
+            StartTime = round.StartTime,
+            EndTime = round.EndTime,
+            StartSubmission = round.StartSubmission,
+            EndSubmission = round.EndSubmission,
+            LimitTeam = round.LimitTeam,
+            IsDisable = round.IsDisable,
+            CreatedAt = round.CreatedAt,
+            UpdatedAt = round.UpdatedAt
+        };
+    }
+
     public async Task DeleteRound(Guid roundId)
     {
         _authorizationService.Authorize(RoleEnum.Admin);
@@ -286,8 +313,9 @@ public class Service : IRoundService
 
         var deletedRoundNo = round.RoundNo ?? 0;
 
-        // Set roundNo của round bị xóa thành 0
+        // Set roundNo của round bị xóa thành 0 và disable true
         round.RoundNo = 0;
+        round.IsDisable = true;
         round.UpdatedAt = DateTimeOffset.UtcNow;
 
         // Trừ NumberRound của event

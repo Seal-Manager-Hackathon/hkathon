@@ -44,6 +44,13 @@ public class AdminEventController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpGet("events/{eventId:guid}/setup-check")]
+    public async Task<IActionResult> IsEventSetupComplete(Guid eventId)
+    {
+        var result = await _eventService.IsEventSetupComplete(eventId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpPatch("events/{eventId:guid}")]
     public async Task<IActionResult> UpdateEvent(Guid eventId, [FromBody] UpdateEventRequest request)
     {

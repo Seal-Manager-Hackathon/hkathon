@@ -46,6 +46,7 @@ public static class DependencyInjection
         services.AddScoped<ITopicRepository, Repositories.TopicRepository>();
         services.AddScoped<ICriteriaTemplateRepository, Repositories.CriteriaTemplateRepository>();
         services.AddScoped<IAwardRepository, Repositories.AwardRepository>();
+        services.AddScoped<IAssignEventRepository, Repositories.AssignEventRepository>();
 
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, Services.CurrentUserService>();

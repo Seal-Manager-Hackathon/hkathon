@@ -13,6 +13,7 @@ public class GetAllUsersRequest
     public string? Role { get; set; }
     public bool? IsDisable { get; set; }
     public bool? IsVerified { get; set; }
+    public bool? IsBanned { get; set; }
     public DateTimeOffset? FromDate { get; set; }
     public DateTimeOffset? ToDate { get; set; }
     public int PageIndex { get; set; } = 1;

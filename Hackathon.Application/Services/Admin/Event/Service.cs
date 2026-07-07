@@ -12,12 +12,14 @@ namespace Hackathon.Application.Services.Admin.Event;
 public class Service : IEventService
 {
     private readonly IEventRepository _eventRepository;
+    private readonly IRoundRepository _roundRepository;
     private readonly IAuthorizationService _authorizationService;
     private readonly IUnitOfWork _unitOfWork;
 
-    public Service(IEventRepository eventRepository, IAuthorizationService authorizationService, IUnitOfWork unitOfWork)
+    public Service(IEventRepository eventRepository, IRoundRepository roundRepository, IAuthorizationService authorizationService, IUnitOfWork unitOfWork)
     {
         _eventRepository = eventRepository;
+        _roundRepository = roundRepository;
         _authorizationService = authorizationService;
         _unitOfWork = unitOfWork;
     }
@@ -64,7 +66,7 @@ public class Service : IEventService
             MinMember = request.MinMember,
             MaxMember = request.MaxMember,
             Status = EventStatusEnum.Draft,
-            IsDisable = true,
+            IsDisable = false,
             NumberRound = 0,
             Season = season,
             CreatedAt = now,
@@ -73,6 +75,38 @@ public class Service : IEventService
 
         await _eventRepository.AddAsync(ev);
         await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task<SetupCheckResponse> IsEventSetupComplete(Guid eventId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var ev = await _eventRepository.GetByIdAsync(eventId);
+        if (ev == null)
+            throw new NotFoundException("Event Not Found");
+
+        var now = DateTimeOffset.UtcNow;
+        var missingFields = new List<string>();
+
+        // Check basic fields
+        if (string.IsNullOrWhiteSpace(ev.Name)) missingFields.Add("Name");
+        if (!ev.StartTime.HasValue || ev.StartTime <= now) missingFields.Add("StartTime");
+        if (!ev.EndTime.HasValue || ev.EndTime <= ev.StartTime) missingFields.Add("EndTime");
+        if (!ev.Season.HasValue) missingFields.Add("Season");
+        if (string.IsNullOrWhiteSpace(ev.Description)) missingFields.Add("Description");
+        if (!ev.LimitTeam.HasValue || ev.LimitTeam <= 0) missingFields.Add("LimitTeam");
+        if (!ev.MinMember.HasValue || ev.MinMember <= 0) missingFields.Add("MinMember");
+        if (!ev.MaxMember.HasValue || ev.MaxMember <= 0) missingFields.Add("MaxMember");
+
+        // Check có ít nhất 1 round
+        var hasRound = await _roundRepository.GetFirstRoundByEventIdAsync(eventId) != null;
+        if (!hasRound) missingFields.Add("Round");
+
+        return new SetupCheckResponse
+        {
+            IsComplete = missingFields.Count == 0,
+            MissingFields = missingFields
+        };
     }
 
     public async Task UpdateEvent(UpdateEventRequest request)
@@ -129,28 +163,11 @@ public class Service : IEventService
             ev.Season = season;
         }
 
-        // Check disable change: true → false
-        // Nếu request.IsDisable == false (muốn mở), phải đủ thông tin và status không được là Draft
-        if (request.IsDisable.HasValue && !request.IsDisable.Value && ev.IsDisable)
-        {
-            var now2 = DateTimeOffset.UtcNow; // refresh cho check publish
-            var missingFields = new List<string>();
-            if (string.IsNullOrWhiteSpace(ev.Name)) missingFields.Add("Name");
-            if (!ev.StartTime.HasValue || ev.StartTime <= now2) missingFields.Add("StartTime");
-            if (!ev.EndTime.HasValue || ev.EndTime <= ev.StartTime) missingFields.Add("EndTime");
-            if (!ev.Season.HasValue) missingFields.Add("Season");
-
-            if (missingFields.Count > 0)
-                throw new BadRequestException($"Cannot Enable Event. Missing Required Fields: {string.Join(", ", missingFields)}");
-
-            if (ev.Status == EventStatusEnum.Draft)
-                ev.Status = EventStatusEnum.Published;
-        }
-
+        // IsDisable hoàn toàn độc lập, ko kéo theo bất kỳ logic nào khác
         if (request.IsDisable.HasValue)
             ev.IsDisable = request.IsDisable.Value;
 
-        // Nếu chuyển từ Draft → Published, check thông tin đã đầy đủ chưa
+        // Nếu chuyển từ Draft → Published, phải check setup complete
         if (request.Status != null)
         {
             if (!Enum.TryParse<EventStatusEnum>(request.Status, true, out var status))
@@ -158,14 +175,10 @@ public class Service : IEventService
 
             if (status == EventStatusEnum.Published && ev.Status == EventStatusEnum.Draft)
             {
-                var missingFields = new List<string>();
-                if (string.IsNullOrWhiteSpace(ev.Name)) missingFields.Add("Name");
-                if (!ev.StartTime.HasValue || ev.StartTime <= now) missingFields.Add("StartTime");
-                if (!ev.EndTime.HasValue || ev.EndTime <= ev.StartTime) missingFields.Add("EndTime");
-                if (!ev.Season.HasValue) missingFields.Add("Season");
-
-                if (missingFields.Count > 0)
-                    throw new BadRequestException($"Cannot Publish Event. Missing Required Fields: {string.Join(", ", missingFields)}");
+                var setupCheck = await IsEventSetupComplete(request.EventId);
+                if (!setupCheck.IsComplete)
+                    throw new BadRequestException(
+                        $"Cannot Publish Event. Setup Not Complete. Missing: {string.Join(", ", setupCheck.MissingFields)}");
             }
 
             ev.Status = status;

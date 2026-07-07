@@ -28,7 +28,7 @@ public class UserRepository : IUserRepository
     }
 
     public async Task<(List<Users> Items, int TotalCount)> SearchAsync(
-        string? keyword, Domain.Enums.User.RoleEnum? role, bool? isDisable, bool? isVerified,
+        string? keyword, Domain.Enums.User.RoleEnum? role, bool? isDisable, bool? isVerified, bool? isBanned,
         DateTimeOffset? fromDate, DateTimeOffset? toDate,
         int pageIndex, int pageSize)
     {
@@ -53,6 +53,14 @@ public class UserRepository : IUserRepository
         if (isVerified.HasValue)
             query = query.Where(u => u.IsVerified == isVerified.Value);
 
+        if (isBanned.HasValue)
+        {
+            if (isBanned.Value)
+                query = query.Where(u => u.BanReason != null);
+            else
+                query = query.Where(u => u.BanReason == null);
+        }
+
         if (fromDate.HasValue)
             query = query.Where(u => u.CreatedAt >= fromDate.Value);
 
@@ -63,6 +71,34 @@ public class UserRepository : IUserRepository
 
         var items = await query
             .OrderByDescending(u => u.CreatedAt)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
+
+    public async Task<(List<Users> Items, int TotalCount)> GetAvailableUsersByRoleAsync(Guid eventId, Domain.Enums.User.RoleEnum role, string? keyword, int pageIndex, int pageSize)
+    {
+        var query = _context.Users
+            .Where(u => u.Role == role)
+            .Where(u => !u.IsDisable)
+            .Where(u => u.BanReason == null)
+            .Where(u => !u.AssignEvents.Any(ae => ae.EventId == eventId));
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var kw = keyword.Trim().ToLower();
+            query = query.Where(u =>
+                u.Email.ToLower().Contains(kw) ||
+                (u.FirstName.ToLower() + " " + u.LastName.ToLower()).Contains(kw));
+        }
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderBy(u => u.FirstName)
+            .ThenBy(u => u.LastName)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();

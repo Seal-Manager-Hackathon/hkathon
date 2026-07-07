@@ -56,6 +56,13 @@ public class AdminRoundController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpGet("rounds/{roundId:guid}")]
+    public async Task<IActionResult> GetRoundDetail(Guid roundId)
+    {
+        var result = await _roundService.GetRoundDetail(roundId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpPost("rounds/{roundId:guid}/delete")]
     public async Task<IActionResult> DeleteRound(Guid roundId)
     {

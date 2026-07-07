@@ -89,7 +89,7 @@ public class Service : IUserService
         }
 
         var (items, totalCount) = await _userRepository.SearchAsync(
-            request.Keyword, role, request.IsDisable, request.IsVerified,
+            request.Keyword, role, request.IsDisable, request.IsVerified, request.IsBanned,
             request.FromDate, request.ToDate,
             request.PageIndex, request.PageSize);
 
@@ -105,6 +105,8 @@ public class Service : IUserService
                 Status = u.Status?.ToString(),
                 IsVerified = u.IsVerified,
                 IsDisable = u.IsDisable,
+                BanReason = u.BanReason,
+                BannedAt = u.BannedAt,
                 AvatarUrl = u.AvatarUrl,
                 College = u.College,
                 CreatedAt = u.CreatedAt

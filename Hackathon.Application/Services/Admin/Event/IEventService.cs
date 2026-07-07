@@ -8,4 +8,5 @@ public interface IEventService
     Task<GetEventDetailResponse> GetEventDetail(Guid eventId);
     Task CreateEvent(CreateEventRequest request);
     Task UpdateEvent(UpdateEventRequest request);
+    Task<SetupCheckResponse> IsEventSetupComplete(Guid eventId);
 }

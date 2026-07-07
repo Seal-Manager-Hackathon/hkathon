@@ -8,6 +8,7 @@ using Hackathon.Application.Services.Admin.Team;
 using Hackathon.Application.Services.Admin.Track;
 using Hackathon.Application.Services.Admin.Topic;
 using Hackathon.Application.Services.Admin.CriteriaTemplate;
+using Hackathon.Application.Services.Admin.Assign;
 using Hackathon.Application.Services.Admin.User;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<ITopicService, Topic.Service>();
         services.AddScoped<ICriteriaTemplateService, CriteriaTemplate.Service>();
         services.AddScoped<IUserService, User.Service>();
+        services.AddScoped<IAssignService, Assign.Service>();
         return services;
     }
 }
