@@ -1,4 +1,4 @@
-# PUT /api/v1/admin/users/{userId}
+# PATCH /api/v1/admin/users/{userId}
 
 > Admin chỉnh sửa thông tin của 1 user. Chỉ gửi field nào cần sửa, field null sẽ giữ nguyên.
 

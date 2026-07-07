@@ -1,4 +1,4 @@
-# PUT /api/v1/admin/register-teams/{registerTeamId}
+# PATCH /api/v1/admin/register-teams/{registerTeamId}
 
 > Admin chỉnh sửa thông tin register team. Chỉ sửa được các field cơ bản.
 

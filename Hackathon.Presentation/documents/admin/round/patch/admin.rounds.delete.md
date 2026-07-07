@@ -1,4 +1,4 @@
-# PATCH /api/v1/admin/rounds/{roundId}/delete
+# POST /api/v1/admin/rounds/{roundId}/delete
 
 > Admin xóa soft round khỏi event. RoundNo của round bị xóa set thành 0, các roundNo khác được dồn lại.
 

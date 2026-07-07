@@ -1,4 +1,4 @@
-# PATCH /api/v1/admin/tracks/{trackId}/restore
+# POST /api/v1/admin/tracks/{trackId}/restore
 
 > Admin khôi phục track đã xóa mềm (set IsDisable = false).
 

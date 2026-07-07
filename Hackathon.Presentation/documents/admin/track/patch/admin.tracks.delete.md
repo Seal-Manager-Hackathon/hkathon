@@ -1,4 +1,4 @@
-# PATCH /api/v1/admin/tracks/{trackId}/delete
+# POST /api/v1/admin/tracks/{trackId}/delete
 
 > Admin xóa mềm track (set IsDisable = true).
 

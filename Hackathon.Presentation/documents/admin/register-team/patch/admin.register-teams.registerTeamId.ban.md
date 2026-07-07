@@ -1,4 +1,4 @@
-# PATCH /api/v1/admin/register-teams/{registerTeamId}/ban
+# POST /api/v1/admin/register-teams/{registerTeamId}/ban
 
 > Admin cấm team tham gia event (chỉ ban trong event đó).
 

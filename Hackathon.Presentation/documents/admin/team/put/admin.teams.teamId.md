@@ -1,4 +1,4 @@
-# PUT /api/v1/admin/teams/{teamId}
+# PATCH /api/v1/admin/teams/{teamId}
 
 > Admin chỉnh sửa thông tin team.
 

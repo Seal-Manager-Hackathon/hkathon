@@ -1,4 +1,4 @@
-# PUT /api/v1/admin/events/{eventId}/tracks/{trackId}
+# PATCH /api/v1/admin/events/{eventId}/tracks/{trackId}
 
 > Admin cập nhật thông tin track.
 

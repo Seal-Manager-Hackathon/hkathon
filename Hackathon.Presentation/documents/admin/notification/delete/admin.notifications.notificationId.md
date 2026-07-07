@@ -1,4 +1,4 @@
-# PATCH /api/v1/admin/notifications/{notificationId}/delete
+# POST /api/v1/admin/notifications/{notificationId}/delete
 
 > Admin xoá mềm thông báo (set IsDisable = true).
 

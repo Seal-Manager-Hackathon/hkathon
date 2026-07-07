@@ -1,4 +1,4 @@
-# PATCH /api/v1/admin/events/{eventId}/rounds/{roundId}/swap
+# POST /api/v1/admin/events/{eventId}/rounds/{roundId}/swap
 
 > Admin swap (đổi chỗ) round hiện tại với round khác trong cùng event.
 

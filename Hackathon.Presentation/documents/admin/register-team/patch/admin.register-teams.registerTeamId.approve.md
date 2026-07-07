@@ -1,4 +1,4 @@
-# PATCH /api/v1/admin/register-teams/{registerTeamId}/approve
+# POST /api/v1/admin/register-teams/{registerTeamId}/approve
 
 > Admin đồng ý cho register team tham gia event.
 

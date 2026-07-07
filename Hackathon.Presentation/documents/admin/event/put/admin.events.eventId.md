@@ -91,14 +91,14 @@
 ```
   Tạo event → Status=Draft, IsDisable=true
        │
-       ├── Gửi PUT với isDisable=false
+       ├── Gửi PATCH với isDisable=false
        │   └── Đủ thông tin? → Status=Published, IsDisable=false
        │   └── Thiếu thông tin → Báo lỗi, yêu cầu bổ sung
        │
-       ├── Gửi PUT với status=Published
+       ├── Gửi PATCH với status=Published
        │   └── Đủ thông tin? → Status=Published (IsDisable giữ nguyên)
        │   └── Thiếu thông tin → Báo lỗi, yêu cầu bổ sung
        │
-       └── Gửi PUT với status=Closed
+       └── Gửi PATCH với status=Closed
            └── Không check gì thêm
 ```

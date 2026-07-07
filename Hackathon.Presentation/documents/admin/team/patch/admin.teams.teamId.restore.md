@@ -1,4 +1,4 @@
-# PATCH /api/v1/admin/teams/{teamId}/restore
+# POST /api/v1/admin/teams/{teamId}/restore
 
 > Admin khôi phục team đã xoá mềm (set IsDisable = false).
 

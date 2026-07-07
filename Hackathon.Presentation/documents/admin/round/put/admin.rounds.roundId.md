@@ -1,4 +1,4 @@
-# PUT /api/v1/admin/rounds/{roundId}
+# PATCH /api/v1/admin/rounds/{roundId}
 
 > Admin sửa thông tin round. Không sửa được RoundNo.
 

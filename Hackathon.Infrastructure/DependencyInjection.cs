@@ -44,6 +44,7 @@ public static class DependencyInjection
         services.AddScoped<IResetPasswordRepository, Repositories.ResetPasswordRepository>();
         services.AddScoped<ITrackRepository, Repositories.TrackRepository>();
         services.AddScoped<ITopicRepository, Repositories.TopicRepository>();
+        services.AddScoped<ICriteriaTemplateRepository, Repositories.CriteriaTemplateRepository>();
 
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, Services.CurrentUserService>();

@@ -1,4 +1,4 @@
-# PUT /api/v1/admin/notifications/{notificationId}
+# PATCH /api/v1/admin/notifications/{notificationId}
 
 > Admin chỉnh sửa thông báo. Chỉ được sửa title và description.
 

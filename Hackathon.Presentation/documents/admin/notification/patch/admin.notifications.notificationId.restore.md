@@ -1,4 +1,4 @@
-# PATCH /api/v1/admin/notifications/{notificationId}/restore
+# POST /api/v1/admin/notifications/{notificationId}/restore
 
 > Admin khôi phục thông báo đã xoá mềm (set IsDisable = false).
 

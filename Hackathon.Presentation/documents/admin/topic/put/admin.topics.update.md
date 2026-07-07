@@ -1,4 +1,4 @@
-# PUT /api/v1/admin/topics/{topicId}
+# PATCH /api/v1/admin/topics/{topicId}
 
 > Admin cập nhật thông tin topic.
 

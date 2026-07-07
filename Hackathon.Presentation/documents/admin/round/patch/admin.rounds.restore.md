@@ -1,4 +1,4 @@
-# PATCH /api/v1/admin/rounds/{roundId}/restore
+# POST /api/v1/admin/rounds/{roundId}/restore
 
 > Admin khôi phục round đã bị xóa. Các thông tin thời gian bị xóa, RoundNo được cấp mới.
 

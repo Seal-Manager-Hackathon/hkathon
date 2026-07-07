@@ -1,4 +1,4 @@
-# PATCH /api/v1/admin/register-teams/{registerTeamId}/unban
+# POST /api/v1/admin/register-teams/{registerTeamId}/unban
 
 > Admin bỏ cấm cho team tham gia lại event.
 

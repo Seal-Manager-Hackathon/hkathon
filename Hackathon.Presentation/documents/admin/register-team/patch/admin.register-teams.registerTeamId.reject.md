@@ -1,4 +1,4 @@
-# PATCH /api/v1/admin/register-teams/{registerTeamId}/reject
+# POST /api/v1/admin/register-teams/{registerTeamId}/reject
 
 > Admin từ chối register team tham gia event.
 
