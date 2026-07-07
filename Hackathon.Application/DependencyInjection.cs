@@ -10,6 +10,7 @@ using Hackathon.Application.Services.Round;
 using Hackathon.Application.Services.Track;
 using Hackathon.Application.Services.Topic;
 using Hackathon.Application.Services.CriteriaTemplate;
+using Hackathon.Application.Services.Award;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hackathon.Application;
@@ -30,6 +31,7 @@ public static class DependencyInjection
         services.AddScoped<ITrackService, Services.Track.Service>();
         services.AddScoped<ITopicService, Services.Topic.Service>();
         services.AddScoped<ICriteriaTemplateService, Services.CriteriaTemplate.Service>();
+        services.AddScoped<IAwardService, Services.Award.Service>();
 
         return services;
     }

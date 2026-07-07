@@ -60,10 +60,12 @@
       "PowerShell(Stop-Process -Id 4664 -Force -ErrorAction SilentlyContinue)",
       "mcp__filesystem__search_files",
       "Edit(/.claude/skills/create-api/**)",
-      "Edit(/.claude/skills/api-convention/**)"
+      "Edit(/.claude/skills/api-convention/**)",
+      "Read(//c/Users/phamq/.claude/skills/create-api/**)"
     ],
     "additionalDirectories": [
-      "c:\\Users\\phamq\\.claude\\projects\\c--Users-phamq-OneDrive-Desktop-New-folder--4--BE-SEAL-HACKATHON\\memory"
+      "c:\\Users\\phamq\\.claude\\projects\\c--Users-phamq-OneDrive-Desktop-New-folder--4--BE-SEAL-HACKATHON\\memory",
+      "c:\\Users\\phamq\\.claude\\projects\\c--Users-phamq-OneDrive-Desktop-New-folder--4--Hackathon\\memory"
     ]
   }
 }
