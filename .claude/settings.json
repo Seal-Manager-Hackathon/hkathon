@@ -67,7 +67,8 @@
       "Bash(# Move the nested ones up, remove the old root *)",
       "PowerShell(Copy-Item -Path \"Hackathon.Presentation/documents/documents/admin/assign\" -Destination \"Hackathon.Presentation/documents/admin/\" -Recurse -Force)",
       "PowerShell(Copy-Item -Path \"Hackathon.Presentation/documents/documents/admin/event\" -Destination \"Hackathon.Presentation/documents/admin/\" -Recurse -Force)",
-      "PowerShell(Copy-Item -Path \"Hackathon.Presentation/documents/documents/admin/round\" -Destination \"Hackathon.Presentation/documents/admin/\" -Recurse -Force)"
+      "PowerShell(Copy-Item -Path \"Hackathon.Presentation/documents/documents/admin/round\" -Destination \"Hackathon.Presentation/documents/admin/\" -Recurse -Force)",
+      "Read(//c/Users/phamq/.claude/projects/c--Users-phamq-OneDrive-Desktop-New-folder--4--Hackathon/memory/**)"
     ],
     "additionalDirectories": [
       "c:\\Users\\phamq\\.claude\\projects\\c--Users-phamq-OneDrive-Desktop-New-folder--4--BE-SEAL-HACKATHON\\memory",
