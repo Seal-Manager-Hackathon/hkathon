@@ -73,6 +73,11 @@ public class Service : IRoundService
         if (ev == null)
             throw new NotFoundException("Event Not Found");
 
+        // Check duplicate name trong cùng event
+        var (existingItems, _) = await _roundRepository.SearchByEventIdAsync(request.EventId, null, null, null, 1, int.MaxValue);
+        if (existingItems.Any(r => r.Name.Equals(request.Name, StringComparison.OrdinalIgnoreCase)))
+            throw new BadRequestException("Round Name Already Exists In This Event");
+
         // Validate thời gian round
         if (request.EndTime <= request.StartTime)
             throw new BadRequestException(ErrMsg.Round.EndTimeMustBeAfterStartTime);

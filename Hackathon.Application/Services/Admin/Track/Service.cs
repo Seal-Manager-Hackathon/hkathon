@@ -37,6 +37,11 @@ public class Service : ITrackService
         if (eventEntity == null)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
 
+        // Check duplicate title trong cùng event
+        var existingTracks = await _trackRepository.GetByEventIdAsync(request.EventId);
+        if (existingTracks.Any(t => t.Title.Equals(request.Title, StringComparison.OrdinalIgnoreCase)))
+            throw new BadRequestException("Track Title Already Exists In This Event");
+
         var now = DateTimeOffset.UtcNow;
         var track = new Tracks
         {

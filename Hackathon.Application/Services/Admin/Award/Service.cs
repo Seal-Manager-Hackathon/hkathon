@@ -90,6 +90,10 @@ public class Service : IAwardService
 
         var existingAwards = await _awardRepository.GetByEventIdAsync(request.EventId);
 
+        // Check duplicate name trong cùng event
+        if (existingAwards.Any(a => a.Name.Equals(request.Name, StringComparison.OrdinalIgnoreCase)))
+            throw new BadRequestException("Award Name Already Exists In This Event");
+
         var hasLevelOne = existingAwards.Any(a => a.LevelAward == 1);
         int level;
         if (!hasLevelOne)

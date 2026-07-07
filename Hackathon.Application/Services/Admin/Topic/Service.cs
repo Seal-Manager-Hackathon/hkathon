@@ -34,6 +34,11 @@ public class Service : ITopicService
         if (track == null)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
 
+        // Check duplicate title trong cùng track
+        var existingTopics = await _topicRepository.GetByTrackIdAsync(request.TrackId);
+        if (existingTopics.Any(t => t.Title.Equals(request.Title, StringComparison.OrdinalIgnoreCase)))
+            throw new BadRequestException("Topic Title Already Exists In This Track");
+
         var now = DateTimeOffset.UtcNow;
         var topic = new Topics
         {
