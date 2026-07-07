@@ -1,6 +1,6 @@
 using Hackathon.Application.Common;
 using Hackathon.Application.Common.Models;
-using Hackathon.Application.Services.Auth;
+using Hackathon.Application.Services.Base.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hackathon.Presentation.Controllers;

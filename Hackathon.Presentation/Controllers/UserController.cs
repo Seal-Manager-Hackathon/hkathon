@@ -1,6 +1,6 @@
 using Hackathon.Application.Common;
 using Hackathon.Application.Common.Models;
-using Hackathon.Application.Services.User;
+using Hackathon.Application.Services.Base.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hackathon.Presentation.Controllers;
@@ -9,17 +9,17 @@ namespace Hackathon.Presentation.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    private readonly IUserService _userService;
+    private readonly IUserProfileService _userProfileService;
 
-    public UserController(IUserService userService)
+    public UserController(IUserProfileService userProfileService)
     {
-        _userService = userService;
+        _userProfileService = userProfileService;
     }
 
     [HttpGet("me")]
     public async Task<IActionResult> GetMyProfile()
     {
-        var result = await _userService.GetMyProfile();
+        var result = await _userProfileService.GetMyProfile();
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.User.ProfileFetched, traceId: HttpContext.TraceIdentifier));
     }
 }

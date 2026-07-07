@@ -1,0 +1,6 @@
+namespace Hackathon.Application.Services.Admin.Report;
+
+public interface IReportService
+{
+    Task<GetRecentReportsResponse> GetRecentReports();
+}

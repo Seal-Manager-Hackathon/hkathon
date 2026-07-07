@@ -1,6 +1,6 @@
 using Hackathon.Application.Common;
 using Hackathon.Application.Common.Models;
-using Hackathon.Application.Services.Award;
+using Hackathon.Application.Services.Admin.Award;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hackathon.Presentation.Controllers.Admin;

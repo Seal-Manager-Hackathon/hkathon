@@ -61,7 +61,9 @@
       "mcp__filesystem__search_files",
       "Edit(/.claude/skills/create-api/**)",
       "Edit(/.claude/skills/api-convention/**)",
-      "Read(//c/Users/phamq/.claude/skills/create-api/**)"
+      "Read(//c/Users/phamq/.claude/skills/create-api/**)",
+      "Bash(Get-ChildItem -Path Hackathon.Application/Services -Recurse -Directory)",
+      "Bash(Select-Object FullName)"
     ],
     "additionalDirectories": [
       "c:\\Users\\phamq\\.claude\\projects\\c--Users-phamq-OneDrive-Desktop-New-folder--4--BE-SEAL-HACKATHON\\memory",
