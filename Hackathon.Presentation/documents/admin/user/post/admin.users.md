@@ -38,6 +38,7 @@
     "email": "staff@fpt.edu.vn",
     "firstName": "Staff",
     "lastName": "User",
+    "password": "string",
     "role": "Staff",
     "college": "FPT University"
   },

@@ -27,6 +27,7 @@ public class CreateUserResponse
     public string Email { get; set; } = null!;
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
+    public string Password { get; set; } = null!;
     public string Role { get; set; } = null!;
     public string? College { get; set; }
 }

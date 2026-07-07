@@ -268,6 +268,7 @@ public class Service : IUserService
             Email = user.Email,
             FirstName = user.FirstName,
             LastName = user.LastName,
+            Password = "string",
             Role = user.Role.ToString(),
             College = user.College
         };
