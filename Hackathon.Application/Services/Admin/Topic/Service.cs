@@ -64,6 +64,27 @@ public class Service : ITopicService
         };
     }
 
+    public async Task<GetTopicDetailResponse> GetTopicDetail(Guid topicId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var topic = await _topicRepository.GetByIdAsync(topicId);
+        if (topic == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        return new GetTopicDetailResponse
+        {
+            Id = topic.Id,
+            TrackId = topic.TrackId,
+            TrackTitle = topic.Track?.Title ?? "",
+            Title = topic.Title,
+            Description = topic.Description,
+            IsDisable = topic.IsDisable,
+            CreatedAt = topic.CreatedAt,
+            UpdatedAt = topic.UpdatedAt
+        };
+    }
+
     public async Task<GetTopicsByTrackResponse> GetTopicsByTrack(GetTopicsByTrackRequest request)
     {
         _authorizationService.Authorize(RoleEnum.Admin);

@@ -25,14 +25,15 @@
 
 ### Query Parameters
 
-| Param            | Kiểu | Bắt buộc | Mô tả                    |
-|------------------|------|----------|--------------------------|
-| roundId          | guid | ❌        | Lọc theo round           |
-| trackId          | guid | ❌        | Lọc theo track           |
-| topicId          | guid | ❌        | Lọc theo topic           |
-| registerTeamId   | guid | ❌        | Lọc theo register team   |
-| pageIndex        | int  | ❌        | Mặc định 1               |
-| pageSize         | int  | ❌        | Mặc định 10, tối đa 100  |
+| Param            | Kiểu   | Bắt buộc | Mô tả                          |
+|------------------|--------|----------|--------------------------------|
+| roundId          | guid   | ❌        | Lọc theo round                 |
+| trackId          | guid   | ❌        | Lọc theo track                 |
+| topicId          | guid   | ❌        | Lọc theo topic                 |
+| registerTeamId   | guid   | ❌        | Lọc theo register team         |
+| keyword          | string | ❌        | Tìm kiếm theo tên team (ko dấu) |
+| pageIndex        | int    | ❌        | Mặc định 1                     |
+| pageSize         | int    | ❌        | Mặc định 10, tối đa 100        |
 
 ## Response (200)
 

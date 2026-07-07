@@ -1,13 +1,13 @@
-# GET /api/v1/admin/rounds/{roundId}/submissions
+# GET /api/v1/admin/tracks/{trackId}/submissions
 
-> Admin lấy danh sách bài nộp trong 1 round.
+> Admin lấy danh sách bài nộp theo track.
 
 ## Nghiệp vụ
-- Giống API submissions theo event nhưng filter sẵn theo round
-- Mỗi item là 1 team trong round đó
-- Gồm thông tin team, event, track, topic, người nộp
-- **LastSubmission:** bài nộp cuối cùng (mới nhất) của team trong round
-- **Records:** toàn bộ lịch sử bài nộp của team trong round
+- Trả về bài nộp của các team đăng ký track đó, trong tất cả các round của event
+- Mỗi item là 1 team trong 1 round
+- Gồm thông tin team, event, round, track, topic, người nộp
+- **LastSubmission:** bài nộp cuối cùng (mới nhất) của team trong round đó
+- **Records:** toàn bộ lịch sử bài nộp của team trong round đó
 
 ## Phân quyền
 - ✅ Admin
@@ -16,13 +16,12 @@
 
 | Param   | Kiểu | Bắt buộc | Ví dụ                                  |
 |---------|------|----------|----------------------------------------|
-| roundId | guid | ✅ (route) | `3fa85f64-5717-4562-b3fc-2c963f66afa6` |
+| trackId | guid | ✅ (route) | `3fa85f64-5717-4562-b3fc-2c963f66afa6` |
 
-| Param     | Kiểu   | Bắt buộc | Mô tả                          |
-|-----------|--------|----------|--------------------------------|
-| keyword   | string | ❌        | Tìm kiếm theo tên team (ko dấu) |
-| pageIndex | int    | ❌        | Mặc định 1                     |
-| pageSize  | int    | ❌        | Mặc định 10, tối đa 100        |
+| Param     | Kiểu | Bắt buộc | Mô tả                   |
+|-----------|------|----------|-------------------------|
+| pageIndex | int  | ❌        | Mặc định 1              |
+| pageSize  | int  | ❌        | Mặc định 10, tối đa 100 |
 
 ## Response (200)
 
@@ -82,4 +81,4 @@
 |--------|---------|---------|
 | 401 | Unauthorized | Token hết hạn/thiếu |
 | 403 | Forbidden | Không phải Admin |
-| 404 | Round Not Found | roundId ko tồn tại |
+| 404 | Track Not Found | trackId ko tồn tại |

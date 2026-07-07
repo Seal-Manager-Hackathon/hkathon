@@ -32,6 +32,13 @@ public class AdminTopicController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpGet("topics/{topicId:guid}")]
+    public async Task<IActionResult> GetTopicDetail(Guid topicId)
+    {
+        var result = await _topicService.GetTopicDetail(topicId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpPatch("topics/{topicId:guid}")]
     public async Task<IActionResult> UpdateTopic(Guid topicId, [FromBody] UpdateTopicRequest request)
     {

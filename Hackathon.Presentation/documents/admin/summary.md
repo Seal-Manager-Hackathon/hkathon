@@ -127,13 +127,22 @@
 
 | Method | Route | Chức năng |
 |--------|-------|-----------|
-| GET | `/events/{eventId}/submissions` | Danh sách bài nộp (filter round/track/topic/registerTeam, last + records) |
-| GET | `/rounds/{roundId}/submissions` | Danh sách bài nộp trong 1 round |
+| GET | `/events/{eventId}/submissions` | Danh sách bài nộp (filter round/track/topic/registerTeam, search keyword, last + records) |
+| GET | `/rounds/{roundId}/submissions` | Danh sách bài nộp trong 1 round (search keyword) |
 | GET | `/register-teams/{registerTeamId}/submissions` | Bài nộp của team trong event (lọc theo round, ko truyền = all) |
+| GET | `/tracks/{trackId}/submissions` | Bài nộp theo track |
 
 ---
 
+## 📊 Score (Điểm)
+**Controller:** `AdminScoreController` | **Service:** `Services/Admin/Score/`
 
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/submissions/{submissionId}/scores` | Danh sách lượt chấm của 1 bài nộp (kèm track, score items) |
+| GET | `/scores/{scoreId}/items` | Danh sách chi tiết điểm (score items) của 1 lượt chấm, phân trang |
+
+---
 
 ## 📝 Register Team
 **Controller:** `AdminRegisterTeamController` | **Service:** `Services/Admin/RegisterTeam/`
@@ -172,6 +181,7 @@
 | Method | Route | Chức năng |
 |--------|-------|-----------|
 | GET | `/tracks/{trackId}/topics` | Danh sách topic của track |
+| GET | `/topics/{topicId}` | Chi tiết 1 topic |
 | POST | `/tracks/{trackId}/topics` | Tạo topic |
 | PATCH | `/topics/{topicId}` | Update topic |
 
