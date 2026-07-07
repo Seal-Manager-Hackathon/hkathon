@@ -48,10 +48,6 @@ public class CreateUserRequest
     [EmailAddress(ErrorMessage = "Invalid Email Format")]
     public string Email { get; set; } = null!;
 
-    [Required(ErrorMessage = "Password Is Required")]
-    [StringLength(100, MinimumLength = 6, ErrorMessage = "Password Must Be Between 6 And 100 Characters")]
-    public string Password { get; set; } = null!;
-
     [Required(ErrorMessage = "First Name Is Required")]
     [StringLength(50, ErrorMessage = "First Name Must Not Exceed 50 Characters")]
     public string FirstName { get; set; } = null!;
@@ -62,6 +58,4 @@ public class CreateUserRequest
 
     [Required(ErrorMessage = "Role Is Required")]
     public string Role { get; set; } = null!;
-
-    public string? College { get; set; }
 }

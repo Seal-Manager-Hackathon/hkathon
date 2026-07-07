@@ -249,12 +249,12 @@ public class Service : IUserService
             Email = request.Email,
             FirstName = request.FirstName,
             LastName = request.LastName,
-            HashPassword = _passwordService.HashPassword(request.Password),
+            HashPassword = _passwordService.HashPassword("string"),
             Role = role,
             IsVerified = true,
             Status = UserStatusEnum.Active,
             AvatarUrl = $"https://robohash.org/{request.Email}",
-            College = request.College ?? "FPT University",
+            College = "FPT University",
             CreatedAt = now,
             UpdatedAt = now
         };

@@ -36,3 +36,20 @@ public class LoginRequest
     [Required(ErrorMessage = "Password Is Required")]
     public string Password { get; set; } = null!;
 }
+
+public class ForgotPasswordRequest
+{
+    [Required(ErrorMessage = "Email Is Required")]
+    [EmailAddress(ErrorMessage = "Invalid Email Format")]
+    public string Email { get; set; } = null!;
+}
+
+public class ResetPasswordRequest
+{
+    [Required(ErrorMessage = "Token Is Required")]
+    public string Token { get; set; } = null!;
+
+    [Required(ErrorMessage = "New Password Is Required")]
+    [StringLength(100, MinimumLength = 6, ErrorMessage = "Password Must Be Between 6 And 100 Characters")]
+    public string NewPassword { get; set; } = null!;
+}

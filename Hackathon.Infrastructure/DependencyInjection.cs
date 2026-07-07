@@ -41,6 +41,7 @@ public static class DependencyInjection
         services.AddScoped<INotificationRepository, Repositories.NotificationRepository>();
         services.AddScoped<IRegisterTeamRepository, Repositories.RegisterTeamRepository>();
         services.AddScoped<IRoundRepository, Repositories.RoundRepository>();
+        services.AddScoped<IResetPasswordRepository, Repositories.ResetPasswordRepository>();
 
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, Services.CurrentUserService>();

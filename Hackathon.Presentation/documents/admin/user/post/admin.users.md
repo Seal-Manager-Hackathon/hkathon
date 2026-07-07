@@ -1,11 +1,13 @@
 # POST /api/v1/admin/users
 
-> Admin tạo user mới. IsVerified = true ngay lập tức.
+> Admin tạo user mới. Password mặc định "string", IsVerified = true ngay lập tức.
 
 ## Nghiệp vụ
-- Check email trùng, password hash + pepper
+- Chỉ cần truyền email, firstName, lastName, role
+- Password mặc định là **"string"** — đã hash trước khi lưu
+- College mặc định "FPT University"
+- User tạo ra có IsVerified = true (không cần verify email)
 - Role FE truyền string, BE parse enum
-- User tạo ra có IsVerified = true
 
 ## Phân quyền
 - ✅ Admin
@@ -14,21 +16,19 @@
 ```json
 {
   "email": "staff@fpt.edu.vn",
-  "password": "Abc@123456",
   "firstName": "Staff",
   "lastName": "User",
-  "role": "Staff",
-  "college": "FPT University"
+  "role": "Staff"
 }
 ```
 | Field | Bắt buộc | Ràng buộc |
 |-------|----------|-----------|
 | email | ✅ | Format email |
-| password | ✅ | 6-100 ký tự |
 | firstName | ✅ | Tối đa 50 ký tự |
 | lastName | ✅ | Tối đa 50 ký tự |
 | role | ✅ | ⚠️ Enum: Admin, Staff, Student, Lecturer |
-| college | ❌ | Mặc định "FPT University" |
+
+> ❌ `password` và `college` không cần truyền. Password mặc định `"string"`, college mặc định `"FPT University"`.
 
 ## Response (201)
 ```json

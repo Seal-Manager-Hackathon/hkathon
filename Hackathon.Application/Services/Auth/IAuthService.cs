@@ -8,4 +8,6 @@ public interface IAuthService
     Task<VerifyEmailResponse> VerifyEmail(VerifyEmailRequest request);
     Task<LoginResponse> Login(LoginRequest request);
     Task<CurrentUserResponse> GetCurrentUser();
+    Task ForgotPassword(ForgotPasswordRequest request);
+    Task ResetPassword(ResetPasswordRequest request);
 }

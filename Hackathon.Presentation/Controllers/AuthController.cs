@@ -43,4 +43,18 @@ public class AuthController : ControllerBase
         var result = await _authService.GetCurrentUser();
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
+    {
+        await _authService.ForgotPassword(request);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Auth.ForgotPasswordRequestAccepted, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
+    {
+        await _authService.ResetPassword(request);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Auth.PasswordReset, traceId: HttpContext.TraceIdentifier));
+    }
 }

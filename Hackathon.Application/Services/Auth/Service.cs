@@ -15,6 +15,7 @@ public class Service : IAuthService
     private readonly IUserRepository _userRepository;
     private readonly IEmailVerificationRepository _emailVerificationRepository;
     private readonly IRefreshTokenRepository _refreshTokenRepository;
+    private readonly IResetPasswordRepository _resetPasswordRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPasswordService _passwordService;
     private readonly IJwtService _jwtService;
@@ -25,6 +26,7 @@ public class Service : IAuthService
         IUserRepository userRepository,
         IEmailVerificationRepository emailVerificationRepository,
         IRefreshTokenRepository refreshTokenRepository,
+        IResetPasswordRepository resetPasswordRepository,
         IUnitOfWork unitOfWork,
         IPasswordService passwordService,
         IJwtService jwtService,
@@ -34,6 +36,7 @@ public class Service : IAuthService
         _userRepository = userRepository;
         _emailVerificationRepository = emailVerificationRepository;
         _refreshTokenRepository = refreshTokenRepository;
+        _resetPasswordRepository = resetPasswordRepository;
         _unitOfWork = unitOfWork;
         _passwordService = passwordService;
         _jwtService = jwtService;
@@ -272,5 +275,76 @@ public class Service : IAuthService
         await _unitOfWork.SaveChangesAsync();
 
         await _mailService.SendVerificationEmailAsync(user.Email, emailToken);
+    }
+
+    public async Task ForgotPassword(ForgotPasswordRequest request)
+    {
+        var email = request.Email.Trim().ToLower();
+
+        var user = await _userRepository.GetByEmailAsync(email);
+        if (user != null)
+        {
+            var claims = new List<Claim>
+            {
+                new("UserId", user.Id.ToString())
+            };
+            var resetToken = _jwtService.GenerateEmailVerificationToken(claims, 2);
+            var now = DateTimeOffset.UtcNow;
+
+            var resetPassword = new ResetPasswords
+            {
+                Id = Guid.NewGuid(),
+                UserId = user.Id,
+                TokenHash = resetToken,
+                IsUsed = false,
+                ExpiresAt = now.AddMinutes(2),
+                CreatedAt = now,
+                UpdatedAt = now
+            };
+
+            await _resetPasswordRepository.AddAsync(resetPassword);
+            await _unitOfWork.SaveChangesAsync();
+
+            await _mailService.SendResetPasswordEmailAsync(user.Email, resetToken);
+        }
+
+        // Always return success to prevent email enumeration
+    }
+
+    public async Task ResetPassword(ResetPasswordRequest request)
+    {
+        var principal = _jwtService.ValidateToken(request.Token);
+        if (principal == null)
+            throw new BadRequestException(ErrMsg.Auth.InvalidOrExpiredEmailVerificationToken);
+
+        var userIdStr = principal.FindFirst("UserId")?.Value;
+        if (!Guid.TryParse(userIdStr, out var userId))
+            throw new BadRequestException(ErrMsg.Auth.InvalidOrExpiredEmailVerificationToken);
+
+        var resetPassword = await _resetPasswordRepository.GetByTokenAsync(request.Token);
+        if (resetPassword == null)
+            throw new BadRequestException(ErrMsg.Auth.InvalidOrExpiredEmailVerificationToken);
+
+        if (resetPassword.ExpiresAt <= DateTimeOffset.UtcNow)
+            throw new BadRequestException(ErrMsg.Auth.InvalidOrExpiredEmailVerificationToken);
+
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+            throw new NotFoundException(ErrMsg.Auth.UserNotFound);
+
+        var isSameAsOld = _passwordService.VerifyPassword(request.NewPassword, user.HashPassword);
+        if (isSameAsOld)
+            throw new BadRequestException(ErrMsg.Auth.NewPasswordMustBeDifferentFromOldPassword);
+
+        var now = DateTimeOffset.UtcNow;
+        user.HashPassword = _passwordService.HashPassword(request.NewPassword);
+        user.UpdatedAt = now;
+
+        resetPassword.IsUsed = true;
+        resetPassword.UpdatedAt = now;
+
+        await _userRepository.UpdateAsync(user);
+        await _resetPasswordRepository.UpdateAsync(resetPassword);
+        await _unitOfWork.SaveChangesAsync();
     }
 }
