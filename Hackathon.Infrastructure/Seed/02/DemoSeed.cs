@@ -28,10 +28,8 @@ public static class DemoSeed
     private static readonly Guid User11Id = Guid.Parse("10000000-0000-0000-0000-000000000040");
     private static readonly Guid User12Id = Guid.Parse("10000000-0000-0000-0000-000000000041");
 
-    // BCrypt EnhancedHash (SHA256) of "String1@" with cost 11
-    // NOTE: If a Pepper is configured in SecurityOption, this hash won't match.
-    // Regenerate via: BCrypt.Net.BCrypt.EnhancedHashPassword("String1@" + pepper, SHA256)
-    private const string DemoPasswordHash = "$2a$11$ELUlXu.C3Yh0miS3.dAZaO17ER/stLENq.EWnMYmPBiwZ14X8g1i6";
+    // BCrypt EnhancedHash (SHA256) của password "string" + Pepper từ SecurityOptions
+    private static string DemoPasswordHash => SeedHelper.HashDefaultPassword();
 
     public static void SeedDemoData(this ModelBuilder modelBuilder)
     {

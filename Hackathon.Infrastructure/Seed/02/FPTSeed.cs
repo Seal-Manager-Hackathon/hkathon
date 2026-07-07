@@ -12,8 +12,8 @@ namespace Hackathon.Infrastructure.Seed;
 
 public static class FPTSeed
 {
-    // ── Password hash (matching DemoSeed) ──
-    private const string PasswordHash = "$2a$11$ELUlXu.C3Yh0miS3.dAZaO17ER/stLENq.EWnMYmPBiwZ14X8g1i6";
+    // BCrypt EnhancedHash (SHA256) của password "string" + Pepper từ SecurityOptions
+    private static string PasswordHash => SeedHelper.HashDefaultPassword();
 
     private static readonly DateTimeOffset Now = new(2026, 7, 3, 0, 0, 0, TimeSpan.Zero);
 

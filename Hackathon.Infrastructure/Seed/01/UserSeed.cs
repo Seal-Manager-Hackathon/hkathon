@@ -51,7 +51,7 @@ public static class UserSeed
         {
             Id = id,
             Email = email,
-            HashPassword = "seed-password-hash-not-for-login",
+            HashPassword = SeedHelper.HashDefaultPassword(),
             FirstName = firstName,
             LastName = lastName,
             PhoneNumber = "0900000000",
