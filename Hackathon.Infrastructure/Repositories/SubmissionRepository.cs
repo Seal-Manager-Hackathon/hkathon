@@ -13,6 +13,37 @@ public class SubmissionRepository : ISubmissionRepository
         _context = context;
     }
 
+    public async Task<Submissions?> GetByIdAsync(Guid submissionId)
+        => await _context.Set<Submissions>()
+            .Include(s => s.RoundDetail)
+                .ThenInclude(rd => rd.Round)
+            .Include(s => s.RoundDetail)
+                .ThenInclude(rd => rd.RegisterTeam)
+                    .ThenInclude(rt => rt.Team)
+                        .ThenInclude(t => t.TeamDetails)
+                            .ThenInclude(td => td.User)
+            .Include(s => s.RoundDetail)
+                .ThenInclude(rd => rd.RegisterTeam)
+                    .ThenInclude(rt => rt.Event)
+            .Include(s => s.RoundDetail)
+                .ThenInclude(rd => rd.RegisterTeam)
+                    .ThenInclude(rt => rt.Track)
+            .Include(s => s.RoundDetail)
+                .ThenInclude(rd => rd.RegisterTeam)
+                    .ThenInclude(rt => rt.Topic)
+            .Include(s => s.Scores)
+                .ThenInclude(sc => sc.AssignTrack)
+                    .ThenInclude(at => at.Track)
+            .Include(s => s.Scores)
+                .ThenInclude(sc => sc.ScoreItems)
+                    .ThenInclude(si => si.CriteriaItem)
+            .Include(s => s.Scores)
+                .ThenInclude(sc => sc.ScoreItems)
+                    .ThenInclude(si => si.AssignTrack)
+                        .ThenInclude(at => at.AssignEvent)
+                            .ThenInclude(ae => ae.User)
+            .FirstOrDefaultAsync(s => s.Id == submissionId);
+
     public async Task<(List<RoundDetails> Items, int TotalCount)> GetSubmissionsAsync(
         Guid eventId, Guid? roundId, Guid? trackId, Guid? topicId, Guid? registerTeamId, string? keyword,
         int pageIndex, int pageSize)

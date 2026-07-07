@@ -1,10 +1,6 @@
-# GET /api/v1/admin/scores/{scoreId}/items
+# GET /api/v1/admin/scores/{scoreId}
 
-> Admin lấy danh sách chi tiết điểm (score items) của 1 lượt chấm, phân trang.
-
-## Nghiệp vụ
-- Trả về danh sách điểm chi tiết từng tiêu chí của 1 lượt chấm
-- Phân trang
+> Admin xem chi tiết 1 lượt chấm (score) — kèm track chấm, danh sách điểm từng tiêu chí.
 
 ## Phân quyền
 - ✅ Admin
@@ -15,17 +11,19 @@
 |---------|------|----------|-------|
 | scoreId | guid | ✅ (route) | `3fa85f64-5717-4562-b3fc-2c963f66afa6` |
 
-| Param     | Kiểu | Bắt buộc | Mô tả |
-|-----------|------|----------|-------|
-| pageIndex | int  | ❌        | Mặc định 1 |
-| pageSize  | int  | ❌        | Mặc định 10, tối đa 100 |
-
 ## Response (200)
 
 ```json
 {
   "data": {
     "scoreId": "guid",
+    "submissionId": "guid",
+    "assignTrackId": "guid",
+    "trackTitle": "Track A",
+    "totalScore": 85.5,
+    "isRetake": false,
+    "retakeFromScoreId": null,
+    "isMock": false,
     "items": [
       {
         "scoreItemId": "guid",
@@ -46,9 +44,8 @@
         "updatedAt": "2026-07-07T12:00:00Z"
       }
     ],
-    "totalCount": 5,
-    "pageIndex": 1,
-    "pageSize": 10
+    "createdAt": "2026-07-07T12:00:00Z",
+    "updatedAt": "2026-07-07T12:00:00Z"
   },
   "message": "Fetched Successfully",
   "status": 200,
@@ -60,5 +57,6 @@
 
 | Status | message | Khi nào |
 |--------|---------|---------|
+| 404 | Resource Not Found | scoreId không tồn tại |
 | 401 | Unauthorized | Token hết hạn/thiếu |
 | 403 | Forbidden | Không phải Admin |

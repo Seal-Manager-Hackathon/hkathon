@@ -4,7 +4,7 @@
 
 ## Nghiệp vụ
 - Keyword search trên: email, firstName, lastName, fullName (firstName + " " + lastName)
-- Các filter: Role, IsDisable, IsVerified, FromDate, ToDate
+- Các filter: Role, IsDisable, IsVerified, IsBanned, FromDate, ToDate
 - Mặc định page 1, page size 10
 - Không truyền filter gì → lấy tất cả
 - Sắp xếp gần nhất trên cùng
@@ -19,6 +19,7 @@
 | Role | string | ❌ | `Staff` | ⚠️ Enum: Admin, Staff, Student, Lecturer |
 | IsDisable | bool | ❌ | `false` | Lọc disable |
 | IsVerified | bool | ❌ | `true` | Lọc verified |
+| IsBanned | bool | ❌ | `true` | Lọc banned (BanReason ≠ null) |
 | FromDate | datetime | ❌ | `2026-07-01T00:00:00Z` | Lọc CreatedAt từ ngày |
 | ToDate | datetime | ❌ | `2026-07-07T23:59:59Z` | Lọc CreatedAt đến ngày |
 | PageIndex | int | ❌ | `1` | Mặc định 1 |
@@ -47,6 +48,8 @@ GET /api/v1/admin/users?IsDisable=true&Role=Student             → Disabled stu
         "status": "Active",
         "isVerified": true,
         "isDisable": false,
+        "banReason": null,
+        "bannedAt": null,
         "avatarUrl": "https://robohash.org/staff@fpt.edu.vn",
         "college": "FPT University",
         "createdAt": "2026-07-07T12:00:00Z"

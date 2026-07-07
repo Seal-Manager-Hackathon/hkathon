@@ -1,11 +1,10 @@
 # GET /api/v1/admin/submissions/{submissionId}/scores
 
-> Admin lấy điểm của 1 bài nộp (submission), gồm tất cả lượt chấm.
+> Admin lấy điểm của 1 bài nộp (submission), gồm tất cả lượt chấm (ko kèm chi tiết tiêu chí).
 
 ## Nghiệp vụ
 - Trả về danh sách các lượt chấm (Scores) của submission
-- Mỗi lượt chấm gồm tổng điểm, track chấm, và danh sách điểm chi tiết từng tiêu chí
-- Có thể có nhiều lượt chấm (nhiều giám khảo, retake...)
+- Mỗi lượt chấm gồm tổng điểm, track chấm (không kèm score items — xem chi tiết score ở `GET /admin/scores/{scoreId}`)
 
 ## Phân quyền
 - ✅ Admin
@@ -25,20 +24,15 @@
     "scores": [
       {
         "scoreId": "guid",
+        "submissionId": "guid",
         "assignTrackId": "guid",
         "trackTitle": "Track A",
         "totalScore": 85.5,
         "isRetake": false,
+        "retakeFromScoreId": null,
         "isMock": false,
-        "items": [
-          {
-            "scoreItemId": "guid",
-            "criteriaItemId": "guid",
-            "criteriaName": "Tính sáng tạo",
-            "score": 20,
-            "comment": "Ý tưởng tốt"
-          }
-        ]
+        "createdAt": "2026-07-07T12:00:00Z",
+        "updatedAt": "2026-07-07T12:00:00Z"
       }
     ]
   },

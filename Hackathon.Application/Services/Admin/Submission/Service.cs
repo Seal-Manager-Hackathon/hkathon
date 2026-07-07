@@ -31,6 +31,82 @@ public class Service : ISubmissionService
         _authorizationService = authorizationService;
     }
 
+    public async Task<GetSubmissionDetailResponse> GetSubmissionDetail(Guid submissionId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var submission = await _submissionRepository.GetByIdAsync(submissionId);
+        if (submission == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        return new GetSubmissionDetailResponse
+        {
+            Id = submission.Id,
+            RoundDetailId = submission.RoundDetailId,
+            RoundId = submission.RoundDetail.RoundId,
+            RoundName = submission.RoundDetail.Round.Name,
+            RegisterTeamId = submission.RoundDetail.RegisterTeamId,
+            TeamId = submission.RoundDetail.RegisterTeam.TeamId,
+            TeamName = submission.RoundDetail.RegisterTeam.Team.Name,
+            TrackId = submission.RoundDetail.RegisterTeam.TrackId,
+            TrackTitle = submission.RoundDetail.RegisterTeam.Track?.Title,
+            TopicId = submission.RoundDetail.RegisterTeam.TopicId,
+            TopicTitle = submission.RoundDetail.RegisterTeam.Topic?.Title,
+            Url = submission.Url,
+            Description = submission.Description,
+            Status = submission.Status?.ToString(),
+            SubmittedAt = submission.SubmittedAt,
+            IsRegrade = submission.IsRegrade,
+            SubmittedBy = submission.RoundDetail.RegisterTeam.Team.TeamDetails
+                .Where(td => td.IsLeader)
+                .Select(td => new SubmittedByUser
+                {
+                    UserId = td.UserId,
+                    Email = td.User.Email,
+                    FirstName = td.User.FirstName,
+                    LastName = td.User.LastName
+                })
+                .FirstOrDefault(),
+            Scores = submission.Scores.Select(s => new SubmissionScoreDetail
+            {
+                ScoreId = s.Id,
+                SubmissionId = s.SubmissionId,
+                AssignTrackId = s.AssignTrackId,
+                TrackTitle = s.AssignTrack?.Track?.Title,
+                TotalScore = s.TotalScore,
+                IsRetake = s.IsRetake,
+                RetakeFromScoreId = s.RetakeFromScoreId,
+                IsMock = s.IsMock,
+                CreatedAt = s.CreatedAt,
+                UpdatedAt = s.UpdatedAt,
+                Items = s.ScoreItems.Select(si => new ScoreItemDetail
+                {
+                    ScoreItemId = si.Id,
+                    ScoreId = si.ScoreId,
+                    CriteriaItemId = si.CriteriaItemId,
+                    AssignTrackId = si.AssignTrackId,
+                    AssignEventId = si.AssignTrack?.AssignEventId ?? Guid.Empty,
+                    CriteriaName = si.CriteriaItem?.Name ?? "",
+                    Score = si.Score,
+                    Comment = si.Comment,
+                    GradedBy = si.AssignTrack?.AssignEvent?.User != null
+                        ? new GraderInfo
+                        {
+                            UserId = si.AssignTrack.AssignEvent.User.Id,
+                            Email = si.AssignTrack.AssignEvent.User.Email,
+                            FirstName = si.AssignTrack.AssignEvent.User.FirstName,
+                            LastName = si.AssignTrack.AssignEvent.User.LastName
+                        }
+                        : null,
+                    CreatedAt = si.CreatedAt,
+                    UpdatedAt = si.UpdatedAt
+                }).ToList()
+            }).ToList(),
+            CreatedAt = submission.CreatedAt,
+            UpdatedAt = submission.UpdatedAt
+        };
+    }
+
     public async Task<GetSubmissionsResponse> GetSubmissions(GetSubmissionsRequest request)
     {
         _authorizationService.Authorize(RoleEnum.Admin);

@@ -131,6 +131,7 @@
 | GET | `/rounds/{roundId}/submissions` | Danh sách bài nộp trong 1 round (search keyword) |
 | GET | `/register-teams/{registerTeamId}/submissions` | Bài nộp của team trong event (lọc theo round, ko truyền = all) |
 | GET | `/tracks/{trackId}/submissions` | Bài nộp theo track |
+| GET | `/submissions/{submissionId}` | Chi tiết 1 bài nộp (kèm scores) |
 
 ---
 
@@ -139,6 +140,7 @@
 
 | Method | Route | Chức năng |
 |--------|-------|-----------|
+| GET | `/scores/{scoreId}` | Chi tiết 1 lượt chấm (kèm score items) |
 | GET | `/submissions/{submissionId}/scores` | Danh sách lượt chấm của 1 bài nộp (kèm track, score items) |
 | GET | `/scores/{scoreId}/items` | Danh sách chi tiết điểm (score items) của 1 lượt chấm, phân trang |
 

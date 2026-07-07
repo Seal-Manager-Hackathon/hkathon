@@ -16,6 +16,13 @@ public class AdminSubmissionController : ControllerBase
         _submissionService = submissionService;
     }
 
+    [HttpGet("submissions/{submissionId:guid}")]
+    public async Task<IActionResult> GetSubmissionDetail(Guid submissionId)
+    {
+        var result = await _submissionService.GetSubmissionDetail(submissionId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("events/{eventId:guid}/submissions")]
     public async Task<IActionResult> GetSubmissions(Guid eventId, [FromQuery] GetSubmissionsRequest request)
     {

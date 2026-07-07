@@ -16,6 +16,13 @@ public class AdminScoreController : ControllerBase
         _scoreService = scoreService;
     }
 
+    [HttpGet("scores/{scoreId:guid}")]
+    public async Task<IActionResult> GetScoreDetail(Guid scoreId)
+    {
+        var result = await _scoreService.GetScoreDetail(scoreId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("submissions/{submissionId:guid}/scores")]
     public async Task<IActionResult> GetSubmissionScores(Guid submissionId)
     {

@@ -13,13 +13,35 @@ public class ScoreRepository : IScoreRepository
         _context = context;
     }
 
+    public async Task<Scores?> GetByIdAsync(Guid scoreId)
+        => await _context.Set<Scores>()
+            .Include(s => s.AssignTrack)
+                .ThenInclude(at => at.Track)
+            .Include(s => s.AssignTrack)
+                .ThenInclude(at => at.AssignEvent)
+                    .ThenInclude(ae => ae.User)
+            .Include(s => s.ScoreItems)
+                .ThenInclude(si => si.CriteriaItem)
+            .Include(s => s.ScoreItems)
+                .ThenInclude(si => si.AssignTrack)
+                    .ThenInclude(at => at.AssignEvent)
+                        .ThenInclude(ae => ae.User)
+            .FirstOrDefaultAsync(s => s.Id == scoreId);
+
     public async Task<List<Scores>> GetBySubmissionIdAsync(Guid submissionId)
     {
         return await _context.Set<Scores>()
             .Include(s => s.AssignTrack)
                 .ThenInclude(at => at.Track)
+            .Include(s => s.AssignTrack)
+                .ThenInclude(at => at.AssignEvent)
+                    .ThenInclude(ae => ae.User)
             .Include(s => s.ScoreItems)
                 .ThenInclude(si => si.CriteriaItem)
+            .Include(s => s.ScoreItems)
+                .ThenInclude(si => si.AssignTrack)
+                    .ThenInclude(at => at.AssignEvent)
+                        .ThenInclude(ae => ae.User)
             .Where(s => s.SubmissionId == submissionId)
             .OrderByDescending(s => s.CreatedAt)
             .ToListAsync();
@@ -29,6 +51,9 @@ public class ScoreRepository : IScoreRepository
     {
         var query = _context.Set<ScoreItems>()
             .Include(si => si.CriteriaItem)
+            .Include(si => si.AssignTrack)
+                .ThenInclude(at => at.AssignEvent)
+                    .ThenInclude(ae => ae.User)
             .Where(si => si.ScoreId == scoreId)
             .AsQueryable();
 
