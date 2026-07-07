@@ -4,6 +4,7 @@ public class GetRegisterTeamsByTeamRequest
 {
     public Guid TeamId { get; set; }
     public string? Status { get; set; }
+    public bool? IsDisable { get; set; }
     public int PageIndex { get; set; } = 1;
     public int PageSize { get; set; } = 10;
 }

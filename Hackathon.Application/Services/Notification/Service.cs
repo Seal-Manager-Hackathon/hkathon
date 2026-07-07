@@ -69,7 +69,7 @@ public class Service : INotificationService
 
         var (items, totalCount) = await _notificationRepository.SearchAsync(
             request.Title, targetType,
-            request.FromDate, request.ToDate,
+            request.FromDate, request.ToDate, request.IsDisable,
             request.PageIndex, request.PageSize);
 
         return new GetNotificationsResponse
@@ -208,9 +208,6 @@ public class Service : INotificationService
         var notification = await _notificationRepository.GetByIdAsync(notificationId);
         if (notification == null)
             throw new NotFoundException("Notification Not Found");
-
-        if (!notification.IsDisable)
-            throw new BadRequestException("Notification Is Not Disabled");
 
         notification.IsDisable = false;
         notification.UpdatedAt = DateTimeOffset.UtcNow;

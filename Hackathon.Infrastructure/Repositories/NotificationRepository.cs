@@ -37,7 +37,7 @@ public class NotificationRepository : INotificationRepository
 
     public async Task<(List<Notifications> Items, int TotalCount)> SearchAsync(
         string? title, NotificationTargetTypeEnum? targetType,
-        DateTimeOffset? fromDate, DateTimeOffset? toDate,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate, bool? isDisable,
         int pageIndex, int pageSize)
     {
         var query = _context.Notifications.AsQueryable();
@@ -56,6 +56,9 @@ public class NotificationRepository : INotificationRepository
 
         if (toDate.HasValue)
             query = query.Where(n => n.CreatedAt <= toDate.Value);
+
+        if (isDisable.HasValue)
+            query = query.Where(n => n.IsDisable == isDisable.Value);
 
         var totalCount = await query.CountAsync();
 

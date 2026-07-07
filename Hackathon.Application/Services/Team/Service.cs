@@ -92,9 +92,6 @@ public class Service : ITeamService
         if (team == null)
             throw new NotFoundException("Team Not Found");
 
-        if (!team.IsDisable)
-            throw new BadRequestException("Team Is Not Disabled");
-
         team.IsDisable = false;
 
         await _teamRepository.UpdateAsync(team);

@@ -348,9 +348,6 @@ public class Service : IRegisterTeamService
         if (rt == null)
             throw new NotFoundException("Register Team Not Found");
 
-        if (!rt.IsBanned)
-            throw new BadRequestException("Register Team Is Not Banned");
-
         rt.IsBanned = false;
         await _unitOfWork.SaveChangesAsync();
     }

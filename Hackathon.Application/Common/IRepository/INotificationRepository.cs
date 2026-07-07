@@ -11,6 +11,6 @@ public interface INotificationRepository
     Task<List<Notifications>> GetRecentAsync(int count);
     Task<(List<Notifications> Items, int TotalCount)> SearchAsync(
         string? title, Domain.Enums.Notification.NotificationTargetTypeEnum? targetType,
-        DateTimeOffset? fromDate, DateTimeOffset? toDate,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate, bool? isDisable,
         int pageIndex, int pageSize);
 }
