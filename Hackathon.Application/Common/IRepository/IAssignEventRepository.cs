@@ -12,4 +12,7 @@ public interface IAssignEventRepository
     void Add(AssignEvents assignEvent);
     void Update(AssignEvents assignEvent);
     Task<EventRoles?> GetEventRoleByNameAsync(Domain.Enums.EventRole.EventRoleEnum roleName);
+    Task<(List<AssignEvents> Items, int TotalCount)> GetAllAssignedUsersAsync(
+        string? keyword, Domain.Enums.EventRole.EventRoleEnum? eventRole,
+        int pageIndex, int pageSize);
 }

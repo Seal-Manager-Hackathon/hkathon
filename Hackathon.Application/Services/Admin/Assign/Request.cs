@@ -9,6 +9,14 @@ public class GetAssignedUsersRequest
     public int PageSize { get; set; } = 10;
 }
 
+public class GetAllAssignedUsersRequest
+{
+    public string? Keyword { get; set; }
+    public string? EventRole { get; set; }
+    public int PageIndex { get; set; } = 1;
+    public int PageSize { get; set; } = 10;
+}
+
 public class AssignEventRoleToLecturerRequest
 {
     public Guid AssignEventId { get; set; }

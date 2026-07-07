@@ -16,6 +16,13 @@ public class AdminAssignController : ControllerBase
         _assignService = assignService;
     }
 
+    [HttpGet("users/assigned")]
+    public async Task<IActionResult> GetAllAssignedUsers([FromQuery] GetAllAssignedUsersRequest request)
+    {
+        var result = await _assignService.GetAllAssignedUsers(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpPost("events/{eventId:guid}/assign/users")]
     public async Task<IActionResult> AssignUserToEvent(Guid eventId, [FromBody] AssignUserToEventRequest request)
     {
