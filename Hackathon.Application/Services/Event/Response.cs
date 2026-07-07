@@ -12,6 +12,7 @@ public class GetEventDetailResponse
     public int? MinMember { get; set; }
     public int? MaxMember { get; set; }
     public string? Status { get; set; }
+    public bool IsDisable { get; set; }
     public int? NumberRound { get; set; }
     public string? Season { get; set; }
     public DateTimeOffset CreatedAt { get; set; }

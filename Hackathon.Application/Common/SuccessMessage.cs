@@ -99,5 +99,6 @@ public static class SuccessMessage
         public const string RegisterTeamUpdated = "Register Team Updated Successfully";
         public const string EventsFetched = "Events Fetched Successfully";
         public const string EventCreated = "Event Created Successfully";
+        public const string EventUpdated = "Event Updated Successfully";
     }
 }

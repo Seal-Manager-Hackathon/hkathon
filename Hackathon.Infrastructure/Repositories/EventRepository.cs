@@ -23,6 +23,12 @@ public class EventRepository : IEventRepository
     public async Task AddAsync(Events ev)
         => await _context.Events.AddAsync(ev);
 
+    public Task UpdateAsync(Events ev)
+    {
+        _context.Events.Update(ev);
+        return Task.CompletedTask;
+    }
+
     public async Task AddLeaderBoardAsync(LeaderBoards leaderBoard)
         => await _context.Set<LeaderBoards>().AddAsync(leaderBoard);
 

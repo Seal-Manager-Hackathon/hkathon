@@ -72,20 +72,107 @@ public class Service : IEventService
         };
 
         await _eventRepository.AddAsync(ev);
+        await _unitOfWork.SaveChangesAsync();
+    }
 
-        // Tự động tạo LeaderBoard với year từ StartTime, không public, không khóa
-        var leaderBoard = new LeaderBoards
+    public async Task UpdateEvent(UpdateEventRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var ev = await _eventRepository.GetByIdAsync(request.EventId);
+        if (ev == null)
+            throw new NotFoundException("Event Not Found");
+
+        var now = DateTimeOffset.UtcNow;
+
+        // Lấy giá trị để validate — ưu tiên request, nếu null lấy từ entity
+        var startTime = request.StartTime ?? ev.StartTime;
+        var endTime = request.EndTime ?? ev.EndTime;
+        var registerLimitTime = request.RegisterLimitTime ?? ev.RegisterLimitTime;
+
+        if (startTime <= now && request.StartTime.HasValue)
+            throw new BadRequestException(ErrMsg.Event.StartTimeMustBeAfterNow);
+
+        if (endTime <= startTime && (request.EndTime.HasValue || request.StartTime.HasValue))
+            throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterStartTime);
+
+        if (registerLimitTime.HasValue)
         {
-            Id = Guid.NewGuid(),
-            EventId = ev.Id,
-            Year = ev.StartTime?.Year,
-            IsLocked = false,
-            IsPublished = false,
-            CreatedAt = now,
-            UpdatedAt = now
-        };
-        await _eventRepository.AddLeaderBoardAsync(leaderBoard);
+            if (registerLimitTime.Value <= startTime && request.RegisterLimitTime.HasValue)
+                throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeAfterStartTime);
 
+            if (registerLimitTime.Value >= endTime && request.RegisterLimitTime.HasValue)
+                throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeBeforeEndTime);
+        }
+
+        // Update fields
+        if (request.Name != null)
+            ev.Name = request.Name;
+        if (request.Description != null)
+            ev.Description = request.Description;
+        if (request.StartTime.HasValue)
+            ev.StartTime = request.StartTime.Value;
+        if (request.EndTime.HasValue)
+            ev.EndTime = request.EndTime.Value;
+        if (request.RegisterLimitTime.HasValue)
+            ev.RegisterLimitTime = request.RegisterLimitTime;
+        if (request.LimitTeam.HasValue)
+            ev.LimitTeam = request.LimitTeam;
+        if (request.MinMember.HasValue)
+            ev.MinMember = request.MinMember;
+        if (request.MaxMember.HasValue)
+            ev.MaxMember = request.MaxMember;
+        if (request.Season != null)
+        {
+            if (!Enum.TryParse<SeasonEnum>(request.Season, true, out var season))
+                throw new BadRequestException("Invalid Season. Must be: Spring, Summer, Autumn, Winter");
+            ev.Season = season;
+        }
+
+        // Check disable change: true → false
+        // Nếu request.IsDisable == false (muốn mở), phải đủ thông tin và status không được là Draft
+        if (request.IsDisable.HasValue && !request.IsDisable.Value && ev.IsDisable)
+        {
+            var now2 = DateTimeOffset.UtcNow; // refresh cho check publish
+            var missingFields = new List<string>();
+            if (string.IsNullOrWhiteSpace(ev.Name)) missingFields.Add("Name");
+            if (!ev.StartTime.HasValue || ev.StartTime <= now2) missingFields.Add("StartTime");
+            if (!ev.EndTime.HasValue || ev.EndTime <= ev.StartTime) missingFields.Add("EndTime");
+            if (!ev.Season.HasValue) missingFields.Add("Season");
+
+            if (missingFields.Count > 0)
+                throw new BadRequestException($"Cannot Enable Event. Missing Required Fields: {string.Join(", ", missingFields)}");
+
+            if (ev.Status == EventStatusEnum.Draft)
+                ev.Status = EventStatusEnum.Published;
+        }
+
+        if (request.IsDisable.HasValue)
+            ev.IsDisable = request.IsDisable.Value;
+
+        // Nếu chuyển từ Draft → Published, check thông tin đã đầy đủ chưa
+        if (request.Status != null)
+        {
+            if (!Enum.TryParse<EventStatusEnum>(request.Status, true, out var status))
+                throw new BadRequestException("Invalid Status. Must be: Draft, Published, Closed");
+
+            if (status == EventStatusEnum.Published && ev.Status == EventStatusEnum.Draft)
+            {
+                var missingFields = new List<string>();
+                if (string.IsNullOrWhiteSpace(ev.Name)) missingFields.Add("Name");
+                if (!ev.StartTime.HasValue || ev.StartTime <= now) missingFields.Add("StartTime");
+                if (!ev.EndTime.HasValue || ev.EndTime <= ev.StartTime) missingFields.Add("EndTime");
+                if (!ev.Season.HasValue) missingFields.Add("Season");
+
+                if (missingFields.Count > 0)
+                    throw new BadRequestException($"Cannot Publish Event. Missing Required Fields: {string.Join(", ", missingFields)}");
+            }
+
+            ev.Status = status;
+        }
+
+        ev.UpdatedAt = now;
+        await _eventRepository.UpdateAsync(ev);
         await _unitOfWork.SaveChangesAsync();
     }
 
@@ -167,6 +254,7 @@ public class Service : IEventService
             MinMember = ev.MinMember,
             MaxMember = ev.MaxMember,
             Status = ev.Status?.ToString(),
+            IsDisable = ev.IsDisable,
             NumberRound = ev.NumberRound,
             Season = ev.Season?.ToString(),
             CreatedAt = ev.CreatedAt,

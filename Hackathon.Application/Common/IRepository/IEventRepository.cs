@@ -8,6 +8,7 @@ public interface IEventRepository
     Task<List<Events>> GetAllAsync();
     Task<Events?> GetByIdAsync(Guid id);
     Task AddAsync(Events ev);
+    Task UpdateAsync(Events ev);
     Task<int> CountByStatusAsync(EventStatusEnum? status);
     Task AddLeaderBoardAsync(LeaderBoards leaderBoard);
     Task<List<Events>> GetRecentAsync(int count);

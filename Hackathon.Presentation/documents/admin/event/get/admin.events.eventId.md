@@ -1,9 +1,10 @@
 # GET /api/v1/admin/events/{eventId}
 
-> Lấy chi tiết thông tin event.
+> Lấy chi tiết thông tin event — gồm status, isDisable, và tất cả các field khác.
 
 ## Nghiệp vụ
-- Trả về tất cả fields của event
+- Trả về tất cả fields của event (kể cả Status, IsDisable, Season...)
+- Dùng để xem trạng thái hiện tại: đang Draft hay Published, đang disable hay không
 - 404 nếu eventId không tồn tại
 
 ## Phân quyền
@@ -27,8 +28,9 @@
     "limitTeam": 50,
     "minMember": 3,
     "maxMember": 5,
-    "status": "Published",
-    "numberRound": 3,
+    "status": "Draft",
+    "isDisable": true,
+    "numberRound": 0,
     "season": "Summer",
     "createdAt": "2026-07-07T12:00:00Z",
     "updatedAt": "2026-07-07T12:00:00Z"
@@ -41,6 +43,8 @@
   "timestampUtc": "2026-07-07T12:00:00Z"
 }
 ```
+
+> **Lưu ý:** `isDisable = true` nghĩa là event đang bị ẩn/không hoạt động. Event mới tạo mặc định `isDisable = true`.
 
 ## Lỗi
 | Status | message | Khi nào | FE xử lý |

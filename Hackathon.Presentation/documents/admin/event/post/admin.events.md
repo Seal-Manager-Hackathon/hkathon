@@ -7,6 +7,8 @@
 - EndTime phải > StartTime
 - RegisterLimitTime (nếu có): StartTime < RegisterLimitTime < EndTime
 - Không được truyền Status, IsDisable, NumberRound
+- Event mới tạo ở trạng thái Draft + IsDisable=true — chưa hiển thị, chưa tạo LeaderBoard
+- Muốn bật event: dùng `PUT /api/v1/admin/events/{eventId}` với `isDisable: false` (tự động publish nếu đủ thông tin)
 
 ## Phân quyền
 - ✅ Admin
