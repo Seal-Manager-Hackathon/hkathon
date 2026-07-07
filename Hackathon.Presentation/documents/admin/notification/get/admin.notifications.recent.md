@@ -22,7 +22,9 @@
         "status": "Unread",
         "description": "Nội dung...",
         "targetType": "System",
-        "createdAt": "2026-07-07T12:00:00Z"
+        "isDisable": false,
+        "createdAt": "2026-07-07T12:00:00Z",
+        "updatedAt": "2026-07-07T12:00:00Z"
       }
     ]
   },

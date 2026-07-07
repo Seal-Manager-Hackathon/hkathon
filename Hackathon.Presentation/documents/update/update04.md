@@ -39,7 +39,18 @@ public class EventItem {
 
 **DTO:** `NotificationCard` — thiếu `IsDisable`, `UpdatedAt`
 
-## 5. Các entity đã đủ
+## 5. Doc files đã update response JSON
+
+| File | Thêm field |
+|------|-----------|
+| `event/get/admin.events.md` | `isDisable`, `updatedAt` |
+| `event/get/admin.events.recent.md` | `isDisable`, `updatedAt` |
+| `round/get/admin.rounds.list.md` | `isDisable` |
+| `team/get/admin.teams.md` | `updatedAt` |
+| `notification/get/admin.notifications.md` | `isDisable`, `updatedAt` |
+| `notification/get/admin.notifications.recent.md` | `isDisable`, `updatedAt` |
+
+## 6. Các entity đã đủ
 
 | API | Item | IsDisable | UpdatedAt |
 |-----|------|-----------|-----------|

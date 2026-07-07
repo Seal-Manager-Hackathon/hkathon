@@ -34,7 +34,9 @@
         "status": "Published",
         "startTime": "2026-08-01T00:00:00Z",
         "endTime": "2026-08-10T00:00:00Z",
-        "createdAt": "2026-07-07T12:00:00Z"
+        "isDisable": false,
+        "createdAt": "2026-07-07T12:00:00Z",
+        "updatedAt": "2026-07-07T12:00:00Z"
       }
     ],
     "totalCount": 10,

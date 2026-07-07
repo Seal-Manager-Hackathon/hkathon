@@ -44,7 +44,9 @@ GET /api/v1/admin/notifications?FromDate=2026-07-01T00:00:00Z&ToDate=2026-07-07T
         "status": "Unread",
         "description": "Nội dung thông báo...",
         "targetType": "Personal",
-        "createdAt": "2026-07-07T12:00:00Z"
+        "isDisable": false,
+        "createdAt": "2026-07-07T12:00:00Z",
+        "updatedAt": "2026-07-07T12:00:00Z"
       }
     ],
     "totalCount": 42,

@@ -40,6 +40,7 @@
         "startSubmission": "2026-08-03T00:00:00Z",
         "endSubmission": "2026-08-05T00:00:00Z",
         "limitTeam": 20,
+        "isDisable": false,
         "createdAt": "2026-07-07T12:00:00Z",
         "updatedAt": "2026-07-07T12:00:00Z"
       }
