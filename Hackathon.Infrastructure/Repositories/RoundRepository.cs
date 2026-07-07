@@ -76,7 +76,7 @@ public class RoundRepository : IRoundRepository
         var totalCount = await query.CountAsync();
 
         var items = await query
-            .OrderByDescending(r => r.CreatedAt)
+            .OrderBy(r => r.RoundNo)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();

@@ -16,6 +16,8 @@
 | GET | `/events/{eventId}/setup-check` | Kiểm tra event đã setup đủ chưa (fields + round) |
 | POST | `/events` | Tạo event mới (status = Draft, IsDisable = false) |
 | PATCH | `/events/{eventId}` | Update event (IsDisable độc lập, Draft→Published check setup) |
+| POST | `/events/{eventId}/delete` | Xóa mềm (IsDisable = true) |
+| POST | `/events/{eventId}/restore` | Khôi phục (IsDisable = false) |
 
 **Logic đặc biệt:**
 - Tạo event: `IsDisable = false`, `Status = Draft`
@@ -119,6 +121,17 @@
 | POST | `/teams/{teamId}/unlock` | Mở khóa team (CanEdit = true) |
 
 ---
+
+## 📄 Submission (Bài nộp)
+**Controller:** `AdminSubmissionController` | **Service:** `Services/Admin/Submission/`
+
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/events/{eventId}/submissions` | Danh sách bài nộp (filter round/track/topic/registerTeam, last + records) |
+
+---
+
+
 
 ## 📝 Register Team
 **Controller:** `AdminRegisterTeamController` | **Service:** `Services/Admin/RegisterTeam/`

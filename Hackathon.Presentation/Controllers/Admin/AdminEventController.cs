@@ -65,4 +65,18 @@ public class AdminEventController : ControllerBase
         var result = await _eventService.GetEventCount(request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.EventCountFetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpPost("events/{eventId:guid}/delete")]
+    public async Task<IActionResult> DeleteEvent(Guid eventId)
+    {
+        await _eventService.DeleteEvent(eventId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Admin.EventDeleted, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("events/{eventId:guid}/restore")]
+    public async Task<IActionResult> RestoreEvent(Guid eventId)
+    {
+        await _eventService.RestoreEvent(eventId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
 }

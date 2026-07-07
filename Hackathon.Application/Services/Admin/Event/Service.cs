@@ -301,4 +301,40 @@ public class Service : IEventService
             Total = total
         };
     }
+
+    public async Task DeleteEvent(Guid eventId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var ev = await _eventRepository.GetByIdAsync(eventId);
+        if (ev == null)
+            throw new NotFoundException("Event Not Found");
+
+        if (ev.IsDisable)
+            throw new BadRequestException("Event Is Already Deleted");
+
+        ev.IsDisable = true;
+        ev.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _eventRepository.UpdateAsync(ev);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task RestoreEvent(Guid eventId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var ev = await _eventRepository.GetByIdAsync(eventId);
+        if (ev == null)
+            throw new NotFoundException("Event Not Found");
+
+        if (!ev.IsDisable)
+            throw new BadRequestException("Event Is Not Deleted");
+
+        ev.IsDisable = false;
+        ev.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _eventRepository.UpdateAsync(ev);
+        await _unitOfWork.SaveChangesAsync();
+    }
 }

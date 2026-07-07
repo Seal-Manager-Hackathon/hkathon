@@ -9,4 +9,6 @@ public interface IEventService
     Task CreateEvent(CreateEventRequest request);
     Task UpdateEvent(UpdateEventRequest request);
     Task<SetupCheckResponse> IsEventSetupComplete(Guid eventId);
+    Task DeleteEvent(Guid eventId);
+    Task RestoreEvent(Guid eventId);
 }

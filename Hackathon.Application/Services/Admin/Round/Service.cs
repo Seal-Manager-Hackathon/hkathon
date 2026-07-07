@@ -243,10 +243,10 @@ public class Service : IRoundService
         if (targetRound == null)
             throw new BadRequestException(ErrMsg.Round.RoundNoNotFound);
 
-        // Ko cho swap với round đã bị xóa (IsDisable)
-        if (currentRound.IsDisable)
+        // Ko cho swap với round đã bị xóa (IsDisable) hoặc đã set RoundNo = 0
+        if (currentRound.IsDisable || currentRound.RoundNo == 0)
             throw new BadRequestException("Cannot Swap A Deleted Round");
-        if (targetRound.IsDisable)
+        if (targetRound.IsDisable || targetRound.RoundNo == 0)
             throw new BadRequestException("Cannot Swap With A Deleted Round");
 
         // Ko cho swap với chính nó
