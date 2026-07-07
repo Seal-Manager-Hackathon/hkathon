@@ -213,7 +213,7 @@ public class Service : IEventService
 
         var (items, totalCount) = await _eventRepository.SearchAsync(
             request.Keyword, status,
-            request.FromDate, request.ToDate,
+            request.FromDate, request.ToDate, request.IsDisable,
             request.PageIndex, request.PageSize);
 
         return new GetEventsResponse

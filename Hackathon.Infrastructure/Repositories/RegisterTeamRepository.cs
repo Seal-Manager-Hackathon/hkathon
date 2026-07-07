@@ -62,7 +62,7 @@ public class RegisterTeamRepository : IRegisterTeamRepository
     }
 
     public async Task<(List<RegisterTeams> Items, int TotalCount)> GetByTeamIdAsync(
-        Guid teamId, RegisterTeamStatusEnum? status, int pageIndex, int pageSize)
+        Guid teamId, RegisterTeamStatusEnum? status, bool? isDisable, int pageIndex, int pageSize)
     {
         var query = _context.Set<RegisterTeams>()
             .Include(rt => rt.Team)
@@ -74,6 +74,9 @@ public class RegisterTeamRepository : IRegisterTeamRepository
 
         if (status.HasValue)
             query = query.Where(rt => rt.Status == status.Value);
+
+        if (isDisable.HasValue)
+            query = query.Where(rt => rt.IsDisable == isDisable.Value);
 
         var totalCount = await query.CountAsync();
 

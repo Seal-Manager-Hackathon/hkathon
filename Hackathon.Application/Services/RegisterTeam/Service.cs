@@ -222,7 +222,7 @@ public class Service : IRegisterTeamService
         }
 
         var (items, totalCount) = await _registerTeamRepository.GetByTeamIdAsync(
-            request.TeamId, status, request.PageIndex, request.PageSize);
+            request.TeamId, status, request.IsDisable, request.PageIndex, request.PageSize);
 
         return new GetRegisterTeamsResponse
         {

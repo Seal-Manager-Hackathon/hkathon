@@ -16,6 +16,7 @@
 |-------|------|----------|-------|---------|
 | Keyword | string | ❌ | `FTeam` | Search tên team |
 | CanEdit | bool | ❌ | `true` | |
+| IsDisable | bool | ❌ | `false` | Lọc theo trạng thái disable |
 | FromDate | datetime | ❌ | `2026-07-01T00:00:00Z` | |
 | ToDate | datetime | ❌ | `2026-07-07T23:59:59Z` | |
 | PageIndex | int | ❌ | `1` | Mặc định 1 |
@@ -26,6 +27,7 @@
 GET /api/v1/admin/teams                              → Tất cả
 GET /api/v1/admin/teams?Keyword=FTeam                → Search tên
 GET /api/v1/admin/teams?CanEdit=true                 → Lọc canEdit
+GET /api/v1/admin/teams?IsDisable=false              → Lọc chưa xóa
 GET /api/v1/admin/teams?FromDate=...&ToDate=...      → Lọc thời gian
 ```
 

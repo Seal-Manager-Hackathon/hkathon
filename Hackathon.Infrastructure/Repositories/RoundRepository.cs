@@ -49,7 +49,7 @@ public class RoundRepository : IRoundRepository
             .MaxAsync(r => (int?)r.RoundNo);
 
     public async Task<(List<Rounds> Items, int TotalCount)> SearchByEventIdAsync(
-        Guid eventId, string? keyword, int? roundNo,
+        Guid eventId, string? keyword, int? roundNo, bool? isDisable,
         int pageIndex, int pageSize)
     {
         var query = _context.Set<Rounds>()
@@ -65,10 +65,13 @@ public class RoundRepository : IRoundRepository
         if (roundNo.HasValue)
             query = query.Where(r => r.RoundNo == roundNo.Value);
 
+        if (isDisable.HasValue)
+            query = query.Where(r => r.IsDisable == isDisable.Value);
+
         var totalCount = await query.CountAsync();
 
         var items = await query
-            .OrderBy(r => r.RoundNo)
+            .OrderByDescending(r => r.CreatedAt)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -79,6 +82,6 @@ public class RoundRepository : IRoundRepository
     public async Task<List<Rounds>> GetRoundsGreaterThanRoundNoAsync(Guid eventId, int roundNo)
         => await _context.Set<Rounds>()
             .Where(r => r.EventId == eventId && r.RoundNo > roundNo)
-            .OrderBy(r => r.RoundNo)
+            .OrderByDescending(r => r.CreatedAt)
             .ToListAsync();
 }

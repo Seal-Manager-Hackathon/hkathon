@@ -14,6 +14,6 @@ public interface IEventRepository
     Task<List<Events>> GetRecentAsync(int count);
     Task<(List<Events> Items, int TotalCount)> SearchAsync(
         string? keyword, EventStatusEnum? status,
-        DateTimeOffset? fromDate, DateTimeOffset? toDate,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate, bool? isDisable,
         int pageIndex, int pageSize);
 }

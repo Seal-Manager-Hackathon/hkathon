@@ -16,6 +16,7 @@
 |-------|------|----------|-------|---------|
 | Title | string | ❌ | `Thông báo` | Search contains |
 | TargetType | string | ❌ | `Personal` | ⚠️ Enum: Personal, Team, System |
+| IsDisable | bool | ❌ | `false` | Lọc theo trạng thái disable |
 | FromDate | datetime | ❌ | `2026-07-01T00:00:00Z` | Lọc từ ngày |
 | ToDate | datetime | ❌ | `2026-07-07T23:59:59Z` | Lọc đến ngày |
 | PageIndex | int | ❌ | `1` | Mặc định 1 |
@@ -26,8 +27,8 @@
 GET /api/v1/admin/notifications                                     → Tất cả
 GET /api/v1/admin/notifications?Title=hackathon                     → Search title
 GET /api/v1/admin/notifications?TargetType=System                   → Lọc target type
+GET /api/v1/admin/notifications?IsDisable=false                     → Lọc chưa xóa
 GET /api/v1/admin/notifications?FromDate=2026-07-01T00:00:00Z&ToDate=2026-07-07T23:59:59Z  → Lọc thời gian
-GET /api/v1/admin/notifications?Title=thi&TargetType=Personal&PageSize=5  → Kết hợp nhiều filter
 ```
 
 ## Response (200)

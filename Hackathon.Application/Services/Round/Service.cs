@@ -38,7 +38,7 @@ public class Service : IRoundService
             throw new NotFoundException("Event Not Found");
 
         var (items, totalCount) = await _roundRepository.SearchByEventIdAsync(
-            request.EventId, request.Keyword, request.RoundNo,
+            request.EventId, request.Keyword, request.RoundNo, request.IsDisable,
             request.PageIndex, request.PageSize);
 
         return new GetRoundsResponse

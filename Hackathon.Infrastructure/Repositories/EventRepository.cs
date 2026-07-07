@@ -50,7 +50,7 @@ public class EventRepository : IEventRepository
 
     public async Task<(List<Events> Items, int TotalCount)> SearchAsync(
         string? keyword, EventStatusEnum? status,
-        DateTimeOffset? fromDate, DateTimeOffset? toDate,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate, bool? isDisable,
         int pageIndex, int pageSize)
     {
         var query = _context.Events.AsQueryable();
@@ -69,6 +69,9 @@ public class EventRepository : IEventRepository
 
         if (toDate.HasValue)
             query = query.Where(e => e.CreatedAt <= toDate.Value);
+
+        if (isDisable.HasValue)
+            query = query.Where(e => e.IsDisable == isDisable.Value);
 
         var totalCount = await query.CountAsync();
 

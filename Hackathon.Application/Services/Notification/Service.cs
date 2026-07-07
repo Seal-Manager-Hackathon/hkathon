@@ -130,12 +130,11 @@ public class Service : INotificationService
             if (team == null)
                 throw new NotFoundException("Team Not Found");
 
-            // Lấy tất cả thành viên trong team
-            var memberIds = await _teamRepository.GetTeamMemberIdsAsync(request.TeamId.Value);
-            var notifications = memberIds.Select(userId => new Notifications
+            // Chỉ tạo 1 thông báo cho team — không gửi cho từng thành viên
+            var teamNotification = new Notifications
             {
                 Id = Guid.NewGuid(),
-                UserId = userId,
+                UserId = null,
                 TeamId = request.TeamId,
                 Title = request.Title,
                 Description = request.Description,
@@ -143,9 +142,9 @@ public class Service : INotificationService
                 Status = NotificationStatusEnum.Unread,
                 CreatedAt = now,
                 UpdatedAt = now
-            }).ToList();
+            };
 
-            await _notificationRepository.AddRangeAsync(notifications);
+            await _notificationRepository.AddAsync(teamNotification);
             await _unitOfWork.SaveChangesAsync();
             return;
         }

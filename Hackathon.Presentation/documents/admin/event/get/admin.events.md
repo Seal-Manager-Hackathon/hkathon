@@ -16,6 +16,7 @@
 |-------|------|----------|-------|---------|
 | Keyword | string | ❌ | `Hackathon` | Search tên event |
 | Status | string | ❌ | `Published` | ⚠️ Enum: Draft, Published, Closed |
+| IsDisable | bool | ❌ | `false` | Lọc theo trạng thái disable |
 | FromDate | datetime | ❌ | `2026-07-01T00:00:00Z` | |
 | ToDate | datetime | ❌ | `2026-07-07T23:59:59Z` | |
 | PageIndex | int | ❌ | `1` | Mặc định 1 |

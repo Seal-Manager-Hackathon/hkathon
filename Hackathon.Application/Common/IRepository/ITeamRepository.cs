@@ -13,6 +13,6 @@ public interface ITeamRepository
     Task<(List<TeamDetails> Items, int TotalCount)> GetUserTeamsAsync(Guid userId, string? keyword, Domain.Enums.TeamDetail.TeamDetailStatusEnum? status, bool? isDisable, int pageIndex, int pageSize);
     Task<(List<Teams> Items, int TotalCount)> SearchAsync(
         string? keyword, bool? canEdit,
-        DateTimeOffset? fromDate, DateTimeOffset? toDate,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate, bool? isDisable,
         int pageIndex, int pageSize);
 }

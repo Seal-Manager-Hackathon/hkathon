@@ -14,7 +14,8 @@
 - **KHÔNG dùng `HttpPatch` cho delete/restore/actions** — dùng `HttpPost`
 
 ## GET — Sắp xếp
-- **Tất cả API GET danh sách phải sắp xếp mới nhất → cũ nhất** theo `CreatedAt`: `.OrderByDescending(x => x.CreatedAt)`
+- **Tất cả API GET danh sách CHỈ sắp xếp theo thời gian tạo** — mới nhất → cũ nhất: `.OrderByDescending(x => x.CreatedAt)`
+- **Không sort theo field khác** (RoundNo, Name, ...) — chỉ CreatedAt
 
 ## Soft Delete — Admin
 - **Admin soft delete không check gì thêm** — không throw lỗi "already disabled" hay "not disabled"

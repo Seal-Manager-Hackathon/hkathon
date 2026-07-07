@@ -3,10 +3,11 @@
 > Admin lấy danh sách rounds của event, phân trang, có thể lọc theo keyword (tên round) và roundNo.
 
 ## Nghiệp vụ
-- Trả về danh sách rounds của 1 event, sắp xếp theo RoundNo tăng dần
+- Trả về danh sách rounds của 1 event, sắp xếp theo thời gian tạo mới nhất
 - Có thể lọc:
   - `keyword`: tìm kiếm theo tên round (contains, không phân biệt hoa thường)
   - `roundNo`: lọc chính xác theo số thứ tự round
+  - `isDisable`: lọc theo trạng thái disable
 - Phân trang: mặc định pageIndex=1, pageSize=10
 - 404 nếu eventId không tồn tại
 
@@ -19,6 +20,7 @@
 | eventId | guid | ✅ (route) | `3fa85f64-5717-4562-b3fc-2c963f66afa6` |
 | keyword | string | ❌ (query) | `Vòng 1` |
 | roundNo | int | ❌ (query) | `1` |
+| isDisable | bool | ❌ (query) | `false` |
 | pageIndex | int | ❌ (query) | `1` |
 | pageSize | int | ❌ (query) | `10` |
 

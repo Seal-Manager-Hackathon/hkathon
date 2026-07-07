@@ -82,7 +82,7 @@ public class TeamRepository : ITeamRepository
 
     public async Task<(List<Teams> Items, int TotalCount)> SearchAsync(
         string? keyword, bool? canEdit,
-        DateTimeOffset? fromDate, DateTimeOffset? toDate,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate, bool? isDisable,
         int pageIndex, int pageSize)
     {
         var query = _context.Set<Teams>().AsQueryable();
@@ -101,6 +101,9 @@ public class TeamRepository : ITeamRepository
 
         if (toDate.HasValue)
             query = query.Where(t => t.CreatedAt <= toDate.Value);
+
+        if (isDisable.HasValue)
+            query = query.Where(t => t.IsDisable == isDisable.Value);
 
         var totalCount = await query.CountAsync();
 

@@ -13,6 +13,7 @@
 | Param | Kiểu | Bắt buộc | Ví dụ | Ghi chú |
 |-------|------|----------|-------|---------|
 | Status | string | ❌ | `Approved` | ⚠️ Enum: Pending, Approved, Rejected |
+| IsDisable | bool | ❌ | `false` | Lọc theo trạng thái disable |
 | PageIndex | int | ❌ | `1` | Mặc định 1 |
 | PageSize | int | ❌ | `10` | Mặc định 10 |
 

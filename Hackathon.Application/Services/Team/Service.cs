@@ -29,7 +29,7 @@ public class Service : ITeamService
 
         var (items, totalCount) = await _teamRepository.SearchAsync(
             request.Keyword, request.CanEdit,
-            request.FromDate, request.ToDate,
+            request.FromDate, request.ToDate, request.IsDisable,
             request.PageIndex, request.PageSize);
 
         return new GetTeamsResponse
