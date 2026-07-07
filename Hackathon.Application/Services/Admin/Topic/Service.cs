@@ -152,4 +152,38 @@ public class Service : ITopicService
         topic.UpdatedAt = DateTimeOffset.UtcNow;
         await _unitOfWork.SaveChangesAsync();
     }
+
+    public async Task DeleteTopic(Guid topicId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var topic = await _topicRepository.GetByIdAsync(topicId);
+        if (topic == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        if (topic.IsDisable)
+            throw new BadRequestException("Topic Is Already Deleted");
+
+        topic.IsDisable = true;
+        topic.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task RestoreTopic(Guid topicId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var topic = await _topicRepository.GetByIdAsync(topicId);
+        if (topic == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        if (!topic.IsDisable)
+            throw new BadRequestException("Topic Is Not Deleted");
+
+        topic.IsDisable = false;
+        topic.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _unitOfWork.SaveChangesAsync();
+    }
 }

@@ -6,4 +6,6 @@ public interface ITopicService
     Task<GetTopicsByTrackResponse> GetTopicsByTrack(GetTopicsByTrackRequest request);
     Task<GetTopicDetailResponse> GetTopicDetail(Guid topicId);
     Task UpdateTopic(UpdateTopicRequest request);
+    Task DeleteTopic(Guid topicId);
+    Task RestoreTopic(Guid topicId);
 }

@@ -46,4 +46,18 @@ public class AdminTopicController : ControllerBase
         await _topicService.UpdateTopic(request);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpPost("topics/{topicId:guid}/delete")]
+    public async Task<IActionResult> DeleteTopic(Guid topicId)
+    {
+        await _topicService.DeleteTopic(topicId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Deleted, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("topics/{topicId:guid}/restore")]
+    public async Task<IActionResult> RestoreTopic(Guid topicId)
+    {
+        await _topicService.RestoreTopic(topicId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.OperationSuccessful, traceId: HttpContext.TraceIdentifier));
+    }
 }
