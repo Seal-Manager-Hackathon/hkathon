@@ -9,6 +9,7 @@ using Hackathon.Application.Services.Admin.Track;
 using Hackathon.Application.Services.Admin.Topic;
 using Hackathon.Application.Services.Admin.CriteriaTemplate;
 using Hackathon.Application.Services.Admin.Assign;
+using Hackathon.Application.Services.Admin.Leaderboard;
 using Hackathon.Application.Services.Admin.Score;
 using Hackathon.Application.Services.Admin.Submission;
 using Hackathon.Application.Services.Admin.User;
@@ -34,6 +35,7 @@ public static class DependencyInjection
         services.AddScoped<IAssignService, Assign.Service>();
         services.AddScoped<ISubmissionService, Submission.Service>();
         services.AddScoped<IScoreService, Score.Service>();
+        services.AddScoped<ILeaderboardService, Leaderboard.Service>();
         return services;
     }
 }

@@ -89,4 +89,54 @@ public class SubmissionRepository : ISubmissionRepository
 
         return (items, totalCount);
     }
+
+    public async Task<(List<RoundSummaryItem> Items, int TotalCount)> GetRoundSummaryAsync(
+        Guid roundId, int pageIndex, int pageSize)
+    {
+        // Lấy tất cả register teams có trong round này (qua RoundDetails)
+        // và submission cuối cùng của mỗi team trong round + total score
+        var query = _context.Set<RoundDetails>()
+            .Include(rd => rd.Round)
+            .Include(rd => rd.RegisterTeam)
+                .ThenInclude(rt => rt.Team)
+            .Include(rd => rd.RegisterTeam)
+                .ThenInclude(rt => rt.Track)
+            .Include(rd => rd.RegisterTeam)
+                .ThenInclude(rt => rt.Topic)
+            .Include(rd => rd.Submissions)
+                .ThenInclude(s => s.Scores)
+            .Where(rd => rd.RoundId == roundId)
+            .AsQueryable();
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .Select(rd => new RoundSummaryItem
+            {
+                RoundId = rd.RoundId,
+                EventId = rd.Round.EventId,
+                RegisterTeamId = rd.RegisterTeamId,
+                TeamId = rd.RegisterTeam.TeamId,
+                TeamName = rd.RegisterTeam.Team.Name,
+                TrackId = rd.RegisterTeam.TrackId,
+                TrackTitle = rd.RegisterTeam.Track != null ? rd.RegisterTeam.Track.Title : null,
+                TopicId = rd.RegisterTeam.TopicId,
+                TopicTitle = rd.RegisterTeam.Topic != null ? rd.RegisterTeam.Topic.Title : null,
+                LastSubmissionId = rd.Submissions
+                    .OrderByDescending(s => s.SubmittedAt)
+                    .Select(s => (Guid?)s.Id)
+                    .FirstOrDefault(),
+                TotalScore = rd.Submissions
+                    .OrderByDescending(s => s.SubmittedAt)
+                    .SelectMany(s => s.Scores)
+                    .Sum(s => (decimal?)s.TotalScore ?? 0),
+                RoundNo = rd.Round.RoundNo
+            })
+            .OrderByDescending(x => x.TotalScore)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
 }

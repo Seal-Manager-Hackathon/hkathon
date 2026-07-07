@@ -1,5 +1,6 @@
 using Hackathon.Application.Common;
 using Hackathon.Application.Common.Models;
+using Hackathon.Application.Services.Admin.Leaderboard;
 using Hackathon.Application.Services.Admin.Round;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,12 @@ namespace Hackathon.Presentation.Controllers.Admin;
 public class AdminRoundController : ControllerBase
 {
     private readonly IRoundService _roundService;
+    private readonly ILeaderboardService _leaderboardService;
 
-    public AdminRoundController(IRoundService roundService)
+    public AdminRoundController(IRoundService roundService, ILeaderboardService leaderboardService)
     {
         _roundService = roundService;
+        _leaderboardService = leaderboardService;
     }
 
     [HttpGet("events/{eventId:guid}/rounds")]
@@ -75,5 +78,12 @@ public class AdminRoundController : ControllerBase
     {
         await _roundService.RestoreRound(roundId);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.OperationSuccessful, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("rounds/{roundId:guid}/leaderboard")]
+    public async Task<IActionResult> GetRoundLeaderboard(Guid roundId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+    {
+        var result = await _leaderboardService.GetRoundLeaderboard(roundId, pageIndex, pageSize);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 }

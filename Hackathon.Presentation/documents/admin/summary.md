@@ -55,6 +55,7 @@
 | PATCH | `/rounds/{roundId}` | Update round |
 | POST | `/events/{eventId}/rounds/{roundId}/swap` | Swap thứ tự 2 round (ko swap với deleted) |
 | POST | `/rounds/{roundId}/delete` | Xóa mềm (RoundNo=0, IsDisable=true, higher -1, NumberRound giảm) |
+| GET | `/rounds/{roundId}/leaderboard` | Bảng xếp hạng round (tổng điểm bài cuối, sắp xếp theo điểm) |
 | POST | `/rounds/{roundId}/restore` | Khôi phục (IsDisable=false, RoundNo = max+1, NumberRound tăng) |
 
 **Logic đặc biệt:**
