@@ -1,13 +1,26 @@
-# POST /api/v1/admin/notifications/{notificationId}/restore
+# PATCH /api/v1/admin/notifications/{notificationId}
 
-> Admin khôi phục thông báo đã xoá mềm (set IsDisable = false).
+> Admin sửa thông báo.
 
 ## Nghiệp vụ
-- Ngược lại với DELETE, set `IsDisable = false`
-- Báo lỗi nếu notification chưa bị disable
+- Chỉ sửa được `title` và `description`
+- Các field khác (TargetType, TeamId, UserId...) không thể sửa
 
 ## Phân quyền
 - ✅ Admin
+
+## Request
+| Param | Kiểu | Bắt buộc | Ví dụ |
+|-------|------|----------|-------|
+| notificationId | guid | ✅ (route) | `3fa85f64-5717-4562-b3fc-2c963f66afa6` |
+
+Body:
+```json
+{
+  "title": "Cập nhật tiêu đề",
+  "description": "Nội dung mới"
+}
+```
 
 ## Response (200)
 ```json
@@ -25,7 +38,6 @@
 ## Lỗi
 | Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
-| 400 | Notification Is Not Disabled | Chưa bị xoá mềm | Báo "Thông báo chưa bị vô hiệu hoá" |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | Không phải Admin | Ẩn chức năng |
 | 404 | Notification Not Found | notificationId không tồn tại | Báo "Không tìm thấy thông báo" |

@@ -1,10 +1,10 @@
-# POST /api/v1/admin/teams/{teamId}/delete
+# POST /api/v1/admin/notifications/{notificationId}/delete
 
-> Admin xoá mềm team (set IsDisable = true).
+> Admin xoá mềm thông báo (set IsDisable = true).
 
 ## Nghiệp vụ
 - Xoá mềm: chỉ set `IsDisable = true`, không xoá khỏi DB
-- Nếu team đã disable rồi → báo lỗi 400
+- Admin soft delete: không check trạng thái trước đó
 
 ## Phân quyền
 - ✅ Admin
@@ -12,7 +12,7 @@
 ## Request
 | Param | Kiểu | Bắt buộc | Ví dụ |
 |-------|------|----------|-------|
-| teamId | guid | ✅ (route) | `3fa85f64-5717-4562-b3fc-2c963f66afa6` |
+| notificationId | guid | ✅ (route) | `3fa85f64-5717-4562-b3fc-2c963f66afa6` |
 
 ## Response (200)
 ```json
@@ -30,7 +30,6 @@
 ## Lỗi
 | Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
-| 400 | Team Is Already Disabled | Đã xoá mềm trước đó | Báo "Team đã bị vô hiệu hoá" |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | Không phải Admin | Ẩn chức năng |
-| 404 | Team Not Found | teamId không tồn tại | Báo "Team không tồn tại" |
+| 404 | Notification Not Found | notificationId không tồn tại | Báo "Không tìm thấy thông báo" |

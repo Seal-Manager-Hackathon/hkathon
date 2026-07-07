@@ -1,4 +1,4 @@
-# PUT /api/v1/admin/events/{eventId}
+# PATCH /api/v1/admin/events/{eventId}
 
 > Admin chỉnh sửa thông tin event. Chỉ gửi field cần sửa, null giữ nguyên.
 

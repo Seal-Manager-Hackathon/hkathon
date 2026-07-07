@@ -55,6 +55,7 @@ public class Service : IRoundService
                 StartSubmission = r.StartSubmission,
                 EndSubmission = r.EndSubmission,
                 LimitTeam = r.LimitTeam,
+                IsDisable = r.IsDisable,
                 CreatedAt = r.CreatedAt,
                 UpdatedAt = r.UpdatedAt
             }).ToList(),

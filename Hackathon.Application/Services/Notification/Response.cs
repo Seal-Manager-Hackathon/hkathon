@@ -22,7 +22,9 @@ public class NotificationCard
     public string? Status { get; set; }
     public string? Description { get; set; }
     public string? TargetType { get; set; }
+    public bool IsDisable { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 }
 
 public class NotificationDetailResponse

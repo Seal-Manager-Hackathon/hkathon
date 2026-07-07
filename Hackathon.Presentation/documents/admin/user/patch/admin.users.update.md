@@ -32,7 +32,7 @@
 
 ### Ví dụ
 ```
-PUT /api/v1/admin/users/3fa85f64-5717-4562-b3fc-2c963f66afa6
+PATCH /api/v1/admin/users/3fa85f64-5717-4562-b3fc-2c963f66afa6
 Content-Type: multipart/form-data
 
 {

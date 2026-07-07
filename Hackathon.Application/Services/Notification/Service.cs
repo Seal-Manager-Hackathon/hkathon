@@ -48,7 +48,9 @@ public class Service : INotificationService
                 Status = n.Status?.ToString(),
                 Description = n.Description,
                 TargetType = n.TargetType.ToString(),
-                CreatedAt = n.CreatedAt
+                IsDisable = n.IsDisable,
+                CreatedAt = n.CreatedAt,
+                UpdatedAt = n.UpdatedAt
             }).ToList()
         };
     }
@@ -83,7 +85,9 @@ public class Service : INotificationService
                 Status = n.Status?.ToString(),
                 Description = n.Description,
                 TargetType = n.TargetType.ToString(),
-                CreatedAt = n.CreatedAt
+                IsDisable = n.IsDisable,
+                CreatedAt = n.CreatedAt,
+                UpdatedAt = n.UpdatedAt
             }).ToList(),
             TotalCount = totalCount,
             PageIndex = request.PageIndex,

@@ -1,10 +1,11 @@
-# POST /api/v1/admin/register-teams/{registerTeamId}/unban
+# POST /api/v1/admin/register-teams/{registerTeamId}/ban
 
-> Admin bỏ cấm cho team tham gia lại event.
+> Admin cấm team tham gia event (chỉ ban trong event đó).
 
 ## Nghiệp vụ
-- Set IsBanned = false cho register team
-- 400 nếu chưa bị ban
+- Set IsBanned = true cho register team
+- Bị ban vẫn hiển thị trong danh sách (không xoá)
+- 400 nếu đã ban rồi
 
 ## Phân quyền
 - ✅ Admin
@@ -23,9 +24,6 @@
 ```
 
 ## Lỗi
-| Status | message | Khi nào | FE xử lý |
-|--------|---------|---------|----------|
-| 400 | Register Team Is Not Banned | Chưa bị ban | Báo "Chưa bị cấm" |
-| 401 | Invalid Or Expired Token | Token hết hạn | Redirect login |
+| Status | message | Khi nào | Token hết hạn | Redirect login |
 | 403 | You do not have permission to perform this action | Không phải Admin | Ẩn chức năng |
 | 404 | Register Team Not Found | registerTeamId ko tồn tại | Báo "Không tìm thấy" |

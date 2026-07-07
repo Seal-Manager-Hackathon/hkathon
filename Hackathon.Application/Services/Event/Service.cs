@@ -192,7 +192,9 @@ public class Service : IEventService
                 Status = e.Status?.ToString(),
                 StartTime = e.StartTime,
                 EndTime = e.EndTime,
-                CreatedAt = e.CreatedAt
+                IsDisable = e.IsDisable,
+                CreatedAt = e.CreatedAt,
+                UpdatedAt = e.UpdatedAt
             }).ToList()
         };
     }
@@ -226,7 +228,9 @@ public class Service : IEventService
                 Status = e.Status?.ToString(),
                 StartTime = e.StartTime,
                 EndTime = e.EndTime,
-                CreatedAt = e.CreatedAt
+                IsDisable = e.IsDisable,
+                CreatedAt = e.CreatedAt,
+                UpdatedAt = e.UpdatedAt
             }).ToList(),
             TotalCount = totalCount,
             PageIndex = request.PageIndex,

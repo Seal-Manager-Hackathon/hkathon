@@ -33,7 +33,7 @@
 // System — gửi cho tất cả
 { "title": "Hệ thống bảo trì", "description": "...", "targetType": "System" }
 
-// Team — gửi cho team
+// Team — tạo 1 thông báo cho team (không gửi từng user)
 { "title": "Nhắc hạn nộp", "description": "...", "targetType": "Team", "teamId": "guid" }
 
 // Personal — gửi cho 1 user trong team

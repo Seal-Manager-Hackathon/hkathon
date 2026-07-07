@@ -40,7 +40,8 @@ public class Service : ITeamService
                 Name = t.Name,
                 CanEdit = t.CanEdit,
                 IsDisable = t.IsDisable,
-                CreatedAt = t.CreatedAt
+                CreatedAt = t.CreatedAt,
+                UpdatedAt = t.UpdatedAt
             }).ToList(),
             TotalCount = totalCount,
             PageIndex = request.PageIndex,

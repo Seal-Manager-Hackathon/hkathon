@@ -20,6 +20,7 @@ public class RoundItem
     public DateTimeOffset? StartSubmission { get; set; }
     public DateTimeOffset? EndSubmission { get; set; }
     public int? LimitTeam { get; set; }
+    public bool IsDisable { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
 }

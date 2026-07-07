@@ -1,10 +1,10 @@
-# POST /api/v1/admin/teams/{teamId}/restore
+# POST /api/v1/admin/notifications/{notificationId}/restore
 
-> Admin khôi phục team đã xoá mềm (set IsDisable = false).
+> Admin khôi phục thông báo đã xoá mềm (set IsDisable = false).
 
 ## Nghiệp vụ
 - Ngược lại với DELETE, set `IsDisable = false`
-- Báo lỗi nếu team chưa bị disable
+- Báo lỗi nếu notification chưa bị disable
 
 ## Phân quyền
 - ✅ Admin
@@ -25,7 +25,6 @@
 ## Lỗi
 | Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
-| 400 | Team Is Not Disabled | Chưa bị xoá mềm | Báo "Team chưa bị vô hiệu hoá" |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | Không phải Admin | Ẩn chức năng |
-| 404 | Team Not Found | teamId không tồn tại | Báo "Team không tồn tại" |
+| 404 | Notification Not Found | notificationId không tồn tại | Báo "Không tìm thấy thông báo" |
