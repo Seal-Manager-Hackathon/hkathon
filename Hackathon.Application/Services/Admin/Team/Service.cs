@@ -178,4 +178,38 @@ public class Service : ITeamService
             Total = total
         };
     }
+
+    public async Task LockTeam(Guid teamId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var team = await _teamRepository.GetByIdAsync(teamId);
+        if (team == null)
+            throw new NotFoundException("Team Not Found");
+
+        if (!team.CanEdit)
+            throw new BadRequestException("Team Is Already Locked");
+
+        team.CanEdit = false;
+
+        await _teamRepository.UpdateAsync(team);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task UnlockTeam(Guid teamId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var team = await _teamRepository.GetByIdAsync(teamId);
+        if (team == null)
+            throw new NotFoundException("Team Not Found");
+
+        if (team.CanEdit)
+            throw new BadRequestException("Team Is Already Unlocked");
+
+        team.CanEdit = true;
+
+        await _teamRepository.UpdateAsync(team);
+        await _unitOfWork.SaveChangesAsync();
+    }
 }

@@ -115,6 +115,8 @@
 | PATCH | `/teams/{teamId}` | Update team |
 | POST | `/teams/{teamId}/delete` | Xóa mềm |
 | POST | `/teams/{teamId}/restore` | Khôi phục |
+| POST | `/teams/{teamId}/lock` | Khóa team (CanEdit = false) |
+| POST | `/teams/{teamId}/unlock` | Mở khóa team (CanEdit = true) |
 
 ---
 

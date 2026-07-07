@@ -106,5 +106,7 @@ public static class SuccessMessage
         public const string AwardsFetched = "Awards Fetched Successfully";
         public const string AwardCreated = "Award Created Successfully";
         public const string AwardUpdated = "Award Updated Successfully";
+        public const string TeamLocked = "Team Locked Successfully";
+        public const string TeamUnlocked = "Team Unlocked Successfully";
     }
 }

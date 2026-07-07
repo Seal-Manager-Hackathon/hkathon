@@ -58,4 +58,18 @@ public class AdminTeamController : ControllerBase
         await _teamService.RestoreTeam(teamId);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpPost("teams/{teamId:guid}/lock")]
+    public async Task<IActionResult> LockTeam(Guid teamId)
+    {
+        await _teamService.LockTeam(teamId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Admin.TeamLocked, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("teams/{teamId:guid}/unlock")]
+    public async Task<IActionResult> UnlockTeam(Guid teamId)
+    {
+        await _teamService.UnlockTeam(teamId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Admin.TeamUnlocked, traceId: HttpContext.TraceIdentifier));
+    }
 }

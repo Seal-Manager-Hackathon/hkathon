@@ -9,4 +9,6 @@ public interface ITeamService
     Task DeleteTeam(Guid teamId);
     Task RestoreTeam(Guid teamId);
     Task<GetUserTeamsResponse> GetUserTeams(GetUserTeamsRequest request);
+    Task LockTeam(Guid teamId);
+    Task UnlockTeam(Guid teamId);
 }
