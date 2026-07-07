@@ -52,4 +52,34 @@ public class AdminRegisterTeamController : ControllerBase
         await _registerTeamService.RejectRegisterTeam(registerTeamId, body.RejectionReason);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpGet("users/{userId:guid}/events")]
+    public async Task<IActionResult> GetUserEvents(Guid userId, [FromQuery] GetUserEventsRequest request)
+    {
+        request.UserId = userId;
+        var result = await _registerTeamService.GetUserEvents(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("teams/{teamId:guid}/register-teams")]
+    public async Task<IActionResult> GetRegisterTeamsByTeam(Guid teamId, [FromQuery] GetRegisterTeamsByTeamRequest request)
+    {
+        request.TeamId = teamId;
+        var result = await _registerTeamService.GetRegisterTeamsByTeam(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RegisterTeamsFetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPatch("register-teams/{registerTeamId:guid}/ban")]
+    public async Task<IActionResult> BanRegisterTeam(Guid registerTeamId)
+    {
+        await _registerTeamService.BanRegisterTeam(registerTeamId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPatch("register-teams/{registerTeamId:guid}/unban")]
+    public async Task<IActionResult> UnbanRegisterTeam(Guid registerTeamId)
+    {
+        await _registerTeamService.UnbanRegisterTeam(registerTeamId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
 }

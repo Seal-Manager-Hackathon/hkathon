@@ -1,5 +1,43 @@
 namespace Hackathon.Application.Services.RegisterTeam;
 
+public class GetUserEventsResponse
+{
+    public List<UserEventItem> Events { get; set; } = new();
+    public int TotalCount { get; set; }
+    public int PageIndex { get; set; }
+    public int PageSize { get; set; }
+}
+
+public class UserEventItem
+{
+    public Guid RegisterTeamId { get; set; }
+    public string? Status { get; set; }
+    public bool IsBanned { get; set; }
+    public bool IsDisable { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
+
+    // Event
+    public Guid EventId { get; set; }
+    public string? EventName { get; set; }
+    public string? EventDescription { get; set; }
+    public DateTimeOffset? EventStartTime { get; set; }
+    public DateTimeOffset? EventEndTime { get; set; }
+    public string? EventStatus { get; set; }
+
+    // Team
+    public Guid TeamId { get; set; }
+    public string? TeamName { get; set; }
+
+    // Track / Topic
+    public Guid? TrackId { get; set; }
+    public string? TrackTitle { get; set; }
+    public Guid? TopicId { get; set; }
+    public string? TopicTitle { get; set; }
+}
+
+
+
 public class GetRegisterTeamsResponse
 {
     public List<RegisterTeamCard> RegisterTeams { get; set; } = new();

@@ -207,6 +207,94 @@ public class Service : IRegisterTeamService
         await _unitOfWork.SaveChangesAsync();
     }
 
+    public async Task<GetRegisterTeamsResponse> GetRegisterTeamsByTeam(GetRegisterTeamsByTeamRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        PaginationHelper.Validate(request.PageIndex, request.PageSize);
+
+        RegisterTeamStatusEnum? status = null;
+        if (!string.IsNullOrWhiteSpace(request.Status))
+        {
+            if (!Enum.TryParse<RegisterTeamStatusEnum>(request.Status, true, out var parsed))
+                throw new BadRequestException("Invalid Status. Must be: Pending, Approved, Rejected");
+            status = parsed;
+        }
+
+        var (items, totalCount) = await _registerTeamRepository.GetByTeamIdAsync(
+            request.TeamId, status, request.PageIndex, request.PageSize);
+
+        return new GetRegisterTeamsResponse
+        {
+            RegisterTeams = items.Select(rt => new RegisterTeamCard
+            {
+                Id = rt.Id,
+                TeamId = rt.TeamId,
+                TeamName = rt.Team?.Name,
+                EventId = rt.EventId,
+                EventName = rt.Event?.Name,
+                TrackId = rt.TrackId,
+                TrackName = rt.Track?.Title,
+                TopicId = rt.TopicId,
+                TopicName = rt.Topic?.Title,
+                Description = rt.Description,
+                RejectionReason = rt.RejectionReason,
+                Status = rt.Status?.ToString(),
+                IsBanned = rt.IsBanned,
+                IsDisable = rt.IsDisable,
+                CreatedAt = rt.CreatedAt,
+                UpdatedAt = rt.UpdatedAt
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = request.PageIndex,
+            PageSize = request.PageSize
+        };
+    }
+
+    public async Task<GetUserEventsResponse> GetUserEvents(GetUserEventsRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        PaginationHelper.Validate(request.PageIndex, request.PageSize);
+
+        var (items, totalCount) = await _registerTeamRepository.GetApprovedByUserIdAsync(
+            request.UserId, request.Keyword, request.PageIndex, request.PageSize);
+
+        return new GetUserEventsResponse
+        {
+            Events = items.Select(rt => new UserEventItem
+            {
+                RegisterTeamId = rt.Id,
+                Status = rt.Status?.ToString(),
+                IsBanned = rt.IsBanned,
+                IsDisable = rt.IsDisable,
+                CreatedAt = rt.CreatedAt,
+                UpdatedAt = rt.UpdatedAt,
+
+                // Event
+                EventId = rt.EventId,
+                EventName = rt.Event?.Name,
+                EventDescription = rt.Event?.Description,
+                EventStartTime = rt.Event?.StartTime,
+                EventEndTime = rt.Event?.EndTime,
+                EventStatus = rt.Event?.Status?.ToString(),
+
+                // Team
+                TeamId = rt.TeamId,
+                TeamName = rt.Team?.Name,
+
+                // Track / Topic
+                TrackId = rt.TrackId,
+                TrackTitle = rt.Track?.Title,
+                TopicId = rt.TopicId,
+                TopicTitle = rt.Topic?.Title
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = request.PageIndex,
+            PageSize = request.PageSize
+        };
+    }
+
     public async Task RejectRegisterTeam(Guid registerTeamId, string? rejectionReason)
     {
         _authorizationService.Authorize(RoleEnum.Admin);
@@ -234,6 +322,36 @@ public class Service : IRegisterTeamService
         }
         // Nếu còn register team khác approved → CanEdit vẫn false (đã khóa)
 
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task BanRegisterTeam(Guid registerTeamId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var rt = await _registerTeamRepository.GetByIdAsync(registerTeamId);
+        if (rt == null)
+            throw new NotFoundException("Register Team Not Found");
+
+        if (rt.IsBanned)
+            throw new BadRequestException("Register Team Is Already Banned");
+
+        rt.IsBanned = true;
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task UnbanRegisterTeam(Guid registerTeamId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var rt = await _registerTeamRepository.GetByIdAsync(registerTeamId);
+        if (rt == null)
+            throw new NotFoundException("Register Team Not Found");
+
+        if (!rt.IsBanned)
+            throw new BadRequestException("Register Team Is Not Banned");
+
+        rt.IsBanned = false;
         await _unitOfWork.SaveChangesAsync();
     }
 }

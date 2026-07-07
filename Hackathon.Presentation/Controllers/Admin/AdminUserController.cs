@@ -1,5 +1,6 @@
 using Hackathon.Application.Common;
 using Hackathon.Application.Common.Models;
+using Hackathon.Application.Services.Team;
 using Hackathon.Application.Services.User;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,12 @@ namespace Hackathon.Presentation.Controllers.Admin;
 public class AdminUserController : ControllerBase
 {
     private readonly IUserService _userService;
+    private readonly ITeamService _teamService;
 
-    public AdminUserController(IUserService userService)
+    public AdminUserController(IUserService userService, ITeamService teamService)
     {
         _userService = userService;
+        _teamService = teamService;
     }
 
     [HttpGet("users/recent")]
@@ -57,5 +60,13 @@ public class AdminUserController : ControllerBase
     {
         var result = await _userService.CreateUser(request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.UserCreated, status: 201, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("users/{userId:guid}/teams")]
+    public async Task<IActionResult> GetUserTeams(Guid userId, [FromQuery] GetUserTeamsRequest request)
+    {
+        request.UserId = userId;
+        var result = await _teamService.GetUserTeams(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 }

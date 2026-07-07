@@ -8,4 +8,5 @@ public interface ITeamService
     Task UpdateTeam(UpdateTeamRequest request);
     Task DeleteTeam(Guid teamId);
     Task RestoreTeam(Guid teamId);
+    Task<GetUserTeamsResponse> GetUserTeams(GetUserTeamsRequest request);
 }

@@ -1,5 +1,17 @@
 namespace Hackathon.Application.Services.Team;
 
+public class GetUserTeamsRequest
+{
+    public Guid UserId { get; set; }
+    public string? Keyword { get; set; }
+    public string? Status { get; set; }
+    public bool? IsDisable { get; set; }
+    public int PageIndex { get; set; } = 1;
+    public int PageSize { get; set; } = 10;
+}
+
+
+
 public class UpdateTeamRequest
 {
     public Guid TeamId { get; set; }

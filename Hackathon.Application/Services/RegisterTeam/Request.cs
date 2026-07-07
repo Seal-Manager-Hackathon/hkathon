@@ -1,5 +1,25 @@
 namespace Hackathon.Application.Services.RegisterTeam;
 
+public class GetRegisterTeamsByTeamRequest
+{
+    public Guid TeamId { get; set; }
+    public string? Status { get; set; }
+    public int PageIndex { get; set; } = 1;
+    public int PageSize { get; set; } = 10;
+}
+
+
+
+public class GetUserEventsRequest
+{
+    public Guid UserId { get; set; }
+    public string? Keyword { get; set; }
+    public int PageIndex { get; set; } = 1;
+    public int PageSize { get; set; } = 10;
+}
+
+
+
 public class RejectRegisterTeamRequest
 {
     public string? RejectionReason { get; set; }

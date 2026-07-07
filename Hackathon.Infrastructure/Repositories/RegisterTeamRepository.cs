@@ -34,6 +34,58 @@ public class RegisterTeamRepository : IRegisterTeamRepository
                 && rt.Id != excludeRegisterTeamId
                 && rt.Status == RegisterTeamStatusEnum.Approved);
 
+    public async Task<(List<RegisterTeams> Items, int TotalCount)> GetApprovedByUserIdAsync(Guid userId, string? keyword, int pageIndex, int pageSize)
+    {
+        var query = _context.Set<RegisterTeams>()
+            .Include(rt => rt.Team)
+            .Include(rt => rt.Event)
+            .Include(rt => rt.Track)
+            .Include(rt => rt.Topic)
+            .Where(rt => rt.Status == RegisterTeamStatusEnum.Approved
+                && rt.Team.TeamDetails.Any(td => td.UserId == userId));
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var kw = keyword.Trim().ToLower();
+            query = query.Where(rt => rt.Event.Name.ToLower().Contains(kw));
+        }
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderByDescending(rt => rt.CreatedAt)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
+
+    public async Task<(List<RegisterTeams> Items, int TotalCount)> GetByTeamIdAsync(
+        Guid teamId, RegisterTeamStatusEnum? status, int pageIndex, int pageSize)
+    {
+        var query = _context.Set<RegisterTeams>()
+            .Include(rt => rt.Team)
+            .Include(rt => rt.Event)
+            .Include(rt => rt.Track)
+            .Include(rt => rt.Topic)
+            .Where(rt => rt.TeamId == teamId)
+            .AsQueryable();
+
+        if (status.HasValue)
+            query = query.Where(rt => rt.Status == status.Value);
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderByDescending(rt => rt.CreatedAt)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
+
     public async Task<(List<RegisterTeams> Items, int TotalCount)> SearchAsync(
         Guid eventId, string? keyword, RegisterTeamStatusEnum? status,
         bool? isBanned, bool? isDisable,

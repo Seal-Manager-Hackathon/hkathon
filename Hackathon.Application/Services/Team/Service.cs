@@ -3,6 +3,7 @@ using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
 using Hackathon.Domain.Entities;
+using Hackathon.Domain.Enums.TeamDetail;
 using Hackathon.Domain.Enums.User;
 
 namespace Hackathon.Application.Services.Team;
@@ -128,6 +129,43 @@ public class Service : ITeamService
                 IsLeader = m.IsLeader,
                 Status = m.Status?.ToString()
             }).ToList()
+        };
+    }
+
+    public async Task<GetUserTeamsResponse> GetUserTeams(GetUserTeamsRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        PaginationHelper.Validate(request.PageIndex, request.PageSize);
+
+        TeamDetailStatusEnum? status = null;
+        if (!string.IsNullOrWhiteSpace(request.Status))
+        {
+            if (!Enum.TryParse<TeamDetailStatusEnum>(request.Status, true, out var parsed))
+                throw new BadRequestException("Invalid Status. Must be: Active, Inactive");
+            status = parsed;
+        }
+
+        var (items, totalCount) = await _teamRepository.GetUserTeamsAsync(
+            request.UserId, request.Keyword, status, request.IsDisable,
+            request.PageIndex, request.PageSize);
+
+        return new GetUserTeamsResponse
+        {
+            Teams = items.Select(td => new UserTeamItem
+            {
+                TeamDetailId = td.Id,
+                TeamId = td.TeamId,
+                TeamName = td.Team?.Name,
+                CanEdit = td.Team?.CanEdit ?? false,
+                IsDisable = td.Team?.IsDisable ?? false,
+                IsLeader = td.IsLeader,
+                Status = td.Status?.ToString(),
+                CreatedAt = td.CreatedAt
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = request.PageIndex,
+            PageSize = request.PageSize
         };
     }
 

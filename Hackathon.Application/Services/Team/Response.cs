@@ -1,5 +1,27 @@
 namespace Hackathon.Application.Services.Team;
 
+public class GetUserTeamsResponse
+{
+    public List<UserTeamItem> Teams { get; set; } = new();
+    public int TotalCount { get; set; }
+    public int PageIndex { get; set; }
+    public int PageSize { get; set; }
+}
+
+public class UserTeamItem
+{
+    public Guid TeamDetailId { get; set; }
+    public Guid TeamId { get; set; }
+    public string? TeamName { get; set; }
+    public bool CanEdit { get; set; }
+    public bool IsDisable { get; set; }
+    public bool IsLeader { get; set; }
+    public string? Status { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+}
+
+
+
 public class GetTeamDetailResponse
 {
     public Guid Id { get; set; }

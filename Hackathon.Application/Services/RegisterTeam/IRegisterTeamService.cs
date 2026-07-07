@@ -7,4 +7,8 @@ public interface IRegisterTeamService
     Task UpdateRegisterTeam(UpdateRegisterTeamRequest request);
     Task ApproveRegisterTeam(Guid registerTeamId);
     Task RejectRegisterTeam(Guid registerTeamId, string? rejectionReason);
+    Task<GetUserEventsResponse> GetUserEvents(GetUserEventsRequest request);
+    Task<GetRegisterTeamsResponse> GetRegisterTeamsByTeam(GetRegisterTeamsByTeamRequest request);
+    Task BanRegisterTeam(Guid registerTeamId);
+    Task UnbanRegisterTeam(Guid registerTeamId);
 }
