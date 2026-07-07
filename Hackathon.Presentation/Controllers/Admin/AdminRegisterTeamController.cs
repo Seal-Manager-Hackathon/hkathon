@@ -31,7 +31,7 @@ public class AdminRegisterTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RegisterTeamDetailFetched, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPut("register-teams/{registerTeamId:guid}")]
+    [HttpPatch("register-teams/{registerTeamId:guid}")]
     public async Task<IActionResult> UpdateRegisterTeam(Guid registerTeamId, [FromBody] UpdateRegisterTeamRequest request)
     {
         request.RegisterTeamId = registerTeamId;
@@ -39,14 +39,14 @@ public class AdminRegisterTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Admin.RegisterTeamUpdated, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPatch("register-teams/{registerTeamId:guid}/approve")]
+    [HttpPost("register-teams/{registerTeamId:guid}/approve")]
     public async Task<IActionResult> ApproveRegisterTeam(Guid registerTeamId)
     {
         await _registerTeamService.ApproveRegisterTeam(registerTeamId);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPatch("register-teams/{registerTeamId:guid}/reject")]
+    [HttpPost("register-teams/{registerTeamId:guid}/reject")]
     public async Task<IActionResult> RejectRegisterTeam(Guid registerTeamId, [FromBody] RejectRegisterTeamRequest body)
     {
         await _registerTeamService.RejectRegisterTeam(registerTeamId, body.RejectionReason);
@@ -69,14 +69,14 @@ public class AdminRegisterTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RegisterTeamsFetched, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPatch("register-teams/{registerTeamId:guid}/ban")]
+    [HttpPost("register-teams/{registerTeamId:guid}/ban")]
     public async Task<IActionResult> BanRegisterTeam(Guid registerTeamId)
     {
         await _registerTeamService.BanRegisterTeam(registerTeamId);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPatch("register-teams/{registerTeamId:guid}/unban")]
+    [HttpPost("register-teams/{registerTeamId:guid}/unban")]
     public async Task<IActionResult> UnbanRegisterTeam(Guid registerTeamId)
     {
         await _registerTeamService.UnbanRegisterTeam(registerTeamId);

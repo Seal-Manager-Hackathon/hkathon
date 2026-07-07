@@ -32,7 +32,7 @@ public class AdminTopicController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPut("topics/{topicId:guid}")]
+    [HttpPatch("topics/{topicId:guid}")]
     public async Task<IActionResult> UpdateTopic(Guid topicId, [FromBody] UpdateTopicRequest request)
     {
         request.TopicId = topicId;

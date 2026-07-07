@@ -44,7 +44,7 @@ public class AdminEventController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPut("events/{eventId:guid}")]
+    [HttpPatch("events/{eventId:guid}")]
     public async Task<IActionResult> UpdateEvent(Guid eventId, [FromBody] UpdateEventRequest request)
     {
         request.EventId = eventId;

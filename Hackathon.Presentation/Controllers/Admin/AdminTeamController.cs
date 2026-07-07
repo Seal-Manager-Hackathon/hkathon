@@ -37,7 +37,7 @@ public class AdminTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.TeamCountFetched, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPut("teams/{teamId:guid}")]
+    [HttpPatch("teams/{teamId:guid}")]
     public async Task<IActionResult> UpdateTeam(Guid teamId, [FromBody] UpdateTeamRequest request)
     {
         request.TeamId = teamId;
@@ -45,14 +45,14 @@ public class AdminTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Admin.TeamUpdated, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPatch("teams/{teamId:guid}/delete")]
+    [HttpPost("teams/{teamId:guid}/delete")]
     public async Task<IActionResult> DeleteTeam(Guid teamId)
     {
         await _teamService.DeleteTeam(teamId);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Deleted, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPatch("teams/{teamId:guid}/restore")]
+    [HttpPost("teams/{teamId:guid}/restore")]
     public async Task<IActionResult> RestoreTeam(Guid teamId)
     {
         await _teamService.RestoreTeam(teamId);

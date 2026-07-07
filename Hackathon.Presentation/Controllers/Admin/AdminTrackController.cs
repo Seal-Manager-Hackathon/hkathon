@@ -39,7 +39,7 @@ public class AdminTrackController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPut("events/{eventId:guid}/tracks/{trackId:guid}")]
+    [HttpPatch("events/{eventId:guid}/tracks/{trackId:guid}")]
     public async Task<IActionResult> UpdateTrack(Guid eventId, Guid trackId, [FromBody] UpdateTrackRequest request)
     {
         request.TrackId = trackId;
@@ -47,14 +47,14 @@ public class AdminTrackController : ControllerBase
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPatch("tracks/{trackId:guid}/delete")]
+    [HttpPost("tracks/{trackId:guid}/delete")]
     public async Task<IActionResult> DeleteTrack(Guid trackId)
     {
         await _trackService.DeleteTrack(trackId);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Deleted, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPatch("tracks/{trackId:guid}/restore")]
+    [HttpPost("tracks/{trackId:guid}/restore")]
     public async Task<IActionResult> RestoreTrack(Guid trackId)
     {
         await _trackService.RestoreTrack(trackId);
