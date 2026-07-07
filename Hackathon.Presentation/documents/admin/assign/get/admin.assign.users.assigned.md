@@ -1,8 +1,13 @@
-# GET api/v1/admin/assign/users/assigned
+# GET api/v1/admin/assign/events/{eventId}/users/assigned
 
-Lấy danh sách tất cả user đã được phân công vào event (toàn bộ event), kèm thông tin user, event role, assign tracks, và event.
+Lấy danh sách user đã được phân công trong 1 event, kèm thông tin user, event role, assign tracks, và event. Có thể lọc theo EventRole.
 
 ## Request
+
+### Route Parameters
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| eventId | Guid | ID của event |
 
 ### Query Parameters
 | Parameter | Type | Required | Description |
@@ -49,9 +54,3 @@ Lấy danh sách tất cả user đã được phân công vào event (toàn b�
 
 - `401` — Unauthorized
 - `400` — Invalid EventRole / PageIndex/PageSize invalid
-
-## Notes
-
-- Filter `EventRole` lọc theo **event role** (Judge/Mentor/Staff), **không phải user role**
-- Nếu ko truyền EventRole → lấy tất cả
-- Keyword search theo email hoặc fullname (FirstName + LastName)

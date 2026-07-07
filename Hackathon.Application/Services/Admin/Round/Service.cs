@@ -349,8 +349,8 @@ public class Service : IRoundService
         if (round == null)
             throw new NotFoundException("Round Not Found");
 
-        // Chỉ cho restore round đã bị xóa (RoundNo = 0)
-        if (round.RoundNo != 0)
+        // Chỉ cho restore round đã bị xóa (IsDisable = true)
+        if (!round.IsDisable)
             throw new BadRequestException(ErrMsg.Round.RoundNotDeleted);
 
         var ev = await _eventRepository.GetByIdAsync(round.EventId);

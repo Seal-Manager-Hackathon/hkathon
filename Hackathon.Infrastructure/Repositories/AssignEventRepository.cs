@@ -13,8 +13,8 @@ public class AssignEventRepository : IAssignEventRepository
         _context = context;
     }
 
-    public async Task<(List<AssignEvents> Items, int TotalCount)> GetAssignedUsersAsync(
-        Guid eventId, string? keyword, Domain.Enums.User.RoleEnum? role,
+    public async Task<(List<AssignEvents> Items, int TotalCount)> GetAssignedUsersByEventAsync(
+        Guid eventId, string? keyword, Domain.Enums.EventRole.EventRoleEnum? eventRole,
         int pageIndex, int pageSize)
     {
         var query = _context.AssignEvents
@@ -24,8 +24,8 @@ public class AssignEventRepository : IAssignEventRepository
                 .ThenInclude(at => at.Track)
             .Where(ae => ae.EventId == eventId);
 
-        if (role.HasValue)
-            query = query.Where(ae => ae.User.Role == role.Value);
+        if (eventRole.HasValue)
+            query = query.Where(ae => ae.EventRole != null && ae.EventRole.Name == eventRole.Value);
 
         if (!string.IsNullOrWhiteSpace(keyword))
         {
@@ -67,7 +67,7 @@ public class AssignEventRepository : IAssignEventRepository
             .FirstOrDefaultAsync(er => er.Name == roleName);
 
     public async Task<(List<AssignEvents> Items, int TotalCount)> GetAllAssignedUsersAsync(
-        string? keyword, Domain.Enums.EventRole.EventRoleEnum? eventRole,
+        Guid eventId, string? keyword, Domain.Enums.EventRole.EventRoleEnum? eventRole,
         int pageIndex, int pageSize)
     {
         var query = _context.AssignEvents
@@ -76,9 +76,9 @@ public class AssignEventRepository : IAssignEventRepository
             .Include(ae => ae.AssignTracks)
                 .ThenInclude(at => at.Track)
             .Include(ae => ae.Event)
+            .Where(ae => ae.EventId == eventId)
             .AsQueryable();
 
-        // Filter by event role (not user role)
         if (eventRole.HasValue)
             query = query.Where(ae => ae.EventRole != null && ae.EventRole.Name == eventRole.Value);
 

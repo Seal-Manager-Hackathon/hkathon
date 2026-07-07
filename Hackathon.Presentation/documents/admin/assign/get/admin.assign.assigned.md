@@ -1,6 +1,6 @@
 # GET api/v1/admin/assign/events/{eventId}/assigned
 
-Lấy danh sách user (staff/lecturer) đã được phân công vào event, kèm event role và assign tracks.
+Lấy danh sách user đã được phân công trong 1 event, có thể lọc theo EventRole (Mentor/Judge/Staff).
 
 ## Request
 
@@ -13,7 +13,7 @@ Lấy danh sách user (staff/lecturer) đã được phân công vào event, kè
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | Keyword | string | No | Search theo email hoặc fullname |
-| Role | string | No | Lọc theo role: `Staff`, `Lecturer` |
+| EventRole | string | No | Lọc theo event role: `Mentor`, `Judge`, `Staff` |
 | PageIndex | int | No (default: 1) | Trang hiện tại |
 | PageSize | int | No (default: 10) | Số lượng item mỗi trang |
 
@@ -51,4 +51,4 @@ Lấy danh sách user (staff/lecturer) đã được phân công vào event, kè
 ## Error
 
 - `401` — Unauthorized
-- `400` — PageIndex/PageSize invalid
+- `400` — Invalid EventRole / PageIndex/PageSize invalid

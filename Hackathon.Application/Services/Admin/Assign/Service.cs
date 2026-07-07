@@ -67,29 +67,33 @@ public class Service : IAssignService
         if (user.Role == RoleEnum.Admin)
             throw new BadRequestException("Cannot Assign Admin To Event");
 
+        // Parse event role
+        if (!Enum.TryParse<EventRoleEnum>(request.EventRole, true, out var eventRoleEnum))
+            throw new BadRequestException("Invalid EventRole. Must be: Staff, Judge, Mentor");
+
+        // Validate event role theo user role
+        if (user.Role == RoleEnum.Staff && eventRoleEnum != EventRoleEnum.Staff)
+            throw new BadRequestException("Staff Can Only Be Assigned Staff Role");
+
+        if (user.Role == RoleEnum.Lecturer && eventRoleEnum == EventRoleEnum.Staff)
+            throw new BadRequestException("Lecturer Cannot Be Assigned Staff Role");
+
         // Check already assigned
         var existing = await _assignEventRepository.GetByEventIdAndUserIdAsync(request.EventId, request.UserId);
         if (existing != null)
             throw new ConflictException("User Is Already Assigned To This Event");
 
-        Guid? eventRoleId = null;
-
-        // Nếu là Staff → gán EventRole = Staff
-        if (user.Role == RoleEnum.Staff)
-        {
-            var eventRole = await _assignEventRepository.GetEventRoleByNameAsync(EventRoleEnum.Staff);
-            if (eventRole == null)
-                throw new NotFoundException("Event Role Staff Not Found");
-            eventRoleId = eventRole.Id;
-        }
-        // Nếu là Lecturer → ko gán EventRole (EventRoleId = null)
+        // Get EventRole từ DB
+        var eventRole = await _assignEventRepository.GetEventRoleByNameAsync(eventRoleEnum);
+        if (eventRole == null)
+            throw new NotFoundException($"Event Role {request.EventRole} Not Found");
 
         var assignEvent = new AssignEvents
         {
             Id = Guid.NewGuid(),
             EventId = request.EventId,
             UserId = request.UserId,
-            EventRoleId = eventRoleId,
+            EventRoleId = eventRole.Id,
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
         };
@@ -113,7 +117,7 @@ public class Service : IAssignService
         }
 
         var (items, totalCount) = await _assignEventRepository.GetAllAssignedUsersAsync(
-            request.Keyword, eventRole, request.PageIndex, request.PageSize);
+            request.EventId, request.Keyword, eventRole, request.PageIndex, request.PageSize);
 
         return new GetAllAssignedUsersResponse
         {
@@ -180,16 +184,16 @@ public class Service : IAssignService
 
         PaginationHelper.Validate(request.PageIndex, request.PageSize);
 
-        Domain.Enums.User.RoleEnum? role = null;
-        if (!string.IsNullOrWhiteSpace(request.Role))
+        Domain.Enums.EventRole.EventRoleEnum? eventRole = null;
+        if (!string.IsNullOrWhiteSpace(request.EventRole))
         {
-            if (!Enum.TryParse<Domain.Enums.User.RoleEnum>(request.Role, true, out var parsedRole))
-                throw new Exception("Invalid Role. Must be: Admin, Staff, Student, Lecturer");
-            role = parsedRole;
+            if (!Enum.TryParse<Domain.Enums.EventRole.EventRoleEnum>(request.EventRole, true, out var parsed))
+                throw new BadRequestException("Invalid EventRole. Must be: Mentor, Judge, Staff");
+            eventRole = parsed;
         }
 
-        var (items, totalCount) = await _assignEventRepository.GetAssignedUsersAsync(
-            request.EventId, request.Keyword, role, request.PageIndex, request.PageSize);
+        var (items, totalCount) = await _assignEventRepository.GetAssignedUsersByEventAsync(
+            request.EventId, request.Keyword, eventRole, request.PageIndex, request.PageSize);
 
         return new GetAssignedUsersResponse
         {
