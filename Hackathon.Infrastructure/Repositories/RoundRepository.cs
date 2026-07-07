@@ -13,6 +13,15 @@ public class RoundRepository : IRoundRepository
         _context = context;
     }
 
+    public async Task<Rounds?> GetByIdAsync(Guid id)
+        => await _context.Set<Rounds>().FindAsync(id);
+
+    public Task UpdateAsync(Rounds round)
+    {
+        _context.Set<Rounds>().Update(round);
+        return Task.CompletedTask;
+    }
+
     public async Task<Rounds?> GetFirstRoundByEventIdAsync(Guid eventId)
         => await _context.Set<Rounds>()
             .Where(r => r.EventId == eventId)
@@ -66,4 +75,10 @@ public class RoundRepository : IRoundRepository
 
         return (items, totalCount);
     }
+
+    public async Task<List<Rounds>> GetRoundsGreaterThanRoundNoAsync(Guid eventId, int roundNo)
+        => await _context.Set<Rounds>()
+            .Where(r => r.EventId == eventId && r.RoundNo > roundNo)
+            .OrderBy(r => r.RoundNo)
+            .ToListAsync();
 }

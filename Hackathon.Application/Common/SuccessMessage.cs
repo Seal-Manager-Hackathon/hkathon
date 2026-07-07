@@ -102,5 +102,6 @@ public static class SuccessMessage
         public const string EventUpdated = "Event Updated Successfully";
         public const string RoundsFetched = "Rounds Fetched Successfully";
         public const string RoundCreated = "Round Created Successfully";
+        public const string RoundUpdated = "Round Updated Successfully";
     }
 }

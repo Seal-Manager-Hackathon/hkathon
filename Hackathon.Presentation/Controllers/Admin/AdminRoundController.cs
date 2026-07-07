@@ -31,4 +31,42 @@ public class AdminRoundController : ControllerBase
         await _roundService.CreateRound(request);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Admin.RoundCreated, status: 201, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpPut("rounds/{roundId:guid}")]
+    public async Task<IActionResult> UpdateRound(Guid roundId, [FromBody] UpdateRoundRequest request)
+    {
+        request.RoundId = roundId;
+        await _roundService.UpdateRound(request);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Admin.RoundUpdated, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPatch("events/{eventId:guid}/rounds/{roundId:guid}/swap")]
+    public async Task<IActionResult> SwapRound(Guid eventId, Guid roundId, [FromBody] SwapRoundRequest request)
+    {
+        request.EventId = eventId;
+        request.RoundId = roundId;
+        await _roundService.SwapRound(request);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.OperationSuccessful, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("events/{eventId:guid}/rounds/max-round-no")]
+    public async Task<IActionResult> GetMaxRoundNo(Guid eventId)
+    {
+        var result = await _roundService.GetMaxRoundNo(eventId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPatch("rounds/{roundId:guid}/delete")]
+    public async Task<IActionResult> DeleteRound(Guid roundId)
+    {
+        await _roundService.DeleteRound(roundId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Deleted, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPatch("rounds/{roundId:guid}/restore")]
+    public async Task<IActionResult> RestoreRound(Guid roundId)
+    {
+        await _roundService.RestoreRound(roundId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.OperationSuccessful, traceId: HttpContext.TraceIdentifier));
+    }
 }

@@ -29,6 +29,9 @@ public static class ErrorMessage
         public const string RoundTimeMustBeWithinEventTime = "Round Time Must Be Within Event Time Range";
         public const string StartTimeMustBeAfterRegisterLimitTime = "Round Start Time Must Be After Event Register Limit Time";
         public const string RoundStartTimeMustBeAfterPreviousRoundEndTime = "Round Start Time Must Be After Or Equal Previous Round End Time";
+        public const string RoundEndTimeMustBeBeforeNextRoundStartTime = "Round End Time Must Be Before Or Equal Next Round Start Time";
+        public const string RoundNoNotFound = "Round No Not Found In Event";
+        public const string RoundNotDeleted = "Round Is Not Deleted";
     }
 
     public static class Database
