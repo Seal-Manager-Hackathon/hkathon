@@ -10,6 +10,7 @@ namespace Hackathon.Application.Services.Admin.CriteriaTemplate;
 public class Service : ICriteriaTemplateService
 {
     private readonly ICriteriaTemplateRepository _criteriaTemplateRepository;
+    private readonly ICriteriaItemRepository _criteriaItemRepository;
     private readonly IRoundRepository _roundRepository;
     private readonly IAuthorizationService _authorizationService;
     private readonly IUnitOfWork _unitOfWork;
@@ -18,12 +19,14 @@ public class Service : ICriteriaTemplateService
         ICriteriaTemplateRepository criteriaTemplateRepository,
         IRoundRepository roundRepository,
         IAuthorizationService authorizationService,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        ICriteriaItemRepository criteriaItemRepository)
     {
         _criteriaTemplateRepository = criteriaTemplateRepository;
         _roundRepository = roundRepository;
         _authorizationService = authorizationService;
         _unitOfWork = unitOfWork;
+        _criteriaItemRepository = criteriaItemRepository;
     }
 
     public async Task<GetCriteriaTemplatesByRoundResponse> GetCriteriaTemplatesByRound(GetCriteriaTemplatesByRoundRequest request)
@@ -60,15 +63,6 @@ public class Service : ICriteriaTemplateService
                 Title = t.Title,
                 Description = t.Description,
                 IsDisable = t.IsDisable,
-                Items = t.CriteriaItems.Select(ci => new CriteriaTemplateItemDetail
-                {
-                    Id = ci.Id,
-                    Name = ci.Name,
-                    Description = ci.Description,
-                    Score = ci.Score,
-                    IsDisable = ci.IsDisable,
-                    CreatedAt = ci.CreatedAt
-                }).ToList(),
                 CreatedAt = t.CreatedAt,
                 UpdatedAt = t.UpdatedAt
             })
@@ -130,6 +124,91 @@ public class Service : ICriteriaTemplateService
             PageIndex = request.PageIndex,
             PageSize = request.PageSize
         };
+    }
+
+    public async Task<GetCriteriaTemplateDetailResponse> GetCriteriaTemplateDetail(Guid templateId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var template = await _criteriaTemplateRepository.GetByIdAsync(templateId);
+        if (template == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        return new GetCriteriaTemplateDetailResponse
+        {
+            Id = template.Id,
+            RoundId = template.RoundId,
+            Title = template.Title,
+            Description = template.Description,
+            IsDisable = template.IsDisable,
+            Items = template.CriteriaItems.Select(ci => new CriteriaTemplateItemDetail
+            {
+                Id = ci.Id,
+                Name = ci.Name,
+                Description = ci.Description,
+                Score = ci.Score,
+                IsDisable = ci.IsDisable,
+                CreatedAt = ci.CreatedAt
+            }).ToList(),
+            CreatedAt = template.CreatedAt,
+            UpdatedAt = template.UpdatedAt
+        };
+    }
+
+    public async Task<GetCriteriaItemDetailResponse> GetCriteriaItemDetail(Guid itemId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var item = await _criteriaItemRepository.GetByIdAsync(itemId);
+        if (item == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        return new GetCriteriaItemDetailResponse
+        {
+            Id = item.Id,
+            CriteriaTemplateId = item.CriteriaTemplateId,
+            Name = item.Name,
+            Description = item.Description,
+            Score = item.Score,
+            IsDisable = item.IsDisable,
+            CreatedAt = item.CreatedAt,
+            UpdatedAt = item.UpdatedAt
+        };
+    }
+
+    public async Task ActivateCriteriaTemplate(Guid templateId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var template = await _criteriaTemplateRepository.GetByIdAsync(templateId);
+        if (template == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        // Tìm tất cả template cùng round, tắt hết -> chỉ cái được chọn mới active
+        var templatesInRound = await _criteriaTemplateRepository.GetByRoundIdAsync(template.RoundId);
+        var now = DateTimeOffset.UtcNow;
+
+        foreach (var t in templatesInRound)
+        {
+            if (t.Id == templateId)
+            {
+                if (!t.IsDisable)
+                    throw new BadRequestException("This Template Is Already Active");
+
+                t.IsDisable = false;
+            }
+            else
+            {
+                if (!t.IsDisable)
+                {
+                    t.IsDisable = true;
+                }
+            }
+            t.UpdatedAt = now;
+            await _criteriaTemplateRepository.UpdateAsync(t);
+        }
+
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task CreateCriteriaTemplate(CreateCriteriaTemplateRequest request)

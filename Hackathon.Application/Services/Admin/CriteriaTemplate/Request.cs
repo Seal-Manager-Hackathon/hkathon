@@ -29,7 +29,6 @@ public class CriteriaTemplateItem
     public string Title { get; set; } = null!;
     public string? Description { get; set; }
     public bool IsDisable { get; set; }
-    public List<CriteriaTemplateItemDetail> Items { get; set; } = new();
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
 }
@@ -99,6 +98,30 @@ public class UpdateCriteriaTemplateRequest
     public string? Title { get; set; }
     public string? Description { get; set; }
     public bool? IsDisable { get; set; }
+}
+
+public class GetCriteriaTemplateDetailResponse
+{
+    public Guid Id { get; set; }
+    public Guid RoundId { get; set; }
+    public string Title { get; set; } = null!;
+    public string? Description { get; set; }
+    public bool IsDisable { get; set; }
+    public List<CriteriaTemplateItemDetail> Items { get; set; } = new();
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
+}
+
+public class GetCriteriaItemDetailResponse
+{
+    public Guid Id { get; set; }
+    public Guid CriteriaTemplateId { get; set; }
+    public string Name { get; set; } = null!;
+    public string? Description { get; set; }
+    public decimal Score { get; set; }
+    public bool IsDisable { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 }
 
 public class CriteriaTemplateItemDetail

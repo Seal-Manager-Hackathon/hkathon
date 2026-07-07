@@ -195,12 +195,15 @@
 
 | Method | Route | Chức năng |
 |--------|-------|-----------|
-| GET | `/rounds/{roundId}/criteria-templates` | Danh sách template của round |
+| GET | `/rounds/{roundId}/criteria-templates` | Danh sách template của round (ko kèm items) |
+| GET | `/criteria-templates/{templateId}` | Chi tiết 1 template (kèm items) |
 | GET | `/criteria-templates/{templateId}/criteria-items` | Danh sách item của template |
+| GET | `/criteria-items/{itemId}` | Chi tiết 1 criteria item |
 | POST | `/rounds/{roundId}/criteria-templates` | Tạo template |
 | PATCH | `/criteria-templates/{templateId}` | Update template |
 | POST | `/criteria-templates/{templateId}/delete` | Xóa mềm |
 | POST | `/criteria-templates/{templateId}/restore` | Khôi phục |
+| POST | `/criteria-templates/{templateId}/activate` | Active template (chỉ 1 template/round được active) |
 
 ---
 
@@ -209,6 +212,8 @@
 
 | Method | Route | Chức năng |
 |--------|-------|-----------|
+| GET | `/reports` | Danh sách report (search keyword, filter status, phân trang) |
+| GET | `/reports/{reportId}` | Chi tiết 1 report (đầy đủ fields) |
 | GET | `/reports/recent` | Report gần đây |
 
 ---

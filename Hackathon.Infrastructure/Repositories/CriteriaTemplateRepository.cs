@@ -31,4 +31,10 @@ public class CriteriaTemplateRepository : ICriteriaTemplateRepository
 
     public async Task AddAsync(CriteriaTemplates template)
         => await _context.Set<CriteriaTemplates>().AddAsync(template);
+
+    public Task UpdateAsync(CriteriaTemplates template)
+    {
+        _context.Set<CriteriaTemplates>().Update(template);
+        return Task.CompletedTask;
+    }
 }

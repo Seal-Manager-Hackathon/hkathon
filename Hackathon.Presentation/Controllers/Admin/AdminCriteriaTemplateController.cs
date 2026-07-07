@@ -32,6 +32,20 @@ public class AdminCriteriaTemplateController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpGet("criteria-templates/{templateId:guid}")]
+    public async Task<IActionResult> GetCriteriaTemplateDetail(Guid templateId)
+    {
+        var result = await _criteriaTemplateService.GetCriteriaTemplateDetail(templateId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("criteria-items/{itemId:guid}")]
+    public async Task<IActionResult> GetCriteriaItemDetail(Guid itemId)
+    {
+        var result = await _criteriaTemplateService.GetCriteriaItemDetail(itemId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpPost("rounds/{roundId:guid}/criteria-templates")]
     public async Task<IActionResult> CreateCriteriaTemplate(Guid roundId, [FromBody] CreateCriteriaTemplateRequest request)
     {
@@ -53,6 +67,13 @@ public class AdminCriteriaTemplateController : ControllerBase
     {
         await _criteriaTemplateService.DeleteCriteriaTemplate(templateId);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Deleted, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("criteria-templates/{templateId:guid}/activate")]
+    public async Task<IActionResult> ActivateCriteriaTemplate(Guid templateId)
+    {
+        await _criteriaTemplateService.ActivateCriteriaTemplate(templateId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.OperationSuccessful, traceId: HttpContext.TraceIdentifier));
     }
 
     [HttpPost("criteria-templates/{templateId:guid}/restore")]

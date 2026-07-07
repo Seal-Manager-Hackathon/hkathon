@@ -16,6 +16,20 @@ public class AdminReportController : ControllerBase
         _reportService = reportService;
     }
 
+    [HttpGet("reports")]
+    public async Task<IActionResult> GetReports([FromQuery] GetReportsRequest request)
+    {
+        var result = await _reportService.GetReports(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("reports/{reportId:guid}")]
+    public async Task<IActionResult> GetReportDetail(Guid reportId)
+    {
+        var result = await _reportService.GetReportDetail(reportId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("reports/recent")]
     public async Task<IActionResult> GetRecentReports()
     {

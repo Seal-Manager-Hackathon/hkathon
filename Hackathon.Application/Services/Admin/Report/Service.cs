@@ -1,6 +1,9 @@
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
+using Hackathon.Application.Exceptions;
+using Hackathon.Domain.Enums.Report;
 using Hackathon.Domain.Enums.User;
+using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
 
 namespace Hackathon.Application.Services.Admin.Report;
 
@@ -26,12 +29,85 @@ public class Service : IReportService
             Reports = reports.Select(r => new ReportItem
             {
                 Id = r.Id,
+                UserId = r.UserId,
+                UserEmail = r.User.Email,
+                UserFirstName = r.User.FirstName,
+                UserLastName = r.User.LastName,
                 Title = r.Title,
                 Description = r.Description,
                 Status = r.Status?.ToString(),
                 TypeReport = r.TypeReport,
                 CreatedAt = r.CreatedAt
             }).ToList()
+        };
+    }
+
+    public async Task<GetReportsResponse> GetReports(GetReportsRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        ReportStatusEnum? status = null;
+        if (!string.IsNullOrWhiteSpace(request.Status))
+        {
+            if (!Enum.TryParse<ReportStatusEnum>(request.Status, true, out var parsed))
+                throw new BadRequestException("Invalid Status. Must be: Pending, Approved, Rejected");
+            status = parsed;
+        }
+
+        var (items, totalCount) = await _reportRepository.SearchAsync(
+            request.Keyword, status,
+            request.PageIndex, request.PageSize);
+
+        return new GetReportsResponse
+        {
+            Items = items.Select(r => new ReportItem
+            {
+                Id = r.Id,
+                UserId = r.UserId,
+                UserEmail = r.User.Email,
+                UserFirstName = r.User.FirstName,
+                UserLastName = r.User.LastName,
+                Title = r.Title,
+                Description = r.Description,
+                Status = r.Status?.ToString(),
+                TypeReport = r.TypeReport,
+                CreatedAt = r.CreatedAt
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = request.PageIndex,
+            PageSize = request.PageSize
+        };
+    }
+
+    public async Task<GetReportDetailResponse> GetReportDetail(Guid reportId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var report = await _reportRepository.GetByIdAsync(reportId);
+        if (report == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        return new GetReportDetailResponse
+        {
+            Id = report.Id,
+            UserId = report.UserId,
+            UserEmail = report.User.Email,
+            UserFirstName = report.User.FirstName,
+            UserLastName = report.User.LastName,
+            AssignEventId = report.AssignEventId,
+            AssignEventUserName = report.AssignEvent?.User != null
+                ? $"{report.AssignEvent.User.FirstName} {report.AssignEvent.User.LastName}"
+                : null,
+            SubmissionId = report.SubmissionId,
+            Title = report.Title,
+            Description = report.Description,
+            ImgUrl = report.ImgUrl,
+            FileUrl = report.FileUrl,
+            Status = report.Status?.ToString(),
+            Reason = report.Reason,
+            TypeReport = report.TypeReport,
+            CreatedAt = report.CreatedAt,
+            UpdatedAt = report.UpdatedAt
         };
     }
 }

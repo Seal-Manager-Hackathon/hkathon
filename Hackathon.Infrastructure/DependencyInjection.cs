@@ -45,6 +45,7 @@ public static class DependencyInjection
         services.AddScoped<ITrackRepository, Repositories.TrackRepository>();
         services.AddScoped<ITopicRepository, Repositories.TopicRepository>();
         services.AddScoped<ICriteriaTemplateRepository, Repositories.CriteriaTemplateRepository>();
+        services.AddScoped<ICriteriaItemRepository, Repositories.CriteriaItemRepository>();
         services.AddScoped<IAwardRepository, Repositories.AwardRepository>();
         services.AddScoped<IAssignEventRepository, Repositories.AssignEventRepository>();
         services.AddScoped<ISubmissionRepository, Repositories.SubmissionRepository>();
