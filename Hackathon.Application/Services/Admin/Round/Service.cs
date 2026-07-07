@@ -356,6 +356,7 @@ public class Service : IRoundService
         // RoundNo mới = max roundNo hiện tại + 1
         var maxRoundNo = await _roundRepository.GetMaxRoundNoAsync(round.EventId);
         round.RoundNo = (maxRoundNo ?? 0) + 1;
+        round.IsDisable = false;
 
         // Xóa thời gian (start, end, submission) khi restore
         round.StartTime = null;

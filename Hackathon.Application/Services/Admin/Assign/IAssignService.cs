@@ -6,4 +6,5 @@ public interface IAssignService
     Task<GetAvailableUserResponse> GetAvailableLecturer(GetAvailableUserRequest request);
     Task<GetAssignedUsersResponse> GetAssignedUsers(GetAssignedUsersRequest request);
     Task AssignUserToEvent(AssignUserToEventRequest request);
+    Task AssignEventRoleToLecturer(AssignEventRoleToLecturerRequest request);
 }

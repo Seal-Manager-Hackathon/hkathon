@@ -51,8 +51,16 @@ public class AssignEventRepository : IAssignEventRepository
         => await _context.AssignEvents
             .FirstOrDefaultAsync(ae => ae.EventId == eventId && ae.UserId == userId);
 
+    public async Task<AssignEvents?> GetByIdAsync(Guid id)
+        => await _context.AssignEvents
+            .Include(ae => ae.User)
+            .FirstOrDefaultAsync(ae => ae.Id == id);
+
     public void Add(AssignEvents assignEvent)
         => _context.AssignEvents.Add(assignEvent);
+
+    public void Update(AssignEvents assignEvent)
+        => _context.AssignEvents.Update(assignEvent);
 
     public async Task<EventRoles?> GetEventRoleByNameAsync(Domain.Enums.EventRole.EventRoleEnum roleName)
         => await _context.Set<EventRoles>()

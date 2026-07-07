@@ -98,6 +98,40 @@ public class Service : IAssignService
         await _unitOfWork.SaveChangesAsync();
     }
 
+    public async Task AssignEventRoleToLecturer(AssignEventRoleToLecturerRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        // Check assign event exists
+        var assignEvent = await _assignEventRepository.GetByIdAsync(request.AssignEventId);
+        if (assignEvent == null)
+            throw new NotFoundException("Assign Event Not Found");
+
+        // Check user có phải Lecturer ko
+        if (assignEvent.User.Role != RoleEnum.Lecturer)
+            throw new BadRequestException("User Is Not A Lecturer");
+
+        // Parse event role
+        if (!Enum.TryParse<EventRoleEnum>(request.EventRole, true, out var eventRoleEnum))
+            throw new BadRequestException("Invalid Event Role. Must be: Judge, Mentor");
+
+        // Ko cho phép Staff
+        if (eventRoleEnum == EventRoleEnum.Staff)
+            throw new BadRequestException("Cannot Assign Staff Role To Lecturer");
+
+        // Get EventRole từ DB
+        var eventRole = await _assignEventRepository.GetEventRoleByNameAsync(eventRoleEnum);
+        if (eventRole == null)
+            throw new NotFoundException($"Event Role {request.EventRole} Not Found");
+
+        // Update EventRoleId
+        assignEvent.EventRoleId = eventRole.Id;
+        assignEvent.UpdatedAt = DateTimeOffset.UtcNow;
+
+        _assignEventRepository.Update(assignEvent);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
     public async Task<GetAssignedUsersResponse> GetAssignedUsers(GetAssignedUsersRequest request)
     {
         _authorizationService.Authorize(RoleEnum.Admin);

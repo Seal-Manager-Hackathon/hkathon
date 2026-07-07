@@ -24,6 +24,14 @@ public class AdminAssignController : ControllerBase
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Created, status: 201, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpPatch("event-assigns/{assignEventId:guid}/event-role")]
+    public async Task<IActionResult> AssignEventRoleToLecturer(Guid assignEventId, [FromBody] AssignEventRoleToLecturerRequest request)
+    {
+        request.AssignEventId = assignEventId;
+        await _assignService.AssignEventRoleToLecturer(request);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("events/{eventId:guid}/staff/available")]
     public async Task<IActionResult> GetAvailableStaff(Guid eventId, [FromQuery] GetAvailableUserRequest request)
     {
