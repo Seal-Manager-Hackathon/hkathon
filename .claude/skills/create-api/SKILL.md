@@ -115,9 +115,10 @@ Base: c:\Users\phamq\OneDrive\Desktop\New folder (4)\BE-SEAL-HACKATHON
 **Folder:** `Hackathon.Presentation/Controllers/`
 
 **Quy tắc đặt tên:**
-- File: `{Role}Controller.cs` (vd: `AuthController.cs`, `AdminController.cs`, `StaffController.cs`)
-- Route: `[Route("api/v1/{controller}")]` (vd: `api/v1/auth`)
+- File: `{Role}{Entity}Controller.cs` (vd: `AdminUserController.cs`, `AdminEventController.cs`, `AuthController.cs`)
+- Route: `[Route("api/v1/admin")]` cho admin, `[Route("api/v1/{controller}")]` cho public
 - Class: kế thừa `ControllerBase`, attribute `[ApiController]`
+- **Mỗi thực thể lớn (entity) có controller riêng** — không gộp nhiều entity vào 1 controller. VD: AdminUserController cho user, AdminEventController cho event, AdminTeamController cho team, AdminRegisterTeamController cho register-team, ...
 
 **Cấu trúc bên trong:**
 ```csharp
