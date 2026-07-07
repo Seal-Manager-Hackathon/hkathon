@@ -145,7 +145,18 @@ public class Service : IEventService
         if (request.Description != null)
             ev.Description = request.Description;
         if (request.StartTime.HasValue)
+        {
             ev.StartTime = request.StartTime.Value;
+
+            // Update Year của leaderboard khi startTime thay đổi
+            var leaderBoard = await _eventRepository.GetLeaderBoardByEventIdAsync(request.EventId);
+            if (leaderBoard != null)
+            {
+                leaderBoard.Year = request.StartTime.Value.Year;
+                leaderBoard.UpdatedAt = DateTimeOffset.UtcNow;
+                await _eventRepository.UpdateLeaderBoardAsync(leaderBoard);
+            }
+        }
         if (request.EndTime.HasValue)
             ev.EndTime = request.EndTime.Value;
         if (request.RegisterLimitTime.HasValue)
@@ -335,6 +346,30 @@ public class Service : IEventService
         ev.UpdatedAt = DateTimeOffset.UtcNow;
 
         await _eventRepository.UpdateAsync(ev);
+
+        // Khi restore event, kiểm tra leaderboard — nếu chưa có thì tạo, gán Year từ StartTime
+        var leaderBoard = await _eventRepository.GetLeaderBoardByEventIdAsync(eventId);
+        if (leaderBoard == null)
+        {
+            leaderBoard = new LeaderBoards
+            {
+                Id = Guid.NewGuid(),
+                EventId = eventId,
+                Year = ev.StartTime.HasValue ? ev.StartTime.Value.Year : null,
+                IsLocked = false,
+                IsPublished = false,
+                CreatedAt = DateTimeOffset.UtcNow,
+                UpdatedAt = DateTimeOffset.UtcNow
+            };
+            await _eventRepository.AddLeaderBoardAsync(leaderBoard);
+        }
+        else if (ev.StartTime.HasValue)
+        {
+            leaderBoard.Year = ev.StartTime.Value.Year;
+            leaderBoard.UpdatedAt = DateTimeOffset.UtcNow;
+            await _eventRepository.UpdateLeaderBoardAsync(leaderBoard);
+        }
+
         await _unitOfWork.SaveChangesAsync();
     }
 }

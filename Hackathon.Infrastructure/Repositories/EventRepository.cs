@@ -32,6 +32,16 @@ public class EventRepository : IEventRepository
     public async Task AddLeaderBoardAsync(LeaderBoards leaderBoard)
         => await _context.Set<LeaderBoards>().AddAsync(leaderBoard);
 
+    public async Task<LeaderBoards?> GetLeaderBoardByEventIdAsync(Guid eventId)
+        => await _context.Set<LeaderBoards>()
+            .FirstOrDefaultAsync(lb => lb.EventId == eventId);
+
+    public Task UpdateLeaderBoardAsync(LeaderBoards leaderBoard)
+    {
+        _context.Set<LeaderBoards>().Update(leaderBoard);
+        return Task.CompletedTask;
+    }
+
     public async Task<List<Events>> GetRecentAsync(int count)
         => await _context.Events
             .OrderByDescending(e => e.CreatedAt)

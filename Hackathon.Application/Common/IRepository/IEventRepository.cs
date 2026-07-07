@@ -11,6 +11,8 @@ public interface IEventRepository
     Task UpdateAsync(Events ev);
     Task<int> CountByStatusAsync(EventStatusEnum? status);
     Task AddLeaderBoardAsync(LeaderBoards leaderBoard);
+    Task<LeaderBoards?> GetLeaderBoardByEventIdAsync(Guid eventId);
+    Task UpdateLeaderBoardAsync(LeaderBoards leaderBoard);
     Task<List<Events>> GetRecentAsync(int count);
     Task<(List<Events> Items, int TotalCount)> SearchAsync(
         string? keyword, EventStatusEnum? status,
