@@ -86,6 +86,10 @@ public class RegisterTeamRepository : IRegisterTeamRepository
         return (items, totalCount);
     }
 
+    public async Task<int> CountByTrackIdAsync(Guid trackId)
+        => await _context.Set<RegisterTeams>()
+            .CountAsync(rt => rt.TrackId == trackId);
+
     public async Task<(List<RegisterTeams> Items, int TotalCount)> SearchAsync(
         Guid eventId, string? keyword, RegisterTeamStatusEnum? status,
         bool? isBanned, bool? isDisable,

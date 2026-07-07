@@ -18,6 +18,7 @@ public static class ErrorMessage
         public const string InvalidJsonFormat = "Invalid Json Format";
         public const string InvalidEnumValue = "Invalid Enum Value";
         public const string InvalidDataType = "Invalid Data Type";
+        public const string ResourceNotFound = "Resource Not Found";
     }
 
     public static class Round

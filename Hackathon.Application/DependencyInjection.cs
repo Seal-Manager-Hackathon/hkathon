@@ -7,6 +7,8 @@ using Hackathon.Application.Services.User;
 using Hackathon.Application.Services.Notification;
 using Hackathon.Application.Services.RegisterTeam;
 using Hackathon.Application.Services.Round;
+using Hackathon.Application.Services.Track;
+using Hackathon.Application.Services.Topic;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hackathon.Application;
@@ -24,6 +26,8 @@ public static class DependencyInjection
         services.AddScoped<INotificationService, Services.Notification.Service>();
         services.AddScoped<IRegisterTeamService, Services.RegisterTeam.Service>();
         services.AddScoped<IRoundService, Services.Round.Service>();
+        services.AddScoped<ITrackService, Services.Track.Service>();
+        services.AddScoped<ITopicService, Services.Topic.Service>();
 
         return services;
     }
