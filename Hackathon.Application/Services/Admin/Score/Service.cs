@@ -44,21 +44,6 @@ public class Service : IScoreService
         };
     }
 
-    public async Task<GetSubmissionScoresResponse> GetSubmissionScores(Guid submissionId)
-    {
-        _authorizationService.Authorize(RoleEnum.Admin);
-
-        var scores = await _scoreRepository.GetBySubmissionIdAsync(submissionId);
-        var validScores = scores.Where(s => s.TotalScore.HasValue).ToList();
-
-        return new GetSubmissionScoresResponse
-        {
-            SubmissionId = submissionId,
-            TotalScore = Math.Round(validScores.Sum(s => s.TotalScore!.Value), 2),
-            JudgeCount = validScores.Count
-        };
-    }
-
     public async Task<GetSubmissionGraderScoresResponse> GetSubmissionGraderScores(Guid submissionId, int pageIndex, int pageSize)
     {
         _authorizationService.Authorize(RoleEnum.Admin);

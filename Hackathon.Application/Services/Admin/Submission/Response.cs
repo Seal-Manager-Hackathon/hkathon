@@ -19,7 +19,8 @@ public class GetSubmissionDetailResponse
     public DateTimeOffset? SubmittedAt { get; set; }
     public bool IsRegrade { get; set; }
     public SubmittedByUser? SubmittedBy { get; set; }
-    public List<SubmissionScoreDetail> Scores { get; set; } = new();
+    public decimal? TotalScore { get; set; }
+    public int JudgeCount { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
 }

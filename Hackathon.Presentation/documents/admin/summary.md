@@ -132,7 +132,7 @@
 | GET | `/rounds/{roundId}/submissions` | Danh sách bài nộp trong 1 round (search keyword) |
 | GET | `/register-teams/{registerTeamId}/submissions` | Bài nộp của team trong event (lọc theo round, ko truyền = all) |
 | GET | `/tracks/{trackId}/submissions` | Bài nộp theo track |
-| GET | `/submissions/{submissionId}` | Chi tiết 1 bài nộp (kèm scores) |
+| GET | `/submissions/{submissionId}` | Chi tiết 1 bài nộp (thông tin chung, tính tổng scores + judgeCount) |
 
 ---
 
@@ -164,7 +164,6 @@ Submissions (bài nộp)
 | GET | `/scores/{scoreId}` | Chi tiết 1 lượt chấm (score) — **ko kèm items** |
 | GET | `/scores/{scoreId}/items` | Score items của 1 lượt chấm (phân trang) |
 | GET | `/score-items/{scoreItemId}` | Chi tiết 1 score item (điểm + comment + người chấm) |
-| GET | `/submissions/{submissionId}/scores` | **Điểm tổng** của bài nộp: SUM(TotalScore), judgeCount |
 | GET | `/submissions/{submissionId}/grader-scores` | Danh sách từng lượt chấm của bài nộp (phân trang) |
 | GET | `/rounds/{roundId}/register-teams/{registerTeamId}/scores` | **scopeScore** team trong round (submission cuối) |
 

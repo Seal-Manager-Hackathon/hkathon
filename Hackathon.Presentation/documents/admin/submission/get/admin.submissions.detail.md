@@ -6,17 +6,18 @@
 
 Một **submission** là 1 lần team nộp bài trong 1 round. Mỗi team có thể nộp nhiều lần trong 1 round (nộp lại), lần cuối cùng mới là bài chính thức.
 
-Submission chứa:
-- Thông tin team, round, track, topic
-- Danh sách **scores** — mỗi score là 1 lượt chấm của 1 judge
-- Mỗi score chứa nhiều **score items** — điểm từng tiêu chí trong criteria template
+Submission chi tiết chứa thông tin chung về bài nộp và 2 trường tính toán:
+- **totalScore** — tổng điểm của tất cả judge đã chấm bài nộp này (SUM của Scores.TotalScore).
+- **judgeCount** — số lượng judge thực tế đã chấm bài nộp này.
 
-Cấu trúc phân cấp:
 ```
 Submissions (bài nộp)
-  └── Scores (lượt chấm — 1 record / judge)
-        └── ScoreItems (điểm từng tiêu chí)
+  ├── totalScore (SUM Scores.TotalScore)
+  └── judgeCount (Số judge đã chấm)
 ```
+
+> Muốn xem chi tiết các lượt chấm (scope) của từng judge cho bài nộp này?
+> 👉 [GET /submissions/{submissionId}/grader-scores](admin.submissions.grader-scores.md) (phân trang)
 
 ## Phân quyền
 - ✅ Admin
@@ -54,40 +55,8 @@ Submissions (bài nộp)
       "firstName": "Nguyễn",
       "lastName": "Văn A"
     },
-    "scores": [
-      {
-        "scoreId": "guid",
-        "submissionId": "guid",
-        "assignTrackId": "guid",
-        "trackTitle": "Track A",
-        "totalScore": 85.5,
-        "isRetake": false,
-        "retakeFromScoreId": null,
-        "isMock": false,
-        "items": [
-          {
-            "scoreItemId": "guid",
-            "scoreId": "guid",
-            "criteriaItemId": "guid",
-            "assignTrackId": "guid",
-            "assignEventId": "guid",
-            "criteriaName": "Tính sáng tạo",
-            "score": 20,
-            "comment": "Ý tưởng tốt",
-            "gradedBy": {
-              "userId": "guid",
-              "email": "lecturer@email.com",
-              "firstName": "Nguyễn",
-              "lastName": "Văn B"
-            },
-            "createdAt": "2026-07-07T12:00:00Z",
-            "updatedAt": "2026-07-07T12:00:00Z"
-          }
-        ],
-        "createdAt": "2026-07-07T12:00:00Z",
-        "updatedAt": "2026-07-07T12:00:00Z"
-      }
-    ],
+    "totalScore": 170.50,
+    "judgeCount": 2,
     "createdAt": "2026-07-07T12:00:00Z",
     "updatedAt": "2026-07-08T10:00:00Z"
   },
@@ -114,15 +83,8 @@ Submissions (bài nộp)
 | `submittedAt` | Thời gian nộp |
 | `isRegrade` | Đánh dấu bài được chấm lại |
 | `submittedBy` | Người nộp (leader của team) |
-| `scores[]` | Danh sách lượt chấm của bài này |
-
-### scores[].items[].gradedBy
-
-| Field | Ý nghĩa |
-|-------|---------|
-| `userId` | ID của người chấm (grader — lecturer role Judge) |
-| `email` | Email người chấm |
-| `firstName` / `lastName` | Tên người chấm |
+| `totalScore` | **Tổng điểm** bài nộp của tất cả judge đã chấm (SUM). Null nếu chưa có ai chấm |
+| `judgeCount` | Số lượng judge đã chấm bài nộp này |
 
 ## Lỗi
 

@@ -23,13 +23,6 @@ public class AdminScoreController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpGet("submissions/{submissionId:guid}/scores")]
-    public async Task<IActionResult> GetSubmissionScores(Guid submissionId)
-    {
-        var result = await _scoreService.GetSubmissionScores(submissionId);
-        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
-    }
-
     [HttpGet("submissions/{submissionId:guid}/grader-scores")]
     public async Task<IActionResult> GetSubmissionGraderScores(Guid submissionId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
     {
