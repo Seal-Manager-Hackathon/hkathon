@@ -94,7 +94,6 @@ public class SubmissionRepository : ISubmissionRepository
         Guid roundId, int pageIndex, int pageSize)
     {
         // Lấy tất cả register teams có trong round này (qua RoundDetails)
-        // và submission cuối cùng của mỗi team trong round + total score
         var query = _context.Set<RoundDetails>()
             .Include(rd => rd.Round)
             .Include(rd => rd.RegisterTeam)
@@ -105,13 +104,41 @@ public class SubmissionRepository : ISubmissionRepository
                 .ThenInclude(rt => rt.Topic)
             .Include(rd => rd.Submissions)
                 .ThenInclude(s => s.Scores)
+                    .ThenInclude(sc => sc.ScoreItems)
             .Where(rd => rd.RoundId == roundId)
             .AsQueryable();
 
         var totalCount = await query.CountAsync();
 
-        var items = await query
-            .Select(rd => new RoundSummaryItem
+        var roundDetails = await query
+            .OrderByDescending(rd => rd.Submissions
+                .OrderByDescending(s => s.SubmittedAt)
+                .SelectMany(s => s.Scores)
+                .SelectMany(s => s.ScoreItems)
+                .Where(si => si.Score.HasValue)
+                .GroupBy(si => si.CriteriaItemId)
+                .Sum(g => (decimal?)g.Average(si => si.Score!.Value) ?? 0))
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        var items = roundDetails.Select(rd =>
+        {
+            var lastSubmission = rd.Submissions
+                .OrderByDescending(s => s.SubmittedAt)
+                .FirstOrDefault();
+
+            // scopeScore = SUM(AVG(judgeScore) GROUP BY CriteriaItemId)
+            var allScoreItems = lastSubmission?.Scores
+                .SelectMany(s => s.ScoreItems)
+                .Where(si => si.Score.HasValue)
+                .ToList() ?? new();
+
+            var scopeScore = allScoreItems
+                .GroupBy(si => si.CriteriaItemId)
+                .Sum(g => Math.Round(g.Average(si => si.Score!.Value), 2));
+
+            return new RoundSummaryItem
             {
                 RoundId = rd.RoundId,
                 EventId = rd.Round.EventId,
@@ -119,23 +146,14 @@ public class SubmissionRepository : ISubmissionRepository
                 TeamId = rd.RegisterTeam.TeamId,
                 TeamName = rd.RegisterTeam.Team.Name,
                 TrackId = rd.RegisterTeam.TrackId,
-                TrackTitle = rd.RegisterTeam.Track != null ? rd.RegisterTeam.Track.Title : null,
+                TrackTitle = rd.RegisterTeam.Track?.Title,
                 TopicId = rd.RegisterTeam.TopicId,
-                TopicTitle = rd.RegisterTeam.Topic != null ? rd.RegisterTeam.Topic.Title : null,
-                LastSubmissionId = rd.Submissions
-                    .OrderByDescending(s => s.SubmittedAt)
-                    .Select(s => (Guid?)s.Id)
-                    .FirstOrDefault(),
-                TotalScore = rd.Submissions
-                    .OrderByDescending(s => s.SubmittedAt)
-                    .SelectMany(s => s.Scores)
-                    .Sum(s => (decimal?)s.TotalScore ?? 0),
+                TopicTitle = rd.RegisterTeam.Topic?.Title,
+                LastSubmissionId = lastSubmission?.Id,
+                TotalScore = Math.Round(scopeScore, 2),
                 RoundNo = rd.Round.RoundNo
-            })
-            .OrderByDescending(x => x.TotalScore)
-            .Skip((pageIndex - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
+            };
+        }).ToList();
 
         return (items, totalCount);
     }

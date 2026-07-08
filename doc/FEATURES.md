@@ -60,9 +60,9 @@
 - Judge scores by criteria item.
 - Store totals in `Scores`, details in `ScoreItems`.
 - Scoring helpers:
-  - `RoundScoreHelper` — sums average per CriteriaItemId from ScoreItems → TotalScore per Submission.
-  - `EventScoreHelper` — sums list of round scores (team vào sâu → tích lũy nhiều điểm).
-  - `ChapterScoreHelper` — averages list of event scores (chuẩn hóa giữa event có số round khác nhau).
+  - `RoundScoreHelper` — calculates **scopeScore**: AVG(judgeScore) per CriteriaItemId → SUM criteriaAvg → `Scores.TotalScore`.
+  - `EventScoreHelper` — calculates **eventScore**: weighted average of round scores (weight_i = 1 default, denominator = total rounds in event, team ko tham gia round = 0).
+  - `ChapterScoreHelper` — calculates **chapterScore**: AVG of event scores (chuẩn hóa giữa event có số round khác nhau).
 
 ## Report & Regrade
 - User sends report.

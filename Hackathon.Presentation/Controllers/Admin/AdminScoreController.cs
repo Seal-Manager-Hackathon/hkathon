@@ -36,4 +36,11 @@ public class AdminScoreController : ControllerBase
         var result = await _scoreService.GetScoreItems(scoreId, pageIndex, pageSize);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpGet("rounds/{roundId:guid}/register-teams/{registerTeamId:guid}/scores")]
+    public async Task<IActionResult> GetTeamRoundScore(Guid roundId, Guid registerTeamId)
+    {
+        var result = await _scoreService.GetTeamRoundScore(roundId, registerTeamId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
 }

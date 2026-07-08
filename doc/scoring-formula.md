@@ -1,124 +1,162 @@
-# Công thức tính điểm & Context cho từng tầng (dùng cho AI Agent)
+# Công thức tính điểm — Glossary & Cách tính
 
-## Sơ đồ phân cấp
+## Glossary (thuật ngữ chuẩn dùng trong code & doc)
 
-```
-CriteriaItem (tiêu chí — điểm tối đa trong field Score)
-   └─ chấm bởi nhiều Judge → ScoreItems (mỗi Judge tạo 1 bản chấm)
-        └─ gộp lại → Scores.TotalScore (điểm Submission trong Round)
-             └─ nhiều Round → EventScore (điểm Team trong Event)
-                  └─ nhiều Event trong năm → ChapterScore (điểm Team trong năm)
-```
+| Thuật ngữ | Entity / Field | Ý nghĩa |
+|---|---|---|
+| **judgeScore** | `ScoreItems.Score` (decimal?) | Điểm 1 judge chấm cho 1 tiêu chí (criteria item) của 1 submission. Mỗi judge tạo 1 ScoreItem. |
+| **criteriaAvg** | — (tính toán) | Trung bình các judgeScore có cùng `CriteriaItemId`. Là điểm cuối của tiêu chí đó cho submission. |
+| **scopeScore** | `Scores.TotalScore` (decimal) | Tổng điểm 1 submission = SUM các criteriaAvg. Lưu vào DB. |
+| **eventScore** | — (tính toán) | Điểm của 1 team trong 1 event. Weighted average theo round. |
+| **chapterScore** | — (tính toán) | Điểm của 1 team trong 1 năm. AVG các eventScore. |
 
 ---
 
-## Tầng 1: CriteriaItem → Score (điểm 1 Submission trong 1 Round)
+## Tầng 1: CriteriaItem → scopeScore (điểm 1 Submission trong 1 Round)
 
 ### Công thức
 
 ```
-criteriaAvg = AVG(ScoreItems.Score) GROUP BY CriteriaItemId
-               └─ nhiều judge chấm cùng 1 tiêu chí → lấy trung bình
+judgeScore_i(k) = ScoreItems.Score   (judge thứ i chấm cho criteria item k)
 
-Scores.TotalScore = SUM(criteriaAvg)   với mọi CriteriaItemId thuộc template của round
+criteriaAvg(k) = AVG(judgeScore_i(k))   với mọi judge i đã chấm (có ScoreItem tồn tại)
+                                          └─ CHỈ tính judge đã chấm thực tế
+                                          └─ ko yêu cầu tất cả judge được phân công
+                                              → phòng judge bận ko chấm
+
+scopeScore = SUM(criteriaAvg(k))   với mọi criteria item k trong template của round
 ```
 
 ### Entity mapping
 
-| Entity field | Vai trò |
+| Field | Vai trò |
 |---|---|
-| `CriteriaItems.Score` | Điểm tối đa cho tiêu chí đó (chỉ để hiển thị, ko ảnh hưởng tính toán) |
-| `ScoreItems.Score` (decimal?) | Điểm judge chấm cho tiêu chí đó |
-| `ScoreItems.CriteriaItemId` | FK → CriteriaItems |
-| `Scores.TotalScore` (decimal) | Kết quả sau tính toán, lưu vào DB |
+| `CriteriaItems.Score` | Điểm tối đa cho tiêu chí (chỉ để hiển thị, ko ảnh hưởng tính toán) |
+| `ScoreItems.Score` (decimal?) | **judgeScore** — điểm judge chấm |
+| `ScoreItems.CriteriaItemId` | FK → CriteriaItems, dùng để group tính **criteriaAvg** |
+| `ScoreItems.JudgeId` | FK → Users (Judge), để biết judge nào chấm |
+| `Scores.TotalScore` (decimal) | **scopeScore** — kết quả sau tính toán, lưu vào DB |
 
-### Code
+### Code (RoundScoreHelper — ko đổi logic)
 
 ```csharp
-// RoundScoreHelper.CalculateScoreTotal(scoreItems)
-// Group by CriteriaItemId → avg each group → sum all avgs
-var grouped = scoreItems.GroupBy(si => si.CriteriaItemId);
+// scopeScore = SUM(GROUP_AVG(judgeScore, CriteriaItemId))
+// Chỉ tính judgeScore có Score.HasValue = true
+var validItems = scoreItems.Where(si => si.Score.HasValue);
+var grouped = validItems.GroupBy(si => si.CriteriaItemId);
+
 foreach (var group in grouped)
-    total += group.Average(si => si.Score!.Value);
+    total += group.Average(si => si.Score!.Value);  // criteriaAvg
 ```
 
-### Context
+### Count rules
 
-- **AVG giữa các judge**: công bằng, tránh 1 judge chấm quá khắt khe/dễ dãi.
-- **SUM giữa các tiêu chí**: mỗi tiêu chí đánh giá 1 khía cạnh độc lập, cộng đủ mới phản ánh đúng năng lực toàn diện.
-- **Ràng buộc**: chỉ tính trên **submission cuối cùng** của team trong round đó. Judge chỉ được chấm nếu được phân công vào đúng Track của team.
+- **Chỉ đếm judge đã chấm thực tế** (có `ScoreItem.Score != null`).
+- Judge được phân công nhưng ko chấm → ko có ScoreItem → ko ảnh hưởng.
+- **Ko yêu cầu tất cả judge phải chấm** — phòng judge bận.
 
 ---
 
-## Tầng 2: Round → Event (điểm 1 Team trong 1 Event)
+## Tầng 2: Round → eventScore (điểm 1 Team trong 1 Event)
 
 ### Công thức
 
 ```
-eventScore(team, event) = SUM(roundScore_i)
-   với i chạy qua các round team ĐÃ THAM GIA
+eventScore = Σ(weight_i × roundScore_i) / Σ(weight_i)
+
+Trong đó:
+  weight_i     = trọng số round thứ i (mặc định = 1)
+  roundScore_i = scopeScore của team trong round thứ i
+                 (bằng 0 nếu team KO tham gia round đó)
 ```
 
 ### Entity mapping
 
-| Entity field | Vai trò |
+| Field | Vai trò |
 |---|---|
-| `Scores.TotalScore` | Điểm 1 round (đã tính ở tầng 1) |
-| `Rounds.RoundNo` | Số thứ tự round — round team đã qua (qua RoundDetails) |
-| `RoundDetails` | Bảng junction: RegisterTeams × Rounds |
+| `Scores.TotalScore` (decimal) | **roundScore** — scopeScore của submission cuối team trong round |
+| `RoundDetails` | Bảng junction: RegisterTeams × Rounds — biết team đã tham gia round nào |
+| `Rounds.RoundNo` | Số thứ tự round trong event |
+| `Rounds` | Hiện tại **ko có Weight field** → `weight_i = 1` cho tất cả |
 
-Không có `Weight` trên Round entity → không thể dùng weighted average.
+### Weighted average — giải thích
 
-### Tại sao dùng Sum thay vì Average?
+Entity `Round` hiện tại **không có** `Weight` hay `RoundWeight` property.  
+`weight_i = 1` là giá trị mặc định — khi nào entity có Weight field thì đổi thành giá trị thật.
 
-| Team | Round 1 | Round 2 | Event (Sum) | Event (Average) |
-|---|---|---|---|---|
-| A (vào sâu) | 80 | 70 | **150** | 75 |
-| B (dừng sớm) | 80 | — | **80** | 80 |
+**Config mặc định** (weight_i = 1 cho tất cả round):
 
-- **Sum**: team vô sâu hơn → tích lũy nhiều điểm hơn ✅ phản ánh đúng nỗ lực.
-- **Average**: team dừng sớm vẫn có thể ngang hoặc cao hơn ❌ vô lý.
+```
+eventScore = Σ(roundScore_i) / totalRounds
+```
 
-Trong cùng 1 event, các team đều có cơ hội như nhau để qua các round, nên Sum là công bằng.
+→ Công thức trở thành **average thường**, nhưng vẫn giữ nguyên tắc
+**"không tham gia = 0 trong mẫu số"**: mẫu số tính trên tổng số round của event,
+kể cả round team ko tham gia (roundScore = 0).
 
-### Code
+### Vì sao dùng weighted average thay vì Sum?
+
+| Team | R1 | R2 | R3 | Sum | Avg (weight=1) |
+|---|---|---|---|---|---|
+| A (vào chung kết) | 80 | 75 | 70 | **225** | **75.0** |
+| B (dừng R2) | 80 | 75 | — | **155** | **51.7** |
+| C (dừng R1) | 80 | — | — | **80** | **26.7** |
+
+- **Sum**: team vào sâu hơn luôn có điểm cao tuyệt đối ✅
+- **Weighted Average (weight=1)**: team vào sâu vẫn hơn hẳn, nhưng chuẩn hóa
+  theo số round ✅, tránh event có nhiều round quá lấn át chapter.
+
+Đây là **compromise** giữa Sum (thưởng độ sâu) và Average thuần (công bằng):
+vì mẫu số tính trên tổng số round của event, team dừng sớm bị 0 ở các round sau
+→ điểm thấp hơn hẳn team đi tiếp.
+
+### Code (EventScoreHelper — signature đã đổi)
 
 ```csharp
-// EventScoreHelper.Calculate(list of round scores)
-// Sum of all round scores for this event
-return Math.Round(roundScores.Sum(), 2);
+// eventScore = Σ(1 × roundScore_i) / totalRounds
+public static decimal Calculate(List<decimal> roundScores, int totalRounds)
+{
+    var sum = roundScores.Sum();                    // Σ(roundScore_i)
+    return Math.Round(sum / totalRounds, 2);        // ÷ tổng số round
+}
 ```
 
 ---
 
-## Tầng 3: Event → Chapter (điểm 1 Team trong 1 năm)
+## Tầng 3: Event → chapterScore (điểm 1 Team trong 1 năm)
 
 ### Công thức
 
 ```
-chapterScore(team, year) = AVG(eventScore(team, event_j))
+chapterScore = AVG(eventScore_j)
    với j chạy qua các event team đã tham gia trong năm đó
 ```
 
+### Entity mapping
+
+| Field | Vai trò |
+|---|---|
+| `RegisterEvents` | Bảng junction: RegisterTeams × Events — biết team tham gia event nào trong năm |
+| `Scores.TotalScore` | scopeScore dùng tính eventScore cho từng event |
+
 ### Tại sao dùng Average thay vì Sum?
 
-Các event có số round khác nhau → Sum event scores sẽ thiệt cho event ít round:
-
-| Team | Event A (3 rounds, sum=240) | Event B (2 rounds, sum=165) | Chapter (Sum) | Chapter (Average) |
+| Team | Event A (3 rounds) | Event B (2 rounds) | Sum | Avg |
 |---|---|---|---|---|
-| Tham gia A+B | 240 | 165 | **405** | **202.5** |
-| Chỉ tham gia A | 240 | — | **240** | **240** |
+| Tham gia A+B | 75.0 | 82.5 | **157.5** | **78.8** |
+| Chỉ tham gia A | 75.0 | — | **75.0** | **75.0** |
 
-Nếu dùng Sum, team tham gia nhiều event hơn sẽ luôn có chapter cao hơn — không phản ánh đúng chất lượng.
+- **Sum**: team tham gia nhiều event hơn sẽ luôn cao hơn — ko phản ánh chất lượng.
+- **Average**: chuẩn hóa giữa các event có cấu trúc (số round, weight) khác nhau,
+  chỉ đo chất lượng trung bình mỗi event.
 
-**Average** chuẩn hóa giữa các event có cấu trúc khác nhau, chỉ đo chất lượng trung bình mỗi event.
-
-### Code
+### Code (ChapterScoreHelper — ko đổi)
 
 ```csharp
-// ChapterScoreHelper.Calculate(list of event scores)
-// Average across events to normalize for different round counts
-return Math.Round(eventScores.Average(), 2);
+public static decimal Calculate(List<decimal> eventScores)
+{
+    return Math.Round(eventScores.Average(), 2);
+}
 ```
 
 ---
@@ -127,9 +165,9 @@ return Math.Round(eventScores.Average(), 2);
 
 | Tầng | Input | Phép toán | Output | Ghi chú |
 |---|---|---|---|---|
-| CriteriaItem → Score | Điểm judge chấm từng criteria | AVG theo criteria, SUM các criteria | `Scores.TotalScore` | Submission cuối cùng; judge đúng track |
-| Round → Event | `TotalScore` các round | SUM | `eventScore` | Entity ko có Weight → ko weighted avg |
-| Event → Chapter | `eventScore` các event trong năm | AVG | `chapterScore` | Chuẩn hóa giữa event có số round khác nhau |
+| CriteriaItem → scopeScore | judgeScore (`ScoreItems.Score`) | AVG theo CriteriaItemId → SUM | `Scores.TotalScore` | Chỉ tính judge đã chấm thực tế |
+| Round → eventScore | scopeScore các round | Weighted AVG (weight_i = 1) | eventScore | Mẫu số = tổng số round event |
+| Event → chapterScore | eventScore các event trong năm | AVG | chapterScore | Chuẩn hóa số round khác nhau |
 
 ## Ghi chú nghiệp vụ
 
@@ -138,3 +176,4 @@ return Math.Round(eventScores.Average(), 2);
 - Mỗi Round có đúng 1 `CriteriaTemplate` áp dụng chung cho mọi Track/Topic trong round đó.
 - Chỉ leader được nộp bài; team và judge chỉ thấy bản nộp cuối cùng trong round; staff (được phân công vào event) và admin thấy toàn bộ lịch sử nộp bài.
 - Judge chỉ chấm được submission thuộc Track mà mình được phân công.
+- **Ko có `Weight` trên Round entity hiện tại** — mọi weight mặc định = 1. Khi thêm Weight field, chỉ cần thay đổi code `EventScoreHelper`.

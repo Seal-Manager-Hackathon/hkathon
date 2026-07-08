@@ -45,6 +45,30 @@ public class RoundRepository : IRoundRepository
             .Where(rd => rd.RegisterTeamId == registerTeamId && rd.RoundId == roundId && !rd.IsDisable)
             .FirstOrDefaultAsync();
 
+    public async Task<RoundDetails?> GetRoundDetailWithScoresAsync(Guid roundId, Guid registerTeamId)
+        => await _context.Set<RoundDetails>()
+            .Include(rd => rd.Round)
+                .ThenInclude(r => r.Event)
+            .Include(rd => rd.RegisterTeam)
+                .ThenInclude(rt => rt.Track)
+            .Include(rd => rd.RegisterTeam)
+                .ThenInclude(rt => rt.Topic)
+            .Include(rd => rd.Submissions)
+                .ThenInclude(s => s.Scores)
+                    .ThenInclude(sc => sc.ScoreItems)
+                        .ThenInclude(si => si.CriteriaItem)
+            .Include(rd => rd.Submissions)
+                .ThenInclude(s => s.Scores)
+                    .ThenInclude(sc => sc.AssignTrack)
+                        .ThenInclude(at => at.Track)
+            .Include(rd => rd.Submissions)
+                .ThenInclude(s => s.Scores)
+                    .ThenInclude(sc => sc.AssignTrack)
+                        .ThenInclude(at => at.AssignEvent)
+                            .ThenInclude(ae => ae.User)
+            .Where(rd => rd.RoundId == roundId && rd.RegisterTeamId == registerTeamId && !rd.IsDisable)
+            .FirstOrDefaultAsync();
+
     public Task RemoveRoundDetailAsync(RoundDetails roundDetail)
     {
         roundDetail.IsDisable = true;

@@ -66,3 +66,39 @@ public class GetScoreItemsResponse
     public int PageIndex { get; set; }
     public int PageSize { get; set; }
 }
+
+public class GetTeamRoundScoreResponse
+{
+    public Guid RoundId { get; set; }
+    public Guid RegisterTeamId { get; set; }
+    public Guid EventId { get; set; }
+    public string EventName { get; set; } = string.Empty;
+    public Guid? TrackId { get; set; }
+    public string? TrackTitle { get; set; }
+    public Guid? TopicId { get; set; }
+    public string? TopicTitle { get; set; }
+    public decimal TotalScore { get; set; }
+    public List<TeamRoundGraderScore> GraderScores { get; set; } = new();
+    public List<TeamRoundCriteriaScore> CriteriaAverages { get; set; } = new();
+}
+
+public class TeamRoundGraderScore
+{
+    public Guid ScoreId { get; set; }
+    public Guid? AssignTrackId { get; set; }
+    public string? TrackTitle { get; set; }
+    public decimal? TotalScore { get; set; }
+    public bool IsRetake { get; set; }
+    public bool IsMock { get; set; }
+    public string? GraderName { get; set; }
+    public string? GraderEmail { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+}
+
+public class TeamRoundCriteriaScore
+{
+    public Guid CriteriaItemId { get; set; }
+    public string CriteriaName { get; set; } = string.Empty;
+    public decimal AverageScore { get; set; }
+    public int JudgeCount { get; set; }
+}

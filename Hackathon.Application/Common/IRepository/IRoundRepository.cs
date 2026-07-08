@@ -10,6 +10,10 @@ public interface IRoundRepository
     Task<int> CountTeamsInRoundAsync(Guid roundId);
     Task AddRoundDetailAsync(RoundDetails roundDetail);
     Task<RoundDetails?> GetRoundDetailAsync(Guid registerTeamId, Guid roundId);
+    /// <summary>
+    /// Lấy RoundDetail kèm Submissions → Scores → ScoreItems cho 1 team trong 1 round.
+    /// </summary>
+    Task<RoundDetails?> GetRoundDetailWithScoresAsync(Guid roundId, Guid registerTeamId);
     Task RemoveRoundDetailAsync(RoundDetails roundDetail);
     Task<(List<Rounds> Items, int TotalCount)> SearchByEventIdAsync(
         Guid eventId, string? keyword, int? roundNo, bool? isDisable,

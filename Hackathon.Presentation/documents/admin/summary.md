@@ -144,6 +144,7 @@
 | GET | `/scores/{scoreId}` | Chi tiết 1 lượt chấm (kèm score items) |
 | GET | `/submissions/{submissionId}/scores` | Danh sách lượt chấm của 1 bài nộp (kèm track, score items) |
 | GET | `/scores/{scoreId}/items` | Danh sách chi tiết điểm (score items) của 1 lượt chấm, phân trang |
+| GET | `/rounds/{roundId}/register-teams/{registerTeamId}/scores` | Điểm 1 team trong 1 round (scopeScore + criteriaAvg + grader scores, tính on-the-fly) |
 
 ---
 
@@ -228,7 +229,8 @@
 | GET | `/assign/events/{eventId}/staff/available` | Staff chưa assign, chưa ban, chưa disable |
 | GET | `/assign/events/{eventId}/lecturers/available` | Lecturer chưa assign, chưa ban, chưa disable |
 | GET | `/assign/events/{eventId}/assigned` | User đã assign trong event (filter EventRole) |
-| GET | `/assign/events/{eventId}/users/assigned` | User đã assign + event name + track (filter EventRole) |
+| POST | `/assign/event-assigns/{assignEventId}/tracks` | Gán track cho user |
+| POST | `/assign/event-assigns/{assignEventId}/tracks/{trackId}/remove` | Xóa mềm track khỏi user |
 
 **Logic đặc biệt:**
 - **Staff** → chỉ được gán EventRole = `Staff`
