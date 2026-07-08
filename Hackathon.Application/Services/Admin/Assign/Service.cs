@@ -105,48 +105,6 @@ public class Service : IAssignService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task<GetAllAssignedUsersResponse> GetAllAssignedUsers(GetAllAssignedUsersRequest request)
-    {
-        _authorizationService.Authorize(RoleEnum.Admin);
-
-        PaginationHelper.Validate(request.PageIndex, request.PageSize);
-
-        Domain.Enums.EventRole.EventRoleEnum? eventRole = null;
-        if (!string.IsNullOrWhiteSpace(request.EventRole))
-        {
-            if (!Enum.TryParse<Domain.Enums.EventRole.EventRoleEnum>(request.EventRole, true, out var parsed))
-                throw new BadRequestException("Invalid EventRole. Must be: Mentor, Judge, Staff");
-            eventRole = parsed;
-        }
-
-        var (items, totalCount) = await _assignEventRepository.GetAllAssignedUsersAsync(
-            request.EventId, request.Keyword, eventRole, request.PageIndex, request.PageSize);
-
-        return new GetAllAssignedUsersResponse
-        {
-            Items = items.Select(ae => new AssignedUserFullItem
-            {
-                AssignEventId = ae.Id,
-                UserId = ae.User.Id,
-                Email = ae.User.Email,
-                FirstName = ae.User.FirstName,
-                LastName = ae.User.LastName,
-                AvatarUrl = string.IsNullOrEmpty(ae.User.AvatarUrl) ? null : ae.User.AvatarUrl,
-                EventRole = ae.EventRole?.Name.ToString(),
-                EventName = ae.Event?.Name,
-                EventId = ae.EventId,
-                AssignTracks = ae.AssignTracks.Select(at => new AssignedTrackItem
-                {
-                    TrackId = at.TrackId,
-                    Title = at.Track.Title
-                }).ToList()
-            }).ToList(),
-            TotalCount = totalCount,
-            PageIndex = request.PageIndex,
-            PageSize = request.PageSize
-        };
-    }
-
     public async Task AssignEventRoleToLecturer(AssignEventRoleToLecturerRequest request)
     {
         _authorizationService.Authorize(RoleEnum.Admin);

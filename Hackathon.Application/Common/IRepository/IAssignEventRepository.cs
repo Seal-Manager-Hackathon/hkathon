@@ -17,7 +17,4 @@ public interface IAssignEventRepository
     Task<AssignTracks?> GetAssignTrackAsync(Guid assignEventId, Guid trackId);
     void RemoveAssignTrack(AssignTracks assignTrack);
     Task<EventRoles?> GetEventRoleByNameAsync(Domain.Enums.EventRole.EventRoleEnum roleName);
-    Task<(List<AssignEvents> Items, int TotalCount)> GetAllAssignedUsersAsync(
-        Guid eventId, string? keyword, Domain.Enums.EventRole.EventRoleEnum? eventRole,
-        int pageIndex, int pageSize);
 }

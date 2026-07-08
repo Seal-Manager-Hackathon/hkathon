@@ -64,6 +64,7 @@ public class GetRegisterTeamsResponse
 public class RegisterTeamCard
 {
     public Guid Id { get; set; }
+    public Guid RegisterTeamId => Id;
     public Guid TeamId { get; set; }
     public string? TeamName { get; set; }
     public Guid EventId { get; set; }

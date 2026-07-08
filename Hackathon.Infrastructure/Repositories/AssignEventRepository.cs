@@ -85,39 +85,4 @@ public class AssignEventRepository : IAssignEventRepository
         => await _context.Set<EventRoles>()
             .FirstOrDefaultAsync(er => er.Name == roleName);
 
-    public async Task<(List<AssignEvents> Items, int TotalCount)> GetAllAssignedUsersAsync(
-        Guid eventId, string? keyword, Domain.Enums.EventRole.EventRoleEnum? eventRole,
-        int pageIndex, int pageSize)
-    {
-        var query = _context.AssignEvents
-            .Include(ae => ae.User)
-            .Include(ae => ae.EventRole)
-            .Include(ae => ae.AssignTracks)
-                .ThenInclude(at => at.Track)
-            .Include(ae => ae.Event)
-            .Where(ae => ae.EventId == eventId)
-            .AsQueryable();
-
-        if (eventRole.HasValue)
-            query = query.Where(ae => ae.EventRole != null && ae.EventRole.Name == eventRole.Value);
-
-        if (!string.IsNullOrWhiteSpace(keyword))
-        {
-            var kw = keyword.Trim().ToLower();
-            query = query.Where(ae =>
-                ae.User.Email.ToLower().Contains(kw) ||
-                (ae.User.FirstName.ToLower() + " " + ae.User.LastName.ToLower()).Contains(kw));
-        }
-
-        var totalCount = await query.CountAsync();
-
-        var items = await query
-            .OrderBy(ae => ae.User.FirstName)
-            .ThenBy(ae => ae.User.LastName)
-            .Skip((pageIndex - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
-
-        return (items, totalCount);
-    }
 }

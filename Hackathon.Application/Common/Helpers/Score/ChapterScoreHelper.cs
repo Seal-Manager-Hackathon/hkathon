@@ -2,7 +2,8 @@ namespace Hackathon.Application.Common.Helpers;
 
 /// <summary>
 /// Tính điểm chapter cho 1 team trong 1 năm.
-/// Điểm chapter = tổng điểm các event trong cùng 1 năm (dựa trên EventScoreHelper).
+/// Điểm chapter = trung bình điểm các event trong cùng 1 năm (dựa trên EventScoreHelper).
+/// Dùng Average để chuẩn hóa giữa các event có số round khác nhau.
 /// </summary>
 public static class ChapterScoreHelper
 {
@@ -16,6 +17,6 @@ public static class ChapterScoreHelper
         if (eventScores.Count == 0)
             return 0;
 
-        return Math.Round(eventScores.Sum(), 2);
+        return Math.Round(eventScores.Average(), 2);
     }
 }

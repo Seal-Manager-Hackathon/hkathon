@@ -24,6 +24,7 @@
     "registerTeams": [
       {
         "id": "guid",
+        "registerTeamId": "guid",
         "teamId": "guid",
         "teamName": "FTeam",
         "eventId": "guid",

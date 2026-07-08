@@ -61,8 +61,8 @@
 - Store totals in `Scores`, details in `ScoreItems`.
 - Scoring helpers:
   - `RoundScoreHelper` — sums average per CriteriaItemId from ScoreItems → TotalScore per Submission.
-  - `EventScoreHelper` — averages list of round scores.
-  - `ChapterScoreHelper` — sums list of event scores.
+  - `EventScoreHelper` — sums list of round scores (team vào sâu → tích lũy nhiều điểm).
+  - `ChapterScoreHelper` — averages list of event scores (chuẩn hóa giữa event có số round khác nhau).
 
 ## Report & Regrade
 - User sends report.

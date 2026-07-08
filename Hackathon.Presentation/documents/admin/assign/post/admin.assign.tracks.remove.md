@@ -1,4 +1,4 @@
-# DELETE /api/v1/admin/assign/event-assigns/{assignEventId}/tracks/{trackId}
+# POST /api/v1/admin/assign/event-assigns/{assignEventId}/tracks/{trackId}/remove
 
 > Admin xóa 1 track khỏi assign event (hủy phân công track cho user).
 
@@ -23,7 +23,7 @@
 ```json
 {
   "data": null,
-  "message": "Deleted Successfully",
+  "message": "Updated Successfully",
   "status": 200,
   "traceId": "00-abc123..."
 }

@@ -2,7 +2,9 @@ namespace Hackathon.Application.Common.Helpers;
 
 /// <summary>
 /// Tính điểm event cho 1 register team.
-/// Điểm event = tổng trung bình điểm các round (dựa trên TotalScore của Scores).
+/// Điểm event = tổng điểm các round (dựa trên TotalScore của Scores).
+/// Dùng Sum vì team vào sâu hơn → tích lũy nhiều điểm hơn.
+/// Entity ko có Weight → ko dùng weighted average.
 /// </summary>
 public static class EventScoreHelper
 {
@@ -16,6 +18,6 @@ public static class EventScoreHelper
         if (roundScores.Count == 0)
             return 0;
 
-        return Math.Round(roundScores.Average(), 2);
+        return Math.Round(roundScores.Sum(), 2);
     }
 }

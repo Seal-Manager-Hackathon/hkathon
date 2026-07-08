@@ -8,28 +8,6 @@ public class GetAvailableUserResponse
     public int PageSize { get; set; }
 }
 
-public class GetAllAssignedUsersResponse
-{
-    public List<AssignedUserFullItem> Items { get; set; } = new();
-    public int TotalCount { get; set; }
-    public int PageIndex { get; set; }
-    public int PageSize { get; set; }
-}
-
-public class AssignedUserFullItem
-{
-    public Guid AssignEventId { get; set; }
-    public Guid UserId { get; set; }
-    public string Email { get; set; } = null!;
-    public string FirstName { get; set; } = string.Empty;
-    public string LastName { get; set; } = string.Empty;
-    public string? AvatarUrl { get; set; }
-    public string? EventRole { get; set; }
-    public string? EventName { get; set; }
-    public Guid? EventId { get; set; }
-    public List<AssignedTrackItem>? AssignTracks { get; set; }
-}
-
 public class GetAssignedUsersResponse
 {
     public List<AssignedUserItem> Items { get; set; } = new();
