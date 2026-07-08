@@ -13,17 +13,20 @@ public class Service : IAssignService
 {
     private readonly IUserRepository _userRepository;
     private readonly IAssignEventRepository _assignEventRepository;
+    private readonly ITrackRepository _trackRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IAuthorizationService _authorizationService;
 
     public Service(
         IUserRepository userRepository,
         IAssignEventRepository assignEventRepository,
+        ITrackRepository trackRepository,
         IUnitOfWork unitOfWork,
         IAuthorizationService authorizationService)
     {
         _userRepository = userRepository;
         _assignEventRepository = assignEventRepository;
+        _trackRepository = trackRepository;
         _unitOfWork = unitOfWork;
         _authorizationService = authorizationService;
     }
@@ -216,6 +219,58 @@ public class Service : IAssignService
             PageIndex = request.PageIndex,
             PageSize = request.PageSize
         };
+    }
+
+    public async Task AssignTrackToEvent(AssignTrackToEventRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        // Check assign event exists
+        var assignEvent = await _assignEventRepository.GetByIdWithTracksAsync(request.AssignEventId);
+        if (assignEvent == null)
+            throw new NotFoundException("Assign Event Not Found");
+
+        // Check track exists
+        var track = await _trackRepository.GetByIdAsync(request.TrackId);
+        if (track == null)
+            throw new NotFoundException("Track Not Found");
+
+        // Check track cùng event với assign event
+        if (track.EventId != assignEvent.EventId)
+            throw new BadRequestException("Track Does Not Belong To The Same Event");
+
+        // Check ko bị duplicate assign
+        var isAssigned = await _assignEventRepository.IsTrackAssignedAsync(request.AssignEventId, request.TrackId);
+        if (isAssigned)
+            throw new ConflictException("Track Is Already Assigned To This User");
+
+        var assignTrack = new AssignTracks
+        {
+            Id = Guid.NewGuid(),
+            AssignEventId = request.AssignEventId,
+            TrackId = request.TrackId,
+            CreatedAt = DateTimeOffset.UtcNow,
+            UpdatedAt = DateTimeOffset.UtcNow
+        };
+
+        _assignEventRepository.AddAssignTrack(assignTrack);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task RemoveTrackFromEvent(Guid assignEventId, Guid trackId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        // Check assign track exists
+        var assignTrack = await _assignEventRepository.GetAssignTrackAsync(assignEventId, trackId);
+        if (assignTrack == null)
+            throw new NotFoundException("Assign Track Not Found");
+
+        assignTrack.IsDisable = true;
+        assignTrack.UpdatedAt = DateTimeOffset.UtcNow;
+
+        _assignEventRepository.RemoveAssignTrack(assignTrack);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     private static GetAvailableUserResponse MapResponse(List<Domain.Entities.Users> items, int totalCount, GetAvailableUserRequest request)

@@ -8,4 +8,6 @@ public interface IAssignService
     Task AssignUserToEvent(AssignUserToEventRequest request);
     Task<GetAllAssignedUsersResponse> GetAllAssignedUsers(GetAllAssignedUsersRequest request);
     Task AssignEventRoleToLecturer(AssignEventRoleToLecturerRequest request);
+    Task AssignTrackToEvent(AssignTrackToEventRequest request);
+    Task RemoveTrackFromEvent(Guid assignEventId, Guid trackId);
 }

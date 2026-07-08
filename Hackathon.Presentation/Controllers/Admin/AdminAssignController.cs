@@ -63,4 +63,19 @@ public class AdminAssignController : ControllerBase
         var result = await _assignService.GetAvailableLecturer(request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpPost("event-assigns/{assignEventId:guid}/tracks")]
+    public async Task<IActionResult> AssignTrackToEvent(Guid assignEventId, [FromBody] AssignTrackToEventRequest request)
+    {
+        request.AssignEventId = assignEventId;
+        await _assignService.AssignTrackToEvent(request);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Created, status: 201, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpDelete("event-assigns/{assignEventId:guid}/tracks/{trackId:guid}")]
+    public async Task<IActionResult> RemoveTrackFromEvent(Guid assignEventId, Guid trackId)
+    {
+        await _assignService.RemoveTrackFromEvent(assignEventId, trackId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Deleted, traceId: HttpContext.TraceIdentifier));
+    }
 }

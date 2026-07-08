@@ -62,6 +62,25 @@ public class AssignEventRepository : IAssignEventRepository
     public void Update(AssignEvents assignEvent)
         => _context.AssignEvents.Update(assignEvent);
 
+    public async Task<AssignEvents?> GetByIdWithTracksAsync(Guid id)
+        => await _context.AssignEvents
+            .Include(ae => ae.AssignTracks)
+            .FirstOrDefaultAsync(ae => ae.Id == id);
+
+    public async Task<bool> IsTrackAssignedAsync(Guid assignEventId, Guid trackId)
+        => await _context.AssignTracks
+            .AnyAsync(at => at.AssignEventId == assignEventId && at.TrackId == trackId && !at.IsDisable);
+
+    public void AddAssignTrack(AssignTracks assignTrack)
+        => _context.AssignTracks.Add(assignTrack);
+
+    public async Task<AssignTracks?> GetAssignTrackAsync(Guid assignEventId, Guid trackId)
+        => await _context.AssignTracks
+            .FirstOrDefaultAsync(at => at.AssignEventId == assignEventId && at.TrackId == trackId && !at.IsDisable);
+
+    public void RemoveAssignTrack(AssignTracks assignTrack)
+        => _context.AssignTracks.Update(assignTrack);
+
     public async Task<EventRoles?> GetEventRoleByNameAsync(Domain.Enums.EventRole.EventRoleEnum roleName)
         => await _context.Set<EventRoles>()
             .FirstOrDefaultAsync(er => er.Name == roleName);
