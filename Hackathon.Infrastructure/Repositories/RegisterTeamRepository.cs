@@ -89,6 +89,15 @@ public class RegisterTeamRepository : IRegisterTeamRepository
         return (items, totalCount);
     }
 
+    public async Task<RegisterTeams?> GetByIdWithRoundDetailsAsync(Guid id)
+        => await _context.Set<RegisterTeams>()
+            .Include(rt => rt.Team)
+            .Include(rt => rt.Track)
+            .Include(rt => rt.Topic)
+            .Include(rt => rt.RoundDetails)
+                .ThenInclude(rd => rd.Round)
+            .FirstOrDefaultAsync(rt => rt.Id == id);
+
     public async Task<int> CountByTrackIdAsync(Guid trackId)
         => await _context.Set<RegisterTeams>()
             .CountAsync(rt => rt.TrackId == trackId);

@@ -15,5 +15,6 @@ public interface IRegisterTeamRepository
     Task<bool> HasOtherApprovedAsync(Guid teamId, Guid excludeRegisterTeamId);
     Task<(List<RegisterTeams> Items, int TotalCount)> GetApprovedByUserIdAsync(Guid userId, string? keyword, int pageIndex, int pageSize);
     Task<(List<RegisterTeams> Items, int TotalCount)> GetByTeamIdAsync(Guid teamId, RegisterTeamStatusEnum? status, bool? isDisable, int pageIndex, int pageSize);
+    Task<RegisterTeams?> GetByIdWithRoundDetailsAsync(Guid id);
     Task<int> CountByTrackIdAsync(Guid trackId);
 }

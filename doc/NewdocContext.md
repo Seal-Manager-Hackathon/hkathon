@@ -76,3 +76,12 @@
 - cái đó cũng là điểm của team trong round đó
 - điểm của nguyên event = tổng trung bình điểm của các round
 - điểm chapter = tổng điểm các event trrong 1 năm
+
+cập nhập lại cái đó cho đúng ý bạn hiểu nhé.
+-1 team khi tham gia sự kiện thì sẽ phải có team
+
+- khi đc chấp nhận tham gia event thì họ sẽ chọn track và bốc thăng topic. rồi staff sẽ gán cái track và topic đó vào register team cho team đó
+- mỗi 1 vòng có 1 critical templete áp dụng cho toàn bộ track và topic trong vòng đó
+- mỗi team sẽ nộp bài chấm, họ chỉ thấy bài đc hiện ra khi nộp là lần nộp cuối trong round đó của team họ, chỉ leader mới đc nộp. và judge cũng thấy bài cuối của từng team trong round. nhưng chỉ có staff dc phan công vào event này, và admin có thể thấy đc các record bài nộp cập nhập của team đó.
+- mỗi submission sẽ đc chấm bởi các judge đc phân công vào track tương ứng với team của bài nộp đó.
+- vì 1 submission đc nhiều ngừi chấm nên 1 submission - 1 scope chốt(tính toán từ các scope item) - nhiều scope item: mỗi cái scope item này do 1 người chấm điểm các tiêu chi(critical item của bài đó), điểm của scope item tương ứng với điểm của critical item. mỗi một cái scope item tính bằng : tổng trung bình các scope item của các người chấn bài này, cùng scope id. scope total thì tính bằng tổng các tiêu chí critical item của các scopeitem đc tính bằng tổng trung bình của các scopeitem có cùng critical item. lúc đó điểm đó là tổng điểm của team đó trong 1 round đó, điểm cả event bằng các tổng trung bình điểm của các round. chapter event tính bằng tổng điểm của các event trong cùng 1 năm.
