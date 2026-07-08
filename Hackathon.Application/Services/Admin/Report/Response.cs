@@ -30,13 +30,8 @@ public class GetReportDetailResponse
     public string UserEmail { get; set; } = null!;
     public string UserFirstName { get; set; } = null!;
     public string UserLastName { get; set; } = null!;
-    public Guid? AssignEventId { get; set; }
-    public string? AssignEventUserName { get; set; }
-    public Guid? SubmissionId { get; set; }
     public string? Title { get; set; }
     public string? Description { get; set; }
-    public string? ImgUrl { get; set; }
-    public string? FileUrl { get; set; }
     public string? Status { get; set; }
     public string? Reason { get; set; }
     public string? TypeReport { get; set; }

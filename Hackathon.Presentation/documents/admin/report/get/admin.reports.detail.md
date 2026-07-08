@@ -1,6 +1,6 @@
 # GET /api/v1/admin/reports/{reportId}
 
-> Admin xem chi tiết 1 report (đầy đủ fields).
+> Admin xem chi tiết 1 report.
 
 ## Phân quyền
 - ✅ Admin
@@ -21,13 +21,8 @@
     "userEmail": "user@fpt.edu.vn",
     "userFirstName": "Nguyễn",
     "userLastName": "Văn A",
-    "assignEventId": "guid",
-    "assignEventUserName": "Giám khảo Nguyễn Văn B",
-    "submissionId": "guid",
     "title": "Report title",
     "description": "Mô tả chi tiết report",
-    "imgUrl": "https://example.com/image.png",
-    "fileUrl": "https://example.com/file.pdf",
     "status": "Pending",
     "reason": null,
     "typeReport": "Spam",

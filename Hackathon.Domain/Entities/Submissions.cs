@@ -14,7 +14,6 @@ public class Submissions : BaseEntity<Guid>, IAuditableEntity
 
     public RoundDetails RoundDetail { get; set; } = null!;
     public ICollection<Scores> Scores { get; set; } = new List<Scores>();
-    public Reports? Report { get; set; }
 
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }

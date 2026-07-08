@@ -113,15 +113,8 @@ public class Service : IReportService
             UserEmail = report.User.Email,
             UserFirstName = report.User.FirstName,
             UserLastName = report.User.LastName,
-            AssignEventId = report.AssignEventId,
-            AssignEventUserName = report.AssignEvent?.User != null
-                ? $"{report.AssignEvent.User.FirstName} {report.AssignEvent.User.LastName}"
-                : null,
-            SubmissionId = report.SubmissionId,
             Title = report.Title,
             Description = report.Description,
-            ImgUrl = report.ImgUrl,
-            FileUrl = report.FileUrl,
             Status = report.Status?.ToString(),
             Reason = report.Reason,
             TypeReport = report.TypeReport,

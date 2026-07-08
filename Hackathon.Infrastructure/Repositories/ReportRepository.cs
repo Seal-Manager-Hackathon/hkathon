@@ -24,9 +24,6 @@ public class ReportRepository : IReportRepository
     public async Task<Reports?> GetByIdAsync(Guid reportId)
         => await _context.Set<Reports>()
             .Include(r => r.User)
-            .Include(r => r.AssignEvent)
-                .ThenInclude(ae => ae.User)
-            .Include(r => r.Submission)
             .FirstOrDefaultAsync(r => r.Id == reportId);
 
     public async Task<(List<Reports> Items, int TotalCount)> SearchAsync(

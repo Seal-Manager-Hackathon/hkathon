@@ -160,14 +160,10 @@ public class Service : IService
         {
             Id = Guid.NewGuid(),
             UserId = userId,
-            AssignEventId = request.AssignEventId,
-            SubmissionId = request.SubmissionId ?? Guid.Empty,
             Title = request.Title,
             Description = request.Description,
-            ImgUrl = request.ImgUrl,
-            FileUrl = request.FileUrl,
             TypeReport = request.TypeReport,
-            Status = ReportStatusEnum.Open,
+            Status = ReportStatusEnum.Pending,
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
         };
@@ -245,12 +241,8 @@ public class Service : IService
         return new Reponse.MyReportDetailResponse
         {
             Id = report.Id,
-            AssignEventId = report.AssignEventId,
-            SubmissionId = report.SubmissionId,
             Title = report.Title,
             Description = report.Description,
-            ImgUrl = report.ImgUrl,
-            FileUrl = report.FileUrl,
             TypeReport = report.TypeReport,
             Status = report.Status,
             Reason = report.Reason,

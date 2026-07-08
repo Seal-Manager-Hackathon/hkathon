@@ -84,12 +84,8 @@ public static class Reponse
     public class MyReportDetailResponse
     {
         public Guid Id { get; set; }
-        public Guid? AssignEventId { get; set; }
-        public Guid? SubmissionId { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
-        public string? ImgUrl { get; set; }
-        public string? FileUrl { get; set; }
         public string? TypeReport { get; set; }
         public ReportStatusEnum? Status { get; set; }
         public string? Reason { get; set; }
