@@ -83,8 +83,7 @@ public class SubmissionRepository : ISubmissionRepository
 
         var items = await query
             .OrderByDescending(rd => rd.Submissions
-                .Select(s => (DateTimeOffset?)s.SubmittedAt)
-                .Max() ?? DateTimeOffset.MinValue)
+                .Max(s => (DateTimeOffset?)s.SubmittedAt) ?? DateTimeOffset.MinValue)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
