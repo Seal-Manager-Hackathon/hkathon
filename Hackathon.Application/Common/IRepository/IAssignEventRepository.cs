@@ -1,4 +1,5 @@
 using Hackathon.Domain.Entities;
+using Hackathon.Domain.Enums.Event;
 
 namespace Hackathon.Application.Common.IRepository;
 
@@ -18,4 +19,9 @@ public interface IAssignEventRepository
     Task<AssignTracks?> GetGraderAssignTrackAsync(Guid userId, Guid eventId, Guid trackId);
     void RemoveAssignTrack(AssignTracks assignTrack);
     Task<EventRoles?> GetEventRoleByNameAsync(Domain.Enums.EventRole.EventRoleEnum roleName);
+    Task<(List<AssignEvents> Items, int TotalCount)> GetEventsByStaffUserIdAsync(
+        Guid userId, string? keyword, EventStatusEnum? status,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate,
+        int pageIndex, int pageSize);
+    Task<AssignEvents?> GetByEventIdAndUserIdWithEventAsync(Guid eventId, Guid userId);
 }
