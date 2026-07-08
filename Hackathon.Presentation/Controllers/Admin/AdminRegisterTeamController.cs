@@ -96,4 +96,18 @@ public class AdminRegisterTeamController : ControllerBase
         var result = await _registerTeamService.RevertToPreviousRound(registerTeamId);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpPost("register-teams/{registerTeamId:guid}/assign-track-topic")]
+    public async Task<IActionResult> AssignTrackTopic(Guid registerTeamId, [FromBody] AssignTrackTopicRequest request)
+    {
+        await _registerTeamService.AssignTrackTopic(registerTeamId, request);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("register-teams/{registerTeamId:guid}/remove-track-topic")]
+    public async Task<IActionResult> RemoveTrackTopic(Guid registerTeamId)
+    {
+        await _registerTeamService.RemoveTrackTopic(registerTeamId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
 }

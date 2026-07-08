@@ -152,10 +152,12 @@
 
 | Method | Route | Chức năng |
 |--------|-------|-----------|
-| GET | `/scores/{scoreId}` | Chi tiết 1 lượt chấm (kèm score items) |
-| GET | `/submissions/{submissionId}/scores` | Danh sách lượt chấm của 1 bài nộp (kèm track, score items) |
-| GET | `/scores/{scoreId}/items` | Danh sách chi tiết điểm (score items) của 1 lượt chấm, phân trang |
-| GET | `/rounds/{roundId}/register-teams/{registerTeamId}/scores` | Điểm 1 team trong 1 round (scopeScore + criteriaAvg + grader scores, tính on-the-fly) |
+| GET | `/scores/{scoreId}` | Chi tiết 1 lượt chấm (score) — kèm score items |
+| GET | `/score-items/{scoreItemId}` | Chi tiết 1 score item (điểm 1 tiêu chí) |
+| GET | `/submissions/{submissionId}/scores` | **Điểm tổng** của 1 bài nộp (SUM TotalScore các judge) |
+| GET | `/submissions/{submissionId}/grader-scores` | Danh sách lượt chấm (scope) của 1 bài nộp — chưa phải điểm cuối |
+| GET | `/scores/{scoreId}/items` | Danh sách score items của 1 lượt chấm, phân trang |
+| GET | `/rounds/{roundId}/register-teams/{registerTeamId}/scores` | Điểm 1 team trong 1 round (scopeScore + từng grader) |
 
 ---
 
@@ -173,6 +175,8 @@
 | POST | `/register-teams/{registerTeamId}/reject` | Từ chối (kèm lý do) |
 | POST | `/register-teams/{registerTeamId}/ban` | Ban đăng ký |
 | POST | `/register-teams/{registerTeamId}/unban` | Unban đăng ký |
+| POST | `/register-teams/{registerTeamId}/assign-track-topic` | Gán track + topic cho register team |
+| POST | `/register-teams/{registerTeamId}/remove-track-topic` | Gỡ track + topic khỏi register team |
 
 ---
 

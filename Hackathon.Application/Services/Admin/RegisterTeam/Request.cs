@@ -31,6 +31,12 @@ public class BanRegisterTeamRequest
     public string RejectionReason { get; set; } = null!;
 }
 
+public class AssignTrackTopicRequest
+{
+    public Guid TrackId { get; set; }
+    public Guid? TopicId { get; set; }
+}
+
 public class UpdateRegisterTeamRequest
 {
     public Guid RegisterTeamId { get; set; }

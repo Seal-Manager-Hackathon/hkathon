@@ -65,15 +65,5 @@ jobs:
             cd ~/hackathon
 
             docker pull hackathonseal/hkathon-deploy:latest
-
-            docker stop hkathon-deploy || true
-            docker rm hkathon-deploy || true
-
-            docker run -d \
-              --name hkathon-deploy \
-              --env-file .env \
-              -p 8081:8080 \
-              --restart unless-stopped \
-              hackathonseal/hkathon-deploy:latest
-
-            docker image prune -f
+            docker compose down
+            docker compose up -d

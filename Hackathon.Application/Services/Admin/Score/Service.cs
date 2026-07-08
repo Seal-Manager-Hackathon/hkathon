@@ -71,8 +71,23 @@ public class Service : IScoreService
         _authorizationService.Authorize(RoleEnum.Admin);
 
         var scores = await _scoreRepository.GetBySubmissionIdAsync(submissionId);
+        var validScores = scores.Where(s => s.TotalScore.HasValue).ToList();
 
         return new GetSubmissionScoresResponse
+        {
+            SubmissionId = submissionId,
+            TotalScore = Math.Round(validScores.Sum(s => s.TotalScore!.Value), 2),
+            JudgeCount = validScores.Count
+        };
+    }
+
+    public async Task<GetSubmissionGraderScoresResponse> GetSubmissionGraderScores(Guid submissionId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var scores = await _scoreRepository.GetBySubmissionIdAsync(submissionId);
+
+        return new GetSubmissionGraderScoresResponse
         {
             SubmissionId = submissionId,
             Scores = scores.Select(s => new ScoreDetail
@@ -142,26 +157,9 @@ public class Service : IScoreService
             .OrderByDescending(s => s.SubmittedAt)
             .FirstOrDefault();
 
-        // Tính criteriaAverages từ ScoreItems (giống RoundScoreHelper)
-        var allScoreItems = lastSubmission?.Scores
-            .SelectMany(s => s.ScoreItems)
-            .Where(si => si.Score.HasValue)
-            .ToList() ?? new();
-
-        var criteriaAverages = allScoreItems
-            .GroupBy(si => new { si.CriteriaItemId, Name = si.CriteriaItem?.Name ?? "" })
-            .Select(g => new TeamRoundCriteriaScore
-            {
-                CriteriaItemId = g.Key.CriteriaItemId,
-                CriteriaName = g.Key.Name,
-                AverageScore = Math.Round(g.Average(si => si.Score!.Value), 2),
-                JudgeCount = g.Select(si => si.AssignTrack?.AssignEvent?.UserId).Distinct().Count()
-            })
-            .ToList();
-
-        // Tính tổng criteriaAvg (scopeScore) — ko lưu, chỉ tính on-the-fly
+        // scopeScore = SUM(Scores.TotalScore) — dùng RoundScoreHelper
         var scopeScore = lastSubmission != null
-            ? Math.Round(criteriaAverages.Sum(c => c.AverageScore), 2)
+            ? RoundScoreHelper.Calculate(lastSubmission).Total
             : 0m;
 
         // Thông tin từng judge (grader) score
@@ -193,8 +191,39 @@ public class Service : IScoreService
             TopicId = registerTeam.TopicId,
             TopicTitle = registerTeam.Topic?.Title,
             TotalScore = scopeScore,
-            GraderScores = graderScores,
-            CriteriaAverages = criteriaAverages
+            GraderScores = graderScores
+        };
+    }
+
+    public async Task<ScoreItemDetail> GetScoreItemDetail(Guid scoreItemId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var scoreItem = await _scoreRepository.GetScoreItemByIdAsync(scoreItemId);
+        if (scoreItem == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        return new ScoreItemDetail
+        {
+            ScoreItemId = scoreItem.Id,
+            ScoreId = scoreItem.ScoreId,
+            CriteriaItemId = scoreItem.CriteriaItemId,
+            AssignTrackId = scoreItem.AssignTrackId,
+            AssignEventId = scoreItem.AssignTrack?.AssignEventId ?? Guid.Empty,
+            CriteriaName = scoreItem.CriteriaItem?.Name ?? "",
+            Score = scoreItem.Score,
+            Comment = scoreItem.Comment,
+            GradedBy = scoreItem.AssignTrack?.AssignEvent?.User != null
+                ? new GraderInfo
+                {
+                    UserId = scoreItem.AssignTrack.AssignEvent.User.Id,
+                    Email = scoreItem.AssignTrack.AssignEvent.User.Email,
+                    FirstName = scoreItem.AssignTrack.AssignEvent.User.FirstName,
+                    LastName = scoreItem.AssignTrack.AssignEvent.User.LastName
+                }
+                : null,
+            CreatedAt = scoreItem.CreatedAt,
+            UpdatedAt = scoreItem.UpdatedAt
         };
     }
 }

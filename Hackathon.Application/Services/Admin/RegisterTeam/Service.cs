@@ -14,6 +14,8 @@ public class Service : IRegisterTeamService
     private readonly IRegisterTeamRepository _registerTeamRepository;
     private readonly ITeamRepository _teamRepository;
     private readonly IRoundRepository _roundRepository;
+    private readonly ITrackRepository _trackRepository;
+    private readonly ITopicRepository _topicRepository;
     private readonly IAuthorizationService _authorizationService;
     private readonly IUnitOfWork _unitOfWork;
 
@@ -21,12 +23,16 @@ public class Service : IRegisterTeamService
         IRegisterTeamRepository registerTeamRepository,
         ITeamRepository teamRepository,
         IRoundRepository roundRepository,
+        ITrackRepository trackRepository,
+        ITopicRepository topicRepository,
         IAuthorizationService authorizationService,
         IUnitOfWork unitOfWork)
     {
         _registerTeamRepository = registerTeamRepository;
         _teamRepository = teamRepository;
         _roundRepository = roundRepository;
+        _trackRepository = trackRepository;
+        _topicRepository = topicRepository;
         _authorizationService = authorizationService;
         _unitOfWork = unitOfWork;
     }
@@ -453,6 +459,53 @@ public class Service : IRegisterTeamService
         rt.IsBanned = false;
         rt.Status = RegisterTeamStatusEnum.Approved;
         rt.RejectionReason = null;
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task AssignTrackTopic(Guid registerTeamId, AssignTrackTopicRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var rt = await _registerTeamRepository.GetByIdAsync(registerTeamId);
+        if (rt == null)
+            throw new NotFoundException("Register Team Not Found");
+
+        var track = await _trackRepository.GetByIdAsync(request.TrackId);
+        if (track == null)
+            throw new NotFoundException("Track Not Found");
+
+        if (track.EventId != rt.EventId)
+            throw new BadRequestException("Track Does Not Belong To The Same Event");
+
+        if (request.TopicId.HasValue)
+        {
+            var topic = await _topicRepository.GetByIdAsync(request.TopicId.Value);
+            if (topic == null)
+                throw new NotFoundException("Topic Not Found");
+
+            if (topic.TrackId != request.TrackId)
+                throw new BadRequestException("Topic Does Not Belong To The Specified Track");
+        }
+
+        rt.TrackId = request.TrackId;
+        rt.TopicId = request.TopicId;
+        rt.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task RemoveTrackTopic(Guid registerTeamId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var rt = await _registerTeamRepository.GetByIdAsync(registerTeamId);
+        if (rt == null)
+            throw new NotFoundException("Register Team Not Found");
+
+        rt.TrackId = null;
+        rt.TopicId = null;
+        rt.UpdatedAt = DateTimeOffset.UtcNow;
+
         await _unitOfWork.SaveChangesAsync();
     }
 }

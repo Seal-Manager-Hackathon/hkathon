@@ -30,6 +30,13 @@ public class AdminScoreController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpGet("submissions/{submissionId:guid}/grader-scores")]
+    public async Task<IActionResult> GetSubmissionGraderScores(Guid submissionId)
+    {
+        var result = await _scoreService.GetSubmissionGraderScores(submissionId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("scores/{scoreId:guid}/items")]
     public async Task<IActionResult> GetScoreItems(Guid scoreId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
     {
@@ -41,6 +48,13 @@ public class AdminScoreController : ControllerBase
     public async Task<IActionResult> GetTeamRoundScore(Guid roundId, Guid registerTeamId)
     {
         var result = await _scoreService.GetTeamRoundScore(roundId, registerTeamId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("score-items/{scoreItemId:guid}")]
+    public async Task<IActionResult> GetScoreItemDetail(Guid scoreItemId)
+    {
+        var result = await _scoreService.GetScoreItemDetail(scoreItemId);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 }

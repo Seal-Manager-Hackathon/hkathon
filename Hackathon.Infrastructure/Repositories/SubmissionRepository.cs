@@ -114,10 +114,7 @@ public class SubmissionRepository : ISubmissionRepository
             .OrderByDescending(rd => rd.Submissions
                 .OrderByDescending(s => s.SubmittedAt)
                 .SelectMany(s => s.Scores)
-                .SelectMany(s => s.ScoreItems)
-                .Where(si => si.Score.HasValue)
-                .GroupBy(si => si.CriteriaItemId)
-                .Sum(g => (decimal?)g.Average(si => si.Score!.Value) ?? 0))
+                .Sum(sc => (decimal?)sc.TotalScore ?? 0))
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -128,15 +125,10 @@ public class SubmissionRepository : ISubmissionRepository
                 .OrderByDescending(s => s.SubmittedAt)
                 .FirstOrDefault();
 
-            // scopeScore = SUM(AVG(judgeScore) GROUP BY CriteriaItemId)
-            var allScoreItems = lastSubmission?.Scores
-                .SelectMany(s => s.ScoreItems)
-                .Where(si => si.Score.HasValue)
-                .ToList() ?? new();
-
-            var scopeScore = allScoreItems
-                .GroupBy(si => si.CriteriaItemId)
-                .Sum(g => Math.Round(g.Average(si => si.Score!.Value), 2));
+            // scopeScore = SUM(Scores.TotalScore)
+            var scopeScore = lastSubmission?.Scores
+                .Where(s => s.TotalScore.HasValue)
+                .Sum(s => s.TotalScore!.Value) ?? 0m;
 
             return new RoundSummaryItem
             {

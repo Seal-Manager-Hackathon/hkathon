@@ -80,6 +80,17 @@ public class AssignEventRepository : IAssignEventRepository
         => await _context.AssignTracks
             .FirstOrDefaultAsync(at => at.AssignEventId == assignEventId && at.TrackId == trackId && !at.IsDisable);
 
+    public async Task<AssignTracks?> GetGraderAssignTrackAsync(Guid userId, Guid eventId, Guid trackId)
+        => await _context.AssignTracks
+            .Include(at => at.AssignEvent)
+                .ThenInclude(ae => ae.EventRole)
+            .Where(at => !at.IsDisable
+                && at.AssignEvent.UserId == userId
+                && at.AssignEvent.EventId == eventId
+                && at.AssignEvent.EventRole!.Name == Domain.Enums.EventRole.EventRoleEnum.Judge
+                && at.TrackId == trackId)
+            .FirstOrDefaultAsync();
+
     public void RemoveAssignTrack(AssignTracks assignTrack)
         => _context.AssignTracks.Update(assignTrack);
 

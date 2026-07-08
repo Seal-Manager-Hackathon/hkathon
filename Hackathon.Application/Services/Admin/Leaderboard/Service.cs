@@ -211,8 +211,7 @@ public class Service : ILeaderboardService
     }
 
     /// <summary>
-    /// Tính scopeScore = SUM(AVG(judgeScore) GROUP BY CriteriaItemId) cho 1 RoundDetail.
-    /// Chỉ tính submission cuối cùng của team trong round.
+    /// Tính scopeScore = SUM(Scores.TotalScore) của submission cuối cùng trong round.
     /// </summary>
     private static decimal CalculateScopeScore(RoundDetails rd)
     {
@@ -222,17 +221,6 @@ public class Service : ILeaderboardService
 
         if (lastSubmission == null) return 0;
 
-        var validScoreItems = lastSubmission.Scores
-            .SelectMany(s => s.ScoreItems)
-            .Where(si => si.Score.HasValue)
-            .ToList();
-
-        if (validScoreItems.Count == 0) return 0;
-
-        var scopeScore = validScoreItems
-            .GroupBy(si => si.CriteriaItemId)
-            .Sum(g => Math.Round(g.Average(si => si.Score!.Value), 2));
-
-        return Math.Round(scopeScore, 2);
+        return RoundScoreHelper.Calculate(lastSubmission).Total;
     }
 }

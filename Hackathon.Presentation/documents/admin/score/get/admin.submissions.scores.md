@@ -1,18 +1,14 @@
 # GET /api/v1/admin/submissions/{submissionId}/scores
 
-> Admin lấy điểm của 1 bài nộp (submission), gồm tất cả lượt chấm (ko kèm chi tiết tiêu chí).
-
-## Nghiệp vụ
-- Trả về danh sách các lượt chấm (Scores) của submission
-- Mỗi lượt chấm gồm tổng điểm, track chấm (không kèm score items — xem chi tiết score ở `GET /admin/scores/{scoreId}`)
+> Admin xem **điểm tổng** của 1 bài nộp — tổng tất cả Scores.TotalScore từ các judge.
 
 ## Phân quyền
 - ✅ Admin
 
 ## Request
 
-| Param       | Kiểu | Bắt buộc | Ví dụ |
-|-------------|------|----------|-------|
+| Param | Kiểu | Bắt buộc | Ví dụ |
+|-------|------|----------|-------|
 | submissionId | guid | ✅ (route) | `3fa85f64-5717-4562-b3fc-2c963f66afa6` |
 
 ## Response (200)
@@ -20,21 +16,9 @@
 ```json
 {
   "data": {
-    "submissionId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "scores": [
-      {
-        "scoreId": "guid",
-        "submissionId": "guid",
-        "assignTrackId": "guid",
-        "trackTitle": "Track A",
-        "totalScore": 85.5,
-        "isRetake": false,
-        "retakeFromScoreId": null,
-        "isMock": false,
-        "createdAt": "2026-07-07T12:00:00Z",
-        "updatedAt": "2026-07-07T12:00:00Z"
-      }
-    ]
+    "submissionId": "guid",
+    "totalScore": 170.50,
+    "judgeCount": 3
   },
   "message": "Fetched Successfully",
   "status": 200,
@@ -42,8 +26,11 @@
 }
 ```
 
-## Lỗi
+### Giải thích
+- `totalScore` = SUM(TotalScore của tất cả judge đã chấm bài này)
+- `judgeCount` = số judge đã chấm (có TotalScore)
 
+## Lỗi
 | Status | message | Khi nào |
 |--------|---------|---------|
 | 401 | Unauthorized | Token hết hạn/thiếu |

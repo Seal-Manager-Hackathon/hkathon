@@ -47,6 +47,17 @@ public class ScoreRepository : IScoreRepository
             .ToListAsync();
     }
 
+    public async Task AddAsync(Scores score)
+        => await _context.Set<Scores>().AddAsync(score);
+
+    public async Task<ScoreItems?> GetScoreItemByIdAsync(Guid scoreItemId)
+        => await _context.Set<ScoreItems>()
+            .Include(si => si.CriteriaItem)
+            .Include(si => si.AssignTrack)
+                .ThenInclude(at => at.AssignEvent)
+                    .ThenInclude(ae => ae.User)
+            .FirstOrDefaultAsync(si => si.Id == scoreItemId);
+
     public async Task<(List<ScoreItems> Items, int TotalCount)> GetScoreItemsByScoreIdAsync(Guid scoreId, int pageIndex, int pageSize)
     {
         var query = _context.Set<ScoreItems>()

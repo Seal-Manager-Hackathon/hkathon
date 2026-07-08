@@ -23,6 +23,12 @@ public class CriteriaTemplateRepository : ICriteriaTemplateRepository
             .Where(ct => ct.RoundId == roundId)
             .ToListAsync();
 
+    public async Task<CriteriaTemplates?> GetActiveByRoundIdAsync(Guid roundId)
+        => await _context.Set<CriteriaTemplates>()
+            .Include(ct => ct.CriteriaItems)
+            .Where(ct => ct.RoundId == roundId && ct.IsActive)
+            .FirstOrDefaultAsync();
+
     public async Task<List<CriteriaItems>> GetItemsByTemplateIdAsync(Guid templateId)
         => await _context.Set<CriteriaItems>()
             .Where(ci => ci.CriteriaTemplateId == templateId)

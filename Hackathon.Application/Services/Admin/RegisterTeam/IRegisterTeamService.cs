@@ -13,4 +13,6 @@ public interface IRegisterTeamService
     Task UnbanRegisterTeam(Guid registerTeamId);
     Task<AssignToNextRoundResponse> AssignToNextRound(Guid registerTeamId);
     Task<AssignToNextRoundResponse> RevertToPreviousRound(Guid registerTeamId);
+    Task AssignTrackTopic(Guid registerTeamId, AssignTrackTopicRequest request);
+    Task RemoveTrackTopic(Guid registerTeamId);
 }

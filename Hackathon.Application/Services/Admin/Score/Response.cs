@@ -18,6 +18,13 @@ public class GetScoreDetailResponse
 public class GetSubmissionScoresResponse
 {
     public Guid SubmissionId { get; set; }
+    public decimal TotalScore { get; set; }
+    public int JudgeCount { get; set; }
+}
+
+public class GetSubmissionGraderScoresResponse
+{
+    public Guid SubmissionId { get; set; }
     public List<ScoreDetail> Scores { get; set; } = new();
 }
 
@@ -101,4 +108,14 @@ public class TeamRoundCriteriaScore
     public string CriteriaName { get; set; } = string.Empty;
     public decimal AverageScore { get; set; }
     public int JudgeCount { get; set; }
+}
+
+public class ScoreSubmissionResponse
+{
+    public Guid ScoreId { get; set; }
+    public Guid SubmissionId { get; set; }
+    public Guid RoundId { get; set; }
+    public int TotalScoreItems { get; set; }
+    public decimal? TotalScore { get; set; }
+    public int ScoreItemsProvided { get; set; }
 }
