@@ -4,5 +4,6 @@ public enum RegisterTeamStatusEnum
 {
     Pending,
     Approved,
-    Rejected
+    Rejected,
+    Banned
 }

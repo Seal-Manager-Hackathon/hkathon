@@ -26,6 +26,11 @@ public class RejectRegisterTeamRequest
     public string? RejectionReason { get; set; }
 }
 
+public class BanRegisterTeamRequest
+{
+    public string RejectionReason { get; set; } = null!;
+}
+
 public class UpdateRegisterTeamRequest
 {
     public Guid RegisterTeamId { get; set; }

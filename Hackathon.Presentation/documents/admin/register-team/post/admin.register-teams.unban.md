@@ -3,7 +3,7 @@
 > Admin bỏ cấm cho team tham gia lại event.
 
 ## Nghiệp vụ
-- Set IsBanned = false cho register team
+- Set `IsBanned = false`, `Status = Approved`, xóa `RejectionReason`
 - 400 nếu chưa bị ban
 
 ## Phân quyền

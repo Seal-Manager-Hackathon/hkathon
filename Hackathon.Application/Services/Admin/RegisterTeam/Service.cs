@@ -41,7 +41,7 @@ public class Service : IRegisterTeamService
         if (!string.IsNullOrWhiteSpace(request.Status))
         {
             if (!Enum.TryParse<RegisterTeamStatusEnum>(request.Status, true, out var parsed))
-                throw new BadRequestException("Invalid Status. Must be: Pending, Approved, Rejected");
+                throw new BadRequestException("Invalid Status. Must be: Pending, Approved, Rejected, Banned");
             status = parsed;
         }
 
@@ -149,7 +149,7 @@ public class Service : IRegisterTeamService
         if (request.Status != null)
         {
             if (!Enum.TryParse<RegisterTeamStatusEnum>(request.Status, true, out var status))
-                throw new BadRequestException("Invalid Status. Must be: Pending, Approved, Rejected");
+                throw new BadRequestException("Invalid Status. Must be: Pending, Approved, Rejected, Banned");
             rt.Status = status;
         }
         if (request.IsBanned.HasValue)
@@ -217,7 +217,7 @@ public class Service : IRegisterTeamService
         if (!string.IsNullOrWhiteSpace(request.Status))
         {
             if (!Enum.TryParse<RegisterTeamStatusEnum>(request.Status, true, out var parsed))
-                throw new BadRequestException("Invalid Status. Must be: Pending, Approved, Rejected");
+                throw new BadRequestException("Invalid Status. Must be: Pending, Approved, Rejected, Banned");
             status = parsed;
         }
 
@@ -325,7 +325,7 @@ public class Service : IRegisterTeamService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task BanRegisterTeam(Guid registerTeamId)
+    public async Task BanRegisterTeam(Guid registerTeamId, string rejectionReason)
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
@@ -337,6 +337,8 @@ public class Service : IRegisterTeamService
             throw new BadRequestException("Register Team Is Already Banned");
 
         rt.IsBanned = true;
+        rt.Status = RegisterTeamStatusEnum.Banned;
+        rt.RejectionReason = rejectionReason;
         await _unitOfWork.SaveChangesAsync();
     }
 
@@ -348,7 +350,12 @@ public class Service : IRegisterTeamService
         if (rt == null)
             throw new NotFoundException("Register Team Not Found");
 
+        if (!rt.IsBanned)
+            throw new BadRequestException("Register Team Is Not Banned");
+
         rt.IsBanned = false;
+        rt.Status = RegisterTeamStatusEnum.Approved;
+        rt.RejectionReason = null;
         await _unitOfWork.SaveChangesAsync();
     }
 }
