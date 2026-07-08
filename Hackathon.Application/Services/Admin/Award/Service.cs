@@ -52,7 +52,8 @@ public class Service : IAwardService
         var totalCount = query.Count();
 
         var items = query
-            .OrderBy(a => a.LevelAward)
+            .OrderBy(a => a.LevelAward == 0)
+            .ThenBy(a => a.LevelAward)
             .ThenByDescending(a => a.Prize)
             .Skip((request.PageIndex - 1) * request.PageSize)
             .Take(request.PageSize)

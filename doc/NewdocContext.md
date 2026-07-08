@@ -75,4 +75,4 @@
 - điểm của 1 tiêu chí(item) = trung bình cộng các scope item của các judge
 - cái đó cũng là điểm của team trong round đó
 - điểm của nguyên event = tổng trung bình điểm của các round
-- điểm chapter = tổng điểm các event
+- điểm chapter = tổng điểm các event trrong 1 năm

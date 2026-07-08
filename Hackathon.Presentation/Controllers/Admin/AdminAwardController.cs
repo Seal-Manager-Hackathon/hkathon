@@ -55,14 +55,14 @@ public class AdminAwardController : ControllerBase
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.OperationSuccessful, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPatch("events/{eventId:guid}/awards/{awardId:guid}/restore")]
+    [HttpPost("events/{eventId:guid}/awards/{awardId:guid}/restore")]
     public async Task<IActionResult> RestoreAward(Guid eventId, Guid awardId)
     {
         await _awardService.RestoreAward(awardId);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.OperationSuccessful, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPatch("events/{eventId:guid}/awards/{awardId:guid}/delete")]
+    [HttpPost("events/{eventId:guid}/awards/{awardId:guid}/delete")]
     public async Task<IActionResult> DeleteAward(Guid eventId, Guid awardId)
     {
         await _awardService.DeleteAward(awardId);
