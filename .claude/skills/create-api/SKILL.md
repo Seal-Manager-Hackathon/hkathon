@@ -20,7 +20,7 @@ Base: c:\Users\phamq\OneDrive\Desktop\New folder (4)\BE-SEAL-HACKATHON
 - [ ] Step 7: Handle enum fields
 - [ ] Step 8: Helper check — nếu logic đã lặp lại ở ≥2 nơi (vd: pagination validation, date filter, ...), tách vào class ở `Hackathon.Application/Common/Helpers/` hoặc `Hackathon.Infrastructure/Helpers/`
 - [ ] Step 9: Add success message (use SuccessMessage.cs)
-- [ ] **Step 10: Write/update documentation ngay lập tức** — tạo file mới trong `documents/{role}/{entity}/{method}/` hoặc sửa file đã có nếu request/response thay đổi. KHÔNG ĐỢI NHẮC.
+- [ ] **Step 10: Write/update documentation ngay lập tức** — tạo file mới trong `documents/{role}/{entity}/{method}/` hoặc sửa file đã có nếu request/response thay đổi. KHÔNG ĐỢI NHẮC. **Phải viết chi tiết** (xem hướng dẫn bên dưới).
 - [ ] Step 11: Register DI
 - [ ] Step 12: Check exception handling — các lỗi có thể xảy ra (404 not found, 400 validation/enum, 409 conflict, 401, 403, 409 đã disable...)
 
@@ -393,6 +393,113 @@ services.AddScoped<I{Entity}Repository, Repositories.{Entity}Repository>();
 using Hackathon.Application.Services.{Entity};
 
 services.AddScoped<I{Entity}Service, Services.{Entity}.Service>();
+```
+
+---
+
+## Phần 4: Hướng dẫn viết documentation CHI TIẾT
+
+### Nguyên tắc chung
+
+Doc API phải được viết **chi tiết, đầy đủ ngữ cảnh nghiệp vụ** để người đọc (FE dev, tester, người mới) hiểu ngay API làm gì, ai dùng được, khi nào dùng.
+
+**Tiêu chí bắt buộc:**
+1. **Mô tả nghiệp vụ bằng ngôn ngữ người dùng**: Viết như kiểu "Người dùng muốn xem danh sách...", "Staff cần lấy các event mà họ được phân công để..."
+2. **Giải thích ngữ cảnh**: Tại sao cần API này? Nó giải quyết vấn đề gì?
+3. **Mô tả luồng xử lý**: Controller → Service → Repository đã làm những bước gì (xác thực, kiểm tra quyền, filter gì, sắp xếp ra sao...)
+4. **Ghi rõ các điều kiện ẩn**: VD: "mặc định không lấy status Draft", "chỉ lấy IsDisable=false", "sắp xếp theo CreatedAt DESC"
+
+### Cấu trúc file doc
+
+```markdown
+# METHOD /api/v1/{role}/{path}
+
+> Một câu tóm tắt ngắn gọn (ai làm gì).
+
+## Nghiệp vụ
+
+Mô tả chi tiết bằng ngôn ngữ người dùng:
+- Người dùng muốn làm gì?
+- Ngữ cảnh sử dụng: khi nào họ gọi API này?
+- Luồng nghiệp vụ: hệ thống xử lý những bước gì?
+- Các điều kiện ẩn: filter gì mặc định, sắp xếp ra sao, loại trừ gì?
+
+## Phân quyền
+- ✅ Role nào được dùng (Admin / Staff / Student / Lecturer / Public)
+- Các điều kiện phụ (phải được assign, phải là chủ sở hữu...)
+
+## Request
+
+### Route Parameters (nếu có)
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| id | Guid | Mô tả cụ thể |
+
+### Query Parameters (nếu có)
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| keyword | string | No | - | Giải thích rõ tìm kiếm theo trường gì |
+
+### Body (nếu có)
+```json
+{ "field": "value" }
+```
+
+## Response (200)
+```json
+{
+  "data": { ... },
+  "message": "...",
+  "status": 200,
+  "traceId": "..."
+}
+```
+
+### Field ý nghĩa
+
+| Field | Ý nghĩa |
+|-------|---------|
+| fieldName | Giải thích rõ field này là gì, có thể null không |
+
+## Lỗi
+| Status | message | Khi nào |
+|--------|---------|---------|
+| 401 | ... | Token hết hạn/thiếu |
+| 403 | ... | Không có quyền / không được assign |
+| 404 | ... | ID không tồn tại hoặc đã bị disable |
+```
+
+### Ví dụ doc tốt vs doc kém
+
+**❌ Kém (quá ngắn, thiếu ngữ cảnh):**
+```markdown
+# GET /api/v1/staff/events
+
+> Lấy danh sách event
+
+## Request
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| pageIndex | int | Trang |
+```
+
+**✅ Tốt (chi tiết, có ngữ cảnh nghiệp vụ):**
+```markdown
+# GET /api/v1/staff/events
+
+> Staff đã đăng nhập lấy danh sách các event mà họ được phân công, có filter và phân trang.
+
+## Nghiệp vụ
+
+Staff muốn xem tất cả event họ được gán làm việc (qua bảng AssignEvents). 
+API này giúp staff nhanh chóng tìm event cần làm việc.
+
+- Mặc định loại trừ event có status Draft: staff chỉ thấy event đã Published hoặc Closed.
+- Hỗ trợ tìm kiếm theo từ khóa (tên event), lọc theo status, và khoảng thời gian.
+- Kết quả sắp xếp theo ngày tạo event mới nhất trước.
+
+## Phân quyền
+- ✅ Staff (RoleEnum = Staff)
 ```
 
 ---
