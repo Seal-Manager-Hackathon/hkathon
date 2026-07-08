@@ -35,6 +35,12 @@ public class CreateAwardRequest
     public decimal Prize { get; set; }
 }
 
+public class SwapAwardLevelRequest
+{
+    [Range(1, int.MaxValue, ErrorMessage = "Target Level Must Be Greater Than 0")]
+    public int TargetLevel { get; set; }
+}
+
 public class UpdateAwardRequest
 {
     public Guid EventId { get; set; }

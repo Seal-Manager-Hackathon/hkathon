@@ -239,6 +239,9 @@ public class Service : IRoundService
         if (currentRound == null || currentRound.EventId != request.EventId)
             throw new NotFoundException("Round Not Found");
 
+        if (request.TargetRoundNo < 1)
+            throw new BadRequestException("Target Round No Must Be Greater Than 0");
+
         var targetRound = await _roundRepository.GetByEventIdAndRoundNoAsync(request.EventId, request.TargetRoundNo);
         if (targetRound == null)
             throw new BadRequestException(ErrMsg.Round.RoundNoNotFound);

@@ -31,6 +31,7 @@ Lấy danh sách user đã được phân công trong 1 event, có thể lọc t
         "lastName": "Doe",
         "avatarUrl": "https://robohash.org/...",
         "eventRole": "Mentor",
+        "eventId": "guid",
         "assignTracks": [
           {
             "trackId": "guid",

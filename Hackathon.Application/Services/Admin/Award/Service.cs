@@ -80,6 +80,29 @@ public class Service : IAwardService
         };
     }
 
+    public async Task<GetAwardDetailResponse> GetAwardDetail(Guid awardId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var award = await _awardRepository.GetByIdAsync(awardId);
+        if (award == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        return new GetAwardDetailResponse
+        {
+            Id = award.Id,
+            EventId = award.EventId,
+            Name = award.Name,
+            Description = award.Description,
+            LevelAward = award.LevelAward,
+            NumberOfAward = award.NumberOfAward,
+            Prize = award.Prize,
+            IsDisable = award.IsDisable,
+            CreatedAt = award.CreatedAt,
+            UpdatedAt = award.UpdatedAt
+        };
+    }
+
     public async Task<CreateAwardResponse> CreateAward(CreateAwardRequest request)
     {
         _authorizationService.Authorize(RoleEnum.Admin);
@@ -134,6 +157,65 @@ public class Service : IAwardService
             Prize = award.Prize ?? 0,
             IsDisable = award.IsDisable
         };
+    }
+
+    public async Task SwapAwardLevel(Guid awardId, int targetLevel)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        if (targetLevel < 1)
+            throw new BadRequestException("Target Level Must Be Greater Than 0");
+
+        var currentAward = await _awardRepository.GetByIdAsync(awardId);
+        if (currentAward == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        // Ko cho swap với award bị disable
+        if (currentAward.IsDisable || currentAward.LevelAward == 0)
+            throw new BadRequestException("Cannot Swap A Deleted Award");
+
+        // Ko cho swap với chính nó
+        if (currentAward.LevelAward == targetLevel)
+            throw new BadRequestException("Cannot Swap Award With Itself");
+
+        // Tìm award có level cần đổi
+        var allAwards = await _awardRepository.GetByEventIdAsync(currentAward.EventId);
+        var targetAward = allAwards.FirstOrDefault(a => a.LevelAward == targetLevel && !a.IsDisable);
+        if (targetAward == null)
+            throw new BadRequestException("Target Level Not Found In This Event");
+
+        // Swap LevelAward
+        (currentAward.LevelAward, targetAward.LevelAward) = (targetAward.LevelAward, currentAward.LevelAward);
+
+        var now = DateTimeOffset.UtcNow;
+        currentAward.UpdatedAt = now;
+        targetAward.UpdatedAt = now;
+
+        await _awardRepository.UpdateAsync(currentAward);
+        await _awardRepository.UpdateAsync(targetAward);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task RestoreAward(Guid awardId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var award = await _awardRepository.GetByIdAsync(awardId);
+        if (award == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        // Lấy level cao nhất trong cùng event + 1
+        var allAwards = await _awardRepository.GetByEventIdAsync(award.EventId);
+        int maxLevel = allAwards
+            .Where(a => a.Id != awardId && !a.IsDisable)
+            .Select(a => (int?)a.LevelAward)
+            .Max() ?? 0;
+
+        award.IsDisable = false;
+        award.LevelAward = maxLevel + 1;
+        award.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task DeleteAward(Guid awardId)

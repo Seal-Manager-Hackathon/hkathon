@@ -16,6 +16,13 @@ public class AdminAwardController : ControllerBase
         _awardService = awardService;
     }
 
+    [HttpGet("events/{eventId:guid}/awards/{awardId:guid}")]
+    public async Task<IActionResult> GetAwardDetail(Guid eventId, Guid awardId)
+    {
+        var result = await _awardService.GetAwardDetail(awardId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("events/{eventId:guid}/awards")]
     public async Task<IActionResult> GetAwards(Guid eventId, [FromQuery] GetAwardsRequest request)
     {
@@ -39,6 +46,20 @@ public class AdminAwardController : ControllerBase
         request.AwardId = awardId;
         await _awardService.UpdateAward(request);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Admin.AwardUpdated, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("events/{eventId:guid}/awards/{awardId:guid}/swap")]
+    public async Task<IActionResult> SwapAwardLevel(Guid eventId, Guid awardId, [FromBody] SwapAwardLevelRequest request)
+    {
+        await _awardService.SwapAwardLevel(awardId, request.TargetLevel);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.OperationSuccessful, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPatch("events/{eventId:guid}/awards/{awardId:guid}/restore")]
+    public async Task<IActionResult> RestoreAward(Guid eventId, Guid awardId)
+    {
+        await _awardService.RestoreAward(awardId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.OperationSuccessful, traceId: HttpContext.TraceIdentifier));
     }
 
     [HttpPatch("events/{eventId:guid}/awards/{awardId:guid}/delete")]

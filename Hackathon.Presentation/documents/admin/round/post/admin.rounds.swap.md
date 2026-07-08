@@ -13,7 +13,7 @@ Swap thứ tự 2 round trong cùng event.
 ### Body (JSON)
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| TargetRoundNo | int | Yes | RoundNo của round muốn đổi với |
+| TargetRoundNo | int | Yes | RoundNo của round muốn đổi với (>= 1, ko được trùng với round hiện tại, phải tồn tại trong event) |
 
 ## Response
 
@@ -29,7 +29,7 @@ Swap thứ tự 2 round trong cùng event.
 
 - `401` — Unauthorized
 - `404` — Event Not Found / Round Not Found
-- `400` — RoundNo Not Found / Cannot Swap Round With Itself / Cannot Swap A Deleted Round
+- `400` — Target Round No Must Be Greater Than 0 / RoundNo Not Found / Cannot Swap Round With Itself / Cannot Swap A Deleted Round
 
 ## Logic
 
