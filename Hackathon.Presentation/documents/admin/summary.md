@@ -240,12 +240,12 @@
 | GET | `/assign/events/{eventId}/staff/available` | Staff chưa assign, chưa ban, chưa disable |
 | GET | `/assign/events/{eventId}/lecturers/available` | Lecturer chưa assign, chưa ban, chưa disable |
 | GET | `/assign/events/{eventId}/assigned` | User đã assign trong event (filter EventRole) |
-| POST | `/assign/event-assigns/{assignEventId}/tracks` | Gán track cho user |
+| POST | `/assign/event-assigns/{assignEventId}/tracks` | Gán track cho user (chỉ Lecturer, Staff ko được) |
 | POST | `/assign/event-assigns/{assignEventId}/tracks/{trackId}/remove` | Xóa mềm track khỏi user |
 
 **Logic đặc biệt:**
-- **Staff** → chỉ được gán EventRole = `Staff`
-- **Lecturer** → chỉ được gán EventRole = `Judge` hoặc `Mentor`
+- **Staff** → chỉ được gán EventRole = `Staff`, **không được assign track**
+- **Lecturer** → chỉ được gán EventRole = `Judge` hoặc `Mentor`, được assign track
 - **Student/Admin** → ko được assign
 
 ---

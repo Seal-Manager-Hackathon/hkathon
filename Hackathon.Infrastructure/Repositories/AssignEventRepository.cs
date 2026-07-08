@@ -64,6 +64,8 @@ public class AssignEventRepository : IAssignEventRepository
 
     public async Task<AssignEvents?> GetByIdWithTracksAsync(Guid id)
         => await _context.AssignEvents
+            .Include(ae => ae.User)
+            .Include(ae => ae.EventRole)
             .Include(ae => ae.AssignTracks)
             .FirstOrDefaultAsync(ae => ae.Id == id);
 

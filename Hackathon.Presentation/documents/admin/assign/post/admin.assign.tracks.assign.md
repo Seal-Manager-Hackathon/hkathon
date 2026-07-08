@@ -6,7 +6,8 @@
 - Gán 1 assign event vào 1 track để user có thể làm việc trong track đó
 - Track và assign event phải thuộc cùng 1 event
 - Không được gán duplicate (1 assign event chỉ được gán 1 lần vào 1 track)
-- Dùng cho Mentor/Judge/Staff — Student không có assign event
+- **Chỉ dành cho Lecturer (Mentor/Judge)** — Staff **không được** assign track
+- Student không có assign event
 
 ## Phân quyền
 - ✅ Admin
@@ -44,6 +45,7 @@
 |--------|---------|---------|
 | 404 | Assign Event Not Found | assignEventId ko tồn tại |
 | 404 | Track Not Found | trackId ko tồn tại |
+| 400 | Staff Cannot Be Assigned To Track | user có EventRole = Staff |
 | 400 | Track Does Not Belong To The Same Event | track thuộc event khác với assign event |
 | 409 | Track Is Already Assigned To This User | đã có assign track cho cặp này |
 | 401 | Unauthorized | Token hết hạn/thiếu |

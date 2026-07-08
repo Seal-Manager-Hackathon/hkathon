@@ -188,6 +188,10 @@ public class Service : IAssignService
         if (assignEvent == null)
             throw new NotFoundException("Assign Event Not Found");
 
+        // Staff cannot be assigned to tracks
+        if (assignEvent.EventRole?.Name == Domain.Enums.EventRole.EventRoleEnum.Staff)
+            throw new BadRequestException("Staff Cannot Be Assigned To Track");
+
         // Check track exists
         var track = await _trackRepository.GetByIdAsync(request.TrackId);
         if (track == null)
