@@ -11,4 +11,6 @@ public interface IRegisterTeamService
     Task<GetRegisterTeamsResponse> GetRegisterTeamsByTeam(GetRegisterTeamsByTeamRequest request);
     Task BanRegisterTeam(Guid registerTeamId, string rejectionReason);
     Task UnbanRegisterTeam(Guid registerTeamId);
+    Task<AssignToNextRoundResponse> AssignToNextRound(Guid registerTeamId);
+    Task<AssignToNextRoundResponse> RevertToPreviousRound(Guid registerTeamId);
 }

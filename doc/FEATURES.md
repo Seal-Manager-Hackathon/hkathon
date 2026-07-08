@@ -8,7 +8,8 @@
 - User status/ban handling.
 
 ## User Profile
-- View/update profile.
+- View profile (`GET /api/v1/user/me`).
+- Update profile (`PATCH /api/v1/user/me`) — fields: firstName, lastName, phoneNumber, bio, address, dateOfBirth, studentId (set once only), imgUrl, linkUrl. Cannot change AvatarUrl or College.
 - Validate required student profile fields.
 - Store profile fields in `Users`.
 
@@ -40,10 +41,14 @@
 ## Registration
 - Team leader registers team for event/topic.
 - Staff approves/rejects team.
+- Staff bans/unbans team with RejectionReason.
 
 ## Round Participation
 - Use `RoundDetails` to place registered teams into rounds.
 - Track advancement/stopped teams via service/status rules.
+- Admin can manually advance team to next round (`assign-next-round`).
+- Admin can revert team to previous round (`revert-previous-round`), soft-deletes current round detail.
+- Any authenticated user can check team's current round (`GET /api/v1/register-teams/{registerTeamId}/current-round`).
 
 ## Submission
 - Team leader submits work for round.
@@ -54,6 +59,10 @@
 - Judge views assigned track submissions.
 - Judge scores by criteria item.
 - Store totals in `Scores`, details in `ScoreItems`.
+- Scoring helpers:
+  - `RoundScoreHelper` — sums average per CriteriaItemId from ScoreItems → TotalScore per Submission.
+  - `EventScoreHelper` — averages list of round scores.
+  - `ChapterScoreHelper` — sums list of event scores.
 
 ## Report & Regrade
 - User sends report.

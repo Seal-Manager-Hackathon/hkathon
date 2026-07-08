@@ -9,6 +9,8 @@ public interface IRoundRepository
     Task<Rounds?> GetFirstRoundByEventIdAsync(Guid eventId);
     Task<int> CountTeamsInRoundAsync(Guid roundId);
     Task AddRoundDetailAsync(RoundDetails roundDetail);
+    Task<RoundDetails?> GetRoundDetailAsync(Guid registerTeamId, Guid roundId);
+    Task RemoveRoundDetailAsync(RoundDetails roundDetail);
     Task<(List<Rounds> Items, int TotalCount)> SearchByEventIdAsync(
         Guid eventId, string? keyword, int? roundNo, bool? isDisable,
         int pageIndex, int pageSize);

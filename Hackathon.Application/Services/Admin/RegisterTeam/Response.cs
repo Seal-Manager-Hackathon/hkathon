@@ -1,5 +1,20 @@
 namespace Hackathon.Application.Services.Admin.RegisterTeam;
 
+public class AssignToNextRoundResponse
+{
+    public Guid RegisterTeamId { get; set; }
+    public Guid EventId { get; set; }
+    public Guid TeamId { get; set; }
+    public string? TeamName { get; set; }
+    public Guid? TrackId { get; set; }
+    public string? TrackName { get; set; }
+    public Guid? TopicId { get; set; }
+    public string? TopicName { get; set; }
+    public Guid RoundId { get; set; }
+    public string RoundName { get; set; } = string.Empty;
+    public int RoundNo { get; set; }
+}
+
 public class GetUserEventsResponse
 {
     public List<UserEventItem> Events { get; set; } = new();

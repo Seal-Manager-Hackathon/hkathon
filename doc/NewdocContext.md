@@ -85,3 +85,19 @@ cập nhập lại cái đó cho đúng ý bạn hiểu nhé.
 - mỗi team sẽ nộp bài chấm, họ chỉ thấy bài đc hiện ra khi nộp là lần nộp cuối trong round đó của team họ, chỉ leader mới đc nộp. và judge cũng thấy bài cuối của từng team trong round. nhưng chỉ có staff dc phan công vào event này, và admin có thể thấy đc các record bài nộp cập nhập của team đó.
 - mỗi submission sẽ đc chấm bởi các judge đc phân công vào track tương ứng với team của bài nộp đó.
 - vì 1 submission đc nhiều ngừi chấm nên 1 submission - 1 scope chốt(tính toán từ các scope item) - nhiều scope item: mỗi cái scope item này do 1 người chấm điểm các tiêu chi(critical item của bài đó), điểm của scope item tương ứng với điểm của critical item. mỗi một cái scope item tính bằng : tổng trung bình các scope item của các người chấn bài này, cùng scope id. scope total thì tính bằng tổng các tiêu chí critical item của các scopeitem đc tính bằng tổng trung bình của các scopeitem có cùng critical item. lúc đó điểm đó là tổng điểm của team đó trong 1 round đó, điểm cả event bằng các tổng trung bình điểm của các round. chapter event tính bằng tổng điểm của các event trong cùng 1 năm.
+- Điểm helper: có RoundScoreHelper (tính điểm 1 round từ submission→TotalScore), EventScoreHelper (trung bình các round), ChapterScoreHelper (tổng các event)
+
+## APIs đã thêm
+
+### User (Base)
+- `PATCH /api/v1/user/me` — cập nhật profile (ko avatar, ko college, studentId chỉ set 1 lần)
+- `GET /api/v1/register-teams/{registerTeamId}/current-round` — lấy round hiện tại của team (ai cũng xài đc)
+
+### Admin — Register Team
+- `POST /api/v1/admin/register-teams/{registerTeamId}/ban` — ban team (status=Banned, kèm RejectionReason)
+- `POST /api/v1/admin/register-teams/{registerTeamId}/unban` — unban team (status=Approved, xóa RejectionReason)
+- `POST /api/v1/admin/register-teams/{registerTeamId}/assign-next-round` — gán team vào round kế tiếp
+- `POST /api/v1/admin/register-teams/{registerTeamId}/revert-previous-round` — lùi team về round trước (soft-delete round detail hiện tại)
+
+### Admin — Award
+- `POST /api/v1/admin/awards/restore/{awardId}` — khôi phục award đã xóa mềm

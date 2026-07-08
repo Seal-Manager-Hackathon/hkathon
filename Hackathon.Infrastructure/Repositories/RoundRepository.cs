@@ -40,6 +40,19 @@ public class RoundRepository : IRoundRepository
     public async Task AddRoundDetailAsync(RoundDetails roundDetail)
         => await _context.Set<RoundDetails>().AddAsync(roundDetail);
 
+    public async Task<RoundDetails?> GetRoundDetailAsync(Guid registerTeamId, Guid roundId)
+        => await _context.Set<RoundDetails>()
+            .Where(rd => rd.RegisterTeamId == registerTeamId && rd.RoundId == roundId && !rd.IsDisable)
+            .FirstOrDefaultAsync();
+
+    public Task RemoveRoundDetailAsync(RoundDetails roundDetail)
+    {
+        roundDetail.IsDisable = true;
+        roundDetail.UpdatedAt = DateTimeOffset.UtcNow;
+        _context.Set<RoundDetails>().Update(roundDetail);
+        return Task.CompletedTask;
+    }
+
     public async Task AddAsync(Rounds round)
         => await _context.Set<Rounds>().AddAsync(round);
 

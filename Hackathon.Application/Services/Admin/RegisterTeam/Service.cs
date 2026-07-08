@@ -325,6 +325,103 @@ public class Service : IRegisterTeamService
         await _unitOfWork.SaveChangesAsync();
     }
 
+    public async Task<AssignToNextRoundResponse> AssignToNextRound(Guid registerTeamId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var rt = await _registerTeamRepository.GetByIdWithRoundDetailsAsync(registerTeamId);
+        if (rt == null)
+            throw new NotFoundException("Register Team Not Found");
+
+        // Lấy round hiện tại (có RoundNo cao nhất)
+        var currentRoundDetail = rt.RoundDetails
+            .OrderByDescending(rd => rd.Round?.RoundNo)
+            .FirstOrDefault();
+
+        int currentRoundNo = currentRoundDetail?.Round?.RoundNo ?? 0;
+
+        // Tìm round tiếp theo: EventId + RoundNo hiện tại + 1
+        var nextRound = await _roundRepository.GetByEventIdAndRoundNoAsync(rt.EventId, currentRoundNo + 1);
+        if (nextRound == null)
+            throw new BadRequestException("This Is The Last Round. Cannot Assign To Next Round");
+
+        // Check trùng — team đã có round detail cho round này chưa
+        if (rt.RoundDetails.Any(rd => rd.RoundId == nextRound.Id))
+            throw new BadRequestException("Team Is Already Assigned To This Round");
+
+        // Tạo round detail mới
+        var roundDetail = new RoundDetails
+        {
+            Id = Guid.NewGuid(),
+            RoundId = nextRound.Id,
+            RegisterTeamId = registerTeamId,
+            CreatedAt = DateTimeOffset.UtcNow,
+            UpdatedAt = DateTimeOffset.UtcNow
+        };
+        await _roundRepository.AddRoundDetailAsync(roundDetail);
+
+        await _unitOfWork.SaveChangesAsync();
+
+        return new AssignToNextRoundResponse
+        {
+            RegisterTeamId = registerTeamId,
+            EventId = rt.EventId,
+            TeamId = rt.TeamId,
+            TeamName = rt.Team?.Name,
+            TrackId = rt.TrackId,
+            TrackName = rt.Track?.Title,
+            TopicId = rt.TopicId,
+            TopicName = rt.Topic?.Title,
+            RoundId = nextRound.Id,
+            RoundName = nextRound.Name,
+            RoundNo = nextRound.RoundNo ?? 0
+        };
+    }
+
+    public async Task<AssignToNextRoundResponse> RevertToPreviousRound(Guid registerTeamId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var rt = await _registerTeamRepository.GetByIdWithRoundDetailsAsync(registerTeamId);
+        if (rt == null)
+            throw new NotFoundException("Register Team Not Found");
+
+        // Lấy các round detail đang active, sắp xếp giảm dần theo RoundNo
+        var activeRounds = rt.RoundDetails
+            .Where(rd => rd.Round != null && !rd.IsDisable)
+            .OrderByDescending(rd => rd.Round!.RoundNo)
+            .ToList();
+
+        if (activeRounds.Count < 2)
+            throw new BadRequestException("Team Is Only In One Round. Cannot Revert To Previous Round");
+
+        // Round hiện tại = đầu danh sách (RoundNo cao nhất)
+        var currentRoundDetail = activeRounds.First();
+
+        // Soft-delete round detail hiện tại
+        await _roundRepository.RemoveRoundDetailAsync(currentRoundDetail);
+
+        // Round trước đó = phần tử thứ 2 trong danh sách
+        var previousRound = activeRounds[1].Round!;
+
+        await _unitOfWork.SaveChangesAsync();
+
+        return new AssignToNextRoundResponse
+        {
+            RegisterTeamId = registerTeamId,
+            EventId = rt.EventId,
+            TeamId = rt.TeamId,
+            TeamName = rt.Team?.Name,
+            TrackId = rt.TrackId,
+            TrackName = rt.Track?.Title,
+            TopicId = rt.TopicId,
+            TopicName = rt.Topic?.Title,
+            RoundId = previousRound.Id,
+            RoundName = previousRound.Name,
+            RoundNo = previousRound.RoundNo ?? 0
+        };
+    }
+
     public async Task BanRegisterTeam(Guid registerTeamId, string rejectionReason)
     {
         _authorizationService.Authorize(RoleEnum.Admin);

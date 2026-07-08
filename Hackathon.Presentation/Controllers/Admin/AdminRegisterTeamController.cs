@@ -82,4 +82,18 @@ public class AdminRegisterTeamController : ControllerBase
         await _registerTeamService.UnbanRegisterTeam(registerTeamId);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpPost("register-teams/{registerTeamId:guid}/assign-next-round")]
+    public async Task<IActionResult> AssignToNextRound(Guid registerTeamId)
+    {
+        var result = await _registerTeamService.AssignToNextRound(registerTeamId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Created, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("register-teams/{registerTeamId:guid}/revert-previous-round")]
+    public async Task<IActionResult> RevertToPreviousRound(Guid registerTeamId)
+    {
+        var result = await _registerTeamService.RevertToPreviousRound(registerTeamId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
 }
