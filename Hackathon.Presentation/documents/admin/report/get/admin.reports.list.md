@@ -3,21 +3,23 @@
 > Admin lấy danh sách report, có search và filter theo status.
 
 ## Nghiệp vụ
+
 - Keyword search trên: email user, fullName (firstName + lastName), title
 - Lọc theo status enum: Pending, Approved, Rejected
 - Phân trang
 
 ## Phân quyền
+
 - ✅ Admin
 
 ## Request
 
-| Param     | Kiểu   | Bắt buộc | Mô tả                                     |
-|-----------|--------|----------|-------------------------------------------|
-| keyword   | string | ❌        | Search email, fullname, title              |
-| status    | string | ❌        | Enum: Pending, Approved, Rejected          |
-| pageIndex | int    | ❌        | Mặc định 1                                 |
-| pageSize  | int    | ❌        | Mặc định 10, tối đa 100                    |
+| Param     | Kiểu   | Bắt buộc | Mô tả                             |
+| --------- | ------ | -------- | --------------------------------- |
+| keyword   | string | ❌       | Search email, fullname, title     |
+| status    | string | ❌       | Enum: Pending, Approved, Rejected |
+| pageIndex | int    | ❌       | Mặc định 1                        |
+| pageSize  | int    | ❌       | Mặc định 10, tối đa 100           |
 
 ## Response (200)
 
@@ -50,8 +52,8 @@
 
 ## Lỗi
 
-| Status | message | Khi nào |
-|--------|---------|---------|
-| 400 | Invalid Status | Status sai |
-| 401 | Unauthorized | Token hết hạn/thiếu |
-| 403 | Forbidden | Không phải Admin |
+| Status | message        | Khi nào             |
+| ------ | -------------- | ------------------- |
+| 400    | Invalid Status | Status sai          |
+| 401    | Unauthorized   | Token hết hạn/thiếu |
+| 403    | Forbidden      | Không phải Admin    |

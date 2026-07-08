@@ -1,11 +1,11 @@
 # POST /api/v1/admin/criteria-templates/{templateId}/activate
 
-> Admin active 1 criteria template của 1 round. Mỗi round chỉ có 1 template được active (IsDisable = false) tại 1 thời điểm.
+> Admin active 1 criteria template của 1 round. Mỗi round chỉ có 1 template được active (IsActive = true) tại 1 thời điểm.
 
 ## Nghiệp vụ
-- Khi active 1 template, tất cả template khác trong cùng round sẽ bị disable (IsDisable = true)
-- Template được active sẽ set IsDisable = false
-- Chỉ disable template, không ảnh hưởng đến các criteria items bên trong
+- Khi active 1 template, tất cả template khác trong cùng round sẽ bị deactivate (IsActive = false)
+- Template được active sẽ set IsActive = true
+- Chỉ active/deactivate template, không ảnh hưởng đến IsDisable hay các criteria items bên trong
 
 ## Phân quyền
 - ✅ Admin
@@ -31,6 +31,7 @@
 | Status | message | Khi nào |
 |--------|---------|---------|
 | 400 | This Template Is Already Active | template đã active rồi |
+| 400 | Cannot Activate A Deleted Template | template bị xóa mềm (IsDisable = true) |
 | 404 | Resource Not Found | templateId ko tồn tại |
 | 401 | Unauthorized | Token hết hạn/thiếu |
 | 403 | Forbidden | Không phải Admin |

@@ -29,6 +29,7 @@ public class CriteriaTemplateItem
     public string Title { get; set; } = null!;
     public string? Description { get; set; }
     public bool IsDisable { get; set; }
+    public bool IsActive { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
 }
@@ -107,6 +108,7 @@ public class GetCriteriaTemplateDetailResponse
     public string Title { get; set; } = null!;
     public string? Description { get; set; }
     public bool IsDisable { get; set; }
+    public bool IsActive { get; set; }
     public List<CriteriaTemplateItemDetail> Items { get; set; } = new();
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }

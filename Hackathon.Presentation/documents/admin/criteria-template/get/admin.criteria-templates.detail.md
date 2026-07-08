@@ -21,6 +21,7 @@
     "title": "Template đánh giá vòng 1",
     "description": "Các tiêu chí chấm điểm",
     "isDisable": false,
+    "isActive": true,
     "items": [
       {
         "id": "guid",

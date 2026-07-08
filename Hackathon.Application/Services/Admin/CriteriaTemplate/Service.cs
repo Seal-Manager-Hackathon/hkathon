@@ -63,6 +63,7 @@ public class Service : ICriteriaTemplateService
                 Title = t.Title,
                 Description = t.Description,
                 IsDisable = t.IsDisable,
+                IsActive = t.IsActive,
                 CreatedAt = t.CreatedAt,
                 UpdatedAt = t.UpdatedAt
             })
@@ -141,6 +142,7 @@ public class Service : ICriteriaTemplateService
             Title = template.Title,
             Description = template.Description,
             IsDisable = template.IsDisable,
+            IsActive = template.IsActive,
             Items = template.CriteriaItems.Select(ci => new CriteriaTemplateItemDetail
             {
                 Id = ci.Id,
@@ -184,6 +186,9 @@ public class Service : ICriteriaTemplateService
         if (template == null)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
 
+        if (template.IsDisable)
+            throw new BadRequestException("Cannot Activate A Deleted Template");
+
         // Tìm tất cả template cùng round, tắt hết -> chỉ cái được chọn mới active
         var templatesInRound = await _criteriaTemplateRepository.GetByRoundIdAsync(template.RoundId);
         var now = DateTimeOffset.UtcNow;
@@ -192,16 +197,16 @@ public class Service : ICriteriaTemplateService
         {
             if (t.Id == templateId)
             {
-                if (!t.IsDisable)
+                if (t.IsActive)
                     throw new BadRequestException("This Template Is Already Active");
 
-                t.IsDisable = false;
+                t.IsActive = true;
             }
             else
             {
-                if (!t.IsDisable)
+                if (t.IsActive)
                 {
-                    t.IsDisable = true;
+                    t.IsActive = false;
                 }
             }
             t.UpdatedAt = now;

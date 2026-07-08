@@ -385,9 +385,9 @@ public static class FPTSeed
         // Event 1 Round 1 — 3 templates, template 1 active (!IsDisable)
         criteriaTemplates.AddRange(new[]
         {
-            new CriteriaTemplates { Id = Ev1R1Tpl1Id, RoundId = Event1Round1Id, Title = "Đánh giá ý tưởng", Description = "Tiêu chí đánh giá ý tưởng vòng 1", IsDisable = false, CreatedAt = Now, UpdatedAt = Now },
-            new CriteriaTemplates { Id = Ev1R1Tpl2Id, RoundId = Event1Round1Id, Title = "Đánh giá kỹ thuật", Description = "Tiêu chí đánh giá kỹ thuật dự phòng", IsDisable = true, CreatedAt = Now, UpdatedAt = Now },
-            new CriteriaTemplates { Id = Ev1R1Tpl3Id, RoundId = Event1Round1Id, Title = "Đánh giá thuyết trình", Description = "Tiêu chí đánh giá kỹ năng thuyết trình dự phòng", IsDisable = true, CreatedAt = Now, UpdatedAt = Now },
+            new CriteriaTemplates { Id = Ev1R1Tpl1Id, RoundId = Event1Round1Id, Title = "Đánh giá ý tưởng", Description = "Tiêu chí đánh giá ý tưởng vòng 1", IsDisable = false, IsActive = true, CreatedAt = Now, UpdatedAt = Now },
+            new CriteriaTemplates { Id = Ev1R1Tpl2Id, RoundId = Event1Round1Id, Title = "Đánh giá kỹ thuật", Description = "Tiêu chí đánh giá kỹ thuật dự phòng", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now },
+            new CriteriaTemplates { Id = Ev1R1Tpl3Id, RoundId = Event1Round1Id, Title = "Đánh giá thuyết trình", Description = "Tiêu chí đánh giá kỹ năng thuyết trình dự phòng", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now },
         });
         // Items for template 1 (active)
         var e1r1Items = new (Guid id, string name, string desc, decimal score)[]
@@ -417,9 +417,9 @@ public static class FPTSeed
             (Guid.Parse("23000000-0000-0000-0000-000000000109"), "Tác động", "Giá trị thực tế và khả năng mở rộng", 10m),
         };
         modelBuilder.Entity<CriteriaTemplates>().HasData(
-            new CriteriaTemplates { Id = Ev1R2Tpl1Id, RoundId = Event1Round2Id, Title = "Đánh giá chung kết", Description = "Tiêu chí đánh giá vòng chung kết", IsDisable = false, CreatedAt = Now, UpdatedAt = Now },
-            new CriteriaTemplates { Id = Ev1R2Tpl2Id, RoundId = Event1Round2Id, Title = "Đánh giá dự phòng 1", Description = "Template dự phòng", IsDisable = true, CreatedAt = Now, UpdatedAt = Now },
-            new CriteriaTemplates { Id = Ev1R2Tpl3Id, RoundId = Event1Round2Id, Title = "Đánh giá dự phòng 2", Description = "Template dự phòng", IsDisable = true, CreatedAt = Now, UpdatedAt = Now }
+            new CriteriaTemplates { Id = Ev1R2Tpl1Id, RoundId = Event1Round2Id, Title = "Đánh giá chung kết", Description = "Tiêu chí đánh giá vòng chung kết", IsDisable = false, IsActive = true, CreatedAt = Now, UpdatedAt = Now },
+            new CriteriaTemplates { Id = Ev1R2Tpl2Id, RoundId = Event1Round2Id, Title = "Đánh giá dự phòng 1", Description = "Template dự phòng", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now },
+            new CriteriaTemplates { Id = Ev1R2Tpl3Id, RoundId = Event1Round2Id, Title = "Đánh giá dự phòng 2", Description = "Template dự phòng", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now }
         );
         modelBuilder.Entity<CriteriaItems>().HasData(
             e1r2items.Select((x, idx) => new CriteriaItems { Id = x.id, CriteriaTemplateId = Ev1R2Tpl1Id, Name = x.name, Description = x.desc, Score = x.score, IsDisable = false, CreatedAt = Now, UpdatedAt = Now }).Concat(
@@ -428,9 +428,9 @@ public static class FPTSeed
 
         // Event 2 Round 1 — 3 templates, template 1 active
         modelBuilder.Entity<CriteriaTemplates>().HasData(
-            new CriteriaTemplates { Id = Ev2R1Tpl1Id, RoundId = Event2Round1Id, Title = "Đánh giá ý tưởng", Description = "Tiêu chí đánh giá ý tưởng", IsDisable = false, CreatedAt = Now, UpdatedAt = Now },
-            new CriteriaTemplates { Id = Ev2R1Tpl2Id, RoundId = Event2Round1Id, Title = "Đánh giá dự phòng 1", Description = "Template dự phòng", IsDisable = true, CreatedAt = Now, UpdatedAt = Now },
-            new CriteriaTemplates { Id = Ev2R1Tpl3Id, RoundId = Event2Round1Id, Title = "Đánh giá dự phòng 2", Description = "Template dự phòng", IsDisable = true, CreatedAt = Now, UpdatedAt = Now }
+            new CriteriaTemplates { Id = Ev2R1Tpl1Id, RoundId = Event2Round1Id, Title = "Đánh giá ý tưởng", Description = "Tiêu chí đánh giá ý tưởng", IsDisable = false, IsActive = true, CreatedAt = Now, UpdatedAt = Now },
+            new CriteriaTemplates { Id = Ev2R1Tpl2Id, RoundId = Event2Round1Id, Title = "Đánh giá dự phòng 1", Description = "Template dự phòng", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now },
+            new CriteriaTemplates { Id = Ev2R1Tpl3Id, RoundId = Event2Round1Id, Title = "Đánh giá dự phòng 2", Description = "Template dự phòng", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now }
         );
         modelBuilder.Entity<CriteriaItems>().HasData(
             e1r1Items.Select((x, idx) => new CriteriaItems { Id = Guid.Parse($"23000000-0000-0000-0000-00000000013{idx:X1}"), CriteriaTemplateId = Ev2R1Tpl1Id, Name = x.name, Description = x.desc, Score = x.score, IsDisable = false, CreatedAt = Now, UpdatedAt = Now }).Concat(
@@ -439,9 +439,9 @@ public static class FPTSeed
 
         // Event 2 Round 2 — 3 templates, template 1 active
         modelBuilder.Entity<CriteriaTemplates>().HasData(
-            new CriteriaTemplates { Id = Ev2R2Tpl1Id, RoundId = Event2Round2Id, Title = "Đánh giá chung kết", Description = "Tiêu chí đánh giá vòng chung kết", IsDisable = false, CreatedAt = Now, UpdatedAt = Now },
-            new CriteriaTemplates { Id = Ev2R2Tpl2Id, RoundId = Event2Round2Id, Title = "Đánh giá dự phòng 1", Description = "Template dự phòng", IsDisable = true, CreatedAt = Now, UpdatedAt = Now },
-            new CriteriaTemplates { Id = Ev2R2Tpl3Id, RoundId = Event2Round2Id, Title = "Đánh giá dự phòng 2", Description = "Template dự phòng", IsDisable = true, CreatedAt = Now, UpdatedAt = Now }
+            new CriteriaTemplates { Id = Ev2R2Tpl1Id, RoundId = Event2Round2Id, Title = "Đánh giá chung kết", Description = "Tiêu chí đánh giá vòng chung kết", IsDisable = false, IsActive = true, CreatedAt = Now, UpdatedAt = Now },
+            new CriteriaTemplates { Id = Ev2R2Tpl2Id, RoundId = Event2Round2Id, Title = "Đánh giá dự phòng 1", Description = "Template dự phòng", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now },
+            new CriteriaTemplates { Id = Ev2R2Tpl3Id, RoundId = Event2Round2Id, Title = "Đánh giá dự phòng 2", Description = "Template dự phòng", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now }
         );
         modelBuilder.Entity<CriteriaItems>().HasData(
             e1r2items.Select((x, idx) => new CriteriaItems { Id = Guid.Parse($"23000000-0000-0000-0000-00000000016{idx:X1}"), CriteriaTemplateId = Ev2R2Tpl1Id, Name = x.name, Description = x.desc, Score = x.score, IsDisable = false, CreatedAt = Now, UpdatedAt = Now }).Concat(

@@ -15,6 +15,7 @@ public static class CriteriaSeed
                 Title = "Idea Evaluation Template",
                 Description = "Criteria for idea validation",
                 IsDisable = false,
+                IsActive = false,
                 CreatedAt = SeedConstants.CreatedAt,
                 UpdatedAt = SeedConstants.CreatedAt
             },
@@ -25,6 +26,7 @@ public static class CriteriaSeed
                 Title = "Final Demo Evaluation Template",
                 Description = "Criteria for final demo",
                 IsDisable = false,
+                IsActive = false,
                 CreatedAt = SeedConstants.CreatedAt,
                 UpdatedAt = SeedConstants.CreatedAt
             },
@@ -111,6 +113,7 @@ public static class CriteriaSeed
             Title = title,
             Description = $"Evaluation template details for {title}",
             IsDisable = false,
+            IsActive = false,
             CreatedAt = SeedConstants.CreatedAt,
             UpdatedAt = SeedConstants.CreatedAt
         };

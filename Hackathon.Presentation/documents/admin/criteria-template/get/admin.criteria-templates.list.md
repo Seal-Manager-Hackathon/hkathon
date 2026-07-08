@@ -24,6 +24,7 @@
         "title": "Đánh giá ý tưởng",
         "description": "Tiêu chí đánh giá ý tưởng vòng 1",
         "isDisable": false,
+        "isActive": true,
         "createdAt": "2026-07-07T12:00:00Z",
         "updatedAt": "2026-07-07T12:00:00Z"
       }
