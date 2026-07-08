@@ -101,6 +101,19 @@ public class UpdateCriteriaTemplateRequest
     public bool? IsDisable { get; set; }
 }
 
+public class UpdateCriteriaItemRequest
+{
+    public Guid ItemId { get; set; }
+
+    [StringLength(200, ErrorMessage = "Name Must Not Exceed 200 Characters")]
+    public string? Name { get; set; }
+    public string? Description { get; set; }
+
+    [Range(0, double.MaxValue, ErrorMessage = "Score Must Be Greater Than Or Equal To 0")]
+    public decimal? Score { get; set; }
+    public bool? IsDisable { get; set; }
+}
+
 public class GetCriteriaTemplateDetailResponse
 {
     public Guid Id { get; set; }

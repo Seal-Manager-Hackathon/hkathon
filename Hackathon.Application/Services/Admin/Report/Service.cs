@@ -11,11 +11,13 @@ public class Service : IReportService
 {
     private readonly IReportRepository _reportRepository;
     private readonly IAuthorizationService _authorizationService;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public Service(IReportRepository reportRepository, IAuthorizationService authorizationService)
+    public Service(IReportRepository reportRepository, IAuthorizationService authorizationService, IUnitOfWork unitOfWork)
     {
         _reportRepository = reportRepository;
         _authorizationService = authorizationService;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<GetRecentReportsResponse> GetRecentReports()
@@ -50,7 +52,7 @@ public class Service : IReportService
         if (!string.IsNullOrWhiteSpace(request.Status))
         {
             if (!Enum.TryParse<ReportStatusEnum>(request.Status, true, out var parsed))
-                throw new BadRequestException("Invalid Status. Must be: Pending, Approved, Rejected");
+                throw new BadRequestException("Invalid Status. Must be: Pending, Reject, Resolved");
             status = parsed;
         }
 
@@ -77,6 +79,23 @@ public class Service : IReportService
             PageIndex = request.PageIndex,
             PageSize = request.PageSize
         };
+    }
+
+    public async Task UpdateReportStatus(Guid reportId, UpdateReportStatusRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        if (!Enum.TryParse<ReportStatusEnum>(request.Status, true, out var status))
+            throw new BadRequestException("Invalid Status. Must be: Pending, Reject, Resolved");
+
+        var report = await _reportRepository.GetByIdAsync(reportId);
+        if (report == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        report.Status = status;
+        report.Reason = request.Reason;
+        report.UpdatedAt = DateTimeOffset.UtcNow;
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task<GetReportDetailResponse> GetReportDetail(Guid reportId)

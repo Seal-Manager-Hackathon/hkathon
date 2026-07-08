@@ -16,4 +16,7 @@ public class CriteriaItemRepository : ICriteriaItemRepository
     public async Task<CriteriaItems?> GetByIdAsync(Guid id)
         => await _context.Set<CriteriaItems>()
             .FirstOrDefaultAsync(ci => ci.Id == id);
+
+    public async Task AddAsync(CriteriaItems item)
+        => await _context.Set<CriteriaItems>().AddAsync(item);
 }

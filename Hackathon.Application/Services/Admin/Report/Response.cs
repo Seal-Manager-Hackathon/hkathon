@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Hackathon.Application.Services.Admin.Report;
 
 public class GetRecentReportsResponse
@@ -40,6 +42,13 @@ public class GetReportDetailResponse
     public string? TypeReport { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
+}
+
+public class UpdateReportStatusRequest
+{
+    [Required(ErrorMessage = "Status Is Required")]
+    public string Status { get; set; } = null!;
+    public string? Reason { get; set; }
 }
 
 public class ReportItem

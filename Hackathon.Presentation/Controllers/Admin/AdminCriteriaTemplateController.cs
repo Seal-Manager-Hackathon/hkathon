@@ -82,4 +82,33 @@ public class AdminCriteriaTemplateController : ControllerBase
         await _criteriaTemplateService.RestoreCriteriaTemplate(templateId);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.OperationSuccessful, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpPatch("criteria-items/{itemId:guid}")]
+    public async Task<IActionResult> UpdateCriteriaItem(Guid itemId, [FromBody] UpdateCriteriaItemRequest request)
+    {
+        request.ItemId = itemId;
+        await _criteriaTemplateService.UpdateCriteriaItem(request);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("criteria-templates/{templateId:guid}/criteria-items")]
+    public async Task<IActionResult> CreateCriteriaItem(Guid templateId, [FromBody] CreateCriteriaItemRequest request)
+    {
+        await _criteriaTemplateService.CreateCriteriaItem(templateId, request);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Created, status: 201, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("criteria-items/{itemId:guid}/delete")]
+    public async Task<IActionResult> DeleteCriteriaItem(Guid itemId)
+    {
+        await _criteriaTemplateService.DeleteCriteriaItem(itemId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Deleted, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("criteria-items/{itemId:guid}/restore")]
+    public async Task<IActionResult> RestoreCriteriaItem(Guid itemId)
+    {
+        await _criteriaTemplateService.RestoreCriteriaItem(itemId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.OperationSuccessful, traceId: HttpContext.TraceIdentifier));
+    }
 }

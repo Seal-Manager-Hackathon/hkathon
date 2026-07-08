@@ -11,4 +11,8 @@ public interface ICriteriaTemplateService
     Task DeleteCriteriaTemplate(Guid templateId);
     Task RestoreCriteriaTemplate(Guid templateId);
     Task ActivateCriteriaTemplate(Guid templateId);
+    Task CreateCriteriaItem(Guid templateId, CreateCriteriaItemRequest request);
+    Task UpdateCriteriaItem(UpdateCriteriaItemRequest request);
+    Task DeleteCriteriaItem(Guid itemId);
+    Task RestoreCriteriaItem(Guid itemId);
 }

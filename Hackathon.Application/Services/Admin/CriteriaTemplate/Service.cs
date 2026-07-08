@@ -271,6 +271,78 @@ public class Service : ICriteriaTemplateService
         await _unitOfWork.SaveChangesAsync();
     }
 
+    public async Task CreateCriteriaItem(Guid templateId, CreateCriteriaItemRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var template = await _criteriaTemplateRepository.GetByIdAsync(templateId);
+        if (template == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        var now = DateTimeOffset.UtcNow;
+        var item = new CriteriaItems
+        {
+            Id = Guid.NewGuid(),
+            CriteriaTemplateId = templateId,
+            Name = request.Name,
+            Description = request.Description,
+            Score = request.Score,
+            IsDisable = false,
+            CreatedAt = now,
+            UpdatedAt = now
+        };
+
+        await _criteriaItemRepository.AddAsync(item);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task UpdateCriteriaItem(UpdateCriteriaItemRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var item = await _criteriaItemRepository.GetByIdAsync(request.ItemId);
+        if (item == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        if (request.Name != null)
+            item.Name = request.Name;
+        if (request.Description != null)
+            item.Description = request.Description;
+        if (request.Score.HasValue)
+            item.Score = request.Score.Value;
+        if (request.IsDisable.HasValue)
+            item.IsDisable = request.IsDisable.Value;
+
+        item.UpdatedAt = DateTimeOffset.UtcNow;
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task DeleteCriteriaItem(Guid itemId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var item = await _criteriaItemRepository.GetByIdAsync(itemId);
+        if (item == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        item.IsDisable = true;
+        item.UpdatedAt = DateTimeOffset.UtcNow;
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task RestoreCriteriaItem(Guid itemId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var item = await _criteriaItemRepository.GetByIdAsync(itemId);
+        if (item == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        item.IsDisable = false;
+        item.UpdatedAt = DateTimeOffset.UtcNow;
+        await _unitOfWork.SaveChangesAsync();
+    }
+
     public async Task DeleteCriteriaTemplate(Guid templateId)
     {
         _authorizationService.Authorize(RoleEnum.Admin);

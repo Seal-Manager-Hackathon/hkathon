@@ -36,4 +36,11 @@ public class AdminReportController : ControllerBase
         var result = await _reportService.GetRecentReports();
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RecentReportsFetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpPatch("reports/{reportId:guid}/status")]
+    public async Task<IActionResult> UpdateReportStatus(Guid reportId, [FromBody] UpdateReportStatusRequest request)
+    {
+        await _reportService.UpdateReportStatus(reportId, request);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
 }
