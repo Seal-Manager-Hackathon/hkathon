@@ -98,6 +98,34 @@ public class RegisterTeamRepository : IRegisterTeamRepository
                 .ThenInclude(rd => rd.Round)
             .FirstOrDefaultAsync(rt => rt.Id == id);
 
+    public async Task<(List<RegisterTeams> Items, int TotalCount)> GetApprovedByEventIdWithScoresAsync(
+        Guid eventId, int pageIndex, int pageSize)
+    {
+        var query = _context.Set<RegisterTeams>()
+            .Include(rt => rt.Team)
+            .Include(rt => rt.Track)
+            .Include(rt => rt.Topic)
+            .Include(rt => rt.RoundDetails)
+                .ThenInclude(rd => rd.Round)
+            .Include(rt => rt.RoundDetails)
+                .ThenInclude(rd => rd.Submissions)
+                    .ThenInclude(s => s.Scores)
+                        .ThenInclude(sc => sc.ScoreItems)
+            .Where(rt => rt.EventId == eventId
+                && rt.Status == RegisterTeamStatusEnum.Approved
+                && !rt.IsDisable);
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderByDescending(rt => rt.CreatedAt)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
+
     public async Task<int> CountByTrackIdAsync(Guid trackId)
         => await _context.Set<RegisterTeams>()
             .CountAsync(rt => rt.TrackId == trackId);

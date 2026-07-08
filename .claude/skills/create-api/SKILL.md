@@ -175,9 +175,12 @@ public class {Role}Controller : ControllerBase
 - `using` chỉ cần `Hackathon.Application.Services.{Entity}` — namespace chứa cả interface và DTOs
 - `SuccessMessage` ở `Hackathon.Application.Common`
 - Chỉ Controller mới được lấy từ `HttpContext` — không truyền `IHttpContextAccessor` vào Application
-- **Soft-delete (xóa mềm) dùng `[HttpPatch]` + route `/{id}/delete`** — không dùng `[HttpDelete]`
-- **Restore (khôi phục) dùng `[HttpPatch]` + route `/{id}/restore`**
-- **GET response luôn trả về ID của entity gốc** — thừa còn hơn thiếu, tránh FE thiếu field phải hỏi lại
+- **Convention HTTP methods:**
+  - **GET** — chỉ lấy dữ liệu (danh sách, chi tiết, đếm, ...)
+  - **POST** — tạo mới, và các hành động khác (delete, restore, swap, approve, reject, ban, unban, assign track, ...)
+  - **PATCH** — chỉ update/chỉnh sửa thông tin
+  - Không dùng `[HttpDelete]` — xóa mềm dùng `POST .../{id}/delete`
+  - **GET response luôn trả về ID của entity gốc** — thừa còn hơn thiếu, tránh FE thiếu field phải hỏi lại
 
 ---
 

@@ -1,12 +1,12 @@
-# PATCH /api/v1/admin/events/{eventId}/awards/{awardId}/delete
+# POST /api/v1/admin/events/{eventId}/awards/{awardId}/restore
 
-> Admin xóa mềm phần thưởng.
+> Admin khôi phục phần thưởng đã xóa mềm.
 
 ## Nghiệp vụ
-- Xóa mềm (IsDisable = true)
-- LevelAward chuyển về 0
-- Các phần thưởng có level cao hơn tự động giảm 1 để đúng thứ tự
+- Khôi phục (IsDisable = false)
+- LevelAward trả lại (set bằng max hiện tại + 1)
 - 404 nếu awardId không tồn tại
+- 400 nếu award chưa bị xóa
 
 ## Phân quyền
 - ✅ Admin
@@ -21,7 +21,7 @@
 ```json
 {
   "data": null,
-  "message": "Deleted Successfully",
+  "message": "Operation Successful",
   "error": null,
   "isSuccess": true,
   "status": 200,
@@ -33,6 +33,7 @@
 ## Lỗi
 | Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
+| 400 | Award Is Not Deleted | Chưa bị xóa | Báo "Phần thưởng chưa bị xóa" |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | Không phải Admin | Ẩn chức năng |
 | 404 | Resource Not Found | awardId không tồn tại | Báo "Không tìm thấy" |

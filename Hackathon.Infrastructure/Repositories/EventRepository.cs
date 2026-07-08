@@ -42,6 +42,27 @@ public class EventRepository : IEventRepository
         return Task.CompletedTask;
     }
 
+    public async Task<List<Events>> GetPublishedByYearAsync(int year)
+        => await _context.Events
+            .Include(e => e.RegisterTeams)
+                .ThenInclude(rt => rt.Team)
+            .Include(e => e.RegisterTeams)
+                .ThenInclude(rt => rt.Track)
+            .Include(e => e.RegisterTeams)
+                .ThenInclude(rt => rt.Topic)
+            .Include(e => e.RegisterTeams)
+                .ThenInclude(rt => rt.RoundDetails)
+                    .ThenInclude(rd => rd.Round)
+            .Include(e => e.RegisterTeams)
+                .ThenInclude(rt => rt.RoundDetails)
+                    .ThenInclude(rd => rd.Submissions)
+                        .ThenInclude(s => s.Scores)
+                            .ThenInclude(sc => sc.ScoreItems)
+            .Where(e => e.Status == EventStatusEnum.Published
+                && e.CreatedAt.Year == year
+                && !e.IsDisable)
+            .ToListAsync();
+
     public async Task<List<Events>> GetRecentAsync(int count)
         => await _context.Events
             .OrderByDescending(e => e.CreatedAt)

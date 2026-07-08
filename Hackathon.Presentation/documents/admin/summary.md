@@ -34,12 +34,13 @@
 | GET | `/events/{eventId}/awards` | Danh sách award của event (search, filter disable, sort level) |
 | POST | `/events/{eventId}/awards` | Tạo award (level tự động: max+1) |
 | PATCH | `/events/{eventId}/awards/{awardId}` | Update award (ko đổi level) |
-| PATCH | `/events/{eventId}/awards/{awardId}/delete` | Xóa mềm (LevelAward=0, IsDisable=true, higher -1) |
+| POST | `/events/{eventId}/awards/{awardId}/delete` | Xóa mềm (LevelAward=0, IsDisable=true, higher -1) |
+| POST | `/events/{eventId}/awards/{awardId}/restore` | Khôi phục (IsDisable=false, LevelAward = max+1) |
 
 **Logic đặc biệt:**
 - Level tự động: nếu chưa có level 1 → gán 1, nếu có → max + 1
 - Update ko đổi được LevelAward
-- **Xóa là vĩnh viễn — ko có restore**
+- **Xóa mềm — có restore** (POST .../delete → IsDisable=true, LevelAward=0; POST .../restore → IsDisable=false, LevelAward = max+1)
 
 ---
 
@@ -55,7 +56,6 @@
 | PATCH | `/rounds/{roundId}` | Update round |
 | POST | `/events/{eventId}/rounds/{roundId}/swap` | Swap thứ tự 2 round (ko swap với deleted) |
 | POST | `/rounds/{roundId}/delete` | Xóa mềm (RoundNo=0, IsDisable=true, higher -1, NumberRound giảm) |
-| GET | `/rounds/{roundId}/leaderboard` | Bảng xếp hạng round (tổng điểm bài cuối, sắp xếp theo điểm) |
 | POST | `/rounds/{roundId}/restore` | Khôi phục (IsDisable=false, RoundNo = max+1, NumberRound tăng) |
 
 **Logic đặc biệt:**
@@ -133,6 +133,17 @@
 | GET | `/register-teams/{registerTeamId}/submissions` | Bài nộp của team trong event (lọc theo round, ko truyền = all) |
 | GET | `/tracks/{trackId}/submissions` | Bài nộp theo track |
 | GET | `/submissions/{submissionId}` | Chi tiết 1 bài nộp (kèm scores) |
+
+---
+
+## 🏅 Leaderboard (Bảng xếp hạng)
+**Controller:** `AdminLeaderboardController` | **Service:** `Services/Admin/Leaderboard/`
+
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/rounds/{roundId}/leaderboard` | Bảng xếp hạng round (scopeScore từng team, sắp xếp theo điểm) |
+| GET | `/events/{eventId}/leaderboard` | Bảng xếp hạng event (eventScore = weighted avg round, weight=1) |
+| GET | `/events/chapter/{year}/leaderboard` | Bảng xếp hạng chapter (chapterScore = AVG eventScores trong năm) |
 
 ---
 
@@ -255,5 +266,6 @@ Services/Admin/
 ├── CriteriaTemplate/   → AdminCriteriaTemplateController
 ├── Report/             → AdminReportController
 ├── Assign/             → AdminAssignController
+├── Leaderboard/        → AdminLeaderboardController
 └── DependencyInjection.cs → AddAdminServices()
 ```

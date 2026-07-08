@@ -17,4 +17,5 @@ public interface IRegisterTeamRepository
     Task<(List<RegisterTeams> Items, int TotalCount)> GetByTeamIdAsync(Guid teamId, RegisterTeamStatusEnum? status, bool? isDisable, int pageIndex, int pageSize);
     Task<RegisterTeams?> GetByIdWithRoundDetailsAsync(Guid id);
     Task<int> CountByTrackIdAsync(Guid trackId);
+    Task<(List<RegisterTeams> Items, int TotalCount)> GetApprovedByEventIdWithScoresAsync(Guid eventId, int pageIndex, int pageSize);
 }

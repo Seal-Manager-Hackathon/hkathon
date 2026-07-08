@@ -14,6 +14,7 @@ public interface IEventRepository
     Task<LeaderBoards?> GetLeaderBoardByEventIdAsync(Guid eventId);
     Task UpdateLeaderBoardAsync(LeaderBoards leaderBoard);
     Task<List<Events>> GetRecentAsync(int count);
+    Task<List<Events>> GetPublishedByYearAsync(int year);
     Task<(List<Events> Items, int TotalCount)> SearchAsync(
         string? keyword, EventStatusEnum? status,
         DateTimeOffset? fromDate, DateTimeOffset? toDate, bool? isDisable,
