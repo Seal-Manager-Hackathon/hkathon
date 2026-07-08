@@ -20,6 +20,8 @@ public class RegisterTeamRepository : IRegisterTeamRepository
             .Include(rt => rt.Event)
             .Include(rt => rt.Track)
             .Include(rt => rt.Topic)
+            .Include(rt => rt.RoundDetails)
+                .ThenInclude(rd => rd.Round)
             .FirstOrDefaultAsync(rt => rt.Id == id);
 
     public Task UpdateAsync(RegisterTeams registerTeam)
@@ -69,6 +71,8 @@ public class RegisterTeamRepository : IRegisterTeamRepository
             .Include(rt => rt.Event)
             .Include(rt => rt.Track)
             .Include(rt => rt.Topic)
+            .Include(rt => rt.RoundDetails)
+                .ThenInclude(rd => rd.Round)
             .Where(rt => rt.TeamId == teamId)
             .AsQueryable();
 
@@ -145,6 +149,7 @@ public class RegisterTeamRepository : IRegisterTeamRepository
             .Include(rt => rt.Track)
             .Include(rt => rt.Topic)
             .Include(rt => rt.RoundDetails)
+                .ThenInclude(rd => rd.Round)
             .Where(rt => rt.EventId == eventId)
             .AsQueryable();
 

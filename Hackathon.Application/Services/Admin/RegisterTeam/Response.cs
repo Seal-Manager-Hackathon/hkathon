@@ -78,6 +78,9 @@ public class RegisterTeamCard
     public string? Status { get; set; }
     public bool IsBanned { get; set; }
     public bool IsDisable { get; set; }
+    public Guid? RoundId { get; set; }
+    public string? RoundName { get; set; }
+    public int? RoundNo { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
 }
@@ -91,6 +94,9 @@ public class RegisterTeamDetailResponse
     public string? Status { get; set; }
     public bool IsBanned { get; set; }
     public bool IsDisable { get; set; }
+    public Guid? RoundId { get; set; }
+    public string? RoundName { get; set; }
+    public int? RoundNo { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
 

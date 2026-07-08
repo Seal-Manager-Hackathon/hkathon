@@ -47,6 +47,9 @@
         "status": "Pending",
         "isBanned": false,
         "isDisable": false,
+        "roundId": "guid",
+        "roundName": "Vòng 1",
+        "roundNo": 1,
         "createdAt": "2026-07-07T12:00:00Z",
         "updatedAt": "2026-07-07T12:00:00Z"
       }
