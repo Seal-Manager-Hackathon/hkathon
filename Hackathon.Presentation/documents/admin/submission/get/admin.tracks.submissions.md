@@ -2,26 +2,38 @@
 
 > Admin lấy danh sách bài nộp theo track.
 
-## Nghiệp vụ
-- Trả về bài nộp của các team đăng ký track đó, trong tất cả các round của event
-- Mỗi item là 1 team trong 1 round
-- Gồm thông tin team, event, round, track, topic, người nộp
-- **LastSubmission:** bài nộp cuối cùng (mới nhất) của team trong round đó
-- **Records:** toàn bộ lịch sử bài nộp của team trong round đó
+## Giải thích nghiệp vụ
+
+API này xem tất cả bài nộp của các team đã đăng ký 1 track cụ thể, trong tất cả round của event.
+
+Mỗi item là 1 **RoundDetails** — 1 team trong 1 round:
+- Lọc các team có `TrackId = trackId`
+- Trả về tất cả round của các team đó
+
+```
+Track
+  └── RegisterTeam (team đăng ký track)
+        └── RoundDetails (round 1)
+        │     ├── lastSubmission (bài cuối)
+        │     └── records (lịch sử)
+        └── RoundDetails (round 2)
+              ├── lastSubmission (bài cuối)
+              └── records (lịch sử)
+```
 
 ## Phân quyền
 - ✅ Admin
 
 ## Request
 
-| Param   | Kiểu | Bắt buộc | Ví dụ                                  |
-|---------|------|----------|----------------------------------------|
+| Param | Kiểu | Bắt buộc | Ví dụ |
+|-------|------|----------|-------|
 | trackId | guid | ✅ (route) | `3fa85f64-5717-4562-b3fc-2c963f66afa6` |
 
-| Param     | Kiểu | Bắt buộc | Mô tả                   |
-|-----------|------|----------|-------------------------|
-| pageIndex | int  | ❌        | Mặc định 1              |
-| pageSize  | int  | ❌        | Mặc định 10, tối đa 100 |
+| Param | Kiểu | Bắt buộc | Mô tả |
+|-------|------|----------|-------|
+| pageIndex | int | ❌ | Mặc định 1 |
+| pageSize | int | ❌ | Mặc định 10, tối đa 100 |
 
 ## Response (200)
 
@@ -74,6 +86,20 @@
   "traceId": "00-abc123..."
 }
 ```
+
+### Field ý nghĩa
+
+| Field | Ý nghĩa |
+|-------|---------|
+| `registerTeamId` | ID đăng ký của team trong event |
+| `teamId` / `teamName` | Thông tin team |
+| `eventId` / `eventName` | Event chứa round này |
+| `roundId` / `roundName` | Round hiện tại |
+| `trackId` / `trackTitle` | Track của team (luôn khớp với trackId filter) |
+| `topicId` / `topicTitle` | Topic team chọn |
+| `submittedBy` | Leader của team |
+| `lastSubmission` | Bài nộp cuối cùng — dùng tính điểm |
+| `records[]` | Lịch sử bài nộp trong round |
 
 ## Lỗi
 

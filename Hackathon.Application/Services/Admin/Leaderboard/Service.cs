@@ -215,9 +215,7 @@ public class Service : ILeaderboardService
     /// </summary>
     private static decimal CalculateScopeScore(RoundDetails rd)
     {
-        var lastSubmission = rd.Submissions
-            .OrderByDescending(s => s.SubmittedAt)
-            .FirstOrDefault();
+        var lastSubmission = SubmissionHelper.GetLastSubmission(rd);
 
         if (lastSubmission == null) return 0;
 

@@ -96,6 +96,8 @@ public class RegisterTeamRepository : IRegisterTeamRepository
             .Include(rt => rt.Topic)
             .Include(rt => rt.RoundDetails)
                 .ThenInclude(rd => rd.Round)
+            .Include(rt => rt.RoundDetails)
+                .ThenInclude(rd => rd.Submissions)
             .FirstOrDefaultAsync(rt => rt.Id == id);
 
     public async Task<(List<RegisterTeams> Items, int TotalCount)> GetApprovedByEventIdWithScoresAsync(

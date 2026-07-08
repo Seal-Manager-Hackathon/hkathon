@@ -50,6 +50,28 @@ public class ScoreRepository : IScoreRepository
     public async Task AddAsync(Scores score)
         => await _context.Set<Scores>().AddAsync(score);
 
+    public async Task<(List<Scores> Items, int TotalCount)> GetScoresBySubmissionIdAsync(Guid submissionId, int pageIndex, int pageSize)
+    {
+        var query = _context.Set<Scores>()
+            .Include(s => s.AssignTrack)
+                .ThenInclude(at => at.Track)
+            .Include(s => s.AssignTrack)
+                .ThenInclude(at => at.AssignEvent)
+                    .ThenInclude(ae => ae.User)
+            .Where(s => s.SubmissionId == submissionId)
+            .AsQueryable();
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderByDescending(s => s.CreatedAt)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
+
     public async Task<ScoreItems?> GetScoreItemByIdAsync(Guid scoreItemId)
         => await _context.Set<ScoreItems>()
             .Include(si => si.CriteriaItem)

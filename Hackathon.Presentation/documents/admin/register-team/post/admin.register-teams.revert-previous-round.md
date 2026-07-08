@@ -1,6 +1,6 @@
 # POST /api/v1/admin/register-teams/{registerTeamId}/revert-previous-round
 
-> Admin lùi register team về round trước đó (soft-delete round detail hiện tại).
+> Admin lùi register team về round trước đó (xóa cứng round detail hiện tại).
 
 ## Phân quyền
 - ✅ Admin
@@ -37,6 +37,7 @@
 | Status | message | Khi nào |
 |--------|---------|---------|
 | 404 | Register Team Not Found | registerTeamId ko tồn tại |
+| 400 | Cannot Revert: Current Round Has Submission(s). Please Delete Submissions First | Round hiện tại đã có submission, ko thể quay lại |
 | 400 | Team Is Only In One Round. Cannot Revert To Previous Round | Team chỉ có 1 round, ko thể lùi |
 | 401 | Invalid Or Expired Token | Chưa đăng nhập |
 | 403 | Forbidden | Ko phải admin |
@@ -46,6 +47,7 @@
 2. Lấy register team kèm RoundDetails (chỉ lấy các active, ko bị IsDisable)
 3. Sắp xếp RoundDetails giảm dần theo RoundNo
 4. Nếu chỉ có 1 round → throw BadRequest (ko thể lùi)
-5. Soft-delete round detail hiện tại (đầu danh sách): set IsDisable = true
-6. Round trước đó = phần tử thứ 2 trong danh sách (đã sắp xếp)
+5. Check round hiện tại đã có submissions chưa → nếu có → throw BadRequest
+6. **Xóa cứng** (`Remove`) round detail hiện tại (ko có submission nên safe)
+7. Round trước đó = phần tử thứ 2 trong danh sách (đã sắp xếp)
 7. SaveChanges → trả về thông tin round đã lùi về

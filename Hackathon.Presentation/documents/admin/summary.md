@@ -150,14 +150,23 @@
 ## 📊 Score (Điểm)
 **Controller:** `AdminScoreController` | **Service:** `Services/Admin/Score/`
 
+**Cấu trúc phân cấp điểm:**
+```
+Submissions (bài nộp)
+  └── Scores (lượt chấm — 1 judge / record)
+        └── ScoreItems (điểm từng tiêu chí)
+```
+- **Score** = 1 lượt chấm của 1 judge, `TotalScore` = SUM(ScoreItems)
+- **scopeScore** (điểm team trong round) = SUM(Scores.TotalScore) của submission cuối
+
 | Method | Route | Chức năng |
 |--------|-------|-----------|
-| GET | `/scores/{scoreId}` | Chi tiết 1 lượt chấm (score) — kèm score items |
-| GET | `/score-items/{scoreItemId}` | Chi tiết 1 score item (điểm 1 tiêu chí) |
-| GET | `/submissions/{submissionId}/scores` | **Điểm tổng** của 1 bài nộp (SUM TotalScore các judge) |
-| GET | `/submissions/{submissionId}/grader-scores` | Danh sách lượt chấm (scope) của 1 bài nộp — chưa phải điểm cuối |
-| GET | `/scores/{scoreId}/items` | Danh sách score items của 1 lượt chấm, phân trang |
-| GET | `/rounds/{roundId}/register-teams/{registerTeamId}/scores` | Điểm 1 team trong 1 round (scopeScore + từng grader) |
+| GET | `/scores/{scoreId}` | Chi tiết 1 lượt chấm (score) — **ko kèm items** |
+| GET | `/scores/{scoreId}/items` | Score items của 1 lượt chấm (phân trang) |
+| GET | `/score-items/{scoreItemId}` | Chi tiết 1 score item (điểm + comment + người chấm) |
+| GET | `/submissions/{submissionId}/scores` | **Điểm tổng** của bài nộp: SUM(TotalScore), judgeCount |
+| GET | `/submissions/{submissionId}/grader-scores` | Danh sách từng lượt chấm của bài nộp (phân trang) |
+| GET | `/rounds/{roundId}/register-teams/{registerTeamId}/scores` | **scopeScore** team trong round (submission cuối) |
 
 ---
 

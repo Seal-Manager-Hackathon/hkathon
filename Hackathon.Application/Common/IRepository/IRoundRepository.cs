@@ -15,6 +15,7 @@ public interface IRoundRepository
     /// </summary>
     Task<RoundDetails?> GetRoundDetailWithScoresAsync(Guid roundId, Guid registerTeamId);
     Task RemoveRoundDetailAsync(RoundDetails roundDetail);
+    Task DeleteRoundDetailHardAsync(RoundDetails roundDetail);
     Task<(List<Rounds> Items, int TotalCount)> SearchByEventIdAsync(
         Guid eventId, string? keyword, int? roundNo, bool? isDisable,
         int pageIndex, int pageSize);

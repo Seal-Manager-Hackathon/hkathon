@@ -404,8 +404,12 @@ public class Service : IRegisterTeamService
         // Round hiện tại = đầu danh sách (RoundNo cao nhất)
         var currentRoundDetail = activeRounds.First();
 
-        // Soft-delete round detail hiện tại
-        await _roundRepository.RemoveRoundDetailAsync(currentRoundDetail);
+        // Nếu round hiện tại đã có submission → ko thể quay lại
+        if (currentRoundDetail.Submissions.Count > 0)
+            throw new BadRequestException("Cannot Revert: Current Round Has Submission(s). Please Delete Submissions First");
+
+        // Xóa cứng round detail (ko có submission thì safe)
+        await _roundRepository.DeleteRoundDetailHardAsync(currentRoundDetail);
 
         // Round trước đó = phần tử thứ 2 trong danh sách
         var previousRound = activeRounds[1].Round!;

@@ -1,24 +1,42 @@
 # GET /api/v1/admin/scores/{scoreId}/items
 
-> Admin lấy danh sách chi tiết điểm (score items) của 1 lượt chấm, phân trang.
+> Admin lấy danh sách score items của 1 lượt chấm, phân trang.
 
-## Nghiệp vụ
-- Trả về danh sách điểm chi tiết từng tiêu chí của 1 lượt chấm
-- Phân trang
+## Giải thích nghiệp vụ
+
+**ScoreItems** là điểm chi tiết của từng tiêu chí trong 1 lượt chấm.
+
+VD: Judge A chấm bài team X, criteria template có 3 tiêu chí:
+- Sáng tạo: 40/50
+- Kỹ thuật: 30/30
+- Thuyết trình: 15/20
+
+Mỗi tiêu chí là 1 ScoreItem. Khi đó score này có:
+- `totalScore` = 40 + 30 + 15 = 85
+- 3 ScoreItems tương ứng
+
+```
+Score (lượt chấm)
+  └── ScoreItem 1: Sáng tạo = 40
+  └── ScoreItem 2: Kỹ thuật = 30
+  └── ScoreItem 3: Thuyết trình = 15
+```
 
 ## Phân quyền
 - ✅ Admin
 
 ## Request
 
-| Param   | Kiểu | Bắt buộc | Ví dụ |
-|---------|------|----------|-------|
+### Route Parameters
+| Param | Kiểu | Bắt buộc | Ví dụ |
+|-------|------|----------|-------|
 | scoreId | guid | ✅ (route) | `3fa85f64-5717-4562-b3fc-2c963f66afa6` |
 
-| Param     | Kiểu | Bắt buộc | Mô tả |
-|-----------|------|----------|-------|
-| pageIndex | int  | ❌        | Mặc định 1 |
-| pageSize  | int  | ❌        | Mặc định 10, tối đa 100 |
+### Query Parameters
+| Param | Kiểu | Bắt buộc | Mô tả |
+|-------|------|----------|-------|
+| pageIndex | int | ❌ | Mặc định 1 |
+| pageSize | int | ❌ | Mặc định 10, tối đa 100 |
 
 ## Response (200)
 
@@ -55,6 +73,28 @@
   "traceId": "00-abc123..."
 }
 ```
+
+### Field ý nghĩa
+
+| Field | Ý nghĩa |
+|-------|---------|
+| `scoreItemId` | ID của item này |
+| `scoreId` | ID của lượt chấm chứa item |
+| `criteriaItemId` | ID của tiêu chí trong criteria template |
+| `criteriaName` | Tên tiêu chí (VD: "Tính sáng tạo", "Kỹ thuật") |
+| `score` | Điểm cho tiêu chí này |
+| `comment` | Nhận xét của judge cho tiêu chí này |
+| `assignTrackId` | Track người chấm được phân công |
+| `assignEventId` | Event assign record của người chấm |
+| `gradedBy` | Thông tin người chấm |
+
+### gradedBy
+
+| Field | Ý nghĩa |
+|-------|---------|
+| `userId` | ID người chấm (lecturer role Judge) |
+| `email` | Email người chấm |
+| `firstName` / `lastName` | Tên người chấm |
 
 ## Lỗi
 

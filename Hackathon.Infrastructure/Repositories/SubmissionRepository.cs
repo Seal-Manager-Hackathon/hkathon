@@ -1,3 +1,4 @@
+using Hackathon.Application.Common.Helpers;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -121,9 +122,7 @@ public class SubmissionRepository : ISubmissionRepository
 
         var items = roundDetails.Select(rd =>
         {
-            var lastSubmission = rd.Submissions
-                .OrderByDescending(s => s.SubmittedAt)
-                .FirstOrDefault();
+            var lastSubmission = SubmissionHelper.GetLastSubmission(rd);
 
             // scopeScore = SUM(Scores.TotalScore)
             var scopeScore = lastSubmission?.Scores

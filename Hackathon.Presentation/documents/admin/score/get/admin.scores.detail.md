@@ -1,14 +1,31 @@
 # GET /api/v1/admin/scores/{scoreId}
 
-> Admin xem chi tiết 1 lượt chấm (score) — kèm track chấm, danh sách điểm từng tiêu chí.
+> Admin xem chi tiết 1 lượt chấm (score/scope) của 1 người chấm.
+
+## Giải thích nghiệp vụ
+
+1 **score** = 1 lượt chấm của 1 judge cho 1 bài nộp (submission).
+
+Khi judge chấm bài, hệ thống tạo ra:
+- **Score** — record tổng, lưu `TotalScore` = tổng điểm judge đó chấm
+- **ScoreItems** — chi tiết điểm từng tiêu chí (VD: Sáng tạo 40đ, Kỹ thuật 30đ...)
+
+API này chỉ trả thông tin **Score**, ko kèm ScoreItems. ScoreItems có API riêng:
+👉 [GET /scores/{scoreId}/items](admin.scores.items.md) (phân trang)
+
+```
+Submissions (bài nộp)
+  └── Score (lượt chấm của judge A) ← API này
+        └── ScoreItems (điểm từng tiêu chí) ← API /scores/{scoreId}/items
+```
 
 ## Phân quyền
 - ✅ Admin
 
 ## Request
 
-| Param   | Kiểu | Bắt buộc | Ví dụ |
-|---------|------|----------|-------|
+| Param | Kiểu | Bắt buộc | Ví dụ |
+|-------|------|----------|-------|
 | scoreId | guid | ✅ (route) | `3fa85f64-5717-4562-b3fc-2c963f66afa6` |
 
 ## Response (200)
@@ -24,26 +41,6 @@
     "isRetake": false,
     "retakeFromScoreId": null,
     "isMock": false,
-    "items": [
-      {
-        "scoreItemId": "guid",
-        "scoreId": "guid",
-        "criteriaItemId": "guid",
-        "assignTrackId": "guid",
-        "assignEventId": "guid",
-        "criteriaName": "Tính sáng tạo",
-        "score": 20,
-        "comment": "Ý tưởng tốt",
-        "gradedBy": {
-          "userId": "guid",
-          "email": "lecturer@email.com",
-          "firstName": "Nguyễn",
-          "lastName": "Văn B"
-        },
-        "createdAt": "2026-07-07T12:00:00Z",
-        "updatedAt": "2026-07-07T12:00:00Z"
-      }
-    ],
     "createdAt": "2026-07-07T12:00:00Z",
     "updatedAt": "2026-07-07T12:00:00Z"
   },
@@ -52,6 +49,19 @@
   "traceId": "00-abc123..."
 }
 ```
+
+### Field ý nghĩa
+
+| Field | Ý nghĩa |
+|-------|---------|
+| `scoreId` | ID của lượt chấm này |
+| `submissionId` | Bài nộp được chấm |
+| `assignTrackId` | Track mà người chấm được phân công (AssignTrack) |
+| `trackTitle` | Tên track |
+| `totalScore` | **Tổng điểm** judge này chấm = SUM(ScoreItems.Score) |
+| `isRetake` | Đánh dấu chấm lại |
+| `retakeFromScoreId` | Nếu là chấm lại, ID của lượt chấm gốc |
+| `isMock` | Đánh dấu điểm chấm thử (mock) |
 
 ## Lỗi
 

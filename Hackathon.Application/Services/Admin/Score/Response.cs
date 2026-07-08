@@ -10,7 +10,6 @@ public class GetScoreDetailResponse
     public bool IsRetake { get; set; }
     public Guid? RetakeFromScoreId { get; set; }
     public bool IsMock { get; set; }
-    public List<ScoreItemDetail> Items { get; set; } = new();
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
 }
@@ -26,6 +25,9 @@ public class GetSubmissionGraderScoresResponse
 {
     public Guid SubmissionId { get; set; }
     public List<ScoreDetail> Scores { get; set; } = new();
+    public int TotalCount { get; set; }
+    public int PageIndex { get; set; }
+    public int PageSize { get; set; }
 }
 
 public class ScoreDetail
@@ -85,29 +87,9 @@ public class GetTeamRoundScoreResponse
     public Guid? TopicId { get; set; }
     public string? TopicTitle { get; set; }
     public decimal TotalScore { get; set; }
-    public List<TeamRoundGraderScore> GraderScores { get; set; } = new();
-    public List<TeamRoundCriteriaScore> CriteriaAverages { get; set; } = new();
-}
-
-public class TeamRoundGraderScore
-{
-    public Guid ScoreId { get; set; }
-    public Guid? AssignTrackId { get; set; }
-    public string? TrackTitle { get; set; }
-    public decimal? TotalScore { get; set; }
-    public bool IsRetake { get; set; }
-    public bool IsMock { get; set; }
-    public string? GraderName { get; set; }
-    public string? GraderEmail { get; set; }
-    public DateTimeOffset CreatedAt { get; set; }
-}
-
-public class TeamRoundCriteriaScore
-{
-    public Guid CriteriaItemId { get; set; }
-    public string CriteriaName { get; set; } = string.Empty;
-    public decimal AverageScore { get; set; }
-    public int JudgeCount { get; set; }
+    public Guid? SubmissionId { get; set; }
+    public DateTimeOffset? SubmittedAt { get; set; }
+    public bool IsLastSubmission { get; set; }
 }
 
 public class ScoreSubmissionResponse

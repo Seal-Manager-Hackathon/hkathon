@@ -1,3 +1,4 @@
+using Hackathon.Application.Common.Helpers;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
@@ -145,17 +146,16 @@ public class Service : ISubmissionService
                         LastName = td.User.LastName
                     })
                     .FirstOrDefault(),
-                LastSubmission = rd.Submissions
-                    .OrderByDescending(s => s.SubmittedAt)
-                    .Select(s => new SubmissionRecordDto
+                LastSubmission = SubmissionHelper.GetLastSubmission(rd) is { } lastSub
+                    ? new SubmissionRecordDto
                     {
-                        Id = s.Id,
-                        SubmittedAt = s.SubmittedAt,
-                        Url = s.Url,
-                        Description = s.Description,
-                        Status = s.Status?.ToString()
-                    })
-                    .FirstOrDefault(),
+                        Id = lastSub.Id,
+                        SubmittedAt = lastSub.SubmittedAt,
+                        Url = lastSub.Url,
+                        Description = lastSub.Description,
+                        Status = lastSub.Status?.ToString()
+                    }
+                    : null,
                 Records = rd.Submissions
                     .OrderByDescending(s => s.SubmittedAt)
                     .Select(s => new SubmissionRecordDto
@@ -211,17 +211,16 @@ public class Service : ISubmissionService
                         LastName = td.User.LastName
                     })
                     .FirstOrDefault(),
-                LastSubmission = rd.Submissions
-                    .OrderByDescending(s => s.SubmittedAt)
-                    .Select(s => new SubmissionRecordDto
+                LastSubmission = SubmissionHelper.GetLastSubmission(rd) is { } lastSub
+                    ? new SubmissionRecordDto
                     {
-                        Id = s.Id,
-                        SubmittedAt = s.SubmittedAt,
-                        Url = s.Url,
-                        Description = s.Description,
-                        Status = s.Status?.ToString()
-                    })
-                    .FirstOrDefault(),
+                        Id = lastSub.Id,
+                        SubmittedAt = lastSub.SubmittedAt,
+                        Url = lastSub.Url,
+                        Description = lastSub.Description,
+                        Status = lastSub.Status?.ToString()
+                    }
+                    : null,
                 Records = rd.Submissions
                     .OrderByDescending(s => s.SubmittedAt)
                     .Select(s => new SubmissionRecordDto
@@ -277,17 +276,16 @@ public class Service : ISubmissionService
                         LastName = td.User.LastName
                     })
                     .FirstOrDefault(),
-                LastSubmission = rd.Submissions
-                    .OrderByDescending(s => s.SubmittedAt)
-                    .Select(s => new SubmissionRecordDto
+                LastSubmission = SubmissionHelper.GetLastSubmission(rd) is { } lastSub
+                    ? new SubmissionRecordDto
                     {
-                        Id = s.Id,
-                        SubmittedAt = s.SubmittedAt,
-                        Url = s.Url,
-                        Description = s.Description,
-                        Status = s.Status?.ToString()
-                    })
-                    .FirstOrDefault(),
+                        Id = lastSub.Id,
+                        SubmittedAt = lastSub.SubmittedAt,
+                        Url = lastSub.Url,
+                        Description = lastSub.Description,
+                        Status = lastSub.Status?.ToString()
+                    }
+                    : null,
                 Records = rd.Submissions
                     .OrderByDescending(s => s.SubmittedAt)
                     .Select(s => new SubmissionRecordDto
@@ -343,17 +341,16 @@ public class Service : ISubmissionService
                         LastName = td.User.LastName
                     })
                     .FirstOrDefault(),
-                LastSubmission = rd.Submissions
-                    .OrderByDescending(s => s.SubmittedAt)
-                    .Select(s => new SubmissionRecordDto
+                LastSubmission = SubmissionHelper.GetLastSubmission(rd) is { } lastSub
+                    ? new SubmissionRecordDto
                     {
-                        Id = s.Id,
-                        SubmittedAt = s.SubmittedAt,
-                        Url = s.Url,
-                        Description = s.Description,
-                        Status = s.Status?.ToString()
-                    })
-                    .FirstOrDefault(),
+                        Id = lastSub.Id,
+                        SubmittedAt = lastSub.SubmittedAt,
+                        Url = lastSub.Url,
+                        Description = lastSub.Description,
+                        Status = lastSub.Status?.ToString()
+                    }
+                    : null,
                 Records = rd.Submissions
                     .OrderByDescending(s => s.SubmittedAt)
                     .Select(s => new SubmissionRecordDto

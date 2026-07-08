@@ -41,28 +41,6 @@ public class Service : IScoreService
             IsMock = score.IsMock,
             CreatedAt = score.CreatedAt,
             UpdatedAt = score.UpdatedAt,
-            Items = score.ScoreItems.Select(si => new ScoreItemDetail
-            {
-                ScoreItemId = si.Id,
-                ScoreId = si.ScoreId,
-                CriteriaItemId = si.CriteriaItemId,
-                AssignTrackId = si.AssignTrackId,
-                AssignEventId = si.AssignTrack?.AssignEventId ?? Guid.Empty,
-                CriteriaName = si.CriteriaItem?.Name ?? "",
-                Score = si.Score,
-                Comment = si.Comment,
-                GradedBy = si.AssignTrack?.AssignEvent?.User != null
-                    ? new GraderInfo
-                    {
-                        UserId = si.AssignTrack.AssignEvent.User.Id,
-                        Email = si.AssignTrack.AssignEvent.User.Email,
-                        FirstName = si.AssignTrack.AssignEvent.User.FirstName,
-                        LastName = si.AssignTrack.AssignEvent.User.LastName
-                    }
-                    : null,
-                CreatedAt = si.CreatedAt,
-                UpdatedAt = si.UpdatedAt
-            }).ToList()
         };
     }
 
@@ -81,11 +59,11 @@ public class Service : IScoreService
         };
     }
 
-    public async Task<GetSubmissionGraderScoresResponse> GetSubmissionGraderScores(Guid submissionId)
+    public async Task<GetSubmissionGraderScoresResponse> GetSubmissionGraderScores(Guid submissionId, int pageIndex, int pageSize)
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
-        var scores = await _scoreRepository.GetBySubmissionIdAsync(submissionId);
+        var (scores, totalCount) = await _scoreRepository.GetScoresBySubmissionIdAsync(submissionId, pageIndex, pageSize);
 
         return new GetSubmissionGraderScoresResponse
         {
@@ -102,7 +80,10 @@ public class Service : IScoreService
                 IsMock = s.IsMock,
                 CreatedAt = s.CreatedAt,
                 UpdatedAt = s.UpdatedAt
-            }).ToList()
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = pageIndex,
+            PageSize = pageSize
         };
     }
 
@@ -153,32 +134,16 @@ public class Service : IScoreService
 
         var registerTeam = roundDetail.RegisterTeam;
         var round = roundDetail.Round;
-        var lastSubmission = roundDetail.Submissions
-            .OrderByDescending(s => s.SubmittedAt)
-            .FirstOrDefault();
+        // scopeScore = SUM(Scores.TotalScore) của submission cuối cùng
+        var lastSubmission = SubmissionHelper.GetLastSubmission(roundDetail);
 
-        // scopeScore = SUM(Scores.TotalScore) — dùng RoundScoreHelper
         var scopeScore = lastSubmission != null
-            ? RoundScoreHelper.Calculate(lastSubmission).Total
+            ? Math.Round(
+                lastSubmission.Scores
+                    .Where(s => s.TotalScore.HasValue)
+                    .Sum(s => s.TotalScore!.Value),
+                2)
             : 0m;
-
-        // Thông tin từng judge (grader) score
-        var graderScores = lastSubmission?.Scores
-            .Select(s => new TeamRoundGraderScore
-            {
-                ScoreId = s.Id,
-                AssignTrackId = s.AssignTrackId,
-                TrackTitle = s.AssignTrack?.Track?.Title,
-                TotalScore = s.TotalScore,
-                IsRetake = s.IsRetake,
-                IsMock = s.IsMock,
-                GraderName = s.AssignTrack?.AssignEvent?.User != null
-                    ? $"{s.AssignTrack.AssignEvent.User.FirstName} {s.AssignTrack.AssignEvent.User.LastName}".Trim()
-                    : null,
-                GraderEmail = s.AssignTrack?.AssignEvent?.User?.Email,
-                CreatedAt = s.CreatedAt
-            })
-            .ToList() ?? new();
 
         return new GetTeamRoundScoreResponse
         {
@@ -191,7 +156,9 @@ public class Service : IScoreService
             TopicId = registerTeam.TopicId,
             TopicTitle = registerTeam.Topic?.Title,
             TotalScore = scopeScore,
-            GraderScores = graderScores
+            SubmissionId = lastSubmission?.Id,
+            SubmittedAt = lastSubmission?.SubmittedAt,
+            IsLastSubmission = lastSubmission != null
         };
     }
 

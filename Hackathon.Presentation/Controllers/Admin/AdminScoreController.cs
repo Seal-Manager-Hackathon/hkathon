@@ -31,9 +31,9 @@ public class AdminScoreController : ControllerBase
     }
 
     [HttpGet("submissions/{submissionId:guid}/grader-scores")]
-    public async Task<IActionResult> GetSubmissionGraderScores(Guid submissionId)
+    public async Task<IActionResult> GetSubmissionGraderScores(Guid submissionId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
     {
-        var result = await _scoreService.GetSubmissionGraderScores(submissionId);
+        var result = await _scoreService.GetSubmissionGraderScores(submissionId, pageIndex, pageSize);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 

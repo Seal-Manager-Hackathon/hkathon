@@ -77,6 +77,12 @@ public class RoundRepository : IRoundRepository
         return Task.CompletedTask;
     }
 
+    public Task DeleteRoundDetailHardAsync(RoundDetails roundDetail)
+    {
+        _context.Set<RoundDetails>().Remove(roundDetail);
+        return Task.CompletedTask;
+    }
+
     public async Task AddAsync(Rounds round)
         => await _context.Set<Rounds>().AddAsync(round);
 

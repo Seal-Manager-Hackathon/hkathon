@@ -2,38 +2,44 @@
 
 > Admin lấy danh sách bài nộp trong event, phân trang, có filter.
 
-## Nghiệp vụ
+## Giải thích nghiệp vụ
 
-- Trả về danh sách bài nộp của các team trong từng round của event
-- Mỗi item là 1 team trong 1 round (RoundDetails)
-- Gồm thông tin team, event, round, track, topic, người nộp
-- **LastSubmission:** bài nộp cuối cùng (mới nhất) của team trong round đó
-- **Records:** toàn bộ lịch sử bài nộp của team trong round đó
-- **SubmittedBy:** leader của team (người nộp)
+API này trả về danh sách các **RoundDetails** — tức là 1 team trong 1 round — của toàn bộ event. Mỗi item đại diện cho 1 team tham gia 1 round cụ thể.
+
+Mỗi RoundDetails chứa:
+- **records[]** — tất cả bài nộp (submissions) của team đó trong round đó. Team có thể nộp nhiều lần (vd: nộp nháp, nộp chính thức, nộp lại)
+- **lastSubmission** — bài nộp cuối cùng (mới nhất). Đây là bài được dùng để tính điểm
+- **submittedBy** — leader của team (người thực hiện nộp)
+
+Cấu trúc phân cấp:
+```
+Event → Round → RoundDetails (team trong round)
+                    ├── Submissions[].lastSubmission (bài cuối → tính điểm)
+                    └── Submissions[].records (lịch sử nộp)
+```
 
 ## Phân quyền
-
 - ✅ Admin
 
 ## Request
 
 ### Route Parameters
 
-| Param   | Kiểu | Bắt buộc | Ví dụ                                  |
-|---------|------|----------|----------------------------------------|
+| Param | Kiểu | Bắt buộc | Ví dụ |
+|-------|------|----------|-------|
 | eventId | guid | ✅ (route) | `3fa85f64-5717-4562-b3fc-2c963f66afa6` |
 
 ### Query Parameters
 
-| Param            | Kiểu   | Bắt buộc | Mô tả                          |
-|------------------|--------|----------|--------------------------------|
-| roundId          | guid   | ❌        | Lọc theo round                 |
-| trackId          | guid   | ❌        | Lọc theo track                 |
-| topicId          | guid   | ❌        | Lọc theo topic                 |
-| registerTeamId   | guid   | ❌        | Lọc theo register team         |
-| keyword          | string | ❌        | Tìm kiếm theo tên team (ko dấu) |
-| pageIndex        | int    | ❌        | Mặc định 1                     |
-| pageSize         | int    | ❌        | Mặc định 10, tối đa 100        |
+| Param | Kiểu | Bắt buộc | Mô tả |
+|-------|------|----------|-------|
+| roundId | guid | ❌ | Lọc theo round — chỉ lấy team trong round đó |
+| trackId | guid | ❌ | Lọc theo track |
+| topicId | guid | ❌ | Lọc theo topic |
+| registerTeamId | guid | ❌ | Lọc theo register team cụ thể |
+| keyword | string | ❌ | Tìm kiếm theo tên team (ko dấu) |
+| pageIndex | int | ❌ | Mặc định 1 |
+| pageSize | int | ❌ | Mặc định 10, tối đa 100 |
 
 ## Response (200)
 
@@ -82,13 +88,25 @@
     "pageSize": 10
   },
   "message": "Fetched Successfully",
-  "error": null,
-  "isSuccess": true,
   "status": 200,
-  "traceId": "00-abc123...",
-  "timestampUtc": "2026-07-08T12:00:00Z"
+  "traceId": "00-abc123..."
 }
 ```
+
+### Field ý nghĩa
+
+| Field | Ý nghĩa |
+|-------|---------|
+| `registerTeamId` | ID đăng ký của team trong event |
+| `teamId` / `teamName` | Thông tin team |
+| `eventId` / `eventName` | Event chứa round này |
+| `roundId` / `roundName` | Round hiện tại |
+| `trackId` / `trackTitle` | Track team đã đăng ký |
+| `topicId` / `topicTitle` | Topic team chọn |
+| `submittedBy` | Leader của team — người có quyền nộp bài |
+| `lastSubmission` | **Bài nộp cuối cùng** — dùng để tính điểm scopeScore |
+| `records[]` | Lịch sử tất cả bài nộp của team trong round này |
+| `totalCount` / `pageIndex` / `pageSize` | Thông tin phân trang |
 
 ## Lỗi
 
