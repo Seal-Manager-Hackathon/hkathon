@@ -82,8 +82,9 @@ public class SubmissionRepository : ISubmissionRepository
         var totalCount = await query.CountAsync();
 
         var items = await query
-            .OrderBy(rd => rd.Round.RoundNo)
-            .ThenBy(rd => rd.RegisterTeam.Team.Name)
+            .OrderByDescending(rd => rd.Submissions
+                .Select(s => (DateTimeOffset?)s.SubmittedAt)
+                .Max() ?? DateTimeOffset.MinValue)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
