@@ -56,6 +56,9 @@ public class GetRegisterTeamsRequest
     public bool? IsDisable { get; set; }
     public DateTimeOffset? FromDate { get; set; }
     public DateTimeOffset? ToDate { get; set; }
+    public Guid? RoundId { get; set; }
+    public Guid? TrackId { get; set; }
+    public Guid? TopicId { get; set; }
     public int PageIndex { get; set; } = 1;
     public int PageSize { get; set; } = 10;
 }

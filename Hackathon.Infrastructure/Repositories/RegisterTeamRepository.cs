@@ -136,6 +136,7 @@ public class RegisterTeamRepository : IRegisterTeamRepository
         Guid eventId, string? keyword, RegisterTeamStatusEnum? status,
         bool? isBanned, bool? isDisable,
         DateTimeOffset? fromDate, DateTimeOffset? toDate,
+        Guid? roundId, Guid? trackId, Guid? topicId,
         int pageIndex, int pageSize)
     {
         var query = _context.Set<RegisterTeams>()
@@ -143,6 +144,7 @@ public class RegisterTeamRepository : IRegisterTeamRepository
             .Include(rt => rt.Event)
             .Include(rt => rt.Track)
             .Include(rt => rt.Topic)
+            .Include(rt => rt.RoundDetails)
             .Where(rt => rt.EventId == eventId)
             .AsQueryable();
 
@@ -166,6 +168,15 @@ public class RegisterTeamRepository : IRegisterTeamRepository
 
         if (toDate.HasValue)
             query = query.Where(rt => rt.CreatedAt <= toDate.Value);
+
+        if (trackId.HasValue)
+            query = query.Where(rt => rt.TrackId == trackId.Value);
+
+        if (topicId.HasValue)
+            query = query.Where(rt => rt.TopicId == topicId.Value);
+
+        if (roundId.HasValue)
+            query = query.Where(rt => rt.RoundDetails.Any(rd => rd.RoundId == roundId.Value && !rd.IsDisable));
 
         var totalCount = await query.CountAsync();
 

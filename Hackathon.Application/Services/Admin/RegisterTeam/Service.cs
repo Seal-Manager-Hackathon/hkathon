@@ -55,6 +55,7 @@ public class Service : IRegisterTeamService
             request.EventId, request.Keyword, status,
             request.IsBanned, request.IsDisable,
             request.FromDate, request.ToDate,
+            request.RoundId, request.TrackId, request.TopicId,
             request.PageIndex, request.PageSize);
 
         return new GetRegisterTeamsResponse

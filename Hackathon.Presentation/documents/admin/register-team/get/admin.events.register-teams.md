@@ -1,11 +1,12 @@
 # GET /api/v1/admin/events/{eventId}/register-teams
 
-> Lấy danh sách register teams phân trang, có filter keyword, status, isBanned, isDisable, thời gian tạo.
+> Lấy danh sách register teams phân trang, có filter keyword, status, isBanned, isDisable, thời gian tạo, round, track, topic.
 
 ## Nghiệp vụ
 - Keyword search theo tên team
-- Filter Status (Pending, Approved, Rejected), IsBanned, IsDisable
+- Filter Status (Pending, Approved, Rejected, Banned), IsBanned, IsDisable
 - Lọc FromDate / ToDate theo CreatedAt
+- Lọc theo RoundId, TrackId, TopicId
 - Sắp xếp gần nhất trên cùng
 
 ## Phân quyền
@@ -15,11 +16,14 @@
 | Param | Kiểu | Bắt buộc | Ví dụ | Ghi chú |
 |-------|------|----------|-------|---------|
 | Keyword | string | ❌ | `FTeam` | Search tên team |
-| Status | string | ❌ | `Pending` | ⚠️ Enum: Pending, Approved, Rejected |
+| Status | string | ❌ | `Pending` | ⚠️ Enum: Pending, Approved, Rejected, Banned |
 | IsBanned | bool | ❌ | `false` | |
 | IsDisable | bool | ❌ | `false` | |
 | FromDate | datetime | ❌ | `2026-07-01T00:00:00Z` | |
 | ToDate | datetime | ❌ | `2026-07-07T23:59:59Z` | |
+| RoundId | guid | ❌ | `3fa85f64-5717-4562-b3fc-2c963f66afa6` | |
+| TrackId | guid | ❌ | `3fa85f64-5717-4562-b3fc-2c963f66afa6` | |
+| TopicId | guid | ❌ | `3fa85f64-5717-4562-b3fc-2c963f66afa6` | |
 | PageIndex | int | ❌ | `1` | Mặc định 1 |
 | PageSize | int | ❌ | `10` | Mặc định 10 |
 

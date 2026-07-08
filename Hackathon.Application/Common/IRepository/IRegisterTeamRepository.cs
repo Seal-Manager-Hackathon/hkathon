@@ -9,6 +9,7 @@ public interface IRegisterTeamRepository
         Guid eventId, string? keyword, RegisterTeamStatusEnum? status,
         bool? isBanned, bool? isDisable,
         DateTimeOffset? fromDate, DateTimeOffset? toDate,
+        Guid? roundId, Guid? trackId, Guid? topicId,
         int pageIndex, int pageSize);
     Task<RegisterTeams?> GetByIdAsync(Guid id);
     Task UpdateAsync(RegisterTeams registerTeam);
