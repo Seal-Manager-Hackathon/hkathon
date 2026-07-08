@@ -9,4 +9,7 @@ public interface IAssignService
     Task AssignEventRoleToLecturer(AssignEventRoleToLecturerRequest request);
     Task AssignTrackToEvent(AssignTrackToEventRequest request);
     Task RemoveTrackFromEvent(Guid assignEventId, Guid trackId);
+    Task RestoreTrackToEvent(Guid assignEventId, Guid trackId);
+    Task RemoveAssignEvent(Guid assignEventId);
+    Task RestoreAssignEvent(Guid assignEventId);
 }

@@ -29,4 +29,14 @@ public class UserController : ControllerBase
         await _userProfileService.UpdateProfile(request);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.User.ProfileUpdated, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpPost("avatar")]
+    public async Task<IActionResult> UpdateAvatar(IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+            return BadRequest(ApiResponseFactory.Error("Validation Error", 400, "File Is Required", traceId: HttpContext.TraceIdentifier));
+
+        var avatarUrl = await _userProfileService.UpdateAvatar(file);
+        return Ok(ApiResponseFactory.Success(new { avatarUrl }, message: SuccessMessage.User.AvatarUpdated, traceId: HttpContext.TraceIdentifier));
+    }
 }

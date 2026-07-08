@@ -16,7 +16,7 @@ public class AdminAssignController : ControllerBase
         _assignService = assignService;
     }
 
-[HttpPost("events/{eventId:guid}/assign/users")]
+    [HttpPost("events/{eventId:guid}/assign/users")]
     public async Task<IActionResult> AssignUserToEvent(Guid eventId, [FromBody] AssignUserToEventRequest request)
     {
         request.EventId = eventId;
@@ -68,6 +68,27 @@ public class AdminAssignController : ControllerBase
     public async Task<IActionResult> RemoveTrackFromEvent(Guid assignEventId, Guid trackId)
     {
         await _assignService.RemoveTrackFromEvent(assignEventId, trackId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("event-assigns/{assignEventId:guid}/tracks/{trackId:guid}/restore")]
+    public async Task<IActionResult> RestoreTrackToEvent(Guid assignEventId, Guid trackId)
+    {
+        await _assignService.RestoreTrackToEvent(assignEventId, trackId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("event-assigns/{assignEventId:guid}/remove")]
+    public async Task<IActionResult> RemoveAssignEvent(Guid assignEventId)
+    {
+        await _assignService.RemoveAssignEvent(assignEventId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("event-assigns/{assignEventId:guid}/restore")]
+    public async Task<IActionResult> RestoreAssignEvent(Guid assignEventId)
+    {
+        await _assignService.RestoreAssignEvent(assignEventId);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
     }
 }

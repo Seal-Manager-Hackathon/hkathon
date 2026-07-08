@@ -59,34 +59,28 @@ public class Service : IAssignService
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
-        // Check user exists
         var user = await _userRepository.GetByIdAsync(request.UserId);
         if (user == null)
             throw new NotFoundException(ErrMsg.Auth.UserNotFound);
 
-        // Check role hợp lệ
         if (user.Role == RoleEnum.Student)
             throw new BadRequestException("Cannot Assign Student To Event");
         if (user.Role == RoleEnum.Admin)
             throw new BadRequestException("Cannot Assign Admin To Event");
 
-        // Parse event role
         if (!Enum.TryParse<EventRoleEnum>(request.EventRole, true, out var eventRoleEnum))
             throw new BadRequestException("Invalid EventRole. Must be: Staff, Judge, Mentor");
 
-        // Validate event role theo user role
         if (user.Role == RoleEnum.Staff && eventRoleEnum != EventRoleEnum.Staff)
             throw new BadRequestException("Staff Can Only Be Assigned Staff Role");
 
         if (user.Role == RoleEnum.Lecturer && eventRoleEnum == EventRoleEnum.Staff)
             throw new BadRequestException("Lecturer Cannot Be Assigned Staff Role");
 
-        // Check already assigned
         var existing = await _assignEventRepository.GetByEventIdAndUserIdAsync(request.EventId, request.UserId);
         if (existing != null)
             throw new ConflictException("User Is Already Assigned To This Event");
 
-        // Get EventRole từ DB
         var eventRole = await _assignEventRepository.GetEventRoleByNameAsync(eventRoleEnum);
         if (eventRole == null)
             throw new NotFoundException($"Event Role {request.EventRole} Not Found");
@@ -109,29 +103,23 @@ public class Service : IAssignService
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
-        // Check assign event exists
         var assignEvent = await _assignEventRepository.GetByIdAsync(request.AssignEventId);
         if (assignEvent == null)
             throw new NotFoundException("Assign Event Not Found");
 
-        // Check user có phải Lecturer ko
         if (assignEvent.User.Role != RoleEnum.Lecturer)
             throw new BadRequestException("User Is Not A Lecturer");
 
-        // Parse event role
         if (!Enum.TryParse<EventRoleEnum>(request.EventRole, true, out var eventRoleEnum))
             throw new BadRequestException("Invalid Event Role. Must be: Judge, Mentor");
 
-        // Ko cho phép Staff
         if (eventRoleEnum == EventRoleEnum.Staff)
             throw new BadRequestException("Cannot Assign Staff Role To Lecturer");
 
-        // Get EventRole từ DB
         var eventRole = await _assignEventRepository.GetEventRoleByNameAsync(eventRoleEnum);
         if (eventRole == null)
             throw new NotFoundException($"Event Role {request.EventRole} Not Found");
 
-        // Update EventRoleId
         assignEvent.EventRoleId = eventRole.Id;
         assignEvent.UpdatedAt = DateTimeOffset.UtcNow;
 
@@ -183,25 +171,20 @@ public class Service : IAssignService
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
-        // Check assign event exists
         var assignEvent = await _assignEventRepository.GetByIdWithTracksAsync(request.AssignEventId);
         if (assignEvent == null)
             throw new NotFoundException("Assign Event Not Found");
 
-        // Staff cannot be assigned to tracks
         if (assignEvent.EventRole?.Name == Domain.Enums.EventRole.EventRoleEnum.Staff)
             throw new BadRequestException("Staff Cannot Be Assigned To Track");
 
-        // Check track exists
         var track = await _trackRepository.GetByIdAsync(request.TrackId);
         if (track == null)
             throw new NotFoundException("Track Not Found");
 
-        // Check track cùng event với assign event
         if (track.EventId != assignEvent.EventId)
             throw new BadRequestException("Track Does Not Belong To The Same Event");
 
-        // Check ko bị duplicate assign
         var isAssigned = await _assignEventRepository.IsTrackAssignedAsync(request.AssignEventId, request.TrackId);
         if (isAssigned)
             throw new ConflictException("Track Is Already Assigned To This User");
@@ -223,7 +206,6 @@ public class Service : IAssignService
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
-        // Check assign track exists
         var assignTrack = await _assignEventRepository.GetAssignTrackAsync(assignEventId, trackId);
         if (assignTrack == null)
             throw new NotFoundException("Assign Track Not Found");
@@ -232,6 +214,60 @@ public class Service : IAssignService
         assignTrack.UpdatedAt = DateTimeOffset.UtcNow;
 
         _assignEventRepository.RemoveAssignTrack(assignTrack);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task RestoreTrackToEvent(Guid assignEventId, Guid trackId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var assignTrack = await _assignEventRepository.GetAssignTrackAnyAsync(assignEventId, trackId);
+        if (assignTrack == null)
+            throw new NotFoundException("Assign Track Not Found");
+
+        if (!assignTrack.IsDisable)
+            throw new BadRequestException("Assign Track Is Already Active");
+
+        assignTrack.IsDisable = false;
+        assignTrack.UpdatedAt = DateTimeOffset.UtcNow;
+
+        _assignEventRepository.RestoreAssignTrack(assignTrack);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task RemoveAssignEvent(Guid assignEventId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var assignEvent = await _assignEventRepository.GetByIdAsync(assignEventId);
+        if (assignEvent == null)
+            throw new NotFoundException("Assign Event Not Found");
+
+        if (assignEvent.IsDisable)
+            throw new BadRequestException("Assign Event Is Already Removed");
+
+        assignEvent.IsDisable = true;
+        assignEvent.UpdatedAt = DateTimeOffset.UtcNow;
+
+        _assignEventRepository.Update(assignEvent);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task RestoreAssignEvent(Guid assignEventId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var assignEvent = await _assignEventRepository.GetByIdAsync(assignEventId);
+        if (assignEvent == null)
+            throw new NotFoundException("Assign Event Not Found");
+
+        if (!assignEvent.IsDisable)
+            throw new BadRequestException("Assign Event Is Already Active");
+
+        assignEvent.IsDisable = false;
+        assignEvent.UpdatedAt = DateTimeOffset.UtcNow;
+
+        _assignEventRepository.Update(assignEvent);
         await _unitOfWork.SaveChangesAsync();
     }
 

@@ -16,8 +16,10 @@ public interface IAssignEventRepository
     void Update(AssignEvents assignEvent);
     void AddAssignTrack(AssignTracks assignTrack);
     Task<AssignTracks?> GetAssignTrackAsync(Guid assignEventId, Guid trackId);
+    Task<AssignTracks?> GetAssignTrackAnyAsync(Guid assignEventId, Guid trackId);
     Task<AssignTracks?> GetGraderAssignTrackAsync(Guid userId, Guid eventId, Guid trackId);
     void RemoveAssignTrack(AssignTracks assignTrack);
+    void RestoreAssignTrack(AssignTracks assignTrack);
     Task<EventRoles?> GetEventRoleByNameAsync(Domain.Enums.EventRole.EventRoleEnum roleName);
     Task<(List<AssignEvents> Items, int TotalCount)> GetEventsByStaffUserIdAsync(
         Guid userId, string? keyword, EventStatusEnum? status,

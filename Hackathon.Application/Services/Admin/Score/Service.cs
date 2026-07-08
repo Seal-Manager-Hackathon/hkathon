@@ -39,6 +39,15 @@ public class Service : IScoreService
             IsRetake = score.IsRetake,
             RetakeFromScoreId = score.RetakeFromScoreId,
             IsMock = score.IsMock,
+            GradedBy = score.AssignTrack?.AssignEvent?.User != null
+                ? new GraderInfo
+                {
+                    UserId = score.AssignTrack.AssignEvent.User.Id,
+                    Email = score.AssignTrack.AssignEvent.User.Email,
+                    FirstName = score.AssignTrack.AssignEvent.User.FirstName,
+                    LastName = score.AssignTrack.AssignEvent.User.LastName
+                }
+                : null,
             CreatedAt = score.CreatedAt,
             UpdatedAt = score.UpdatedAt,
         };

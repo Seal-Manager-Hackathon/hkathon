@@ -41,6 +41,12 @@ Submissions (bài nộp)
     "isRetake": false,
     "retakeFromScoreId": null,
     "isMock": false,
+    "gradedBy": {
+      "userId": "guid",
+      "email": "judge@example.com",
+      "firstName": "Nguyen",
+      "lastName": "Van A"
+    },
     "createdAt": "2026-07-07T12:00:00Z",
     "updatedAt": "2026-07-07T12:00:00Z"
   },
@@ -62,6 +68,7 @@ Submissions (bài nộp)
 | `isRetake` | Đánh dấu chấm lại |
 | `retakeFromScoreId` | Nếu là chấm lại, ID của lượt chấm gốc |
 | `isMock` | Đánh dấu điểm chấm thử (mock) |
+| `gradedBy` | **Người chấm** (userId, email, firstName, lastName) |
 
 ## Lỗi
 

@@ -1,6 +1,7 @@
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
+using Microsoft.AspNetCore.Http;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
 
 namespace Hackathon.Application.Services.Base.User;
@@ -11,17 +12,20 @@ public class Service : IUserProfileService
     private readonly IAuthorizationService _authorizationService;
     private readonly ICurrentUserService _currentUserService;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IMediaService _mediaService;
 
     public Service(
         IUserRepository userRepository,
         IAuthorizationService authorizationService,
         ICurrentUserService currentUserService,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        IMediaService mediaService)
     {
         _userRepository = userRepository;
         _authorizationService = authorizationService;
         _currentUserService = currentUserService;
         _unitOfWork = unitOfWork;
+        _mediaService = mediaService;
     }
 
     public async Task<GetMyProfileResponse> GetMyProfile()
@@ -89,5 +93,26 @@ public class Service : IUserProfileService
 
         await _userRepository.UpdateAsync(user);
         await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task<string> UpdateAvatar(IFormFile file)
+    {
+        _authorizationService.Authenticate();
+
+        var userId = _currentUserService.UserId;
+        if (userId == null)
+            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
+
+        var user = await _userRepository.GetByIdAsync(userId.Value);
+        if (user == null)
+            throw new NotFoundException(ErrMsg.Auth.UserNotFound);
+
+        var avatarUrl = await _mediaService.UploadImageAsync(file, "avatars");
+        user.AvatarUrl = avatarUrl;
+
+        await _userRepository.UpdateAsync(user);
+        await _unitOfWork.SaveChangesAsync();
+
+        return avatarUrl;
     }
 }
