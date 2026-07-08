@@ -1,6 +1,7 @@
 using Hackathon.Application.Services.Base.Auth;
 using Hackathon.Application.Services.Base.RegisterTeam;
 using Hackathon.Application.Services.Base.User;
+using Hackathon.Application.Services.Base.Notification;
 using Hackathon.Application.Common.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +15,7 @@ public static class DependencyInjection
         services.AddScoped<IAuthorizationService, Auth.AuthorizationService>();
         services.AddScoped<IUserProfileService, User.Service>();
         services.AddScoped<IRegisterTeamRoundService, RegisterTeam.Service>();
+        services.AddScoped<INotificationService, Notification.Service>();
         return services;
     }
 }
