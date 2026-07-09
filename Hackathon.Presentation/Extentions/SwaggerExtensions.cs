@@ -10,7 +10,8 @@ public static class SwaggerExtensions
         services.AddSwaggerGen(options =>
         {
             options.SwaggerDoc("v1", new OpenApiInfo() { Title = "Your API", Version = "v1" });
-            // tạo phiên bản api
+            // Dùng full type name để tránh schemaId conflict giữa Admin/Staff namespaces
+            options.CustomSchemaIds(type => type.FullName?.Replace("+", ".") ?? type.Name);
 
             // Define the security scheme for JWT Bearer
             //add cấu hình cho phép 
