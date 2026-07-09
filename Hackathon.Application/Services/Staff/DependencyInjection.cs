@@ -1,6 +1,8 @@
 using Hackathon.Application.Services.Staff.Assign;
+using Hackathon.Application.Services.Staff.Award;
 using Hackathon.Application.Services.Staff.CriteriaTemplate;
 using Hackathon.Application.Services.Staff.Event;
+using Hackathon.Application.Services.Staff.Leaderboard;
 using Hackathon.Application.Services.Staff.Round;
 using Hackathon.Application.Services.Staff.Topic;
 using Hackathon.Application.Services.Staff.Track;
@@ -24,6 +26,8 @@ public static class DependencyInjection
         services.AddScoped<IRegisterTeamService, RegisterTeam.Service>();
         services.AddScoped<ISubmissionService, Submission.Service>();
         services.AddScoped<IScoreService, Score.Service>();
+        services.AddScoped<IAwardService, Award.Service>();
+        services.AddScoped<ILeaderboardService, Leaderboard.Service>();
         return services;
     }
 }

@@ -40,6 +40,7 @@ public class ScoreDetail
     public bool IsRetake { get; set; }
     public Guid? RetakeFromScoreId { get; set; }
     public bool IsMock { get; set; }
+    public GraderInfo? GradedBy { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
 }

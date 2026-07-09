@@ -57,6 +57,12 @@ Submissions (bài nộp)
         "isRetake": false,
         "retakeFromScoreId": null,
         "isMock": false,
+        "gradedBy": {
+          "userId": "guid",
+          "email": "judge@example.com",
+          "firstName": "Nguyễn",
+          "lastName": "Văn A"
+        },
         "createdAt": "2026-07-07T12:00:00Z",
         "updatedAt": "2026-07-07T12:00:00Z"
       }
@@ -86,6 +92,7 @@ Submissions (bài nộp)
 | **`scores[].topicTitle`** | **Tên topic team đăng ký** |
 | `scores[].isRetake` | Có phải chấm lại ko |
 | `scores[].isMock` | Có phải chấm thử ko |
+| `scores[].gradedBy` | Thông tin người chấm (judge): userId, email, firstName, lastName |
 | `totalCount` / `pageIndex` / `pageSize` | Thông tin phân trang |
 
 ## Lỗi

@@ -86,3 +86,16 @@ Tất cả API Staff đều yêu cầu:
 | GET | `/api/v1/staff/scores/{scoreId}/items` | [DS score items](score/get/staff.scores.items.md) |
 | GET | `/api/v1/staff/rounds/{roundId}/register-teams/{registerTeamId}/scores` | [Điểm team trong round](score/get/staff.scores.team-round.md) |
 | GET | `/api/v1/staff/score-items/{scoreItemId}` | [Xem chi tiết score item](score/get/staff.score-items.detail.md) |
+
+### Award
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/api/v1/staff/events/{eventId}/awards` | [Danh sách award của event (chỉ IsDisable=false)](award/get/staff.awards.list.md) |
+| GET | `/api/v1/staff/events/{eventId}/awards/{awardId}` | [Chi tiết award](award/get/staff.awards.detail.md) |
+
+### Leaderboard
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/api/v1/staff/rounds/{roundId}/leaderboard` | [BXH round](leaderboard/get/staff.rounds.leaderboard.md) |
+| GET | `/api/v1/staff/events/{eventId}/leaderboard` | [BXH event](leaderboard/get/staff.events.leaderboard.md) |
+| GET | `/api/v1/staff/events/chapter/{year}/leaderboard` | [BXH chapter theo năm](leaderboard/get/staff.events.chapter-leaderboard.md) |
