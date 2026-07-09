@@ -68,3 +68,12 @@ Tất cả API Staff đều yêu cầu:
 | POST | `/api/v1/staff/register-teams/{registerTeamId}/remove-track-topic` | [Xóa track/topic](register-team/post/staff.register-teams.remove-track-topic.md) |
 | GET | `/api/v1/staff/teams/{teamId}/register-teams` | [DS register teams của 1 team](register-team/get/staff.teams.register-teams.md) |
 | GET | `/api/v1/staff/users/{userId}/events` | [DS event của 1 user](register-team/get/staff.users.events.md) |
+
+### Submission
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/api/v1/staff/submissions/{submissionId}` | [Xem chi tiết submission](submission/get/staff.submissions.detail.md) |
+| GET | `/api/v1/staff/events/{eventId}/submissions` | [DS submission của event](submission/get/staff.submissions.md) |
+| GET | `/api/v1/staff/rounds/{roundId}/submissions` | [DS submission của round](submission/get/staff.submissions.by-round.md) |
+| GET | `/api/v1/staff/register-teams/{registerTeamId}/submissions` | [DS submission của team](submission/get/staff.submissions.by-register-team.md) |
+| GET | `/api/v1/staff/tracks/{trackId}/submissions` | [DS submission của track](submission/get/staff.submissions.by-track.md) |

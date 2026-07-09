@@ -3,7 +3,7 @@ using Hackathon.Application.Common.Models;
 using Hackathon.Application.Services.Base.Notification;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Hackathon.Presentation.Controllers;
+namespace Hackathon.Presentation.Controllers.Base;
 
 [Route("api/v1/notifications")]
 [ApiController]
