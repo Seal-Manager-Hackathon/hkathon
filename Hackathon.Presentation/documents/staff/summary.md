@@ -99,3 +99,16 @@ Tất cả API Staff đều yêu cầu:
 | GET | `/api/v1/staff/rounds/{roundId}/leaderboard` | [BXH round](leaderboard/get/staff.rounds.leaderboard.md) |
 | GET | `/api/v1/staff/events/{eventId}/leaderboard` | [BXH event](leaderboard/get/staff.events.leaderboard.md) |
 | GET | `/api/v1/staff/events/chapter/{year}/leaderboard` | [BXH chapter theo năm](leaderboard/get/staff.events.chapter-leaderboard.md) |
+
+### Team
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/api/v1/staff/teams` | [Danh sách teams](team/get/staff.teams.md) |
+| GET | `/api/v1/staff/teams/{teamId}` | [Chi tiết team](team/get/staff.teams.detail.md) |
+
+### User
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/api/v1/staff/users` | [Danh sách users](user/get/staff.users.md) |
+| GET | `/api/v1/staff/users/{userId}` | [Chi tiết user](user/get/staff.users.detail.md) |
+| GET | `/api/v1/staff/users/{userId}/teams` | [Team của user](user/get/staff.users.teams.md) |
