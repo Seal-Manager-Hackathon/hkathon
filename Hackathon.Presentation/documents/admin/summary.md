@@ -32,8 +32,10 @@
 | Method | Route | Chức năng |
 |--------|-------|-----------|
 | GET | `/events/{eventId}/awards` | Danh sách award của event (search, filter disable, sort level) |
+| GET | `/events/{eventId}/awards/{awardId}` | Chi tiết 1 award |
 | POST | `/events/{eventId}/awards` | Tạo award (level tự động: max+1) |
 | PATCH | `/events/{eventId}/awards/{awardId}` | Update award (ko đổi level) |
+| POST | `/events/{eventId}/awards/{awardId}/swap` | Swap thứ tự level giữa 2 award |
 | POST | `/events/{eventId}/awards/{awardId}/delete` | Xóa mềm (LevelAward=0, IsDisable=true, higher -1) |
 | POST | `/events/{eventId}/awards/{awardId}/restore` | Khôi phục (IsDisable=false, LevelAward = max+1) |
 
@@ -183,6 +185,8 @@ Submissions (bài nộp)
 | POST | `/register-teams/{registerTeamId}/reject` | Từ chối (kèm lý do) |
 | POST | `/register-teams/{registerTeamId}/ban` | Ban đăng ký |
 | POST | `/register-teams/{registerTeamId}/unban` | Unban đăng ký |
+| POST | `/register-teams/{registerTeamId}/assign-next-round` | Chuyển team lên vòng tiếp theo |
+| POST | `/register-teams/{registerTeamId}/revert-previous-round` | Đưa team về vòng trước |
 | POST | `/register-teams/{registerTeamId}/assign-track-topic` | Gán track + topic cho register team |
 | POST | `/register-teams/{registerTeamId}/remove-track-topic` | Gỡ track + topic khỏi register team |
 
@@ -211,6 +215,8 @@ Submissions (bài nộp)
 | GET | `/topics/{topicId}` | Chi tiết 1 topic |
 | POST | `/tracks/{trackId}/topics` | Tạo topic |
 | PATCH | `/topics/{topicId}` | Update topic |
+| POST | `/topics/{topicId}/delete` | Xóa mềm topic |
+| POST | `/topics/{topicId}/restore` | Khôi phục topic |
 
 ---
 
@@ -228,6 +234,10 @@ Submissions (bài nộp)
 | POST | `/criteria-templates/{templateId}/delete` | Xóa mềm |
 | POST | `/criteria-templates/{templateId}/restore` | Khôi phục |
 | POST | `/criteria-templates/{templateId}/activate` | Active template (chỉ 1 template/round được active) |
+| POST | `/criteria-templates/{templateId}/criteria-items` | Tạo criteria item mới |
+| PATCH | `/criteria-items/{itemId}` | Update criteria item |
+| POST | `/criteria-items/{itemId}/delete` | Xóa mềm criteria item |
+| POST | `/criteria-items/{itemId}/restore` | Khôi phục criteria item |
 
 ---
 
@@ -239,6 +249,7 @@ Submissions (bài nộp)
 | GET | `/reports` | Danh sách report (search keyword, filter status, phân trang) |
 | GET | `/reports/{reportId}` | Chi tiết 1 report (đầy đủ fields) |
 | GET | `/reports/recent` | Report gần đây |
+| PATCH | `/reports/{reportId}/status` | Cập nhật status report |
 
 ---
 
@@ -254,6 +265,9 @@ Submissions (bài nộp)
 | GET | `/assign/events/{eventId}/assigned` | User đã assign trong event (filter EventRole) |
 | POST | `/assign/event-assigns/{assignEventId}/tracks` | Gán track cho user (chỉ Lecturer, Staff ko được) |
 | POST | `/assign/event-assigns/{assignEventId}/tracks/{trackId}/remove` | Xóa mềm track khỏi user |
+| POST | `/assign/event-assigns/{assignEventId}/tracks/{trackId}/restore` | Khôi phục track đã xóa |
+| POST | `/assign/event-assigns/{assignEventId}/remove` | Xóa mềm assign event |
+| POST | `/assign/event-assigns/{assignEventId}/restore` | Khôi phục assign event |
 
 **Logic đặc biệt:**
 - **Staff** → chỉ được gán EventRole = `Staff`, **không được assign track**
