@@ -19,6 +19,7 @@ Tất cả API Staff đều yêu cầu:
 |--------|-------|-----------|
 | GET | `/api/v1/staff/events` | [Lấy danh sách event được phân công (mọi EventRole)](event/get/staff.events.md) |
 | GET | `/api/v1/staff/events/my-staff` | [Lấy danh sách event với EventRole=Staff](event/get/staff.events.my-staff.md) |
+| GET | `/api/v1/staff/events/current` | [Lấy event đang diễn ra (được phân công)](event/get/staff.events.current.md) |
 | GET | `/api/v1/staff/events/{eventId}` | [Xem chi tiết một event được phân công](event/get/staff.events.detail.md) |
 
 ### Round

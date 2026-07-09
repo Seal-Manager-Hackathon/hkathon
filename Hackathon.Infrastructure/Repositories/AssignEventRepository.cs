@@ -225,6 +225,26 @@ public class AssignEventRepository : IAssignEventRepository
         return (items, totalCount);
     }
 
+    public async Task<List<AssignEvents>> GetCurrentAssignedEventsByUserIdAsync(Guid userId)
+    {
+        var now = DateTimeOffset.UtcNow;
+
+        return await _context.AssignEvents
+            .Include(ae => ae.Event)
+            .Include(ae => ae.EventRole)
+            .Where(ae => ae.UserId == userId
+                && !ae.IsDisable
+                && ae.EventRole != null
+                && ae.EventRole.Name == EventRoleEnum.Staff
+                && ae.Event.Status != EventStatusEnum.Draft
+                && ae.Event.StartTime.HasValue
+                && ae.Event.EndTime.HasValue
+                && ae.Event.StartTime <= now
+                && ae.Event.EndTime >= now)
+            .OrderByDescending(ae => ae.Event.StartTime)
+            .ToListAsync();
+    }
+
     public async Task<AssignEvents?> GetByEventIdAndUserIdWithEventAsync(Guid eventId, Guid userId)
         => await _context.AssignEvents
             .Include(ae => ae.Event)

@@ -115,6 +115,34 @@ public class Service : IEventService
         };
     }
 
+    public async Task<List<StaffEventItem>> GetMyCurrentEvents()
+    {
+        _authorizationService.Authorize(RoleEnum.Staff);
+
+        var currentUserId = _currentUserService.UserId;
+        if (!currentUserId.HasValue)
+            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
+
+        var items = await _assignEventRepository.GetCurrentAssignedEventsByUserIdAsync(currentUserId.Value);
+
+        return items.Select(ae => new StaffEventItem
+        {
+            Id = ae.Event.Id,
+            Name = ae.Event.Name,
+            Description = ae.Event.Description,
+            Status = ae.Event.Status?.ToString(),
+            NumberRound = ae.Event.NumberRound,
+            Season = ae.Event.Season?.ToString(),
+            StartTime = ae.Event.StartTime,
+            EndTime = ae.Event.EndTime,
+            EventRoleId = ae.EventRoleId,
+            EventRoleName = ae.EventRole?.Name.ToString(),
+            CreatedAt = ae.Event.CreatedAt,
+            UpdatedAt = ae.Event.UpdatedAt,
+            IsDisable = ae.Event.IsDisable
+        }).ToList();
+    }
+
     public async Task<GetMyEventDetailResponse> GetMyEventDetail(Guid eventId)
     {
         _authorizationService.Authorize(RoleEnum.Staff);
