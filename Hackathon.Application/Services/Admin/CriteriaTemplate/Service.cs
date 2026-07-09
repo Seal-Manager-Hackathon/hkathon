@@ -351,6 +351,9 @@ public class Service : ICriteriaTemplateService
         if (template == null)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
 
+        if (template.IsActive)
+            throw new BadRequestException("Cannot Delete An Active Template. Please Deactivate It First");
+
         template.IsDisable = true;
         template.UpdatedAt = DateTimeOffset.UtcNow;
         await _unitOfWork.SaveChangesAsync();
