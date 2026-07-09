@@ -1,3 +1,4 @@
+using Hackathon.Application.Common.Helpers;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
@@ -33,14 +34,8 @@ public class Service : IAssignService
     {
         _authorizationService.Authorize(RoleEnum.Staff);
 
-        var currentUserId = _currentUserService.UserId;
-        if (!currentUserId.HasValue)
-            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
-
-        var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdAsync(
-            eventId, currentUserId.Value);
-        if (assignEvent == null)
-            throw new ForbiddenException("You Are Not Assigned to This Event");
+        await StaffAssignmentHelper.ValidateAndGetAssignmentAsync(
+            _assignEventRepository, _currentUserService, eventId);
 
         var (items, totalCount) = await _userRepository.GetAvailableUsersByRoleAsync(
             eventId, RoleEnum.Lecturer, request.Keyword, request.PageIndex, request.PageSize);
@@ -67,14 +62,8 @@ public class Service : IAssignService
     {
         _authorizationService.Authorize(RoleEnum.Staff);
 
-        var currentUserId = _currentUserService.UserId;
-        if (!currentUserId.HasValue)
-            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
-
-        var myAssign = await _assignEventRepository.GetByEventIdAndUserIdAsync(
-            eventId, currentUserId.Value);
-        if (myAssign == null)
-            throw new ForbiddenException("You Are Not Assigned to This Event");
+        await StaffAssignmentHelper.ValidateAndGetAssignmentAsync(
+            _assignEventRepository, _currentUserService, eventId);
 
         var user = await _userRepository.GetByIdAsync(request.UserId);
         if (user == null)
@@ -115,14 +104,8 @@ public class Service : IAssignService
     {
         _authorizationService.Authorize(RoleEnum.Staff);
 
-        var currentUserId = _currentUserService.UserId;
-        if (!currentUserId.HasValue)
-            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
-
-        var myAssign = await _assignEventRepository.GetByEventIdAndUserIdAsync(
-            eventId, currentUserId.Value);
-        if (myAssign == null)
-            throw new ForbiddenException("You Are Not Assigned to This Event");
+        await StaffAssignmentHelper.ValidateAndGetAssignmentAsync(
+            _assignEventRepository, _currentUserService, eventId);
 
         Domain.Enums.EventRole.EventRoleEnum? eventRole = null;
         if (!string.IsNullOrWhiteSpace(request.EventRole))
@@ -176,14 +159,8 @@ public class Service : IAssignService
     {
         _authorizationService.Authorize(RoleEnum.Staff);
 
-        var currentUserId = _currentUserService.UserId;
-        if (!currentUserId.HasValue)
-            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
-
-        var myAssign = await _assignEventRepository.GetByEventIdAndUserIdAsync(
-            eventId, currentUserId.Value);
-        if (myAssign == null)
-            throw new ForbiddenException("You Are Not Assigned to This Event");
+        await StaffAssignmentHelper.ValidateAndGetAssignmentAsync(
+            _assignEventRepository, _currentUserService, eventId);
 
         var assignEvent = await _assignEventRepository.GetByIdWithTracksAsync(assignEventId);
         if (assignEvent == null || assignEvent.IsDisable)
