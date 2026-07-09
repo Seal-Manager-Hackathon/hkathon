@@ -155,10 +155,12 @@ public class Service : IAssignService
                 LastName = ae.User.LastName,
                 AvatarUrl = string.IsNullOrEmpty(ae.User.AvatarUrl) ? null : ae.User.AvatarUrl,
                 EventRole = ae.EventRole?.Name.ToString(),
+                IsDisable = ae.IsDisable,
                 AssignTracks = ae.AssignTracks.Select(at => new AssignedTrackItem
                 {
                     TrackId = at.TrackId,
-                    Title = at.Track.Title
+                    Title = at.Track.Title,
+                    IsDisable = at.IsDisable
                 }).ToList()
             }).ToList(),
             TotalCount = totalCount,

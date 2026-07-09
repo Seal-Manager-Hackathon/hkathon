@@ -6,6 +6,9 @@ public class GetScoreDetailResponse
     public Guid SubmissionId { get; set; }
     public Guid AssignTrackId { get; set; }
     public string? TrackTitle { get; set; }
+    public Guid? TrackId { get; set; }
+    public Guid? TopicId { get; set; }
+    public string? TopicTitle { get; set; }
     public decimal? TotalScore { get; set; }
     public bool IsRetake { get; set; }
     public Guid? RetakeFromScoreId { get; set; }
@@ -37,6 +40,9 @@ public class ScoreDetail
     public Guid SubmissionId { get; set; }
     public Guid AssignTrackId { get; set; }
     public string? TrackTitle { get; set; }
+    public Guid? TrackId { get; set; }
+    public Guid? TopicId { get; set; }
+    public string? TopicTitle { get; set; }
     public decimal? TotalScore { get; set; }
     public bool IsRetake { get; set; }
     public Guid? RetakeFromScoreId { get; set; }
@@ -64,6 +70,10 @@ public class ScoreItemDetail
     public decimal? Score { get; set; }
     public string? Comment { get; set; }
     public GraderInfo? GradedBy { get; set; }
+    public string? TrackTitle { get; set; }
+    public Guid? TrackId { get; set; }
+    public Guid? TopicId { get; set; }
+    public string? TopicTitle { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
 }

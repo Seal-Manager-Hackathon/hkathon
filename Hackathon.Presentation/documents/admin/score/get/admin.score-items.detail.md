@@ -1,8 +1,8 @@
 # GET /api/v1/admin/score-items/{scoreItemId}
 
-> Admin xem chi tiết 1 score item (điểm 1 tiêu chí trong 1 lượt chấm).
+> Admin xem chi tiết 1 score item (điểm 1 tiêu chí trong 1 lượt chấm), kèm thông tin track/topic.
 
-## Giải thích nghiệp vụ
+## Nghiệp vụ
 
 **ScoreItem** là đơn vị nhỏ nhất trong hệ thống chấm điểm — điểm số + nhận xét cho 1 tiêu chí.
 
@@ -10,13 +10,17 @@ Khi admin muốn xem cụ thể:
 - 1 judge chấm tiêu chí "Sáng tạo" bao nhiêu điểm?
 - Có comment gì?
 - Judge đó là ai?
+- Team đó đăng ký track/topic nào?
 
 Thì dùng API này.
+
+Thông tin `trackId`, `topicId`, `topicTitle` được lấy từ `RegisterTeams` thông qua `ScoreEntity → Submission → RoundDetail → RegisterTeam`.
 
 ```
 Score (lượt chấm)
   └── ScoreItem (1 tiêu chí) ← API này
         └── GradedBy (thông tin người chấm)
+        └── ScoreEntity → Submission → RoundDetail → RegisterTeam (trackId, topicId)
 ```
 
 ## Phân quyền
@@ -47,6 +51,9 @@ Score (lượt chấm)
       "firstName": "Nguyễn",
       "lastName": "Văn B"
     },
+    "trackId": "guid",
+    "topicId": "guid",
+    "topicTitle": "AI trong Y tế",
     "createdAt": "2026-07-07T12:00:00Z",
     "updatedAt": "2026-07-07T12:00:00Z"
   },
@@ -69,6 +76,9 @@ Score (lượt chấm)
 | `assignTrackId` | Track judge được assign để chấm |
 | `assignEventId` | ID của AssignEvent — record phân công judge vào event |
 | `gradedBy` | Thông tin người chấm (judge) |
+| **`trackId`** | **ID của track mà team đăng ký** |
+| **`topicId`** | **ID của topic mà team đăng ký** |
+| **`topicTitle`** | **Tên topic team đăng ký** |
 
 ### gradedBy
 

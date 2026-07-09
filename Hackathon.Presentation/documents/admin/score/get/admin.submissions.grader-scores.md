@@ -1,12 +1,14 @@
 # GET /api/v1/admin/submissions/{submissionId}/grader-scores
 
-> Admin xem danh sách lượt chấm (scope) của 1 bài nộp — phân trang.
+> Admin xem danh sách lượt chấm (scope) của 1 bài nộp — phân trang, kèm thông tin track/topic.
 
-## Giải thích nghiệp vụ
+## Nghiệp vụ
 
 API này trả về danh sách các **Score** (lượt chấm) của 1 bài nộp. Mỗi score là 1 judge chấm bài đó.
 
-Khác với [GET /submissions/{submissionId}/scores](admin.submissions.scores.md) (trả về tổng điểm), API này trả về **từng lượt chấm riêng lẻ** — chưa phải điểm cuối.
+Khác với API tính tổng điểm (trả về tổng số), API này trả về **từng lượt chấm riêng lẻ** kèm thông tin track/topic của team nộp bài.
+
+Thông tin `trackId`, `topicId`, `topicTitle` được lấy từ `RegisterTeams` thông qua `Submission → RoundDetail → RegisterTeam`.
 
 VD: Bài nộp có 3 judge:
 - Judge A: `totalScore: 85` ← 1 score
@@ -14,10 +16,10 @@ VD: Bài nộp có 3 judge:
 - Judge C: `totalScore: 75` ← 1 score
 
 → API này trả về 3 records (phân trang).
-→ API tổng (submissions/{id}/scores) trả về `totalScore: 250`.
 
 ```
 Submissions (bài nộp)
+  └── RoundDetail → RegisterTeam → TrackId, TopicId, TopicTitle
   └── Score (Judge A: 85đ) ← 1 item
   └── Score (Judge B: 90đ) ← 1 item
   └── Score (Judge C: 75đ) ← 1 item
@@ -48,6 +50,9 @@ Submissions (bài nộp)
         "submissionId": "guid",
         "assignTrackId": "guid",
         "trackTitle": "Track A",
+        "trackId": "guid",
+        "topicId": "guid",
+        "topicTitle": "AI trong Y tế",
         "totalScore": 85.5,
         "isRetake": false,
         "retakeFromScoreId": null,
@@ -75,7 +80,10 @@ Submissions (bài nộp)
 | `scores[].scoreId` | ID lượt chấm |
 | `scores[].totalScore` | Điểm judge này chấm |
 | `scores[].assignTrackId` | Track judge được assign |
-| `scores[].trackTitle` | Tên track |
+| `scores[].trackTitle` | Tên track (từ AssignTrack) |
+| **`scores[].trackId`** | **ID của track mà team đăng ký (từ RegisterTeams)** |
+| **`scores[].topicId`** | **ID của topic mà team đăng ký** |
+| **`scores[].topicTitle`** | **Tên topic team đăng ký** |
 | `scores[].isRetake` | Có phải chấm lại ko |
 | `scores[].isMock` | Có phải chấm thử ko |
 | `totalCount` / `pageIndex` / `pageSize` | Thông tin phân trang |

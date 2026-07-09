@@ -29,12 +29,17 @@ public class Service : IScoreService
         if (score == null)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
 
+        var registerTeam = score.Submission?.RoundDetail?.RegisterTeam;
+
         return new GetScoreDetailResponse
         {
             ScoreId = score.Id,
             SubmissionId = score.SubmissionId,
             AssignTrackId = score.AssignTrackId,
             TrackTitle = score.AssignTrack?.Track?.Title,
+            TrackId = registerTeam?.TrackId,
+            TopicId = registerTeam?.TopicId,
+            TopicTitle = registerTeam?.Topic?.Title,
             TotalScore = score.TotalScore,
             IsRetake = score.IsRetake,
             RetakeFromScoreId = score.RetakeFromScoreId,
@@ -62,18 +67,25 @@ public class Service : IScoreService
         return new GetSubmissionGraderScoresResponse
         {
             SubmissionId = submissionId,
-            Scores = scores.Select(s => new ScoreDetail
+            Scores = scores.Select(s =>
             {
-                ScoreId = s.Id,
-                SubmissionId = s.SubmissionId,
-                AssignTrackId = s.AssignTrackId,
-                TrackTitle = s.AssignTrack?.Track?.Title,
-                TotalScore = s.TotalScore,
-                IsRetake = s.IsRetake,
-                RetakeFromScoreId = s.RetakeFromScoreId,
-                IsMock = s.IsMock,
-                CreatedAt = s.CreatedAt,
-                UpdatedAt = s.UpdatedAt
+                var rt = s.Submission?.RoundDetail?.RegisterTeam;
+                return new ScoreDetail
+                {
+                    ScoreId = s.Id,
+                    SubmissionId = s.SubmissionId,
+                    AssignTrackId = s.AssignTrackId,
+                    TrackTitle = s.AssignTrack?.Track?.Title,
+                    TrackId = rt?.TrackId,
+                    TopicId = rt?.TopicId,
+                    TopicTitle = rt?.Topic?.Title,
+                    TotalScore = s.TotalScore,
+                    IsRetake = s.IsRetake,
+                    RetakeFromScoreId = s.RetakeFromScoreId,
+                    IsMock = s.IsMock,
+                    CreatedAt = s.CreatedAt,
+                    UpdatedAt = s.UpdatedAt
+                };
             }).ToList(),
             TotalCount = totalCount,
             PageIndex = pageIndex,
@@ -90,27 +102,35 @@ public class Service : IScoreService
         return new GetScoreItemsResponse
         {
             ScoreId = scoreId,
-            Items = items.Select(si => new ScoreItemDetail
+            Items = items.Select(si =>
             {
-                ScoreItemId = si.Id,
-                ScoreId = si.ScoreId,
-                CriteriaItemId = si.CriteriaItemId,
-                AssignTrackId = si.AssignTrackId,
-                AssignEventId = si.AssignTrack?.AssignEventId ?? Guid.Empty,
-                CriteriaName = si.CriteriaItem?.Name ?? "",
-                Score = si.Score,
-                Comment = si.Comment,
-                GradedBy = si.AssignTrack?.AssignEvent?.User != null
-                    ? new GraderInfo
-                    {
-                        UserId = si.AssignTrack.AssignEvent.User.Id,
-                        Email = si.AssignTrack.AssignEvent.User.Email,
-                        FirstName = si.AssignTrack.AssignEvent.User.FirstName,
-                        LastName = si.AssignTrack.AssignEvent.User.LastName
-                    }
-                    : null,
-                CreatedAt = si.CreatedAt,
-                UpdatedAt = si.UpdatedAt
+                var rt = si.ScoreEntity?.Submission?.RoundDetail?.RegisterTeam;
+                return new ScoreItemDetail
+                {
+                    ScoreItemId = si.Id,
+                    ScoreId = si.ScoreId,
+                    CriteriaItemId = si.CriteriaItemId,
+                    AssignTrackId = si.AssignTrackId,
+                    AssignEventId = si.AssignTrack?.AssignEventId ?? Guid.Empty,
+                    CriteriaName = si.CriteriaItem?.Name ?? "",
+                    Score = si.Score,
+                    Comment = si.Comment,
+                    GradedBy = si.AssignTrack?.AssignEvent?.User != null
+                        ? new GraderInfo
+                        {
+                            UserId = si.AssignTrack.AssignEvent.User.Id,
+                            Email = si.AssignTrack.AssignEvent.User.Email,
+                            FirstName = si.AssignTrack.AssignEvent.User.FirstName,
+                            LastName = si.AssignTrack.AssignEvent.User.LastName
+                        }
+                        : null,
+                    TrackTitle = rt?.Track?.Title,
+                    TrackId = rt?.TrackId,
+                    TopicId = rt?.TopicId,
+                    TopicTitle = rt?.Topic?.Title,
+                    CreatedAt = si.CreatedAt,
+                    UpdatedAt = si.UpdatedAt
+                };
             }).ToList(),
             TotalCount = totalCount,
             PageIndex = pageIndex,
@@ -164,6 +184,8 @@ public class Service : IScoreService
         if (scoreItem == null)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
 
+        var rt = scoreItem.ScoreEntity?.Submission?.RoundDetail?.RegisterTeam;
+
         return new ScoreItemDetail
         {
             ScoreItemId = scoreItem.Id,
@@ -183,6 +205,10 @@ public class Service : IScoreService
                     LastName = scoreItem.AssignTrack.AssignEvent.User.LastName
                 }
                 : null,
+            TrackTitle = rt?.Track?.Title,
+            TrackId = rt?.TrackId,
+            TopicId = rt?.TopicId,
+            TopicTitle = rt?.Topic?.Title,
             CreatedAt = scoreItem.CreatedAt,
             UpdatedAt = scoreItem.UpdatedAt
         };

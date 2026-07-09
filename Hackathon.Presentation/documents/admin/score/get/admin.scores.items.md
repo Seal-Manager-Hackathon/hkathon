@@ -1,8 +1,8 @@
 # GET /api/v1/admin/scores/{scoreId}/items
 
-> Admin lấy danh sách score items của 1 lượt chấm, phân trang.
+> Admin lấy danh sách score items của 1 lượt chấm, phân trang. Kèm thông tin track/topic từ team.
 
-## Giải thích nghiệp vụ
+## Nghiệp vụ
 
 **ScoreItems** là điểm chi tiết của từng tiêu chí trong 1 lượt chấm.
 
@@ -15,9 +15,12 @@ Mỗi tiêu chí là 1 ScoreItem. Khi đó score này có:
 - `totalScore` = 40 + 30 + 15 = 85
 - 3 ScoreItems tương ứng
 
+Thông tin `trackId`, `topicId`, `topicTitle` được lấy từ `RegisterTeams` của team (qua `ScoreEntity → Submission → RoundDetail → RegisterTeam`).
+
 ```
 Score (lượt chấm)
-  └── ScoreItem 1: Sáng tạo = 40
+  └── ScoreEntity → Submission → RoundDetail → RegisterTeam (trackId, topicId)
+  └── ScoreItem 1: Sáng tạo = 40 ← API này
   └── ScoreItem 2: Kỹ thuật = 30
   └── ScoreItem 3: Thuyết trình = 15
 ```
@@ -60,6 +63,9 @@ Score (lượt chấm)
           "firstName": "Nguyễn",
           "lastName": "Văn B"
         },
+        "trackId": "guid",
+        "topicId": "guid",
+        "topicTitle": "AI trong Y tế",
         "createdAt": "2026-07-07T12:00:00Z",
         "updatedAt": "2026-07-07T12:00:00Z"
       }
@@ -87,6 +93,9 @@ Score (lượt chấm)
 | `assignTrackId` | Track người chấm được phân công |
 | `assignEventId` | Event assign record của người chấm |
 | `gradedBy` | Thông tin người chấm |
+| **`trackId`** | **ID của track mà team đăng ký** |
+| **`topicId`** | **ID của topic mà team đăng ký** |
+| **`topicTitle`** | **Tên topic team đăng ký** |
 
 ### gradedBy
 

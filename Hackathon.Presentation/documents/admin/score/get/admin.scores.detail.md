@@ -2,9 +2,9 @@
 
 > Admin xem chi tiết 1 lượt chấm (score/scope) của 1 người chấm.
 
-## Giải thích nghiệp vụ
+## Nghiệp vụ
 
-1 **score** = 1 lượt chấm của 1 judge cho 1 bài nộp (submission).
+1 **score** = 1 lượt chấm của 1 judge cho 1 bài nộp (submission). API này trả về thông tin score kèm track/topic của bài nộp đó.
 
 Khi judge chấm bài, hệ thống tạo ra:
 - **Score** — record tổng, lưu `TotalScore` = tổng điểm judge đó chấm
@@ -13,8 +13,12 @@ Khi judge chấm bài, hệ thống tạo ra:
 API này chỉ trả thông tin **Score**, ko kèm ScoreItems. ScoreItems có API riêng:
 👉 [GET /scores/{scoreId}/items](admin.scores.items.md) (phân trang)
 
+Các thông tin track và topic được lấy từ bản ghi `RegisterTeams` thông qua `Submission → RoundDetail → RegisterTeam`.
+
 ```
 Submissions (bài nộp)
+  └── RoundDetail
+        └── RegisterTeam → TrackId, TopicId, TopicTitle
   └── Score (lượt chấm của judge A) ← API này
         └── ScoreItems (điểm từng tiêu chí) ← API /scores/{scoreId}/items
 ```
@@ -37,6 +41,9 @@ Submissions (bài nộp)
     "submissionId": "guid",
     "assignTrackId": "guid",
     "trackTitle": "Track A",
+    "trackId": "guid",
+    "topicId": "guid",
+    "topicTitle": "AI trong Y tế",
     "totalScore": 85.5,
     "isRetake": false,
     "retakeFromScoreId": null,
@@ -63,7 +70,10 @@ Submissions (bài nộp)
 | `scoreId` | ID của lượt chấm này |
 | `submissionId` | Bài nộp được chấm |
 | `assignTrackId` | Track mà người chấm được phân công (AssignTrack) |
-| `trackTitle` | Tên track |
+| `trackTitle` | Tên track (từ AssignTrack) |
+| **`trackId`** | **ID của track mà team đăng ký (từ RegisterTeams)** |
+| **`topicId`** | **ID của topic mà team đăng ký** |
+| **`topicTitle`** | **Tên topic** |
 | `totalScore` | **Tổng điểm** judge này chấm = SUM(ScoreItems.Score) |
 | `isRetake` | Đánh dấu chấm lại |
 | `retakeFromScoreId` | Nếu là chấm lại, ID của lượt chấm gốc |
