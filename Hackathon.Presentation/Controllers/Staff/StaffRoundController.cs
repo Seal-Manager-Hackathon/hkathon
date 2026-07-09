@@ -22,4 +22,11 @@ public class StaffRoundController : ControllerBase
         var result = await _roundService.GetRounds(eventId, request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RoundsFetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpGet("events/{eventId:guid}/rounds/{roundId:guid}")]
+    public async Task<IActionResult> GetRoundDetail(Guid eventId, Guid roundId)
+    {
+        var result = await _roundService.GetRoundDetail(eventId, roundId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RoundsFetched, traceId: HttpContext.TraceIdentifier));
+    }
 }

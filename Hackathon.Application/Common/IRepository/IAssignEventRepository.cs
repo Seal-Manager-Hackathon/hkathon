@@ -8,6 +8,10 @@ public interface IAssignEventRepository
     Task<(List<AssignEvents> Items, int TotalCount)> GetAssignedUsersByEventAsync(
         Guid eventId, string? keyword, Domain.Enums.EventRole.EventRoleEnum? eventRole,
         int pageIndex, int pageSize);
+    Task<(List<AssignEvents> Items, int TotalCount)> GetAssignedUsersByEventAsync(
+        Guid eventId, string? keyword, Domain.Enums.EventRole.EventRoleEnum? eventRole,
+        Domain.Enums.User.RoleEnum? role, Guid? trackId,
+        int pageIndex, int pageSize);
     Task<AssignEvents?> GetByIdAsync(Guid id);
     Task<AssignEvents?> GetByIdWithTracksAsync(Guid id);
     Task<AssignEvents?> GetByEventIdAndUserIdAsync(Guid eventId, Guid userId);

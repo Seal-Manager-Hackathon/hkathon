@@ -8,6 +8,7 @@ public interface ICriteriaTemplateRepository
     Task<List<CriteriaTemplates>> GetByRoundIdAsync(Guid roundId);
     Task<CriteriaTemplates?> GetActiveByRoundIdAsync(Guid roundId);
     Task<List<CriteriaItems>> GetItemsByTemplateIdAsync(Guid templateId);
+    Task<CriteriaTemplates?> GetByIdWithItemsAsync(Guid id);
     Task AddAsync(CriteriaTemplates template);
     Task UpdateAsync(CriteriaTemplates template);
 }

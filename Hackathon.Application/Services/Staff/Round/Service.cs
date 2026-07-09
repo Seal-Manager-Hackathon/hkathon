@@ -33,13 +33,11 @@ public class Service : IRoundService
         if (!currentUserId.HasValue)
             throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
 
-        // Verify staff is assigned to this event
         var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdAsync(
             eventId, currentUserId.Value);
         if (assignEvent == null)
             throw new ForbiddenException("You Are Not Assigned to This Event");
 
-        // Only get non-disabled rounds
         var (items, totalCount) = await _roundRepository.SearchByEventIdAsync(
             eventId, request.Keyword, request.RoundNo, isDisable: false,
             request.PageIndex, request.PageSize);
@@ -58,12 +56,48 @@ public class Service : IRoundService
                 StartSubmission = r.StartSubmission,
                 EndSubmission = r.EndSubmission,
                 LimitTeam = r.LimitTeam,
+                IsDisable = r.IsDisable,
                 CreatedAt = r.CreatedAt,
                 UpdatedAt = r.UpdatedAt
             }).ToList(),
             TotalCount = totalCount,
             PageIndex = request.PageIndex,
             PageSize = request.PageSize
+        };
+    }
+
+    public async Task<GetRoundDetailResponse> GetRoundDetail(Guid eventId, Guid roundId)
+    {
+        _authorizationService.Authorize(RoleEnum.Staff);
+
+        var currentUserId = _currentUserService.UserId;
+        if (!currentUserId.HasValue)
+            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
+
+        var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdAsync(
+            eventId, currentUserId.Value);
+        if (assignEvent == null)
+            throw new ForbiddenException("You Are Not Assigned to This Event");
+
+        var round = await _roundRepository.GetDetailByIdAsync(roundId);
+        if (round == null || round.IsDisable)
+            throw new NotFoundException("Round Not Found");
+
+        return new GetRoundDetailResponse
+        {
+            Id = round.Id,
+            EventId = round.EventId,
+            Name = round.Name,
+            Description = round.Description,
+            RoundNo = round.RoundNo,
+            StartTime = round.StartTime,
+            EndTime = round.EndTime,
+            StartSubmission = round.StartSubmission,
+            EndSubmission = round.EndSubmission,
+            LimitTeam = round.LimitTeam,
+            IsDisable = round.IsDisable,
+            CreatedAt = round.CreatedAt,
+            UpdatedAt = round.UpdatedAt
         };
     }
 }

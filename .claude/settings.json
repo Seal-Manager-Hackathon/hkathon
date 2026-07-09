@@ -68,12 +68,33 @@
       "PowerShell(Copy-Item -Path \"Hackathon.Presentation/documents/documents/admin/assign\" -Destination \"Hackathon.Presentation/documents/admin/\" -Recurse -Force)",
       "PowerShell(Copy-Item -Path \"Hackathon.Presentation/documents/documents/admin/event\" -Destination \"Hackathon.Presentation/documents/admin/\" -Recurse -Force)",
       "PowerShell(Copy-Item -Path \"Hackathon.Presentation/documents/documents/admin/round\" -Destination \"Hackathon.Presentation/documents/admin/\" -Recurse -Force)",
-      "Read(//c/Users/phamq/.claude/projects/c--Users-phamq-OneDrive-Desktop-New-folder--4--Hackathon/memory/**)"
+      "Read(//c/Users/phamq/.claude/projects/c--Users-phamq-OneDrive-Desktop-New-folder--4--Hackathon/memory/**)",
+      "Bash(npx claudepluginhub *)",
+      "mcp__chrome-devtools__navigate",
+      "Bash(curl -s -X POST http://localhost:5247/api/v1/auth/login -H 'Content-Type: application/json' -d '{\"email\":\"phamquochoang356@gmail.com\",\"password\":\"string\"}')",
+      "Bash(curl -s http://localhost:5247/api/v1/admin/events -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI3ZmYwNTM1MS1hMDU2LTQ5ZWItOWI5ZS00YTAzNDgxMjgwNDkiLCJleHAiOjE3ODM2Njg0MTIsImlzcyI6IkhhY2thdGhvbl9JZGVudGl0eV9TZXJ2ZXIiLCJhdWQiOiJIYWNrYXRob25fVXNlcnMifQ.6ZdnTMw7RsUvzTIJj0Wp8DdSIGoMR59HPMN7UtMKPtM')",
+      "Bash(curl -s http://localhost:5247/api/v1/admin/assign/events/20000000-0000-0000-0000-000000000200/assigned -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI3ZmYwNTM1MS1hMDU2LTQ5ZWItOWI5ZS00YTAzNDgxMjgwNDkiLCJleHAiOjE3ODM2Njg0MTIsImlzcyI6IkhhY2thdGhvbl9JZGVudGl0eV9TZXJ2ZXIiLCJhdWQiOiJIYWNrYXRob25fVXNlcnMifQ.6ZdnTMw7RsUvzTIJj0Wp8DdSIGoMR59HPMN7UtMKPtM')",
+      "Bash(curl -s -X POST http://localhost:5247/api/v1/admin/assign/event-assigns/39926625-44c2-4a36-8cf9-7e6f6709a4ea/remove -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI3ZmYwNTM1MS1hMDU2LTQ5ZWItOWI5ZS00YTAzNDgxMjgwNDkiLCJleHAiOjE3ODM2Njg0MTIsImlzcyI6IkhhY2thdGhvbl9JZGVudGl0eV9TZXJ2ZXIiLCJhdWQiOiJIYWNrYXRob25fVXNlcnMifQ.6ZdnTMw7RsUvzTIJj0Wp8DdSIGoMR59HPMN7UtMKPtM' -H 'Content-Type: application/json')",
+      "Bash(curl -s -X POST http://localhost:5247/api/v1/admin/assign/event-assigns/39926625-44c2-4a36-8cf9-7e6f6709a4ea/restore -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI3ZmYwNTM1MS1hMDU2LTQ5ZWItOWI5ZS00YTAzNDgxMjgwNDkiLCJleHAiOjE3ODM2Njg0MTIsImlzcyI6IkhhY2thdGhvbl9JZGVudGl0eV9TZXJ2ZXIiLCJhdWQiOiJIYWNrYXRob25fVXNlcnMifQ.6ZdnTMw7RsUvzTIJj0Wp8DdSIGoMR59HPMN7UtMKPtM' -H 'Content-Type: application/json')",
+      "Bash(curl -s 'http://localhost:5247/api/v1/admin/events/20000000-0000-0000-0000-000000000100/submissions?pageIndex=1&pageSize=5' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI3ZmYwNTM1MS1hMDU2LTQ5ZWItOWI5ZS00YTAzNDgxMjgwNDkiLCJleHAiOjE3ODM2Njg0MTIsImlzcyI6IkhhY2thdGhvbl9JZGVudGl0eV9TZXJ2ZXIiLCJhdWQiOiJIYWNrYXRob25fVXNlcnMifQ.6ZdnTMw7RsUvzTIJj0Wp8DdSIGoMR59HPMN7UtMKPtM')",
+      "mcp__filesystem__write_file",
+      "Bash(Select-String -Pattern \"error\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\phamq\\.claude\\projects\\c--Users-phamq-OneDrive-Desktop-New-folder--4--BE-SEAL-HACKATHON\\memory",
       "c:\\Users\\phamq\\.claude\\projects\\c--Users-phamq-OneDrive-Desktop-New-folder--4--Hackathon\\memory",
       "C:\\Users\\phamq\\OneDrive\\Desktop\\New folder (4)\\Hackathon\\Hackathon.Presentation\\documents\\documents"
     ]
+  },
+  "enabledPlugins": {
+    "ecc@ecc": true
+  },
+  "extraKnownMarketplaces": {
+    "ecc": {
+      "source": {
+        "source": "github",
+        "repo": "affaan-m/ecc"
+      }
+    }
   }
 }

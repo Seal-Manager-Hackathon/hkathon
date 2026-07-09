@@ -1,5 +1,9 @@
+using Hackathon.Application.Services.Staff.Assign;
+using Hackathon.Application.Services.Staff.CriteriaTemplate;
 using Hackathon.Application.Services.Staff.Event;
 using Hackathon.Application.Services.Staff.Round;
+using Hackathon.Application.Services.Staff.Topic;
+using Hackathon.Application.Services.Staff.Track;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hackathon.Application.Services.Staff;
@@ -10,6 +14,10 @@ public static class DependencyInjection
     {
         services.AddScoped<IEventService, Event.Service>();
         services.AddScoped<IRoundService, Round.Service>();
+        services.AddScoped<ICriteriaTemplateService, CriteriaTemplate.Service>();
+        services.AddScoped<ITrackService, Track.Service>();
+        services.AddScoped<ITopicService, Topic.Service>();
+        services.AddScoped<IAssignService, Assign.Service>();
         return services;
     }
 }

@@ -48,6 +48,47 @@ public class AssignEventRepository : IAssignEventRepository
         return (items, totalCount);
     }
 
+    public async Task<(List<AssignEvents> Items, int TotalCount)> GetAssignedUsersByEventAsync(
+        Guid eventId, string? keyword, Domain.Enums.EventRole.EventRoleEnum? eventRole,
+        Domain.Enums.User.RoleEnum? role, Guid? trackId,
+        int pageIndex, int pageSize)
+    {
+        var query = _context.AssignEvents
+            .Include(ae => ae.User)
+            .Include(ae => ae.EventRole)
+            .Include(ae => ae.AssignTracks)
+                .ThenInclude(at => at.Track)
+            .Where(ae => ae.EventId == eventId);
+
+        if (eventRole.HasValue)
+            query = query.Where(ae => ae.EventRole != null && ae.EventRole.Name == eventRole.Value);
+
+        if (role.HasValue)
+            query = query.Where(ae => ae.User.Role == role.Value);
+
+        if (trackId.HasValue)
+            query = query.Where(ae => ae.AssignTracks.Any(at => at.TrackId == trackId.Value && !at.IsDisable));
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var kw = keyword.Trim().ToLower();
+            query = query.Where(ae =>
+                ae.User.Email.ToLower().Contains(kw) ||
+                (ae.User.FirstName.ToLower() + " " + ae.User.LastName.ToLower()).Contains(kw));
+        }
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderBy(ae => ae.User.FirstName)
+            .ThenBy(ae => ae.User.LastName)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
+
     public async Task<AssignEvents?> GetByEventIdAndUserIdAsync(Guid eventId, Guid userId)
         => await _context.AssignEvents
             .FirstOrDefaultAsync(ae => ae.EventId == eventId && ae.UserId == userId);

@@ -34,6 +34,11 @@ public class CriteriaTemplateRepository : ICriteriaTemplateRepository
             .Where(ci => ci.CriteriaTemplateId == templateId)
             .ToListAsync();
 
+    public async Task<CriteriaTemplates?> GetByIdWithItemsAsync(Guid id)
+        => await _context.Set<CriteriaTemplates>()
+            .Include(ct => ct.CriteriaItems.Where(ci => !ci.IsDisable))
+            .FirstOrDefaultAsync(ct => ct.Id == id && !ct.IsDisable);
+
     public async Task AddAsync(CriteriaTemplates template)
         => await _context.Set<CriteriaTemplates>().AddAsync(template);
 
