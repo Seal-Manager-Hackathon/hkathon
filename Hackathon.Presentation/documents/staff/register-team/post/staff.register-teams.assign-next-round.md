@@ -1,25 +1,24 @@
-# POST /api/v1/staff/register-teams/{registerTeamId}/assign-next-round — Chuyển vòng tiếp
+# POST /api/v1/staff/register-teams/{registerTeamId}/assign-next-round
 
-## Mục đích
+> Staff gán 1 register team vào round tiếp theo (tự động tìm round kế).
 
-Staff chuyển team lên vòng tiếp theo.
+## Nghiệp vụ
+- Lấy round hiện tại của team (RoundNo cao nhất)
+- Tìm round tiếp theo dựa trên EventId + RoundNo + 1
+- Kiểm tra không trùng RoundDetail
+- Tạo RoundDetail mới
 
-## Business Logic
+## Phân quyền
+- ✅ Staff (phải được phân công vào event tương ứng)
 
-1. Kiểm tra staff có assign vào event không
-2. Lấy round hiện tại của team (RoundNo cao nhất)
-3. Tìm round tiếp theo: `EventId` + `RoundNo + 1`
-4. Check không trùng round detail
-5. Tạo RoundDetail mới
+## Request
 
-## Endpoint
+### Route Parameters
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| registerTeamId | Guid | ID của register team |
 
-```
-POST /api/v1/staff/register-teams/{registerTeamId}/assign-next-round
-```
-
-## Response
-
+## Response (200)
 ```json
 {
   "data": {
@@ -34,15 +33,21 @@ POST /api/v1/staff/register-teams/{registerTeamId}/assign-next-round
     "roundId": "guid",
     "roundName": "Vòng 2",
     "roundNo": 2
-  }
+  },
+  "message": "Assigned Successfully",
+  "error": null,
+  "isSuccess": true,
+  "status": 200,
+  "traceId": "00-...",
+  "timestampUtc": "2026-07-07T12:00:00Z"
 }
 ```
 
-## Error Handling
-
-| Status | Meaning |
-|--------|---------|
-| 400 | Đã là vòng cuối, hoặc team đã ở round này |
-| 401 | Token hết hạn/thiếu |
-| 403 | Staff không được phân công vào event |
-| 404 | Register team không tồn tại |
+## Lỗi
+| Status | message | Khi nào | FE xử lý |
+|--------|---------|---------|----------|
+| 400 | This Is The Last Round. Cannot Assign To Next Round | Đã là round cuối, ko có round kế | Báo "Team đã ở vòng cuối" |
+| 400 | Team Is Already Assigned To This Round | Team đã được gán vào round này rồi | Báo "Team đã ở round này" |
+| 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
+| 403 | You do not have permission to perform this action | Staff không được phân công vào event | Ẩn chức năng |
+| 404 | Register Team Not Found | registerTeamId ko tồn tại | Báo "Không tìm thấy đơn đăng ký" |

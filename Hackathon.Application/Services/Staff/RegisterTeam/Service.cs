@@ -190,10 +190,7 @@ public class Service : IRegisterTeamService
                 throw new BadRequestException("Invalid Status. Must be: Pending, Approved, Rejected, Banned");
             rt.Status = status;
         }
-        if (request.IsBanned.HasValue)
-            rt.IsBanned = request.IsBanned.Value;
-        if (request.IsDisable.HasValue)
-            rt.IsDisable = request.IsDisable.Value;
+        // Staff KHÔNG được sửa IsBanned, IsDisable — chỉ Admin mới có quyền này
 
         await _unitOfWork.SaveChangesAsync();
     }

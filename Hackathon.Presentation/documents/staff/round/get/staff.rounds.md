@@ -1,43 +1,26 @@
-# GET /api/v1/staff/events/{eventId}/rounds — Lấy danh sách rounds của event
+# GET /api/v1/staff/events/{eventId}/rounds
 
-## Mục đích
+> Lấy danh sách rounds của event.
 
-Staff muốn xem danh sách các vòng (round) của một event mà họ được phân công. Mỗi event có thể có nhiều round, Staff cần xem để biết tiến độ tổ chức.
+## Nghiệp vụ
+- Chỉ trả về round có `isDisable = false`
+- Staff phải được phân công vào event chứa round
+- Mỗi round có thời gian bắt đầu/kết thúc và thời gian nộp bài riêng
+- Hỗ trợ lọc theo keyword và số thứ tự round
 
-## Business Context
+## Phân quyền
+- ✅ Staff (phải được assign vào event)
 
-- Round là các vòng thi trong event, mỗi round có thời gian bắt đầu/kết thúc riêng
-- Staff chỉ xem được round của event họ được phân công
-- Chỉ trả về round có `IsDisable = false`
-- Hỗ trợ lọc keyword và số thứ tự round
+## Request
+| Param | Kiểu | Bắt buộc | Ví dụ | Ghi chú |
+|-------|------|----------|-------|---------|
+| `eventId` | guid | ✅ | `3fa85f64-5717-4562-b3fc-2c963f66afa6` | ID của event (route) |
+| `Keyword` | string | ❌ | `Vòng loại` | Tìm theo tên round |
+| `RoundNo` | int | ❌ | `1` | Lọc theo số thứ tự round |
+| `PageIndex` | int | ❌ | `1` | Mặc định 1 |
+| `PageSize` | int | ❌ | `10` | Mặc định 10 |
 
-## Endpoint
-
-```
-GET /api/v1/staff/events/{eventId}/rounds
-```
-
-## Controller → Service → Repository
-
-`StaffRoundController.GetRounds()` → `IRoundService.GetRounds()` → `IRoundRepository.SearchByEventIdAsync()`. Xác thực assignment trước.
-
-## Route Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `eventId` | Guid | Yes | ID của event |
-
-## Request Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `Keyword` | string | No | Tìm kiếm theo tên round |
-| `RoundNo` | int | No | Lọc theo số thứ tự round |
-| `PageIndex` | int | No (mặc định 1) | Trang hiện tại |
-| `PageSize` | int | No (mặc định 10) | Số lượng item mỗi trang |
-
-## Response
-
+## Response (200)
 ```json
 {
   "data": {
@@ -63,13 +46,16 @@ GET /api/v1/staff/events/{eventId}/rounds
     "pageSize": 10
   },
   "message": "Rounds fetched successfully",
-  "traceId": "..."
+  "error": null,
+  "isSuccess": true,
+  "status": 200,
+  "traceId": "00-...",
+  "timestampUtc": "2026-07-09T12:00:00Z"
 }
 ```
 
-## Exception Handling
-
-| Status | Meaning |
-|--------|---------|
-| 401 | Token không hợp lệ hoặc đã hết hạn |
-| 403 | User không có role Staff, hoặc không được phân công vào event |
+## Lỗi
+| Status | message | Khi nào | FE xử lý |
+|--------|---------|---------|----------|
+| 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
+| 403 | You do not have permission to perform this action | User không có role Staff hoặc không được assign vào event | Ẩn chức năng |

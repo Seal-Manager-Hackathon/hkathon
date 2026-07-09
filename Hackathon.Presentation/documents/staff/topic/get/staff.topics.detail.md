@@ -1,33 +1,21 @@
-# GET /api/v1/staff/topics/{topicId} — Xem chi tiết topic
+# GET /api/v1/staff/topics/{topicId}
 
-## Mục đích
+> Xem chi tiết topic.
 
-Staff muốn xem thông tin chi tiết của một đề tài (topic) cụ thể.
+## Nghiệp vụ
+- Topic bị disable (`isDisable = true`) sẽ trả về 404
+- Staff phải được phân công vào event chứa track của topic
+- Response trả thêm `trackTitle` để FE hiển thị context
 
-## Business Context
+## Phân quyền
+- ✅ Staff (phải được assign vào event)
 
-- Topic bị disable (`IsDisable = true`) sẽ trả về 404
-- Staff phải được phân công vào event chứa track của topic này
-- Response trả thêm `TrackTitle` để FE hiển thị context
+## Request
+| Param | Kiểu | Bắt buộc | Ví dụ | Ghi chú |
+|-------|------|----------|-------|---------|
+| `topicId` | guid | ✅ | `3fa85f64-5717-4562-b3fc-2c963f66afa6` | ID của topic (route) |
 
-## Endpoint
-
-```
-GET /api/v1/staff/topics/{topicId}
-```
-
-## Controller → Service → Repository
-
-`StaffTopicController.GetTopicDetail()` → `ITopicService.GetTopicDetail()` → `ITopicRepository.GetByIdAsync()`.
-
-## Route Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `topicId` | Guid | Yes | ID của topic |
-
-## Response
-
+## Response (200)
 ```json
 {
   "data": {
@@ -39,14 +27,19 @@ GET /api/v1/staff/topics/{topicId}
     "isDisable": false,
     "createdAt": "2026-05-01T00:00:00Z",
     "updatedAt": "2026-06-01T00:00:00Z"
-  }
+  },
+  "message": "Topic detail fetched successfully",
+  "error": null,
+  "isSuccess": true,
+  "status": 200,
+  "traceId": "00-...",
+  "timestampUtc": "2026-07-09T12:00:00Z"
 }
 ```
 
-## Exception Handling
-
-| Status | Meaning |
-|--------|---------|
-| 401 | Token không hợp lệ hoặc đã hết hạn |
-| 403 | User không có role Staff hoặc không được phân công vào event |
-| 404 | Không tìm thấy topic (hoặc topic đã bị disable) |
+## Lỗi
+| Status | message | Khi nào | FE xử lý |
+|--------|---------|---------|----------|
+| 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
+| 403 | You do not have permission to perform this action | User không có role Staff hoặc không được assign vào event | Ẩn chức năng |
+| 404 | Not Found | Không tìm thấy topic hoặc topic đã bị disable | Chuyển về danh sách |

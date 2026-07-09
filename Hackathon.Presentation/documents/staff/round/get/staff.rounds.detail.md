@@ -1,33 +1,22 @@
-# GET /api/v1/staff/events/{eventId}/rounds/{roundId} — Xem chi tiết round
+# GET /api/v1/staff/events/{eventId}/rounds/{roundId}
 
-## Mục đích
+> Xem chi tiết round.
 
-Staff muốn xem thông tin chi tiết của một round cụ thể để biết thời gian, giới hạn đội. Dùng trước khi xem submissions hoặc chấm điểm.
+## Nghiệp vụ
+- Staff phải được phân công vào event chứa round
+- Nếu round bị disable (`isDisable = true`), API trả về 404
+- Dùng trước khi xem submissions hoặc chấm điểm
 
-## Business Context
+## Phân quyền
+- ✅ Staff (phải được assign vào event)
 
-- Nếu round bị disable (`IsDisable = true`), API trả về 404
-- Staff phải được phân công vào event chứa round này
+## Request
+| Param | Kiểu | Bắt buộc | Ví dụ | Ghi chú |
+|-------|------|----------|-------|---------|
+| `eventId` | guid | ✅ | `3fa85f64-5717-4562-b3fc-2c963f66afa6` | ID của event (route) |
+| `roundId` | guid | ✅ | `3fa85f64-5717-4562-b3fc-2c963f66afa6` | ID của round (route) |
 
-## Endpoint
-
-```
-GET /api/v1/staff/events/{eventId}/rounds/{roundId}
-```
-
-## Controller → Service → Repository
-
-`StaffRoundController.GetRoundDetail()` → `IRoundService.GetRoundDetail()` → `IRoundRepository.GetDetailByIdAsync()`. Xác thực event assignment trước khi query round.
-
-## Route Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `eventId` | Guid | Yes | ID của event |
-| `roundId` | Guid | Yes | ID của round |
-
-## Response
-
+## Response (200)
 ```json
 {
   "data": {
@@ -45,15 +34,18 @@ GET /api/v1/staff/events/{eventId}/rounds/{roundId}
     "createdAt": "2026-05-01T00:00:00Z",
     "updatedAt": "2026-06-01T00:00:00Z"
   },
-  "message": "Rounds fetched successfully",
-  "traceId": "..."
+  "message": "Round detail fetched successfully",
+  "error": null,
+  "isSuccess": true,
+  "status": 200,
+  "traceId": "00-...",
+  "timestampUtc": "2026-07-09T12:00:00Z"
 }
 ```
 
-## Exception Handling
-
-| Status | Meaning |
-|--------|---------|
-| 401 | Token không hợp lệ hoặc đã hết hạn |
-| 403 | User không có role Staff, hoặc không được phân công vào event |
-| 404 | Không tìm thấy round (hoặc round đã bị disable) |
+## Lỗi
+| Status | message | Khi nào | FE xử lý |
+|--------|---------|---------|----------|
+| 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
+| 403 | You do not have permission to perform this action | User không có role Staff hoặc không được assign vào event | Ẩn chức năng |
+| 404 | Not Found | Không tìm thấy round hoặc round đã bị disable | Chuyển về danh sách |

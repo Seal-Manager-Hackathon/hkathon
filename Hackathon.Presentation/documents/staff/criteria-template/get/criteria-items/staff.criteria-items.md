@@ -1,58 +1,52 @@
-# GET /api/v1/staff/events/{eventId}/criteria-templates/{criteriaTemplateId}/items — Lấy danh sách criteria items
+# GET /api/v1/staff/events/{eventId}/criteria-templates/{criteriaTemplateId}/items
 
-## Mục đích
+> Staff xem danh sach criteria items cua mot criteria template.
 
-Staff muốn xem các mục tiêu chí (criteria items) bên trong một criteria template. Các item này là chi tiết từng tiêu chí chấm điểm.
+## Nghiep vu
+- Staff phai duoc phan cong vao event tuong ung.
+- Chi tra ve item co `IsDisable = false`.
+- Entity `CriteriaItem` dung field `Score` anh xa sang `maxScore` trong response.
 
-## Business Context
+## Phan quyen
+- ✅ Staff (phai duoc phan cong vao event tuong ung)
 
-- Mỗi criteria template có nhiều criteria item, mỗi item có tên, mô tả, và điểm tối đa
-- Entity `CriteriaItems` dùng field `Score` ánh xạ sang `MaxScore` trong response
-- Chỉ trả về item có `IsDisable = false`, nhưng response vẫn trả field `IsDisable`
-- Staff phải được phân công vào event
+## Request
 
-## Endpoint
+### Route Parameters
+| Parameter | Type | Bat buoc | Vi du | Ghi chu |
+|-----------|------|----------|-------|---------|
+| eventId | Guid | Co | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID cua event |
+| criteriaTemplateId | Guid | Co | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID cua criteria template |
 
-```
-GET /api/v1/staff/events/{eventId}/criteria-templates/{criteriaTemplateId}/items
-```
-
-## Controller → Service → Repository
-
-`StaffCriteriaTemplateController.GetCriteriaItemsByTemplateId()` → `ICriteriaTemplateService.GetCriteriaItemsByTemplateId()` → `ICriteriaTemplateRepository.GetByIdWithItemsAsync()`.
-
-## Route Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `eventId` | Guid | Yes | ID của event |
-| `criteriaTemplateId` | Guid | Yes | ID của criteria template |
-
-## Response
-
+## Response (200)
 ```json
 {
   "data": {
     "items": [
       {
-        "id": "guid",
-        "criteriaTemplateId": "guid",
-        "name": "Tính sáng tạo",
-        "description": "Ý tưởng có tính mới và sáng tạo",
+        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "criteriaTemplateId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "name": "Tinh sang tao",
+        "description": "Y tuong co tinh moi va sang tao",
         "maxScore": 30,
         "isDisable": false,
         "createdAt": "2026-05-01T00:00:00Z",
         "updatedAt": "2026-06-01T00:00:00Z"
       }
     ]
-  }
+  },
+  "message": "Fetched Successfully",
+  "error": null,
+  "isSuccess": true,
+  "status": 200,
+  "traceId": "00-abc123...",
+  "timestampUtc": "2026-07-07T12:00:00Z"
 }
 ```
 
-## Exception Handling
-
-| Status | Meaning |
-|--------|---------|
-| 401 | Token không hợp lệ hoặc đã hết hạn |
-| 403 | User không có role Staff hoặc không được phân công vào event |
-| 404 | Không tìm thấy criteria template |
+## Loi
+| Status | message | Khi nao | FE xu ly |
+|--------|---------|---------|----------|
+| 401 | Invalid Or Expired Token | Token het han/thieu | Chuyen ve trang login |
+| 403 | You do not have permission to perform this action | Khong phai Staff hoac khong duoc phan cong vao event | Hien thi thong bao khong co quyen |
+| 404 | Resource Not Found | CriteriaTemplateId khong ton tai | Hien thi thong bao khong tim thay |

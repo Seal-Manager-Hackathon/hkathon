@@ -1,63 +1,58 @@
-# GET /api/v1/staff/events/{eventId}/assigned/{assignEventId} — Xem chi tiết một phân công
+# GET /api/v1/staff/events/{eventId}/assigned/{assignEventId}
 
-## Mục đích
+> Staff xem chi tiet mot ban ghi phan cong trong event.
 
-Staff muốn xem chi tiết một bản ghi phân công cụ thể: ai được phân công, vai trò gì, được gán vào những track nào.
+## Nghiep vu
+- Staff phai duoc phan cong vao event tuong ung.
+- Tra ve thong tin chi tiet assign: user, vai tro, cac track duoc gan, thoi gian tao/cap nhat.
+- Neu assign bi disable (`IsDisable = true`), API tra ve 404.
+- Chi lay track co `IsDisable = false`.
 
-## Business Context
+## Phan quyen
+- ✅ Staff (phai duoc phan cong vao event tuong ung)
 
-- Khác với danh sách, API này trả về thêm `CreatedAt` và `UpdatedAt` của bản ghi assign
-- Trả về danh sách `Tracks` — các track mà người này được phân công chấm/hướng dẫn
-- Nếu assign bị disable (`IsDisable = true`), API trả về 404
-- Chỉ lấy track có `IsDisable = false`
+## Request
 
-## Endpoint
+### Route Parameters
+| Parameter | Type | Bat buoc | Vi du | Ghi chu |
+|-----------|------|----------|-------|---------|
+| eventId | Guid | Co | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID cua event |
+| assignEventId | Guid | Co | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID cua ban ghi assign trong bang `AssignEvents` |
 
-```
-GET /api/v1/staff/events/{eventId}/assigned/{assignEventId}
-```
-
-## Controller → Service → Repository
-
-`StaffAssignController.GetAssignEventDetail()` → `IAssignService.GetAssignEventDetail()` → `IAssignEventRepository.GetByIdWithTracksAsync()`.
-
-## Route Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `eventId` | Guid | Yes | ID của event |
-| `assignEventId` | Guid | Yes | ID của bản ghi assign trong bảng `AssignEvents` |
-
-## Response
-
+## Response (200)
 ```json
 {
   "data": {
-    "id": "guid",
-    "eventId": "guid",
-    "userId": "guid",
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "eventId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "email": "user@example.com",
-    "firstName": "Nguyễn",
-    "lastName": "Văn A",
+    "firstName": "Nguyen",
+    "lastName": "Van A",
     "avatarUrl": "https://example.com/avatar.jpg",
     "eventRole": "Judge",
     "tracks": [
       {
-        "trackId": "guid",
-        "title": "Trí tuệ nhân tạo",
-        "eventId": "guid"
+        "trackId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "title": "Tri tue nhan tao",
+        "eventId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
       }
     ],
     "createdAt": "2026-05-01T00:00:00Z",
     "updatedAt": "2026-06-01T00:00:00Z"
-  }
+  },
+  "message": "Fetched Successfully",
+  "error": null,
+  "isSuccess": true,
+  "status": 200,
+  "traceId": "00-abc123...",
+  "timestampUtc": "2026-07-07T12:00:00Z"
 }
 ```
 
-## Exception Handling
-
-| Status | Meaning |
-|--------|---------|
-| 401 | Token không hợp lệ hoặc đã hết hạn |
-| 403 | User không có role Staff hoặc không được phân công vào event |
-| 404 | Không tìm thấy assign event (hoặc đã bị disable) |
+## Loi
+| Status | message | Khi nao | FE xu ly |
+|--------|---------|---------|----------|
+| 401 | Invalid Or Expired Token | Token het han/thieu | Chuyen ve trang login |
+| 403 | You do not have permission to perform this action | Khong phai Staff hoac khong duoc phan cong vao event | Hien thi thong bao khong co quyen |
+| 404 | Resource Not Found | AssignEventId khong ton tai hoac da bi disable | Hien thi thong bao khong tim thay |

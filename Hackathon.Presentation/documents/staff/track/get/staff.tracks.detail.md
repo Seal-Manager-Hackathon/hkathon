@@ -1,33 +1,21 @@
-# GET /api/v1/staff/events/{eventId}/tracks/{trackId} — Xem chi tiết track
+# GET /api/v1/staff/events/{eventId}/tracks/{trackId}
 
-## Mục đích
+> Xem chi tiết track.
 
-Staff muốn xem thông tin chi tiết của track (bao gồm số lượng đội đã đăng ký) để đánh giá mức độ quan tâm.
-
-## Business Context
-
-- Ngoài các thông tin cơ bản, API này trả về `RegisterTeamCount` — số đội đã đăng ký vào track này
-- Track bị disable (`IsDisable = true`) sẽ trả về 404
+## Nghiệp vụ
+- Trả về thêm `registerTeamCount` — số đội đã đăng ký vào track
+- Track bị disable (`isDisable = true`) trả về 404
 - Staff phải được phân công vào event chứa track
 
-## Endpoint
+## Phân quyền
+- ✅ Staff (phải được assign vào event)
 
-```
-GET /api/v1/staff/events/{eventId}/tracks/{trackId}
-```
+## Request
+| Param | Kiểu | Bắt buộc | Ví dụ | Ghi chú |
+|-------|------|----------|-------|---------|
+| `trackId` | guid | ✅ | `3fa85f64-5717-4562-b3fc-2c963f66afa6` | ID của track (route) |
 
-## Controller → Service → Repository
-
-`StaffTrackController.GetTrackDetail()` → `ITrackService.GetTrackDetail()` → `ITrackRepository.GetByIdAsync()` + `IRegisterTeamRepository.CountByTrackIdAsync()`.
-
-## Route Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `trackId` | Guid | Yes | ID của track (không cần eventId trên route — track đã có EventId trong DB) |
-
-## Response
-
+## Response (200)
 ```json
 {
   "data": {
@@ -40,14 +28,19 @@ GET /api/v1/staff/events/{eventId}/tracks/{trackId}
     "isDisable": false,
     "createdAt": "2026-05-01T00:00:00Z",
     "updatedAt": "2026-06-01T00:00:00Z"
-  }
+  },
+  "message": "Track detail fetched successfully",
+  "error": null,
+  "isSuccess": true,
+  "status": 200,
+  "traceId": "00-...",
+  "timestampUtc": "2026-07-09T12:00:00Z"
 }
 ```
 
-## Exception Handling
-
-| Status | Meaning |
-|--------|---------|
-| 401 | Token không hợp lệ hoặc đã hết hạn |
-| 403 | User không có role Staff hoặc không được phân công vào event |
-| 404 | Không tìm thấy track (hoặc track đã bị disable) |
+## Lỗi
+| Status | message | Khi nào | FE xử lý |
+|--------|---------|---------|----------|
+| 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
+| 403 | You do not have permission to perform this action | User không có role Staff hoặc không được assign vào event | Ẩn chức năng |
+| 404 | Not Found | Không tìm thấy track hoặc track đã bị disable | Chuyển về danh sách |

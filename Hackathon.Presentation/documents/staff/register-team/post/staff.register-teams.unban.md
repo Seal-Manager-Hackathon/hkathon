@@ -1,26 +1,42 @@
-# POST /api/v1/staff/register-teams/{registerTeamId}/unban — Bỏ cấm team
+# POST /api/v1/staff/register-teams/{registerTeamId}/unban
 
-## Mục đích
+> Bỏ cấm (unban) một đội, khôi phục trạng thái Approved.
 
-Staff bỏ cấm 1 team, khôi phục trạng thái Approved.
+## Nghiệp vụ
+- Kiểm tra staff có được phân công vào event chứa register team không
+- Set `IsBanned = false`, status = `Approved`, xóa `rejectionReason`
+- Không cho phép unban nếu team chưa bị banned (IsBanned = false)
 
-## Business Logic
+## Phân quyền
+- ✅ Staff (phải được phân công vào event tương ứng)
 
-1. Kiểm tra staff có assign vào event không
-2. Set `IsBanned = false`, status = `Approved`, xóa rejectionReason
-3. Không cho phép unban nếu chưa bị banned
+## Request
 
-## Endpoint
+### Route Parameters
 
+| Param | Kiểu | Bắt buộc | Ví dụ | Ghi chú |
+|-------|------|----------|-------|---------|
+| registerTeamId | Guid | Có | `3fa85f64-5717-4562-b3fc-2c963f66afa6` | ID của register team cần bỏ cấm |
+
+## Response (200)
+
+```json
+{
+  "data": null,
+  "message": "Bỏ cấm register team thành công",
+  "error": null,
+  "isSuccess": true,
+  "status": 200,
+  "traceId": "00-0b4e4e4b7b8c4d4f8f9a0b1c2d3e4f5a",
+  "timestampUtc": "2026-07-09T10:00:00Z"
+}
 ```
-POST /api/v1/staff/register-teams/{registerTeamId}/unban
-```
 
-## Error Handling
+## Lỗi
 
-| Status | Meaning |
-|--------|---------|
-| 400 | Team chưa bị banned |
-| 401 | Token hết hạn/thiếu |
-| 403 | Staff không được phân công vào event |
-| 404 | Register team không tồn tại |
+| Status | message | Khi nào | FE xử lý |
+|--------|---------|---------|----------|
+| 400 | `Register team is not banned` | Team chưa bị banned | Hiển thị thông báo lỗi |
+| 401 | `Unauthorized` | Token hết hạn hoặc thiếu | Redirect sang trang login |
+| 403 | `Forbidden` | Staff không được phân công vào event | Hiển thị thông báo không có quyền |
+| 404 | `Register team not found` | registerTeamId không tồn tại | Hiển thị thông báo không tìm thấy |

@@ -1,42 +1,25 @@
-# GET /api/v1/staff/tracks/{trackId}/topics — Lấy danh sách topics của track
+# GET /api/v1/staff/tracks/{trackId}/topics
 
-## Mục đích
+> Lấy danh sách topics của track.
 
-Staff muốn xem danh sách các đề tài (topic) thuộc một track. Mỗi track có thể có nhiều topic để đội thi chọn.
-
-## Business Context
-
-- Topic là đề tài cụ thể trong một track (VD: track AI có topics: "Chatbot", "Computer Vision")
-- Chỉ trả về topic có `IsDisable = false`, nhưng response vẫn trả field `IsDisable`
-- Sắp xếp theo `CreatedAt` giảm dần
+## Nghiệp vụ
+- Chỉ trả về topic có `isDisable = false`, nhưng response vẫn trả field `isDisable`
+- Sắp xếp theo `createdAt` giảm dần
 - Staff phải được phân công vào event chứa track
+- Topic là đề tài cụ thể trong một track (VD: track AI có topics: "Chatbot", "Computer Vision")
 
-## Endpoint
+## Phân quyền
+- ✅ Staff (phải được assign vào event)
 
-```
-GET /api/v1/staff/tracks/{trackId}/topics
-```
+## Request
+| Param | Kiểu | Bắt buộc | Ví dụ | Ghi chú |
+|-------|------|----------|-------|---------|
+| `trackId` | guid | ✅ | `3fa85f64-5717-4562-b3fc-2c963f66afa6` | ID của track (route) |
+| `Keyword` | string | ❌ | `Chatbot` | Tìm theo tên topic |
+| `PageIndex` | int | ❌ | `1` | Mặc định 1 |
+| `PageSize` | int | ❌ | `10` | Mặc định 10 |
 
-## Controller → Service → Repository
-
-`StaffTopicController.GetTopics()` → `ITopicService.GetTopics()` → `ITopicRepository.SearchAsync()`. Kiểm tra staff có được phân công vào event của track hay không.
-
-## Route Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `trackId` | Guid | Yes | ID của track |
-
-## Request Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `Keyword` | string | No | Tìm kiếm theo tên topic |
-| `PageIndex` | int | No (mặc định 1) | Trang hiện tại |
-| `PageSize` | int | No (mặc định 10) | Số lượng item mỗi trang |
-
-## Response
-
+## Response (200)
 ```json
 {
   "data": {
@@ -56,15 +39,18 @@ GET /api/v1/staff/tracks/{trackId}/topics
     "pageIndex": 1,
     "pageSize": 10
   },
-  "message": "Fetched successfully",
-  "traceId": "..."
+  "message": "Topics fetched successfully",
+  "error": null,
+  "isSuccess": true,
+  "status": 200,
+  "traceId": "00-...",
+  "timestampUtc": "2026-07-09T12:00:00Z"
 }
 ```
 
-## Exception Handling
-
-| Status | Meaning |
-|--------|---------|
-| 401 | Token không hợp lệ hoặc đã hết hạn |
-| 403 | User không có role Staff hoặc không được phân công vào event |
-| 404 | Không tìm thấy track |
+## Lỗi
+| Status | message | Khi nào | FE xử lý |
+|--------|---------|---------|----------|
+| 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
+| 403 | You do not have permission to perform this action | User không có role Staff hoặc không được assign vào event | Ẩn chức năng |
+| 404 | Not Found | Không tìm thấy track | Chuyển về danh sách |

@@ -1,70 +1,51 @@
-# POST /api/v1/staff/events/{eventId}/assign/users — Phân công Lecturer vào event
+# POST /api/v1/staff/events/{eventId}/assign/users
 
-## Mục đích
+> Staff phan cong Lecturer vao event voi vai tro Judge hoac Mentor.
 
-Staff muốn phân công một Lecturer (giảng viên) vào event với vai trò Judge hoặc Mentor để họ có thể chấm bài hoặc hướng dẫn đội thi.
+## Nghiep vu
+- Staff phai duoc phan cong vao event tuong ung.
+- Chi co the assign user co role = `Lecturer`.
+- EventRole hop le: `Judge` hoac `Mentor` — khong the assign role `Staff`.
+- Moi Lecturer chi duoc assign vao mot event mot lan (kiem tra duplicate).
+- Staff assign dua tren `UserId` cua Lecturer.
 
-## Business Context
+## Phan quyen
+- ✅ Staff (phai duoc phan cong vao event tuong ung)
 
-- **Chỉ có thể assign user có role = Lecturer** (giảng viên) — không thể assign Student, Admin, hay Staff
-- **EventRole hợp lệ:** `Judge` (giám khảo) hoặc `Mentor` (cố vấn) — không thể assign role `Staff`
-- Một Lecturer chỉ được assign vào một event một lần (kiểm tra duplicate)
-- Staff assign dựa trên `UserId` của Lecturer — không assign theo email
-- Sau khi assign, Lecturer sẽ xuất hiện trong danh sách assigned của event
+## Request
 
-## Endpoint
+### Route Parameters
+| Parameter | Type | Bat buoc | Vi du | Ghi chu |
+|-----------|------|----------|-------|---------|
+| eventId | Guid | Co | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID cua event |
 
-```
-POST /api/v1/staff/events/{eventId}/assign/users
-```
+### Body (JSON)
+| Field | Type | Bat buoc | Vi du | Ghi chu |
+|-------|------|----------|-------|---------|
+| userId | Guid | Co | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID cua Lecturer can assign |
+| eventRole | string | Co | Judge | Vai tro trong event: `Judge` hoac `Mentor` |
 
-## Controller → Service → Repository
-
-`StaffAssignController.AssignLecturerToEvent()` → `IAssignService.AssignLecturerToEvent()` → kiểm tra user role, event role, duplicate → tạo `AssignEvents` record.
-
-## Route Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `eventId` | Guid | Yes | ID của event |
-
-## Request Body
-
-```json
-{
-  "userId": "guid",
-  "eventRole": "Judge"
-}
-```
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `userId` | Guid | Yes | ID của Lecturer cần assign |
-| `eventRole` | string | Yes | Vai trò trong event: `Judge` hoặc `Mentor` |
-
-## Validation Rules
-
-1. User phải có role = `Lecturer` — nếu không, trả về 400 "Can Only Assign Lecturer To Event"
-2. EventRole phải là `Judge` hoặc `Mentor` — nếu là `Staff`, trả về 400 "Staff Cannot Assign Staff Role"
-3. User chưa được assign vào event này — nếu đã có, trả về 409 "User Is Already Assigned To This Event"
-
-## Response
-
+## Response (201)
 ```json
 {
   "data": null,
-  "message": "Created successfully",
+  "message": "Created Successfully",
+  "error": null,
+  "isSuccess": true,
   "status": 201,
-  "traceId": "..."
+  "traceId": "00-abc123...",
+  "timestampUtc": "2026-07-07T12:00:00Z"
 }
 ```
 
-## Exception Handling
-
-| Status | Meaning |
-|--------|---------|
-| 400 | User không phải Lecturer, hoặc EventRole không hợp lệ, hoặc Staff cố assign role Staff |
-| 401 | Token không hợp lệ hoặc đã hết hạn |
-| 403 | User không có role Staff hoặc không được phân công vào event |
-| 404 | Không tìm thấy user hoặc EventRole |
-| 409 | User đã được phân công vào event này rồi |
+## Loi
+| Status | message | Khi nao | FE xu ly |
+|--------|---------|---------|----------|
+| 400 | Can Only Assign Lecturer To Event | User khong phai Lecturer | Hien thi thong bao loi |
+| 400 | Staff Cannot Assign Staff Role | EventRole la `Staff` | Hien thi thong bao loi |
+| 400 | Invalid EventRole | EventRole khong phai Judge/Mentor | Hien thi thong bao loi |
+| 401 | Invalid Or Expired Token | Token het han/thieu | Chuyen ve trang login |
+| 403 | You do not have permission to perform this action | Khong phai Staff hoac khong duoc phan cong vao event | Hien thi thong bao khong co quyen |
+| 404 | User Not Found | UserId khong ton tai | Hien thi thong bao khong tim thay |
+| 404 | Event Role Not Found | EventRole khong ton tai trong he thong | Hien thi thong bao loi |
+| 409 | User Is Already Assigned To This Event | Lecturer da duoc assign vao event nay | Hien thi thong bao trung lap |

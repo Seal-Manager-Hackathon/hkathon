@@ -1,42 +1,25 @@
-# GET /api/v1/staff/events/{eventId}/tracks — Lấy danh sách tracks của event
+# GET /api/v1/staff/events/{eventId}/tracks
 
-## Mục đích
+> Lấy danh sách tracks của event.
 
-Staff muốn xem danh sách các track (nhánh thi) của một event để quản lý đề tài. Track là các nhánh chuyên môn trong event (VD: AI, Web, Mobile).
-
-## Business Context
-
-- Mỗi event có nhiều track, mỗi track có nhiều topic
-- Chỉ trả về track có `IsDisable = false`, nhưng response vẫn trả field `IsDisable`
-- Sắp xếp theo `CreatedAt` giảm dần
+## Nghiệp vụ
+- Chỉ trả về track có `isDisable = false`, nhưng response vẫn trả field `isDisable`
+- Sắp xếp theo `createdAt` giảm dần
 - Staff phải được phân công vào event
+- Track là các nhánh chuyên môn trong event (VD: AI, Web, Mobile)
 
-## Endpoint
+## Phân quyền
+- ✅ Staff (phải được assign vào event)
 
-```
-GET /api/v1/staff/events/{eventId}/tracks
-```
+## Request
+| Param | Kiểu | Bắt buộc | Ví dụ | Ghi chú |
+|-------|------|----------|-------|---------|
+| `eventId` | guid | ✅ | `3fa85f64-5717-4562-b3fc-2c963f66afa6` | ID của event (route) |
+| `Keyword` | string | ❌ | `AI` | Tìm theo tên track |
+| `PageIndex` | int | ❌ | `1` | Mặc định 1 |
+| `PageSize` | int | ❌ | `10` | Mặc định 10 |
 
-## Controller → Service → Repository
-
-`StaffTrackController.GetTracks()` → `ITrackService.GetTracks()` → `ITrackRepository.GetByEventIdAsync()`. Kiểm tra assignment trước.
-
-## Route Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `eventId` | Guid | Yes | ID của event |
-
-## Request Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `Keyword` | string | No | Tìm kiếm theo tên track |
-| `PageIndex` | int | No (mặc định 1) | Trang hiện tại |
-| `PageSize` | int | No (mặc định 10) | Số lượng item mỗi trang |
-
-## Response
-
+## Response (200)
 ```json
 {
   "data": {
@@ -56,14 +39,17 @@ GET /api/v1/staff/events/{eventId}/tracks
     "pageIndex": 1,
     "pageSize": 10
   },
-  "message": "Fetched successfully",
-  "traceId": "..."
+  "message": "Tracks fetched successfully",
+  "error": null,
+  "isSuccess": true,
+  "status": 200,
+  "traceId": "00-...",
+  "timestampUtc": "2026-07-09T12:00:00Z"
 }
 ```
 
-## Exception Handling
-
-| Status | Meaning |
-|--------|---------|
-| 401 | Token không hợp lệ hoặc đã hết hạn |
-| 403 | User không có role Staff hoặc không được phân công vào event |
+## Lỗi
+| Status | message | Khi nào | FE xử lý |
+|--------|---------|---------|----------|
+| 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
+| 403 | You do not have permission to perform this action | User không có role Staff hoặc không được assign vào event | Ẩn chức năng |

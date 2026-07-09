@@ -1,66 +1,60 @@
-# GET /api/v1/staff/events/{eventId}/lecturers/available — Lấy danh sách Lecturer có thể phân công
+# GET /api/v1/staff/events/{eventId}/lecturers/available
 
-## Mục đích
+> Staff lay danh sach Lecturer chua duoc phan cong vao event.
 
-Staff muốn xem danh sách người dùng có role Lecturer (giảng viên) chưa được phân công vào event để có thể thêm họ làm giám khảo (Judge) hoặc cố vấn (Mentor).
+## Nghiep vu
+- Staff phai duoc phan cong vao event tuong ung.
+- Chi tra ve user co role = `Lecturer`.
+- Chi lay Lecturer chua duoc assign vao event nay.
+- Staff chi co the assign Lecturer voi EventRole la `Judge` hoac `Mentor`.
 
-## Business Context
+## Phan quyen
+- ✅ Staff (phai duoc phan cong vao event tuong ung)
 
-- Chỉ trả về user có role = Lecturer
-- Chỉ lấy Lecturer chưa được assign vào event này
-- Staff chỉ có thể assign Lecturer với EventRole là `Judge` hoặc `Mentor` (không thể assign Staff role)
-- API dùng để FE hiển thị dropdown chọn người trước khi thực hiện assign
+## Request
 
-## Endpoint
+### Route Parameters
+| Parameter | Type | Bat buoc | Vi du | Ghi chu |
+|-----------|------|----------|-------|---------|
+| eventId | Guid | Co | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID cua event |
 
-```
-GET /api/v1/staff/events/{eventId}/lecturers/available
-```
+### Query Parameters
+| Parameter | Type | Bat buoc | Vi du | Ghi chu |
+|-----------|------|----------|-------|---------|
+| Keyword | string | Khong | nguyen van a | Tim kiem theo email hoac fullname |
+| PageIndex | int | Khong (mac dinh 1) | 1 | Trang hien tai |
+| PageSize | int | Khong (mac dinh 10) | 10 | So luong item moi trang |
 
-## Controller → Service → Repository
-
-`StaffAssignController.GetAvailableLecturers()` → `IAssignService.GetAvailableLecturers()` → `IUserRepository.GetAvailableUsersByRoleAsync()`.
-
-## Route Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `eventId` | Guid | Yes | ID của event |
-
-## Request Parameters
-
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `Keyword` | string | No | Tìm kiếm theo tên/email lecturer |
-| `PageIndex` | int | No (mặc định 1) | Trang hiện tại |
-| `PageSize` | int | No (mặc định 10) | Số lượng item mỗi trang |
-
-## Response
-
+## Response (200)
 ```json
 {
   "data": {
     "items": [
       {
-        "id": "guid",
+        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         "email": "lecturer@example.com",
-        "firstName": "Nguyễn",
-        "lastName": "Văn A",
+        "firstName": "Nguyen",
+        "lastName": "Van A",
         "avatarUrl": "https://example.com/avatar.jpg",
-        "college": "Đại học Bách Khoa",
+        "college": "Dai hoc Bach Khoa",
         "phoneNumber": "0909123456"
       }
     ],
     "totalCount": 10,
     "pageIndex": 1,
     "pageSize": 10
-  }
+  },
+  "message": "Fetched Successfully",
+  "error": null,
+  "isSuccess": true,
+  "status": 200,
+  "traceId": "00-abc123...",
+  "timestampUtc": "2026-07-07T12:00:00Z"
 }
 ```
 
-## Exception Handling
-
-| Status | Meaning |
-|--------|---------|
-| 401 | Token không hợp lệ hoặc đã hết hạn |
-| 403 | User không có role Staff hoặc không được phân công vào event |
+## Loi
+| Status | message | Khi nao | FE xu ly |
+|--------|---------|---------|----------|
+| 401 | Invalid Or Expired Token | Token het han/thieu | Chuyen ve trang login |
+| 403 | You do not have permission to perform this action | Khong phai Staff hoac khong duoc phan cong vao event | Hien thi thong bao khong co quyen |
