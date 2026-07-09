@@ -1,126 +1,53 @@
-# Staff API Documentation
+# Staff API — Tổng quan
 
-> Tổng hợp tất cả API dành cho role **Staff** trong hệ thống Hackathon.
+## Vai trò Staff
 
-## Nguyên tắc chung
+Staff là người được phân công vào một event để hỗ trợ quản lý và vận hành. Staff **không phải** là Admin — chỉ có thể xem và thao tác trên các event mà họ được phân công (thông qua bảng `AssignEvents`).
 
-Staff là người được phân công vào event để hỗ trợ quản lý (không có quyền Admin). Staff có các quyền hạn:
+## Nguyên tắc xác thực và phân quyền
 
-- **Chỉ thao tác trong phạm vi event được phân công** (`AssignEvents` phải có record staff đó).
-- **Không thấy dữ liệu bị disable**: tất cả entity rounds, tracks, topics, criteria templates đều filter `IsDisable = false`.
-- **Chỉ assign được Lecturer** (Judge/Mentor), không assign được Staff hay Admin.
-- **Event mặc định không lấy Draft**: chỉ thấy Published hoặc Closed.
+Tất cả API Staff đều yêu cầu:
+1. **JWT token hợp lệ** — xác thực qua `Authorization: Bearer {token}`
+2. **Role = Staff** — kiểm tra qua `IAuthorizationService.Authorize(RoleEnum.Staff)`
+3. **Event assignment** — kiểm tra user hiện tại có trong `AssignEvents` với `EventId` tương ứng không
+4. **Soft-delete filter** — dữ liệu có `IsDisable = true` được ẩn khỏi danh sách, nhưng response vẫn trả field `IsDisable` để FE biết trạng thái
 
----
+## Danh sách API
 
-## 1. Event APIs
+### Event
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/api/v1/staff/events` | [Lấy danh sách event được phân công](event/get-my-events.md) |
+| GET | `/api/v1/staff/events/{eventId}` | [Xem chi tiết một event được phân công](event/get-my-event-detail.md) |
 
-### `GET /api/v1/staff/events`
-> Lấy danh sách event mà staff được phân công.
+### Round
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/api/v1/staff/events/{eventId}/rounds` | [Lấy danh sách round của event](round/get-rounds.md) |
+| GET | `/api/v1/staff/events/{eventId}/rounds/{roundId}` | [Xem chi tiết round](round/get-round-detail.md) |
 
-**Filter:** `keyword`, `status`, `fromDate`, `toDate`, `pageIndex`, `pageSize`
-**Mặc định:** Không lấy Draft, sắp xếp CreatedAt DESC.
+### Track
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/api/v1/staff/events/{eventId}/tracks` | [Lấy danh sách track của event](track/get-tracks.md) |
+| GET | `/api/v1/staff/events/{eventId}/tracks/{trackId}` | [Xem chi tiết track](track/get-track-detail.md) |
 
-### `GET /api/v1/staff/events/{eventId}`
-> Lấy chi tiết 1 event staff được phân công.
+### Topic
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/api/v1/staff/tracks/{trackId}/topics` | [Lấy danh sách topic của track](topic/get-topics.md) |
+| GET | `/api/v1/staff/topics/{topicId}` | [Xem chi tiết topic](topic/get-topic-detail.md) |
 
----
+### Criteria Template
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/api/v1/staff/events/{eventId}/rounds/{roundId}/criteria-templates` | [Lấy danh sách criteria template của round](criteria-template/get-criteria-templates.md) |
+| GET | `/api/v1/staff/events/{eventId}/criteria-templates/{criteriaTemplateId}/items` | [Lấy danh sách criteria items của template](criteria-template/get-criteria-items.md) |
 
-## 2. Round APIs
-
-### `GET /api/v1/staff/events/{eventId}/rounds`
-> Danh sách round của event.
-
-**Filter:** `keyword`, `roundNo`, `pageIndex`, `pageSize`
-**Mặc định:** `IsDisable = false`, sắp xếp theo RoundNo ASC.
-
-### `GET /api/v1/staff/events/{eventId}/rounds/{roundId}`
-> Chi tiết 1 round. Không trả `IsDisable`.
-
----
-
-## 3. Criteria Template APIs
-
-### `GET /api/v1/staff/events/{eventId}/rounds/{roundId}/criteria-templates`
-> Lấy danh sách criteria template của round. Chỉ lấy template không bị disable.
-
-### `GET /api/v1/staff/events/{eventId}/criteria-templates/{criteriaTemplateId}/items`
-> Lấy danh sách criteria item của 1 template. Chỉ lấy item không bị disable.
-
----
-
-## 4. Track APIs
-
-### `GET /api/v1/staff/events/{eventId}/tracks`
-> Danh sách track của event.
-
-**Filter:** `keyword`, `pageIndex`, `pageSize`
-**Mặc định:** `IsDisable = false`, sắp xếp CreatedAt DESC.
-
-### `GET /api/v1/staff/events/{eventId}/tracks/{trackId}`
-> Chi tiết 1 track. Không trả `IsDisable`.
-
----
-
-## 5. Topic APIs
-
-### `GET /api/v1/staff/events/{eventId}/tracks/{trackId}/topics`
-> Danh sách topic của track.
-
-**Filter:** `keyword`, `pageIndex`, `pageSize`
-**Mặc định:** `IsDisable = false`, sắp xếp CreatedAt DESC.
-
-### `GET /api/v1/staff/events/{eventId}/topics/{topicId}`
-> Chi tiết 1 topic. Không trả `IsDisable`.
-
----
-
-## 6. Assign APIs
-
-### `GET /api/v1/staff/events/{eventId}/lecturers/available`
-> Danh sách Lecturer chưa được phân công vào event này.
-
-**Filter:** `keyword`, `pageIndex`, `pageSize`
-
-### `POST /api/v1/staff/events/{eventId}/assign/users`
-> Phân công Lecturer vào event với role Judge hoặc Mentor.
-
-**Body:** `{ "userId": "guid", "eventRole": "Judge|Mentor" }`
-**Lưu ý:** Staff chỉ assign được Lecturer, không assign được Staff/Admin.
-
-### `GET /api/v1/staff/events/{eventId}/assigned`
-> Danh sách user đã được phân công vào event.
-
-**Filter:** `keyword`, `eventRole`, `role`, `trackId`, `pageIndex`, `pageSize`
-**Mặc định:** Chỉ lấy record không bị disable (`IsDisable = false`).
-
-### `GET /api/v1/staff/events/{eventId}/assigned/{assignEventId}`
-> Chi tiết 1 bản ghi phân công, kèm danh sách track được gán.
-
----
-
-## Controllers
-
-| Controller | File |
-|-----------|------|
-| StaffEventController | `Controllers/Staff/StaffEventController.cs` |
-| StaffRoundController | `Controllers/Staff/StaffRoundController.cs` |
-| StaffTrackController | `Controllers/Staff/StaffTrackController.cs` |
-| StaffTopicController | `Controllers/Staff/StaffTopicController.cs` |
-| StaffCriteriaTemplateController | `Controllers/Staff/StaffCriteriaTemplateController.cs` |
-| StaffAssignController | `Controllers/Staff/StaffAssignController.cs` |
-
-## Services
-
-| Service | Folder |
-|---------|--------|
-| IEventService | `Services/Staff/Event/` |
-| IRoundService | `Services/Staff/Round/` |
-| ITrackService | `Services/Staff/Track/` |
-| ITopicService | `Services/Staff/Topic/` |
-| ICriteriaTemplateService | `Services/Staff/CriteriaTemplate/` |
-| IAssignService | `Services/Staff/Assign/` |
-
-## DI Registration
-
-`Services/Staff/DependencyInjection.cs` — `AddStaffServices()` đăng ký tất cả 6 services.
+### Assign
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/api/v1/staff/events/{eventId}/lecturers/available` | [Lấy danh sách Lecturer có thể phân công](assign/get-available-lecturers.md) |
+| POST | `/api/v1/staff/events/{eventId}/assign/users` | [Phân công Lecturer vào event](assign/assign-lecturer.md) |
+| GET | `/api/v1/staff/events/{eventId}/assigned` | [Lấy danh sách người được phân công vào event](assign/get-assigned-users.md) |
+| GET | `/api/v1/staff/events/{eventId}/assigned/{assignEventId}` | [Xem chi tiết một phân công](assign/get-assign-event-detail.md) |
