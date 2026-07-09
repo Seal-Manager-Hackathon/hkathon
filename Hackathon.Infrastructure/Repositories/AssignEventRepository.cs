@@ -157,7 +157,6 @@ public class AssignEventRepository : IAssignEventRepository
             .Include(ae => ae.Event)
             .Include(ae => ae.EventRole)
             .Where(ae => ae.UserId == userId
-                && !ae.Event.IsDisable
                 && ae.Event.Status != EventStatusEnum.Draft);
 
         if (!string.IsNullOrWhiteSpace(keyword))

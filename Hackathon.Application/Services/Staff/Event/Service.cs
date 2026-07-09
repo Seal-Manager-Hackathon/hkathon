@@ -1,3 +1,4 @@
+using Hackathon.Application.Common.Helpers;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
@@ -9,15 +10,18 @@ namespace Hackathon.Application.Services.Staff.Event;
 
 public class Service : IEventService
 {
+    private readonly IEventRepository _eventRepository;
     private readonly IAssignEventRepository _assignEventRepository;
     private readonly ICurrentUserService _currentUserService;
     private readonly IAuthorizationService _authorizationService;
 
     public Service(
+        IEventRepository eventRepository,
         IAssignEventRepository assignEventRepository,
         ICurrentUserService currentUserService,
         IAuthorizationService authorizationService)
     {
+        _eventRepository = eventRepository;
         _assignEventRepository = assignEventRepository;
         _currentUserService = currentUserService;
         _authorizationService = authorizationService;
@@ -27,9 +31,7 @@ public class Service : IEventService
     {
         _authorizationService.Authorize(RoleEnum.Staff);
 
-        var currentUserId = _currentUserService.UserId;
-        if (!currentUserId.HasValue)
-            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
+        PaginationHelper.Validate(request.PageIndex, request.PageSize);
 
         // Parse status enum
         EventStatusEnum? status = null;
@@ -39,28 +41,28 @@ public class Service : IEventService
             status = parsedStatus;
         }
 
-        var (items, totalCount) = await _assignEventRepository.GetEventsByStaffUserIdAsync(
-            currentUserId.Value, request.Keyword, status,
-            request.FromDate, request.ToDate,
+        var (items, totalCount) = await _eventRepository.SearchAsync(
+            request.Keyword, status,
+            request.FromDate, request.ToDate, request.IsDisable,
             request.PageIndex, request.PageSize);
 
         return new GetMyEventsResponse
         {
-            Items = items.Select(ae => new StaffEventItem
+            Items = items.Select(e => new StaffEventItem
             {
-                Id = ae.Event.Id,
-                Name = ae.Event.Name,
-                Description = ae.Event.Description,
-                Status = ae.Event.Status?.ToString(),
-                NumberRound = ae.Event.NumberRound,
-                Season = ae.Event.Season?.ToString(),
-                StartTime = ae.Event.StartTime,
-                EndTime = ae.Event.EndTime,
-                EventRoleId = ae.EventRoleId,
-                EventRoleName = ae.EventRole?.Name.ToString(),
-                CreatedAt = ae.Event.CreatedAt,
-                UpdatedAt = ae.Event.UpdatedAt,
-                IsDisable = ae.Event.IsDisable
+                Id = e.Id,
+                Name = e.Name,
+                Description = e.Description,
+                Status = e.Status?.ToString(),
+                NumberRound = e.NumberRound,
+                Season = e.Season?.ToString(),
+                StartTime = e.StartTime,
+                EndTime = e.EndTime,
+                EventRoleId = null,
+                EventRoleName = null,
+                CreatedAt = e.CreatedAt,
+                UpdatedAt = e.UpdatedAt,
+                IsDisable = e.IsDisable
             }).ToList(),
             TotalCount = totalCount,
             PageIndex = request.PageIndex,

@@ -1,10 +1,10 @@
 # GET /api/v1/staff/events/my-staff
 
-> Staff lấy danh sách event mà họ được phân công với vai trò Staff (từ `AssignEvents`, `EventRole = Staff`).
+> Staff lấy danh sách event mà họ được phân công với vai trò Staff (từ `AssignEvents`, `EventRole = Staff`), không phân biệt event có bị disable hay không.
 
 ## Nghiệp vụ
 - Chỉ lấy các bản ghi `AssignEvents` mà user hiện tại có **`EventRole = Staff`** và **đang active** (`AssignEvents.IsDisable = false`).
-- Trả về **cả event bị disable** (`Event.IsDisable = true`) — FE dùng field `isDisable` để hiển thị đúng trạng thái.
+- **Trả về tất cả event**, kể cả event bị **disable** (`Event.IsDisable = true`) hay không — FE dùng field `isDisable` để hiển thị đúng trạng thái.
 - Tự động **loại bỏ** event có status `Draft`.
 - Mỗi item trả kèm `eventRoleId` và `eventRoleName` (luôn là `Staff`).
 - Hỗ trợ lọc theo keyword, status, khoảng thời gian.
