@@ -36,4 +36,18 @@ public class AdminLeaderboardController : ControllerBase
         var result = await _leaderboardService.GetChapterLeaderboard(year, pageIndex, pageSize);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpPost("events/chapter/{year:int}/leaderboard/publish")]
+    public async Task<IActionResult> PublishChapter(int year)
+    {
+        await _leaderboardService.PublishChapter(year);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("events/chapter/{year:int}/leaderboard/hide")]
+    public async Task<IActionResult> HideChapter(int year)
+    {
+        await _leaderboardService.HideChapter(year);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
 }

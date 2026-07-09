@@ -104,6 +104,8 @@ Tất cả API Staff đều yêu cầu:
 | GET | `/api/v1/staff/rounds/{roundId}/leaderboard` | [BXH round](leaderboard/get/staff.rounds.leaderboard.md) |
 | GET | `/api/v1/staff/events/{eventId}/leaderboard` | [BXH event](leaderboard/get/staff.events.leaderboard.md) |
 | GET | `/api/v1/staff/events/chapter/{year}/leaderboard` | [BXH chapter theo năm](leaderboard/get/staff.events.chapter-leaderboard.md) |
+| POST | `/api/v1/staff/events/chapter/{year}/leaderboard/publish` | [Công bố leader board chapter](leaderboard/post/staff.chapter.publish.md) |
+| POST | `/api/v1/staff/events/chapter/{year}/leaderboard/hide` | [Ẩn leader board chapter](leaderboard/post/staff.chapter.hide.md) |
 
 ### Team
 | Method | Route | Chức năng |

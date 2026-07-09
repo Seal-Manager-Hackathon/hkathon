@@ -63,6 +63,33 @@ public class EventRepository : IEventRepository
                 && !e.IsDisable)
             .ToListAsync();
 
+    public async Task<List<LeaderBoards>> GetLeaderBoardByYearAsync(int year)
+        => await _context.Set<LeaderBoards>()
+            .Include(lb => lb.Event)
+                .ThenInclude(ev => ev.RegisterTeams)
+                    .ThenInclude(rt => rt.Team)
+            .Include(lb => lb.Event)
+                .ThenInclude(ev => ev.RegisterTeams)
+                    .ThenInclude(rt => rt.Track)
+            .Include(lb => lb.Event)
+                .ThenInclude(ev => ev.RegisterTeams)
+                    .ThenInclude(rt => rt.Topic)
+            .Include(lb => lb.Event)
+                .ThenInclude(ev => ev.RegisterTeams)
+                    .ThenInclude(rt => rt.RoundDetails)
+                        .ThenInclude(rd => rd.Round)
+            .Include(lb => lb.Event)
+                .ThenInclude(ev => ev.RegisterTeams)
+                    .ThenInclude(rt => rt.RoundDetails)
+                        .ThenInclude(rd => rd.Submissions)
+                            .ThenInclude(s => s.Scores)
+                                .ThenInclude(sc => sc.ScoreItems)
+            .Where(lb => lb.Year == year
+                && lb.Event != null
+                && !lb.Event.IsDisable
+                && (lb.Event.Status == EventStatusEnum.Published || lb.Event.Status == EventStatusEnum.Closed))
+            .ToListAsync();
+
     public async Task<List<Events>> GetRecentAsync(int count)
         => await _context.Events
             .OrderByDescending(e => e.CreatedAt)

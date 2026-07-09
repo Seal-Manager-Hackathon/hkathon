@@ -1,3 +1,4 @@
+using Hackathon.Application.Common.Helpers.Leaderboard;
 using Hackathon.Application.Services.Admin;
 using Hackathon.Application.Services.Base;
 using Hackathon.Application.Services.Staff;
@@ -9,6 +10,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
+        services.AddScoped<LeaderboardHelper>();
         services.AddAdminServices();
         services.AddBaseServices();
         services.AddStaffServices();

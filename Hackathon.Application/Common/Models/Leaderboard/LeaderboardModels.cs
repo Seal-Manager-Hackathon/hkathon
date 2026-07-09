@@ -1,4 +1,6 @@
-namespace Hackathon.Application.Services.Admin.Leaderboard;
+namespace Hackathon.Application.Common.Models.Leaderboard;
+
+// ── Round Leaderboard ──
 
 public class GetRoundLeaderboardResponse
 {
@@ -26,6 +28,8 @@ public class RoundLeaderboardItem
     public decimal? TotalScore { get; set; }
 }
 
+// ── Event Leaderboard ──
+
 public class GetEventLeaderboardResponse
 {
     public Guid EventId { get; set; }
@@ -47,9 +51,7 @@ public class EventLeaderboardItem
     public string? TrackTitle { get; set; }
     public Guid? TopicId { get; set; }
     public string? TopicTitle { get; set; }
-    /// <summary>eventScore = weighted avg round scores (weight_i=1)</summary>
     public decimal EventScore { get; set; }
-    /// <summary>Chi tiết điểm từng round</summary>
     public List<RoundScoreDetail> RoundScores { get; set; } = new();
 }
 
@@ -59,6 +61,8 @@ public class RoundScoreDetail
     public string RoundName { get; set; } = string.Empty;
     public decimal ScopeScore { get; set; }
 }
+
+// ── Chapter Leaderboard ──
 
 public class GetChapterLeaderboardResponse
 {
@@ -75,11 +79,8 @@ public class ChapterLeaderboardItem
     public int Rank { get; set; }
     public Guid TeamId { get; set; }
     public string TeamName { get; set; } = string.Empty;
-    /// <summary>chapterScore = AVG(eventScore) của các event team tham gia trong năm</summary>
     public decimal ChapterScore { get; set; }
-    /// <summary>Số event team đã tham gia trong năm</summary>
     public int EventCount { get; set; }
-    /// <summary>Chi tiết điểm từng event</summary>
     public List<EventScoreDetail> EventScores { get; set; } = new();
 }
 
