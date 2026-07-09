@@ -77,3 +77,12 @@ Tất cả API Staff đều yêu cầu:
 | GET | `/api/v1/staff/rounds/{roundId}/submissions` | [DS submission của round](submission/get/staff.submissions.by-round.md) |
 | GET | `/api/v1/staff/register-teams/{registerTeamId}/submissions` | [DS submission của team](submission/get/staff.submissions.by-register-team.md) |
 | GET | `/api/v1/staff/tracks/{trackId}/submissions` | [DS submission của track](submission/get/staff.submissions.by-track.md) |
+
+### Score
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/api/v1/staff/scores/{scoreId}` | [Xem chi tiết score](score/get/staff.scores.detail.md) |
+| GET | `/api/v1/staff/submissions/{submissionId}/grader-scores` | [DS điểm của grader](score/get/staff.scores.grader-scores.md) |
+| GET | `/api/v1/staff/scores/{scoreId}/items` | [DS score items](score/get/staff.scores.items.md) |
+| GET | `/api/v1/staff/rounds/{roundId}/register-teams/{registerTeamId}/scores` | [Điểm team trong round](score/get/staff.scores.team-round.md) |
+| GET | `/api/v1/staff/score-items/{scoreItemId}` | [Xem chi tiết score item](score/get/staff.score-items.detail.md) |
