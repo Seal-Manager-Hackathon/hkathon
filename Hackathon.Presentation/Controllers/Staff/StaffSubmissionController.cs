@@ -1,8 +1,7 @@
 using Hackathon.Application.Common;
 using Hackathon.Application.Common.Models;
-using Hackathon.Application.Services.Admin.Submission;
+using Hackathon.Application.Services.Staff.Submission;
 using Microsoft.AspNetCore.Mvc;
-using StaffSubmissionService = Hackathon.Application.Services.Staff.Submission.ISubmissionService;
 
 namespace Hackathon.Presentation.Controllers.Staff;
 
@@ -10,9 +9,9 @@ namespace Hackathon.Presentation.Controllers.Staff;
 [ApiController]
 public class StaffSubmissionController : ControllerBase
 {
-    private readonly StaffSubmissionService _submissionService;
+    private readonly ISubmissionService _submissionService;
 
-    public StaffSubmissionController(StaffSubmissionService submissionService)
+    public StaffSubmissionController(ISubmissionService submissionService)
     {
         _submissionService = submissionService;
     }

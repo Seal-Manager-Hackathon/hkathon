@@ -1,5 +1,3 @@
-using Hackathon.Application.Services.Admin.Submission;
-
 namespace Hackathon.Application.Services.Staff.Submission;
 
 public interface ISubmissionService

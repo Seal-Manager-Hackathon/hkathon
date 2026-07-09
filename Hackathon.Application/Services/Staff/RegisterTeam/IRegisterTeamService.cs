@@ -1,5 +1,3 @@
-using Hackathon.Application.Services.Admin.RegisterTeam;
-
 namespace Hackathon.Application.Services.Staff.RegisterTeam;
 
 public interface IRegisterTeamService

@@ -1,8 +1,7 @@
 using Hackathon.Application.Common;
 using Hackathon.Application.Common.Models;
-using Hackathon.Application.Services.Admin.RegisterTeam;
+using Hackathon.Application.Services.Staff.RegisterTeam;
 using Microsoft.AspNetCore.Mvc;
-using StaffService = Hackathon.Application.Services.Staff.RegisterTeam.IRegisterTeamService;
 
 namespace Hackathon.Presentation.Controllers.Staff;
 
@@ -10,9 +9,9 @@ namespace Hackathon.Presentation.Controllers.Staff;
 [ApiController]
 public class StaffRegisterTeamController : ControllerBase
 {
-    private readonly StaffService _registerTeamService;
+    private readonly IRegisterTeamService _registerTeamService;
 
-    public StaffRegisterTeamController(StaffService registerTeamService)
+    public StaffRegisterTeamController(IRegisterTeamService registerTeamService)
     {
         _registerTeamService = registerTeamService;
     }
