@@ -79,6 +79,9 @@ public class SubmissionRepository : ISubmissionRepository
             query = query.Where(rd => rd.RegisterTeam.Team.Name.ToLower().Contains(kw));
         }
 
+        // Only show teams that have submitted at least once
+        query = query.Where(rd => rd.Submissions.Count > 0);
+
         var totalCount = await query.CountAsync();
 
         var items = await query

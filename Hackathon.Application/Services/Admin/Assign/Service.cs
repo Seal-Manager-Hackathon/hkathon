@@ -160,6 +160,7 @@ public class Service : IAssignService
                 {
                     TrackId = at.TrackId,
                     Title = at.Track.Title,
+                    EventId = ae.EventId,
                     IsDisable = at.IsDisable
                 }).ToList()
             }).ToList(),
@@ -241,7 +242,7 @@ public class Service : IAssignService
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
-        var assignEvent = await _assignEventRepository.GetByIdAsync(assignEventId);
+        var assignEvent = await _assignEventRepository.GetByIdWithTracksAsync(assignEventId);
         if (assignEvent == null)
             throw new NotFoundException("Assign Event Not Found");
 
@@ -251,6 +252,13 @@ public class Service : IAssignService
         assignEvent.IsDisable = true;
         assignEvent.UpdatedAt = DateTimeOffset.UtcNow;
 
+        // Disable all associated tracks
+        foreach (var track in assignEvent.AssignTracks)
+        {
+            track.IsDisable = true;
+            track.UpdatedAt = DateTimeOffset.UtcNow;
+        }
+
         _assignEventRepository.Update(assignEvent);
         await _unitOfWork.SaveChangesAsync();
     }
@@ -259,7 +267,7 @@ public class Service : IAssignService
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
-        var assignEvent = await _assignEventRepository.GetByIdAsync(assignEventId);
+        var assignEvent = await _assignEventRepository.GetByIdWithTracksAsync(assignEventId);
         if (assignEvent == null)
             throw new NotFoundException("Assign Event Not Found");
 
@@ -268,6 +276,13 @@ public class Service : IAssignService
 
         assignEvent.IsDisable = false;
         assignEvent.UpdatedAt = DateTimeOffset.UtcNow;
+
+        // Restore all associated tracks
+        foreach (var track in assignEvent.AssignTracks)
+        {
+            track.IsDisable = false;
+            track.UpdatedAt = DateTimeOffset.UtcNow;
+        }
 
         _assignEventRepository.Update(assignEvent);
         await _unitOfWork.SaveChangesAsync();

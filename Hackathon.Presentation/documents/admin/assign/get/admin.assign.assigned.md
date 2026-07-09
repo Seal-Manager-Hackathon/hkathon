@@ -49,6 +49,7 @@ Liên quan: [xóa phân công event](../post/admin.assign.event-remove.md), [res
           {
             "trackId": "guid",
             "title": "AI Track",
+            "eventId": "guid",
             "isDisable": false
           }
         ]
@@ -75,6 +76,7 @@ Liên quan: [xóa phân công event](../post/admin.assign.event-remove.md), [res
 | `eventRole` | Vai trò trong event: Staff, Judge, Mentor |
 | **`isDisable`** | Trạng thái của bản ghi phân công: `false` = đang active, `true` = đã bị xóa mềm |
 | `assignTracks` | Danh sách track được gán cho user này trong event |
+| `assignTracks[].eventId` | ID của event (từ AssignEvents) |
 | `assignTracks[].isDisable` | Trạng thái của track được gán: `false` = active, `true` = đã bị xóa mềm |
 
 ## Lỗi

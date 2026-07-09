@@ -33,6 +33,7 @@ public class AssignedTrackItem
 {
     public Guid TrackId { get; set; }
     public string Title { get; set; } = string.Empty;
+    public Guid EventId { get; set; }
     public bool IsDisable { get; set; }
 }
 

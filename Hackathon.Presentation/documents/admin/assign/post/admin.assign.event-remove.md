@@ -1,12 +1,12 @@
 # POST /api/v1/admin/assign/event-assigns/{assignEventId}/remove
 
-> Admin xóa mềm (disable) một phân công user khỏi event.
+> Admin xóa mềm (disable) một phân công user khỏi event, kèm tất cả track được gán cho user đó trong event.
 
 ## Nghiệp vụ
 
-Admin muốn xóa một user đã được phân công khỏi event. Hệ thống sẽ xóa mềm: đặt IsDisable = true trên bản ghi AssignEvents.
+Admin muốn xóa một user đã được phân công khỏi event. Hệ thống sẽ xóa mềm: đặt IsDisable = true trên bản ghi AssignEvents, đồng thời disable tất cả track mà user đó đã được phân công trong event này.
 
-Sau khi xóa, user này sẽ không còn xuất hiện trong danh sách GET /assigned. Dữ liệu vẫn tồn tại trong DB, có thể khôi phục lại bằng API restore.
+Sau khi xóa, user này và các track liên quan sẽ không còn xuất hiện trong danh sách GET /assigned. Dữ liệu vẫn tồn tại trong DB, có thể khôi phục lại bằng API restore.
 
 ## Phân quyền
 - ✅ Admin
