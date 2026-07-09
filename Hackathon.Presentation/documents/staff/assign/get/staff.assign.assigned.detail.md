@@ -1,23 +1,23 @@
 # GET /api/v1/staff/events/{eventId}/assigned/{assignEventId}
 
-> Staff xem chi tiet mot ban ghi phan cong trong event.
+> Staff xem chi tiết một Bản ghi phân công trong event.
 
-## Nghiep vu
-- Staff phai duoc phan cong vao event tuong ung.
-- Tra ve thong tin chi tiet assign: user, vai tro, cac track duoc gan, thoi gian tao/cap nhat.
-- Neu assign bi disable (`IsDisable = true`), API tra ve 404.
-- Chi lay track co `IsDisable = false`.
+## Nghiệp vụ
+- Staff phải được phân công vào event tương ứng.
+- Trả về thông tin chi tiết assign: user, vai trò, các track được gắn, thời gian tạo/cập nhật.
+- Nếu assign bị disable (`IsDisable = true`), API trả về 404.
+- Chỉ lấy track có `IsDisable = false`.
 
-## Phan quyen
-- ✅ Staff (phai duoc phan cong vao event tuong ung)
+## Phân quyền
+- ✅ Staff (phải được phân công vào event tương ứng)
 
 ## Request
 
 ### Route Parameters
-| Parameter | Type | Bat buoc | Vi du | Ghi chu |
+| Parameter | Type | Bắt buộc | Ví dụ | Ghi chú |
 |-----------|------|----------|-------|---------|
-| eventId | Guid | Co | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID cua event |
-| assignEventId | Guid | Co | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID cua ban ghi assign trong bang `AssignEvents` |
+| eventId | Guid | Có | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID của event |
+| assignEventId | Guid | Có | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID của Bản ghi assign trong bảng `AssignEvents` |
 
 ## Response (200)
 ```json
@@ -50,9 +50,9 @@
 }
 ```
 
-## Loi
-| Status | message | Khi nao | FE xu ly |
+## Lỗi
+| Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
-| 401 | Invalid Or Expired Token | Token het han/thieu | Chuyen ve trang login |
-| 403 | You do not have permission to perform this action | Khong phai Staff hoac khong duoc phan cong vao event | Hien thi thong bao khong co quyen |
-| 404 | Resource Not Found | AssignEventId khong ton tai hoac da bi disable | Hien thi thong bao khong tim thay |
+| 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Chuyển về trang login |
+| 403 | You do not have permission to perform this action | Không phải Staff hoặc không được phân công vào event | Hiển thị thông báo Không có quyền |
+| 404 | Resource Not Found | AssignEventId không tồn tại hoặc đã bị disable | Hiển thị thông báo Không tìm thấy |

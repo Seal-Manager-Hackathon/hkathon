@@ -1,29 +1,29 @@
 # GET /api/v1/staff/events/{eventId}/lecturers/available
 
-> Staff lay danh sach Lecturer chua duoc phan cong vao event.
+> Staff lấy danh sách Lecturer chưa được phân công vào event.
 
-## Nghiep vu
-- Staff phai duoc phan cong vao event tuong ung.
-- Chi tra ve user co role = `Lecturer`.
-- Chi lay Lecturer chua duoc assign vao event nay.
-- Staff chi co the assign Lecturer voi EventRole la `Judge` hoac `Mentor`.
+## Nghiệp vụ
+- Staff phải được phân công vào event tương ứng.
+- Chỉ trả về user có role = `Lecturer`.
+- Chỉ lấy Lecturer chưa được assign vào event này.
+- Staff chỉ có thể assign Lecturer với EventRole là `Judge` hoặc `Mentor`.
 
-## Phan quyen
-- ✅ Staff (phai duoc phan cong vao event tuong ung)
+## Phân quyền
+- ✅ Staff (phải được phân công vào event tương ứng)
 
 ## Request
 
 ### Route Parameters
-| Parameter | Type | Bat buoc | Vi du | Ghi chu |
+| Parameter | Type | Bắt buộc | Ví dụ | Ghi chú |
 |-----------|------|----------|-------|---------|
-| eventId | Guid | Co | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID cua event |
+| eventId | Guid | Có | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID của event |
 
 ### Query Parameters
-| Parameter | Type | Bat buoc | Vi du | Ghi chu |
+| Parameter | Type | Bắt buộc | Ví dụ | Ghi chú |
 |-----------|------|----------|-------|---------|
-| Keyword | string | Khong | nguyen van a | Tim kiem theo email hoac fullname |
-| PageIndex | int | Khong (mac dinh 1) | 1 | Trang hien tai |
-| PageSize | int | Khong (mac dinh 10) | 10 | So luong item moi trang |
+| Keyword | string | Không | nguyen van a | Tìm kiếm theo email hoặc fullname |
+| PageIndex | int | Không (mặc định 1) | 1 | Trang hiện tại |
+| PageSize | int | Không (mặc định 10) | 10 | Số lượng item mỗi trang |
 
 ## Response (200)
 ```json
@@ -53,8 +53,8 @@
 }
 ```
 
-## Loi
-| Status | message | Khi nao | FE xu ly |
+## Lỗi
+| Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
-| 401 | Invalid Or Expired Token | Token het han/thieu | Chuyen ve trang login |
-| 403 | You do not have permission to perform this action | Khong phai Staff hoac khong duoc phan cong vao event | Hien thi thong bao khong co quyen |
+| 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Chuyển về trang login |
+| 403 | You do not have permission to perform this action | Không phải Staff hoặc không được phân công vào event | Hiển thị thông báo Không có quyền |

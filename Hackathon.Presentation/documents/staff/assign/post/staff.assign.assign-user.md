@@ -1,29 +1,29 @@
 # POST /api/v1/staff/events/{eventId}/assign/users
 
-> Staff phan cong Lecturer vao event voi vai tro Judge hoac Mentor.
+> Staff phân công Lecturer vào event với vai trò Judge hoặc Mentor.
 
-## Nghiep vu
-- Staff phai duoc phan cong vao event tuong ung.
-- Chi co the assign user co role = `Lecturer`.
-- EventRole hop le: `Judge` hoac `Mentor` — khong the assign role `Staff`.
-- Moi Lecturer chi duoc assign vao mot event mot lan (kiem tra duplicate).
-- Staff assign dua tren `UserId` cua Lecturer.
+## Nghiệp vụ
+- Staff phải được phân công vào event tương ứng.
+- Chỉ có thể assign user có role = `Lecturer`.
+- EventRole hợp lệ: `Judge` hoặc `Mentor` — Không thể assign role `Staff`.
+- Mỗi Lecturer chỉ được assign vào một event một lần (kiểm tra duplicate).
+- Staff assign dựa trên `UserId` của Lecturer.
 
-## Phan quyen
-- ✅ Staff (phai duoc phan cong vao event tuong ung)
+## Phân quyền
+- ✅ Staff (phải được phân công vào event tương ứng)
 
 ## Request
 
 ### Route Parameters
-| Parameter | Type | Bat buoc | Vi du | Ghi chu |
+| Parameter | Type | Bắt buộc | Ví dụ | Ghi chú |
 |-----------|------|----------|-------|---------|
-| eventId | Guid | Co | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID cua event |
+| eventId | Guid | Có | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID của event |
 
 ### Body (JSON)
-| Field | Type | Bat buoc | Vi du | Ghi chu |
+| Field | Type | Bắt buộc | Ví dụ | Ghi chú |
 |-------|------|----------|-------|---------|
-| userId | Guid | Co | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID cua Lecturer can assign |
-| eventRole | string | Co | Judge | Vai tro trong event: `Judge` hoac `Mentor` |
+| userId | Guid | Có | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID của Lecturer cần assign |
+| eventRole | string | Có | Judge | Vai trò trong event: `Judge` hoặc `Mentor` |
 
 ## Response (201)
 ```json
@@ -38,14 +38,14 @@
 }
 ```
 
-## Loi
-| Status | message | Khi nao | FE xu ly |
+## Lỗi
+| Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
-| 400 | Can Only Assign Lecturer To Event | User khong phai Lecturer | Hien thi thong bao loi |
-| 400 | Staff Cannot Assign Staff Role | EventRole la `Staff` | Hien thi thong bao loi |
-| 400 | Invalid EventRole | EventRole khong phai Judge/Mentor | Hien thi thong bao loi |
-| 401 | Invalid Or Expired Token | Token het han/thieu | Chuyen ve trang login |
-| 403 | You do not have permission to perform this action | Khong phai Staff hoac khong duoc phan cong vao event | Hien thi thong bao khong co quyen |
-| 404 | User Not Found | UserId khong ton tai | Hien thi thong bao khong tim thay |
-| 404 | Event Role Not Found | EventRole khong ton tai trong he thong | Hien thi thong bao loi |
-| 409 | User Is Already Assigned To This Event | Lecturer da duoc assign vao event nay | Hien thi thong bao trung lap |
+| 400 | Can Only Assign Lecturer To Event | User không phải Lecturer | Hiển thị thông báo lỗi |
+| 400 | Staff Cannot Assign Staff Role | EventRole là `Staff` | Hiển thị thông báo lỗi |
+| 400 | Invalid EventRole | EventRole không phải Judge/Mentor | Hiển thị thông báo lỗi |
+| 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Chuyển về trang login |
+| 403 | You do not have permission to perform this action | Không phải Staff hoặc không được phân công vào event | Hiển thị thông báo Không có quyền |
+| 404 | User Not Found | UserId không tồn tại | Hiển thị thông báo Không tìm thấy |
+| 404 | Event Role Not Found | EventRole không tồn tại trong hệ thống | Hiển thị thông báo lỗi |
+| 409 | User Is Already Assigned To This Event | Lecturer đã được assign vào event này | Hiển thị thông báo trùng lặp |

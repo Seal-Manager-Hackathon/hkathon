@@ -1,22 +1,22 @@
 # GET /api/v1/staff/events/{eventId}/criteria-templates/{criteriaTemplateId}/items
 
-> Staff xem danh sach criteria items cua mot criteria template.
+> Staff xem danh sách criteria items của một criteria template.
 
-## Nghiep vu
-- Staff phai duoc phan cong vao event tuong ung.
-- Chi tra ve item co `IsDisable = false`.
-- Entity `CriteriaItem` dung field `Score` anh xa sang `maxScore` trong response.
+## Nghiệp vụ
+- Staff phải được phân công vào event tương ứng.
+- Chỉ trả về item có `IsDisable = false`.
+- Entity `CriteriaItem` dùng field `Score` ánh xạ sang `maxScore` trong response.
 
-## Phan quyen
-- ✅ Staff (phai duoc phan cong vao event tuong ung)
+## Phân quyền
+- ✅ Staff (phải được phân công vào event tương ứng)
 
 ## Request
 
 ### Route Parameters
-| Parameter | Type | Bat buoc | Vi du | Ghi chu |
+| Parameter | Type | Bắt buộc | Ví dụ | Ghi chú |
 |-----------|------|----------|-------|---------|
-| eventId | Guid | Co | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID cua event |
-| criteriaTemplateId | Guid | Co | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID cua criteria template |
+| eventId | Guid | Có | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID của event |
+| criteriaTemplateId | Guid | Có | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID của criteria template |
 
 ## Response (200)
 ```json
@@ -26,8 +26,8 @@
       {
         "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         "criteriaTemplateId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "name": "Tinh sang tao",
-        "description": "Y tuong co tinh moi va sang tao",
+        "name": "Tính sáng tạo",
+        "description": "Ý tưởng có tính mới và sáng tạo",
         "maxScore": 30,
         "isDisable": false,
         "createdAt": "2026-05-01T00:00:00Z",
@@ -44,9 +44,9 @@
 }
 ```
 
-## Loi
-| Status | message | Khi nao | FE xu ly |
+## Lỗi
+| Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
-| 401 | Invalid Or Expired Token | Token het han/thieu | Chuyen ve trang login |
-| 403 | You do not have permission to perform this action | Khong phai Staff hoac khong duoc phan cong vao event | Hien thi thong bao khong co quyen |
-| 404 | Resource Not Found | CriteriaTemplateId khong ton tai | Hien thi thong bao khong tim thay |
+| 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Chuyển về trang login |
+| 403 | You do not have permission to perform this action | Không phải Staff hoặc không được phân công vào event | Hiển thị thông báo Không có quyền |
+| 404 | Resource Not Found | CriteriaTemplateId không tồn tại | Hiển thị thông báo Không tìm thấy |

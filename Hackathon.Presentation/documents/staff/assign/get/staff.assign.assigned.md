@@ -1,32 +1,32 @@
 # GET /api/v1/staff/events/{eventId}/assigned
 
-> Staff lay danh sach user da duoc phan cong trong event.
+> Staff lấy danh sách user đã được phân công trong event.
 
-## Nghiep vu
-- Staff phai duoc phan cong vao event tuong ung.
-- Tra ve danh sach user da duoc assign vao event, kem thong tin tracks ho duoc phan cong.
-- Moi user co the duoc gan vao nhieu track thong qua bang `AssignTracks`.
-- Ho tro loc theo keyword, EventRole, Role (User role), TrackId.
+## Nghiệp vụ
+- Staff phải được phân công vào event tương ứng.
+- Trả về danh sách user đã được assign vào event, kèm thông tin tracks họ được phân công.
+- Mỗi user có thể được gắn vào nhiều track thông qua bảng `AssignTracks`.
+- Hỗ trợ lọc theo keyword, EventRole, Role (User role), TrackId.
 
-## Phan quyen
-- ✅ Staff (phai duoc phan cong vao event tuong ung)
+## Phân quyền
+- ✅ Staff (phải được phân công vào event tương ứng)
 
 ## Request
 
 ### Route Parameters
-| Parameter | Type | Bat buoc | Vi du | Ghi chu |
+| Parameter | Type | Bắt buộc | Ví dụ | Ghi chú |
 |-----------|------|----------|-------|---------|
-| eventId | Guid | Co | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID cua event |
+| eventId | Guid | Có | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID của event |
 
 ### Query Parameters
-| Parameter | Type | Bat buoc | Vi du | Ghi chu |
+| Parameter | Type | Bắt buộc | Ví dụ | Ghi chú |
 |-----------|------|----------|-------|---------|
-| Keyword | string | Khong | nguyen van a | Tim kiem theo email hoac fullname |
-| EventRole | string | Khong | Judge | Loc theo event role: `Mentor`, `Judge`, `Staff` |
-| Role | string | Khong | Lecturer | Loc theo user role: `Admin`, `Staff`, `Student`, `Lecturer` |
-| TrackId | Guid | Khong | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | Loc theo track duoc phan cong |
-| PageIndex | int | Khong (mac dinh 1) | 1 | Trang hien tai |
-| PageSize | int | Khong (mac dinh 10) | 10 | So luong item moi trang |
+| Keyword | string | Không | nguyen van a | Tìm kiếm theo email hoặc fullname |
+| EventRole | string | Không | Judge | Lọc theo event role: `Mentor`, `Judge`, `Staff` |
+| Role | string | Không | Lecturer | Lọc theo user role: `Admin`, `Staff`, `Student`, `Lecturer` |
+| TrackId | Guid | Không | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | Lọc theo track được phân công |
+| PageIndex | int | Không (mặc định 1) | 1 | Trang hiện tại |
+| PageSize | int | Không (mặc định 10) | 10 | Số lượng item mỗi trang |
 
 ## Response (200)
 ```json
@@ -63,10 +63,10 @@
 }
 ```
 
-## Loi
-| Status | message | Khi nao | FE xu ly |
+## Lỗi
+| Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
-| 400 | Invalid EventRole | EventRole khong hop le | Hien thi thong bao loi |
-| 400 | PageIndex/PageSize invalid | PageIndex hoac PageSize khong hop le | Hien thi thong bao loi |
-| 401 | Invalid Or Expired Token | Token het han/thieu | Chuyen ve trang login |
-| 403 | You do not have permission to perform this action | Khong phai Staff hoac khong duoc phan cong vao event | Hien thi thong bao khong co quyen |
+| 400 | Invalid EventRole | EventRole không hợp lệ | Hiển thị thông báo lỗi |
+| 400 | PageIndex/PageSize invalid | PageIndex hoặc PageSize không hợp lệ | Hiển thị thông báo lỗi |
+| 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Chuyển về trang login |
+| 403 | You do not have permission to perform this action | Không phải Staff hoặc không được phân công vào event | Hiển thị thông báo Không có quyền |

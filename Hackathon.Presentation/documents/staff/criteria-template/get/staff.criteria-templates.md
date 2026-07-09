@@ -2,21 +2,21 @@
 
 > Staff xem danh sách criteria template của round.
 
-## Nghiep vu
-- Staff phai duoc phan cong vao event tuong ung.
-- Chi tra ve template co `IsDisable = false`.
-- Entity `CriteriaTemplate` dung field `Title` anh xa sang `name` trong response.
+## Nghiệp vụ
+- Staff phải được phân công vào event tương ứng.
+- Chỉ trả về template có `IsDisable = false`.
+- Entity `CriteriaTemplate` dùng field `Title` ánh xạ sang `name` trong response.
 
-## Phan quyen
-- ✅ Staff (phai duoc phan cong vao event tuong ung)
+## Phân quyền
+- ✅ Staff (phải được phân công vào event tương ứng)
 
 ## Request
 
 ### Route Parameters
-| Parameter | Type | Bat buoc | Vi du | Ghi chu |
+| Parameter | Type | Bắt buộc | Ví dụ | Ghi chú |
 |-----------|------|----------|-------|---------|
-| eventId | Guid | Co | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID cua event |
-| roundId | Guid | Co | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID cua round |
+| eventId | Guid | Có | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID của event |
+| roundId | Guid | Có | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID của round |
 
 ## Response (200)
 ```json
@@ -26,8 +26,8 @@
       {
         "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         "roundId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "name": "Tieu chi cham diem vong loai",
-        "description": "Danh gia y tuong va kha thi",
+        "name": "Tiêu chí chấm điểm vòng loại",
+        "description": "Đánh giá ý tưởng và khả thi",
         "isDisable": false,
         "createdAt": "2026-05-01T00:00:00Z",
         "updatedAt": "2026-06-01T00:00:00Z"
@@ -43,9 +43,9 @@
 }
 ```
 
-## Loi
-| Status | message | Khi nao | FE xu ly |
+## Lỗi
+| Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
-| 401 | Invalid Or Expired Token | Token het han/thieu | Chuyen ve trang login |
-| 403 | You do not have permission to perform this action | Khong phai Staff hoac khong duoc phan cong vao event | Hien thi thong bao khong co quyen |
-| 404 | Resource Not Found | RoundId khong ton tai | Hien thi thong bao khong tim thay |
+| 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Chuyển về trang login |
+| 403 | You do not have permission to perform this action | Không phải Staff hoặc không được phân công vào event | Hiển thị thông báo Không có quyền |
+| 404 | Resource Not Found | RoundId không tồn tại | Hiển thị thông báo Không tìm thấy |
