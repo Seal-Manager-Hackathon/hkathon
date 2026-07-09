@@ -12,6 +12,7 @@ public class Service : IAssignService
 {
     private readonly IUserRepository _userRepository;
     private readonly IAssignEventRepository _assignEventRepository;
+    private readonly ITrackRepository _trackRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICurrentUserService _currentUserService;
     private readonly IAuthorizationService _authorizationService;
@@ -19,12 +20,14 @@ public class Service : IAssignService
     public Service(
         IUserRepository userRepository,
         IAssignEventRepository assignEventRepository,
+        ITrackRepository trackRepository,
         IUnitOfWork unitOfWork,
         ICurrentUserService currentUserService,
         IAuthorizationService authorizationService)
     {
         _userRepository = userRepository;
         _assignEventRepository = assignEventRepository;
+        _trackRepository = trackRepository;
         _unitOfWork = unitOfWork;
         _currentUserService = currentUserService;
         _authorizationService = authorizationService;
@@ -187,5 +190,163 @@ public class Service : IAssignService
             CreatedAt = assignEvent.CreatedAt,
             UpdatedAt = assignEvent.UpdatedAt
         };
+    }
+
+    public async Task RemoveAssignEvent(Guid assignEventId)
+    {
+        _authorizationService.Authorize(RoleEnum.Staff);
+
+        var assignEvent = await _assignEventRepository.GetByIdWithTracksAsync(assignEventId);
+        if (assignEvent == null)
+            throw new NotFoundException("Assign Event Not Found");
+
+        // Staff can only affect Lecturers — cannot remove Staff from event
+        if (assignEvent.User.Role != RoleEnum.Lecturer)
+            throw new BadRequestException("Can Only Remove Lecturer From Event");
+
+        await StaffAssignmentHelper.ValidateAndGetAssignmentAsync(
+            _assignEventRepository, _currentUserService, assignEvent.EventId);
+
+        if (assignEvent.IsDisable)
+            throw new BadRequestException("Assign Event Is Already Removed");
+
+        assignEvent.IsDisable = true;
+        assignEvent.UpdatedAt = DateTimeOffset.UtcNow;
+
+        // Cascade soft-delete all associated tracks
+        foreach (var track in assignEvent.AssignTracks)
+        {
+            track.IsDisable = true;
+            track.UpdatedAt = DateTimeOffset.UtcNow;
+        }
+
+        _assignEventRepository.Update(assignEvent);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task RestoreAssignEvent(Guid assignEventId)
+    {
+        _authorizationService.Authorize(RoleEnum.Staff);
+
+        var assignEvent = await _assignEventRepository.GetByIdWithTracksAsync(assignEventId);
+        if (assignEvent == null)
+            throw new NotFoundException("Assign Event Not Found");
+
+        // Staff can only affect Lecturers — cannot restore Staff
+        if (assignEvent.User.Role != RoleEnum.Lecturer)
+            throw new BadRequestException("Can Only Restore Lecturer");
+
+        await StaffAssignmentHelper.ValidateAndGetAssignmentAsync(
+            _assignEventRepository, _currentUserService, assignEvent.EventId);
+
+        if (!assignEvent.IsDisable)
+            throw new BadRequestException("Assign Event Is Already Active");
+
+        assignEvent.IsDisable = false;
+        assignEvent.UpdatedAt = DateTimeOffset.UtcNow;
+
+        // Cascade restore all associated tracks
+        foreach (var track in assignEvent.AssignTracks)
+        {
+            track.IsDisable = false;
+            track.UpdatedAt = DateTimeOffset.UtcNow;
+        }
+
+        _assignEventRepository.Update(assignEvent);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task AssignTrackToEvent(Guid assignEventId, Guid trackId)
+    {
+        _authorizationService.Authorize(RoleEnum.Staff);
+
+        var assignEvent = await _assignEventRepository.GetByIdWithTracksAsync(assignEventId);
+        if (assignEvent == null)
+            throw new NotFoundException("Assign Event Not Found");
+
+        // Staff can only assign tracks to Lecturers
+        if (assignEvent.User.Role != RoleEnum.Lecturer)
+            throw new BadRequestException("Can Only Assign Track To Lecturer");
+
+        await StaffAssignmentHelper.ValidateAndGetAssignmentAsync(
+            _assignEventRepository, _currentUserService, assignEvent.EventId);
+
+        var track = await _trackRepository.GetByIdAsync(trackId);
+        if (track == null)
+            throw new NotFoundException("Track Not Found");
+
+        if (track.EventId != assignEvent.EventId)
+            throw new BadRequestException("Track Does Not Belong To The Same Event");
+
+        var isAssigned = await _assignEventRepository.IsTrackAssignedAsync(assignEventId, trackId);
+        if (isAssigned)
+            throw new ConflictException("Track Is Already Assigned To This User");
+
+        var assignTrack = new Hackathon.Domain.Entities.AssignTracks
+        {
+            Id = Guid.NewGuid(),
+            AssignEventId = assignEventId,
+            TrackId = trackId,
+            CreatedAt = DateTimeOffset.UtcNow,
+            UpdatedAt = DateTimeOffset.UtcNow
+        };
+
+        _assignEventRepository.AddAssignTrack(assignTrack);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task RemoveTrackFromEvent(Guid assignEventId, Guid trackId)
+    {
+        _authorizationService.Authorize(RoleEnum.Staff);
+
+        var assignEvent = await _assignEventRepository.GetByIdWithTracksAsync(assignEventId);
+        if (assignEvent == null)
+            throw new NotFoundException("Assign Event Not Found");
+
+        // Staff can only affect Lecturers' tracks
+        if (assignEvent.User.Role != RoleEnum.Lecturer)
+            throw new BadRequestException("Can Only Modify Lecturer's Tracks");
+
+        await StaffAssignmentHelper.ValidateAndGetAssignmentAsync(
+            _assignEventRepository, _currentUserService, assignEvent.EventId);
+
+        var assignTrack = await _assignEventRepository.GetAssignTrackAsync(assignEventId, trackId);
+        if (assignTrack == null)
+            throw new NotFoundException("Assign Track Not Found");
+
+        assignTrack.IsDisable = true;
+        assignTrack.UpdatedAt = DateTimeOffset.UtcNow;
+
+        _assignEventRepository.RemoveAssignTrack(assignTrack);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task RestoreTrackToEvent(Guid assignEventId, Guid trackId)
+    {
+        _authorizationService.Authorize(RoleEnum.Staff);
+
+        var assignEvent = await _assignEventRepository.GetByIdWithTracksAsync(assignEventId);
+        if (assignEvent == null)
+            throw new NotFoundException("Assign Event Not Found");
+
+        // Staff can only affect Lecturers' tracks
+        if (assignEvent.User.Role != RoleEnum.Lecturer)
+            throw new BadRequestException("Can Only Modify Lecturer's Tracks");
+
+        await StaffAssignmentHelper.ValidateAndGetAssignmentAsync(
+            _assignEventRepository, _currentUserService, assignEvent.EventId);
+
+        var assignTrack = await _assignEventRepository.GetAssignTrackAnyAsync(assignEventId, trackId);
+        if (assignTrack == null)
+            throw new NotFoundException("Assign Track Not Found");
+
+        if (!assignTrack.IsDisable)
+            throw new BadRequestException("Assign Track Is Already Active");
+
+        assignTrack.IsDisable = false;
+        assignTrack.UpdatedAt = DateTimeOffset.UtcNow;
+
+        _assignEventRepository.RestoreAssignTrack(assignTrack);
+        await _unitOfWork.SaveChangesAsync();
     }
 }

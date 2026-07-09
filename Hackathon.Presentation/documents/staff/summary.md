@@ -51,6 +51,11 @@ Tất cả API Staff đều yêu cầu:
 | POST | `/api/v1/staff/events/{eventId}/assign/users` | [Phân công Lecturer vào event](assign/post/staff.assign.assign-user.md) |
 | GET | `/api/v1/staff/events/{eventId}/assigned` | [Lấy danh sách người được phân công vào event](assign/get/staff.assign.assigned.md) |
 | GET | `/api/v1/staff/events/{eventId}/assigned/{assignEventId}` | [Xem chi tiết một phân công](assign/get/staff.assign.assigned.detail.md) |
+| POST | `/api/v1/staff/event-assigns/{assignEventId}/remove` | [Xóa mềm Lecturer khỏi event (cascade tracks)](assign/post/staff.assign.event-remove.md) |
+| POST | `/api/v1/staff/event-assigns/{assignEventId}/restore` | [Khôi phục Lecturer vào event (cascade tracks)](assign/post/staff.assign.event-restore.md) |
+| POST | `/api/v1/staff/event-assigns/{assignEventId}/tracks` | [Phân công track cho Lecturer](assign/post/staff.assign.tracks.assign.md) |
+| POST | `/api/v1/staff/event-assigns/{assignEventId}/tracks/{trackId}/remove` | [Xóa track khỏi Lecturer](assign/post/staff.assign.tracks.remove.md) |
+| POST | `/api/v1/staff/event-assigns/{assignEventId}/tracks/{trackId}/restore` | [Khôi phục track cho Lecturer](assign/post/staff.assign.tracks.restore.md) |
 
 ### Register Team
 | Method | Route | Chức năng |
