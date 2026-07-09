@@ -1,11 +1,11 @@
 # GET /api/v1/staff/events/{eventId}/assigned
 
-> Staff lấy danh sách user đã được phân công trong event.
+> Staff lấy danh sách user đã được phân công trong event (chỉ các bản ghi đang active).
 
 ## Nghiệp vụ
 - Staff phải được phân công vào event tương ứng.
-- Trả về danh sách user đã được assign vào event, kèm thông tin tracks họ được phân công.
-- Mỗi user có thể được gắn vào nhiều track thông qua bảng `AssignTracks`.
+- Trả về danh sách user đã được assign vào event, **chỉ các bản ghi đang active** (`IsDisable = false`).
+- Mỗi user có thể được gắn vào nhiều track — chỉ lấy track đang active (`IsDisable = false`).
 - Hỗ trợ lọc theo keyword, EventRole, Role (User role), TrackId.
 
 ## Phân quyền

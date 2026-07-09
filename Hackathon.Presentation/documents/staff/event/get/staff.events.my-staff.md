@@ -1,17 +1,19 @@
-# GET /api/v1/staff/events
+# GET /api/v1/staff/events/my-staff
 
-> Staff lấy danh sách event được phân công cho họ (từ `AssignEvents`), không phân biệt EventRole.
+> Staff lấy danh sách event mà họ được phân công với vai trò Staff (từ `AssignEvents`, `EventRole = Staff`).
 
 ## Nghiệp vụ
-- Staff có thể xem tất cả event mà họ được phân công (dựa trên `AssignEvents`), không phân biệt `EventRole`.
-- Tự động **loại bỏ** event có **status `Draft`** hoặc **bị disable** (`Event.IsDisable = true`).
+- Chỉ lấy các bản ghi `AssignEvents` mà user hiện tại có **`EventRole = Staff`** và **đang active** (`AssignEvents.IsDisable = false`).
+- Trả về **cả event bị disable** (`Event.IsDisable = true`) — FE dùng field `isDisable` để hiển thị đúng trạng thái.
+- Tự động **loại bỏ** event có status `Draft`.
+- Mỗi item trả kèm `eventRoleId` và `eventRoleName` (luôn là `Staff`).
 - Hỗ trợ lọc theo keyword, status, khoảng thời gian.
 - Hỗ trợ phân trang.
 
-> API này lấy tất cả event staff được phân công. Để lấy event với vai trò Staff (EventRole=Staff, AssignEvents active), dùng [GET /api/v1/staff/events/my-staff](staff.events.my-staff.md).
+> API này chỉ lấy event có EventRole=Staff. Để lấy tất cả event được phân công (mọi EventRole), dùng [GET /api/v1/staff/events](staff.events.md).
 
 ## Phân quyền
-- ✅ Staff (phải được assign vào event)
+- ✅ Staff (phải có bản ghi AssignEvents với EventRole = Staff và IsDisable = false)
 
 ## Request
 | Param | Kiểu | Bắt buộc | Ví dụ | Ghi chú |
@@ -38,7 +40,7 @@
         "startTime": "2026-06-01T00:00:00Z",
         "endTime": "2026-07-01T00:00:00Z",
         "eventRoleId": "guid",
-        "eventRoleName": "Mentor",
+        "eventRoleName": "Staff",
         "createdAt": "2026-05-01T00:00:00Z",
         "updatedAt": "2026-06-01T00:00:00Z",
         "isDisable": false

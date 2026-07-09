@@ -22,6 +22,7 @@ public class StaffEventItem
     public string? EventRoleName { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
+    public bool IsDisable { get; set; }
 }
 
 public class GetMyEventDetailResponse
@@ -42,4 +43,5 @@ public class GetMyEventDetailResponse
     public string? EventRoleName { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
+    public bool IsDisable { get; set; }
 }

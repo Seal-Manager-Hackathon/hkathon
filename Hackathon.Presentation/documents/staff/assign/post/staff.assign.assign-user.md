@@ -5,6 +5,7 @@
 ## Nghiệp vụ
 - Staff phải được phân công vào event tương ứng.
 - Chỉ có thể assign user có role = `Lecturer`.
+- **Không thể** phân công Lecturer đã bị **disable** (`IsDisable = true`) hoặc đã bị **ban** (`BanReason != null`)
 - EventRole hợp lệ: `Judge` hoặc `Mentor` — Không thể assign role `Staff`.
 - Mỗi Lecturer chỉ được assign vào một event một lần (kiểm tra duplicate).
 - Staff assign dựa trên `UserId` của Lecturer.
@@ -41,6 +42,8 @@
 ## Lỗi
 | Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
+| 400 | Cannot Assign A Disabled User | Lecturer đang bị disable | Hiển thị thông báo lỗi |
+| 400 | Cannot Assign A Banned User | Lecturer đang bị ban | Hiển thị thông báo lỗi |
 | 400 | Can Only Assign Lecturer To Event | User không phải Lecturer | Hiển thị thông báo lỗi |
 | 400 | Staff Cannot Assign Staff Role | EventRole là `Staff` | Hiển thị thông báo lỗi |
 | 400 | Invalid EventRole | EventRole không phải Judge/Mentor | Hiển thị thông báo lỗi |

@@ -29,5 +29,9 @@ public interface IAssignEventRepository
         Guid userId, string? keyword, EventStatusEnum? status,
         DateTimeOffset? fromDate, DateTimeOffset? toDate,
         int pageIndex, int pageSize);
+    Task<(List<AssignEvents> Items, int TotalCount)> GetStaffAssignEventsByUserIdAsync(
+        Guid userId, string? keyword, EventStatusEnum? status,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate,
+        int pageIndex, int pageSize);
     Task<AssignEvents?> GetByEventIdAndUserIdWithEventAsync(Guid eventId, Guid userId);
 }

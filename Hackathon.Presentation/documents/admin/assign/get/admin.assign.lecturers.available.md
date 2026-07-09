@@ -1,6 +1,15 @@
-# GET api/v1/admin/assign/events/{eventId}/lecturers/available
+# GET /api/v1/admin/assign/events/{eventId}/lecturers/available
 
-Lấy danh sách lecturer chưa được phân công vào event, chưa bị ban, chưa bị disable.
+> Admin lấy danh sách Lecturer chưa được phân công vào event, và không bị ban/disable.
+
+## Nghiệp vụ
+- Chỉ trả về user có role = `Lecturer`.
+- Tự động loại bỏ user đã bị **disable** (`IsDisable = true`) hoặc đã bị **ban** (`BanReason != null`).
+- Chỉ lấy Lecturer chưa được assign vào event này (tránh duplicate).
+- Hỗ trợ tìm kiếm theo email hoặc họ tên.
+
+## Phân quyền
+- ✅ Admin
 
 ## Request
 
@@ -10,14 +19,13 @@ Lấy danh sách lecturer chưa được phân công vào event, chưa bị ban,
 | eventId | Guid | ID của event |
 
 ### Query Parameters
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| Keyword | string | No | Search theo email hoặc fullname |
-| PageIndex | int | No (default: 1) | Trang hiện tại |
-| PageSize | int | No (default: 10) | Số lượng item mỗi trang |
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| Keyword | string | No | - | Tìm kiếm theo email hoặc fullname |
+| PageIndex | int | No | 1 | Trang hiện tại |
+| PageSize | int | No | 10 | Số lượng item mỗi trang |
 
-## Response
-
+## Response (200)
 ```json
 {
   "data": {
@@ -41,7 +49,9 @@ Lấy danh sách lecturer chưa được phân công vào event, chưa bị ban,
 }
 ```
 
-## Error
-
-- `401` — Unauthorized
-- `400` — PageIndex/PageSize invalid
+## Lỗi
+| Status | message | Khi nào |
+|--------|---------|---------|
+| 401 | Unauthorized | Token hết hạn/thiếu |
+| 403 | Forbidden | Không phải Admin |
+| 400 | PageIndex/PageSize invalid | PageIndex hoặc PageSize không hợp lệ |

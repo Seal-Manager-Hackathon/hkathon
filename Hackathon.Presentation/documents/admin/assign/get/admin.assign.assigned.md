@@ -83,5 +83,6 @@ Liên quan: [xóa phân công event](../post/admin.assign.event-remove.md), [res
 | Status | message | Khi nào |
 |--------|---------|---------|
 | 401 | Unauthorized | Token hết hạn/thiếu |
+| 403 | Forbidden | Không phải Admin |
 | 400 | Invalid EventRole | EventRole không hợp lệ (không phải Mentor/Judge/Staff) |
 | 400 | PageIndex/PageSize invalid | PageIndex hoặc PageSize không hợp lệ |

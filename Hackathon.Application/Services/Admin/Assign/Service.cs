@@ -63,6 +63,11 @@ public class Service : IAssignService
         if (user == null)
             throw new NotFoundException(ErrMsg.Auth.UserNotFound);
 
+        if (user.IsDisable)
+            throw new BadRequestException("Cannot Assign A Disabled User");
+        if (!string.IsNullOrEmpty(user.BanReason))
+            throw new BadRequestException("Cannot Assign A Banned User");
+
         if (user.Role == RoleEnum.Student)
             throw new BadRequestException("Cannot Assign Student To Event");
         if (user.Role == RoleEnum.Admin)

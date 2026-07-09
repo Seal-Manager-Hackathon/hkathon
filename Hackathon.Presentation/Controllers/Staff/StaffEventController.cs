@@ -23,6 +23,13 @@ public class StaffEventController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.EventsFetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpGet("events/my-staff")]
+    public async Task<IActionResult> GetMyStaffEvents([FromQuery] GetMyEventsRequest request)
+    {
+        var result = await _eventService.GetMyStaffEvents(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.EventsFetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("events/{eventId:guid}")]
     public async Task<IActionResult> GetMyEventDetail(Guid eventId)
     {
