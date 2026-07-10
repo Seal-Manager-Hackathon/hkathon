@@ -22,4 +22,11 @@ public class RoundController : ControllerBase
         var result = await _roundService.GetRoundDetail(roundId);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpGet("max-round-no")]
+    public async Task<IActionResult> GetMaxRoundNo([FromQuery] Guid eventId)
+    {
+        var result = await _roundService.GetMaxRoundNo(eventId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
 }

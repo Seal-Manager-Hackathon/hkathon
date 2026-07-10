@@ -1,6 +1,7 @@
 # GET /api/v1/lecturer/criteria-items/{itemId}
 
 > Lecturer xem chi tiết 1 criteria item.
+> **Controller:** `LecturerCriteriaTemplateController` — `GET /api/v1/lecturer/criteria-items/{itemId}`
 
 ## Nghiệp vụ
 

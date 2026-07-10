@@ -1,6 +1,7 @@
 # GET /api/v1/awards/{awardId}
 
 > Xem chi tiết một award — chỉ cần đăng nhập. Chỉ truyền awardId, không cần eventId.
+> **Controller:** `AwardController` — `GET /api/v1/awards/{awardId}`
 
 ## Nghiệp vụ
 

@@ -1,6 +1,7 @@
 # GET /api/v1/lecturer/events/{eventId}/awards
 
 > Lecturer lấy danh sách awards của event — chỉ lấy award không bị disable.
+> **Controller:** `LecturerAwardController` — `GET /api/v1/lecturer/events/{eventId}/awards?keyword=`
 
 ## Nghiệp vụ
 
