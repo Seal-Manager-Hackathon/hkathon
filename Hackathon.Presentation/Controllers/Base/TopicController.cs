@@ -7,11 +7,11 @@ namespace Hackathon.Presentation.Controllers.Base;
 
 [Route("api/v1/topics")]
 [ApiController]
-public class BaseTopicController : ControllerBase
+public class TopicController : ControllerBase
 {
     private readonly ITopicService _topicService;
 
-    public BaseTopicController(ITopicService topicService)
+    public TopicController(ITopicService topicService)
     {
         _topicService = topicService;
     }

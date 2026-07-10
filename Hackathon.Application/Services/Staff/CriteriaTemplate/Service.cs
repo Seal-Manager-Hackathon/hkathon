@@ -49,7 +49,11 @@ public class Service : ICriteriaTemplateService
             throw new ForbiddenException("You Are Not Assigned to This Event");
 
         var templates = await _criteriaTemplateRepository.GetByRoundIdAsync(roundId);
-        var activeTemplates = templates.Where(t => !t.IsDisable).ToList();
+        var activeTemplates = templates
+            .Where(t => !t.IsDisable)
+            .OrderByDescending(t => t.IsActive)
+            .ThenByDescending(t => t.CreatedAt)
+            .ToList();
 
         return new GetCriteriaTemplateResponse
         {
