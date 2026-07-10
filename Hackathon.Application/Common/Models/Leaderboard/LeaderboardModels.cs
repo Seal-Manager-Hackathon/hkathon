@@ -35,6 +35,7 @@ public class GetEventLeaderboardResponse
     public Guid EventId { get; set; }
     public string EventName { get; set; } = string.Empty;
     public int TotalRounds { get; set; }
+    public bool IsDisable { get; set; }
     public List<EventLeaderboardItem> Items { get; set; } = new();
     public int TotalCount { get; set; }
     public int PageIndex { get; set; }
