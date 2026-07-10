@@ -68,8 +68,6 @@ public class Service : ILeaderboardService
 
     public async Task<GetChapterLeaderboardResponse> GetChapterLeaderboard(int year, int pageIndex, int pageSize)
     {
-        _authorizationService.Authorize(RoleEnum.Staff);
-
         return await _leaderboardHelper.GetChapterLeaderboardAsync(year, pageIndex, pageSize);
     }
 
