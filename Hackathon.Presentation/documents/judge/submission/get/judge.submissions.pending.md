@@ -1,31 +1,30 @@
-# GET /api/v1/judge/tracks/{trackId}/submissions
+# GET /api/v1/judge/events/{eventId}/submissions/pending
 
-> Judge lấy danh sách submissions trong 1 track, có filter round + isGraded.
+> Judge lấy danh sách bài nộp chưa chấm trong 1 event.
 
 **Controller:** `JudgeController`
 
 ## Nghiệp vụ
 
-- Lấy submissions của các team trong track judge được assign.
-- Mỗi team chỉ hiển thị submission cuối cùng trong round.
-- **Phân biệt trạng thái:** Graded (đã chấm) / Pending (chưa chấm) dựa trên score của judge hiện tại.
-- Filter `isGraded=true` → chỉ bài đã chấm, `isGraded=false` → chỉ bài chưa chấm.
+- Lấy các bài nộp mà judge hiện tại chưa chấm điểm.
+- Duyệt qua submissions, loại bỏ những bài đã có score của judge này.
+- Có filter trackId và roundId.
 
 ## Phân quyền
-- ✅ Judge — phải được assign vào track
+- ✅ Judge — phải được assign vào event
 
 ## Request
 
 ### Route Parameters
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| trackId | Guid | ID của track |
+| eventId | Guid | ID của event |
 
 ### Query Parameters
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
+| trackId | Guid | No | - | Lọc theo track |
 | roundId | Guid | No | - | Lọc theo round |
-| isGraded | bool | No | - | true=đã chấm, false=chưa chấm |
 | pageIndex | int | No | 1 | Trang số |
 | pageSize | int | No | 10 | Số item (max 100) |
 
@@ -42,15 +41,12 @@
         "teamId": "guid",
         "teamName": "Team ABC",
         "url": "https://...",
-        "description": "...",
         "status": "Submitted",
         "submittedAt": "2026-07-11T10:00:00Z",
-        "gradingStatus": "Pending",
-        "scoreId": null,
-        "totalScore": null
+        "gradingStatus": "Pending"
       }
     ],
-    "totalCount": 5,
+    "totalCount": 3,
     "pageIndex": 1,
     "pageSize": 10
   }
@@ -61,5 +57,5 @@
 | Status | message | Khi nào |
 |--------|---------|---------|
 | 401 | Invalid Or Expired Token | Token hết hạn |
-| 403 | You Are Not Assigned as Judge for This Track | Judge ko được assign |
-| 404 | Track Not Found | trackId ko tồn tại |
+| 403 | You Are Not Assigned as Judge for This Event | User ko phải Judge |
+| 404 | Event Not Found or You Are Not Assigned | eventId ko tồn tại |

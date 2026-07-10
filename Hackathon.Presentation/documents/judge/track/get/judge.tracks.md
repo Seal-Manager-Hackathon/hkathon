@@ -1,0 +1,44 @@
+# GET /api/v1/judge/events/{eventId}/tracks
+
+> Judge lấy danh sách track được phân công trong 1 event (giống Mentor).
+
+**Controller:** `JudgeController` — `GET /api/v1/judge/events/{eventId}/tracks`
+
+## Nghiệp vụ
+
+- Judge lấy các track được assign trong 1 event cụ thể.
+- Check EventRole = Judge.
+- Chỉ lấy track không bị disable.
+
+## Phân quyền
+- ✅ Judge — phải được assign vào event với EventRole = Judge
+
+## Request
+
+### Route Parameters
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| eventId | Guid | ID của event |
+
+## Response (200)
+```json
+{
+  "data": [
+    {
+      "assignTrackId": "guid",
+      "trackId": "guid",
+      "trackTitle": "Tri tue nhan tao",
+      "trackDescription": "...",
+      "eventId": "guid",
+      "eventName": "Hackathon 2026"
+    }
+  ]
+}
+```
+
+## Lỗi
+| Status | message | Khi nào |
+|--------|---------|---------|
+| 401 | Invalid Or Expired Token | Token hết hạn |
+| 403 | You Are Not Assigned as Judge for This Event | Ko phải Judge |
+| 404 | Event Not Found or You Are Not Assigned | eventId ko tồn tại |
