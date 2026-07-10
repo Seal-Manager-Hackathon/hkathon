@@ -69,16 +69,12 @@ public class Service : ITrackService
         };
     }
 
-    public async Task<GetTrackDetailResponse> GetTrackDetail(Guid eventId, Guid trackId)
+    public async Task<GetTrackDetailResponse> GetTrackDetail(Guid trackId)
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
-        var eventEntity = await _eventRepository.GetByIdAsync(eventId);
-        if (eventEntity == null)
-            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
-
         var track = await _trackRepository.GetByIdAsync(trackId);
-        if (track == null || track.EventId != eventId)
+        if (track == null)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
 
         var registerTeamCount = await _registerTeamRepository.CountByTrackIdAsync(trackId);
