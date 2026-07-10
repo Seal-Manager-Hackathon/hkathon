@@ -1,5 +1,6 @@
 using Hackathon.Application.Services.Mentor.MentorNotification;
 using Hackathon.Application.Services.Mentor.RegisterTeam;
+using Hackathon.Application.Services.Mentor.Score;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hackathon.Application.Services.Mentor;
@@ -10,6 +11,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IRegisterTeamService, RegisterTeam.Service>();
         services.AddScoped<IMentorNotificationService, MentorNotification.Service>();
+        services.AddScoped<IScoreService, Score.Service>();
         return services;
     }
 }
