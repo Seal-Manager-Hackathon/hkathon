@@ -39,19 +39,3 @@ public class GetLecturerEventDetailResponse
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
 }
-
-public class GetLecturerAssignedInfoResponse
-{
-    public Guid AssignEventId { get; set; }
-    public Guid EventId { get; set; }
-    public string? EventRole { get; set; }
-    public List<LecturerAssignedTrackItem> Tracks { get; set; } = new();
-}
-
-public class LecturerAssignedTrackItem
-{
-    public Guid AssignTrackId { get; set; }
-    public Guid TrackId { get; set; }
-    public string Title { get; set; } = string.Empty;
-    public bool IsDisable { get; set; }
-}

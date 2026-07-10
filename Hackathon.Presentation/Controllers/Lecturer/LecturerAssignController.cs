@@ -22,4 +22,11 @@ public class LecturerAssignController : ControllerBase
         var result = await _assignService.GetAssignedUsers(eventId, request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpGet("events/{eventId:guid}/assigned")]
+    public async Task<IActionResult> GetLecturerAssignedInfo(Guid eventId)
+    {
+        var result = await _assignService.GetLecturerAssignedInfo(eventId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
 }

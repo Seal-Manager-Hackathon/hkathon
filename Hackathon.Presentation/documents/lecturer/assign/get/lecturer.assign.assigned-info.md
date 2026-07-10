@@ -1,6 +1,7 @@
 # GET /api/v1/lecturer/events/{eventId}/assigned
 
 > Lecturer xem thông tin phân công của chính họ trong một event: vai trò (Judge/Mentor), eventId, và danh sách track được gán (chỉ track không bị disable).
+> **Controller:** `LecturerAssignController` — `GET /api/v1/lecturer/events/{eventId}/assigned`
 
 ## Nghiệp vụ
 
