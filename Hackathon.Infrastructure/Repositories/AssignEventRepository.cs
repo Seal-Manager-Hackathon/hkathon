@@ -245,6 +245,57 @@ public class AssignEventRepository : IAssignEventRepository
             .ToListAsync();
     }
 
+    public async Task<(List<AssignEvents> Items, int TotalCount)> GetLecturerAssignEventsByUserIdAsync(
+        Guid userId, string? keyword, EventStatusEnum? status,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate,
+        int pageIndex, int pageSize)
+    {
+        var query = _context.AssignEvents
+            .Include(ae => ae.Event)
+            .Include(ae => ae.EventRole)
+            .Where(ae => ae.UserId == userId
+                && !ae.IsDisable
+                && ae.EventRole != null
+                && (ae.EventRole.Name == EventRoleEnum.Judge || ae.EventRole.Name == EventRoleEnum.Mentor)
+                && ae.Event.Status != EventStatusEnum.Draft);
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var kw = keyword.Trim().ToLower();
+            query = query.Where(ae => ae.Event.Name.ToLower().Contains(kw));
+        }
+
+        if (status.HasValue)
+            query = query.Where(ae => ae.Event.Status == status.Value);
+
+        if (fromDate.HasValue)
+            query = query.Where(ae => ae.Event.CreatedAt >= fromDate.Value);
+
+        if (toDate.HasValue)
+            query = query.Where(ae => ae.Event.CreatedAt <= toDate.Value);
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderByDescending(ae => ae.Event.CreatedAt)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
+
+    public async Task<AssignEvents?> GetByEventIdAndUserIdWithTracksAsync(Guid eventId, Guid userId)
+        => await _context.AssignEvents
+            .Include(ae => ae.Event)
+            .Include(ae => ae.EventRole)
+            .Include(ae => ae.AssignTracks)
+                .ThenInclude(at => at.Track)
+            .FirstOrDefaultAsync(ae => ae.EventId == eventId
+                && ae.UserId == userId
+                && !ae.IsDisable
+                && !ae.Event.IsDisable);
+
     public async Task<AssignEvents?> GetByEventIdAndUserIdWithEventAsync(Guid eventId, Guid userId)
         => await _context.AssignEvents
             .Include(ae => ae.Event)
