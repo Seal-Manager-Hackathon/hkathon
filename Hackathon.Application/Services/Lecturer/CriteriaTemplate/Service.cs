@@ -101,7 +101,7 @@ public class Service : ICriteriaTemplateService
         };
     }
 
-    public async Task<GetCriteriaItemsByTemplateResponse> GetCriteriaItemsByTemplate(Guid templateId)
+    public async Task<GetCriteriaItemsByTemplateResponse> GetCriteriaItemsByTemplate(Guid templateId, string? keyword)
     {
         _authorizationService.Authorize(RoleEnum.Lecturer);
 
@@ -110,8 +110,17 @@ public class Service : ICriteriaTemplateService
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
 
         var items = await _criteriaTemplateRepository.GetItemsByTemplateIdAsync(templateId);
-        var activeItems = items
-            .Where(i => !i.IsDisable)
+
+        var query = items
+            .Where(i => !i.IsDisable);
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var kw = keyword.Trim().ToLower();
+            query = query.Where(i => i.Name.ToLower().Contains(kw));
+        }
+
+        var result = query
             .Select(i => new CriteriaItemInfo
             {
                 Id = i.Id,
@@ -127,10 +136,10 @@ public class Service : ICriteriaTemplateService
 
         return new GetCriteriaItemsByTemplateResponse
         {
-            Items = activeItems,
-            TotalCount = activeItems.Count,
+            Items = result,
+            TotalCount = result.Count,
             PageIndex = 1,
-            PageSize = activeItems.Count > 0 ? activeItems.Count : 10
+            PageSize = result.Count > 0 ? result.Count : 10
         };
     }
 

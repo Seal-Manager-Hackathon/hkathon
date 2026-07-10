@@ -6,6 +6,6 @@ public interface ICriteriaTemplateService
 {
     Task<GetCriteriaTemplatesByRoundResponse> GetCriteriaTemplatesByRound(Guid roundId, string? keyword);
     Task<GetCriteriaTemplateDetailResponse> GetCriteriaTemplateDetail(Guid templateId);
-    Task<GetCriteriaItemsByTemplateResponse> GetCriteriaItemsByTemplate(Guid templateId);
+    Task<GetCriteriaItemsByTemplateResponse> GetCriteriaItemsByTemplate(Guid templateId, string? keyword);
     Task<GetCriteriaItemDetailResponse> GetCriteriaItemDetail(Guid itemId);
 }

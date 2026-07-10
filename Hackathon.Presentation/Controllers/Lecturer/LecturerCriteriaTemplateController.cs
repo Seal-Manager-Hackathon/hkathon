@@ -31,9 +31,9 @@ public class LecturerCriteriaTemplateController : ControllerBase
     }
 
     [HttpGet("criteria-templates/{templateId:guid}/criteria-items")]
-    public async Task<IActionResult> GetCriteriaItemsByTemplate(Guid templateId)
+    public async Task<IActionResult> GetCriteriaItemsByTemplate(Guid templateId, [FromQuery] string? keyword)
     {
-        var result = await _criteriaTemplateService.GetCriteriaItemsByTemplate(templateId);
+        var result = await _criteriaTemplateService.GetCriteriaItemsByTemplate(templateId, keyword);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
