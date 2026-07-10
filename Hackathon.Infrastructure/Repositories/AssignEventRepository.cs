@@ -40,8 +40,7 @@ public class AssignEventRepository : IAssignEventRepository
         var totalCount = await query.CountAsync();
 
         var items = await query
-            .OrderBy(ae => ae.User.FirstName)
-            .ThenBy(ae => ae.User.LastName)
+            .OrderBy(ae => ae.User.Email)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -81,8 +80,7 @@ public class AssignEventRepository : IAssignEventRepository
         var totalCount = await query.CountAsync();
 
         var items = await query
-            .OrderBy(ae => ae.User.FirstName)
-            .ThenBy(ae => ae.User.LastName)
+            .OrderBy(ae => ae.User.Email)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
