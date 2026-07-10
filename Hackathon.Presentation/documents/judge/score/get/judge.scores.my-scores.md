@@ -1,4 +1,4 @@
-# GET /api/v1/judge/events/{eventId}/my-scores
+# GET /api/v1/judge/scores/me
 
 > Judge xem lại danh sách điểm mình đã chấm trong 1 event, có filter + phân trang.
 
@@ -15,14 +15,10 @@
 
 ## Request
 
-### Route Parameters
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| eventId | Guid | ID của event |
-
 ### Query Parameters
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
+| eventId | Guid | Có | - | ID của event (query param) |
 | trackId | Guid | No | - | Lọc theo track |
 | isGraded | bool | No | - | Lọc đã chấm/chưa chấm |
 | pageIndex | int | No | 1 | Trang số |

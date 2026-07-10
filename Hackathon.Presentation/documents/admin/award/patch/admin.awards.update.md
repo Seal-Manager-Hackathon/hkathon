@@ -6,7 +6,6 @@
 - Cập nhật các field của phần thưởng (chỉ gửi field cần sửa)
 - Không cho sửa LevelAward (level tự động gán khi tạo)
 - NumberOfAward, Prize nếu gửi lên phải > 0
-- 404 nếu eventId hoặc awardId không tồn tại
 
 ## Phân quyền
 - ✅ Admin
@@ -14,7 +13,6 @@
 ## Request
 | Param | Kiểu | Bắt buộc | Ví dụ | Ghi chú |
 |-------|------|----------|-------|---------|
-| eventId | guid | ✅ (route) | `3fa85f64-5717-4562-b3fc-2c963f66afa6` | |
 | awardId | guid | ✅ (route) | `3fa85f64-5717-4562-b3fc-2c963f66afa6` | |
 | name | string | ❌ (body) | `Giải Nhất` | |
 | description | string | ❌ (body) | `Phần thưởng cho đội đạt giải nhất` | |
@@ -50,4 +48,4 @@
 | 400 | Prize Must Be Greater Than 0 | prize <= 0 | Báo "Giá trị giải thưởng phải lớn hơn 0" |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | Không phải Admin | Ẩn chức năng |
-| 404 | Resource Not Found | eventId hoặc awardId không tồn tại | Báo "Không tìm thấy" |
+| 404 | Resource Not Found | awardId không tồn tại | Báo "Không tìm thấy" |

@@ -1,4 +1,4 @@
-# POST /api/v1/judge/submissions/{submissionId}/score
+# POST /api/v1/judge/submissions/{submissionId}/scores
 
 > Judge chấm điểm 1 bài nộp.
 

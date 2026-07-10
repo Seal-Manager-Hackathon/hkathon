@@ -39,31 +39,30 @@ public class AdminAwardController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.AwardCreated, status: 201, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPatch("events/{eventId:guid}/awards/{awardId:guid}")]
-    public async Task<IActionResult> UpdateAward(Guid eventId, Guid awardId, [FromBody] UpdateAwardRequest request)
+    [HttpPatch("awards/{awardId:guid}")]
+    public async Task<IActionResult> UpdateAward(Guid awardId, [FromBody] UpdateAwardRequest request)
     {
-        request.EventId = eventId;
         request.AwardId = awardId;
         await _awardService.UpdateAward(request);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Admin.AwardUpdated, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPost("events/{eventId:guid}/awards/{awardId:guid}/swap")]
-    public async Task<IActionResult> SwapAwardLevel(Guid eventId, Guid awardId, [FromBody] SwapAwardLevelRequest request)
+    [HttpPost("awards/{awardId:guid}/swap")]
+    public async Task<IActionResult> SwapAwardLevel(Guid awardId, [FromBody] SwapAwardLevelRequest request)
     {
         await _awardService.SwapAwardLevel(awardId, request.TargetLevel);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.OperationSuccessful, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPost("events/{eventId:guid}/awards/{awardId:guid}/restore")]
-    public async Task<IActionResult> RestoreAward(Guid eventId, Guid awardId)
+    [HttpPost("awards/{awardId:guid}/restore")]
+    public async Task<IActionResult> RestoreAward(Guid awardId)
     {
         await _awardService.RestoreAward(awardId);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.OperationSuccessful, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPost("events/{eventId:guid}/awards/{awardId:guid}/delete")]
-    public async Task<IActionResult> DeleteAward(Guid eventId, Guid awardId)
+    [HttpPost("awards/{awardId:guid}/delete")]
+    public async Task<IActionResult> DeleteAward(Guid awardId)
     {
         await _awardService.DeleteAward(awardId);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Deleted, traceId: HttpContext.TraceIdentifier));

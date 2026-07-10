@@ -1,4 +1,4 @@
-# POST /api/v1/admin/events/{eventId}/awards/{awardId}/swap
+# POST /api/v1/admin/awards/{awardId}/swap
 
 > Admin đổi thứ hạng (LevelAward) giữa 2 award trong cùng event.
 
