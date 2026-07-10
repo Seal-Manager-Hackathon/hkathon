@@ -16,6 +16,13 @@ public class StaffAssignController : ControllerBase
         _assignService = assignService;
     }
 
+    [HttpGet("events/{eventId:guid}/staff/available")]
+    public async Task<IActionResult> GetAvailableStaff(Guid eventId, [FromQuery] GetAvailableLecturersRequest request)
+    {
+        var result = await _assignService.GetAvailableStaff(eventId, request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("events/{eventId:guid}/lecturers/available")]
     public async Task<IActionResult> GetAvailableLecturers(Guid eventId, [FromQuery] GetAvailableLecturersRequest request)
     {

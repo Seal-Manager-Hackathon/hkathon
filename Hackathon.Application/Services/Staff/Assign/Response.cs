@@ -1,5 +1,23 @@
 namespace Hackathon.Application.Services.Staff.Assign;
 
+public class GetAvailableStaffResponse
+{
+    public List<AvailableStaffItem> Items { get; set; } = new();
+    public int TotalCount { get; set; }
+    public int PageIndex { get; set; }
+    public int PageSize { get; set; }
+}
+
+public class AvailableStaffItem
+{
+    public Guid Id { get; set; }
+    public string Email { get; set; } = null!;
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public string? AvatarUrl { get; set; }
+    public string? PhoneNumber { get; set; }
+}
+
 public class GetAvailableLecturersResponse
 {
     public List<AvailableLecturerItem> Items { get; set; } = new();

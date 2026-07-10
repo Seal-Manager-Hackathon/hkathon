@@ -2,6 +2,7 @@ namespace Hackathon.Application.Services.Staff.Assign;
 
 public interface IAssignService
 {
+    Task<GetAvailableStaffResponse> GetAvailableStaff(Guid eventId, GetAvailableLecturersRequest request);
     Task<GetAvailableLecturersResponse> GetAvailableLecturers(Guid eventId, GetAvailableLecturersRequest request);
     Task AssignLecturerToEvent(Guid eventId, AssignLecturerToEventRequest request);
     Task<GetAssignedUsersResponse> GetAssignedUsers(Guid eventId, GetAssignedUsersRequest request);
