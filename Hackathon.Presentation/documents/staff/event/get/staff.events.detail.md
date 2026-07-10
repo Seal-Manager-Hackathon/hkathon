@@ -52,3 +52,5 @@
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | User không có role Staff | Ẩn chức năng |
 | 404 | Not Found | Không tìm thấy event hoặc staff không được phân công | Chuyển về danh sách |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/events/{eventId}) — [`admin/event/get/admin.events.detail.md`](../../../admin/event/get/admin.events.detail.md)

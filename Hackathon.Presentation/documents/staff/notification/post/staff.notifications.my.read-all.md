@@ -12,3 +12,5 @@
   "timestampUtc": "2026-07-10T12:00:00Z"
 }
 ```
+
+> **First** — API này là bản gốc, không có Admin tương ứng. Dùng làm chuẩn tham chiếu cho các role khác.

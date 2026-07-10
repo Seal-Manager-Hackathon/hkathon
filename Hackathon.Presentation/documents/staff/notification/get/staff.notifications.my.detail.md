@@ -35,3 +35,5 @@
 | 401 | Invalid Or Expired Token | Token hết hạn |
 | 403 | You do not have permission | Không có quyền |
 | 404 | Notification Not Found | ID không tồn tại |
+
+> **First** — API này là bản gốc, không có Admin tương ứng. Dùng làm chuẩn tham chiếu cho các role khác.

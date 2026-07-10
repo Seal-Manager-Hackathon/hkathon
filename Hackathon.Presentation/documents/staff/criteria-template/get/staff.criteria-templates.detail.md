@@ -51,3 +51,5 @@
 | 401 | Invalid Or Expired Token | Token hết hạn |
 | 403 | You do not have permission | Không phải Staff hoặc ko được assign |
 | 404 | Criteria Template Not Found | ID không tồn tại |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/criteria-templates/{templateId}) — [`admin/criteria-template/get/admin.criteria-templates.detail.md`](../../../admin/criteria-template/get/admin.criteria-templates.detail.md)

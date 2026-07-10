@@ -5,18 +5,25 @@ description: "Use when user asks to create a new API endpoint. Follows Clean Arc
 
 # Create API Endpoint
 
-Base: c:\Users\phamq\OneDrive\Desktop\New folder (4)\BE-SEAL-HACKATHON
+Base: c:\Users\phamq\OneDrive\Desktop\New folder (4)\Hackathon
 
 ## Checklist
 
 - [ ] Step 0: Check entities and enums
+- [ ] Step 0.5: Check user visibility rule — nếu API cho role khác admin (Student, Lecturer...), đảm bảo filter `IsDisable == false` để user bị disable ko xuất hiện. User bị ban (BanReason != null) vẫn visible. [[user-visibility-ban-vs-disable]]
+- [ ] **Step 0.6: Tìm Admin API tương ứng** — nếu Admin đã có API cho entity này (list/detail/create/update/delete), dùng **response DTO của Admin làm chuẩn**. Copy field names, kiểu dữ liệu, cấu trúc. Chỉ sửa authorization và business logic khác nếu có yêu cầu riêng.
+- [ ] **Step 0.7: Route cho GET detail** — chỉ cần ID của entity đó trong route. VD:
+  - ✅ `rounds/{roundId}` (ko cần `events/{eventId}/rounds/{roundId}`)
+  - ✅ `tracks/{trackId}` (ko cần `events/{eventId}/tracks/{trackId}`)
+  - ✅ `awards/{awardId}` (ko cần `events/{eventId}/awards/{awardId}`)
+  - ✅ `criteria-templates/{templateId}`
+  - ❌ Không thêm parentId vào route detail nếu có thể lấy từ entity
 - [ ] Step 1: Determine role and controller
 - [ ] Step 2: Check/create controller
 - [ ] Step 3: Check/create Repository
 - [ ] Step 4: Check/create Repository interface
 - [ ] Step 5: Check/create Application Service
 - [ ] Step 6: Write use case logic
-- [ ] Step 0.5: Check user visibility rule — nếu API cho role khác admin (Student, Lecturer...), đảm bảo filter `IsDisable == false` để user bị disable ko xuất hiện. User bị ban (BanReason != null) vẫn visible. [[user-visibility-ban-vs-disable]]
 - [ ] Step 7: Handle enum fields
 - [ ] Step 8: Helper check — nếu logic đã lặp lại ở ≥2 nơi (vd: pagination validation, date filter, ...), tách vào class ở `Hackathon.Application/Common/Helpers/` hoặc `Hackathon.Infrastructure/Helpers/`
 - [ ] Step 9: Add success message (use SuccessMessage.cs)

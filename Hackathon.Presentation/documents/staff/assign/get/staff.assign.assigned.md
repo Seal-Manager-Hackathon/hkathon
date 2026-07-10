@@ -72,3 +72,5 @@
 | 400 | PageIndex/PageSize invalid | PageIndex hoặc PageSize không hợp lệ | Hiển thị thông báo lỗi |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Chuyển về trang login |
 | 403 | You do not have permission to perform this action | Không phải Staff hoặc không được phân công vào event | Hiển thị thông báo Không có quyền |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/assign/get/admin.assign.assigned.md)

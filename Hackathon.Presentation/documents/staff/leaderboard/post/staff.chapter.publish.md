@@ -36,3 +36,5 @@ Staff muốn công bố kết quả leader board của một năm. Hệ thống 
 | 403 | You Are Not Assigned to Any Event In This Year | Staff không được assign event nào trong năm |
 | 401 | Unauthorized | Token hết hạn/thiếu |
 | 403 | Forbidden | Không phải Staff |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/leaderboard/post/admin.chapter.publish.md)

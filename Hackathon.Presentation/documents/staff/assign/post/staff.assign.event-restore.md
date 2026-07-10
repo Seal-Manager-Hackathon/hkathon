@@ -38,3 +38,5 @@ Staff muốn khôi phục lại một phân công Lecturer đã bị xóa mềm 
 | 400 | Can Only Restore Lecturer | User không phải Lecturer |
 | 401 | Unauthorized | Token hết hạn/thiếu |
 | 403 | Forbidden | Không phải Staff / không được assign vào event |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/assign/post/admin.assign.event-restore.md)

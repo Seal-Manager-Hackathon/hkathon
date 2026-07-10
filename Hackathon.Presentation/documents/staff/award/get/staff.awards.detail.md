@@ -46,3 +46,5 @@
 | 404 | Resource Not Found | awardId ko tồn tại hoặc đã disable |
 | 401 | Unauthorized | Token hết hạn/thiếu |
 | 403 | You Are Not Assigned to This Event | Staff không được assign vào event |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/awards/{awardId}) — [`admin/award/get/admin.awards.detail.md`](../../../admin/award/get/admin.awards.detail.md)

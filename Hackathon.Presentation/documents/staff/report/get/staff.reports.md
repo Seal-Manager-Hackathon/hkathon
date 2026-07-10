@@ -56,3 +56,5 @@ Staff xem toàn bộ báo cáo trong hệ thống (giống Admin). Dùng để q
 | 400 | Invalid Status | Status không hợp lệ |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu |
 | 403 | You do not have permission to perform this action | User không có role Staff |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/report/get/admin.reports.list.md)

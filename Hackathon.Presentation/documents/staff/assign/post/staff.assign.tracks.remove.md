@@ -42,3 +42,5 @@
 1. Kiểm tra assign event tồn tại và user là Lecturer
 2. Kiểm tra assign track tồn tại (IsDisable == false)
 3. Set `IsDisable = true`, `UpdatedAt = now`
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/assign/post/admin.assign.tracks.remove.md)

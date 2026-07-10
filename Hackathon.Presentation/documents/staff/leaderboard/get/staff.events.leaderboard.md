@@ -70,3 +70,5 @@
 | 404 | Resource Not Found | eventId ko tồn tại |
 | 401 | Unauthorized | Token hết hạn/thiếu |
 | 403 | You Are Not Assigned to This Event | Staff không được assign vào event |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/leaderboard/get/admin.leaderboard.event.md)

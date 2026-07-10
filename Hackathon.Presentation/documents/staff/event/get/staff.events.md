@@ -65,3 +65,5 @@
 | 400 | Page Size Must Be Between 1 And 100 | PageSize ngoài khoảng | Fix pagination |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | User không có role Staff | Ẩn chức năng |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/events) — [`admin/event/get/admin.events.md`](../../../admin/event/get/admin.events.md)
