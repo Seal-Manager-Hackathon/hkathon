@@ -7,11 +7,11 @@ namespace Hackathon.Presentation.Controllers.Base;
 
 [Route("api/v1/teams")]
 [ApiController]
-public class BaseTeamController : ControllerBase
+public class TeamController : ControllerBase
 {
     private readonly ITeamService _teamService;
 
-    public BaseTeamController(ITeamService teamService)
+    public TeamController(ITeamService teamService)
     {
         _teamService = teamService;
     }

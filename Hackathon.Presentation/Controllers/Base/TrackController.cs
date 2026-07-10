@@ -7,11 +7,11 @@ namespace Hackathon.Presentation.Controllers.Base;
 
 [Route("api/v1/tracks")]
 [ApiController]
-public class BaseTrackController : ControllerBase
+public class TrackController : ControllerBase
 {
     private readonly ITrackService _trackService;
 
-    public BaseTrackController(ITrackService trackService)
+    public TrackController(ITrackService trackService)
     {
         _trackService = trackService;
     }

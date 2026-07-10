@@ -1,4 +1,5 @@
 using Hackathon.Application.Services.Lecturer.Assign;
+using Hackathon.Application.Services.Lecturer.CriteriaTemplate;
 using Hackathon.Application.Services.Lecturer.Event;
 using Hackathon.Application.Services.Lecturer.Notification;
 using Hackathon.Application.Services.Lecturer.RegisterTeam;
@@ -20,6 +21,7 @@ public static class DependencyInjection
         services.AddScoped<ITeamService, Team.Service>();
         services.AddScoped<ITopicService, Topic.Service>();
         services.AddScoped<ITrackService, Track.Service>();
+        services.AddScoped<ICriteriaTemplateService, CriteriaTemplate.Service>();
         return services;
     }
 }

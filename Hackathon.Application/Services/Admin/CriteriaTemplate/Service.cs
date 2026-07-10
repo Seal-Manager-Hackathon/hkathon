@@ -53,7 +53,8 @@ public class Service : ICriteriaTemplateService
         var totalCount = query.Count();
 
         var items = query
-            .OrderByDescending(t => t.CreatedAt)
+            .OrderByDescending(t => t.IsActive)
+            .ThenByDescending(t => t.CreatedAt)
             .Skip((request.PageIndex - 1) * request.PageSize)
             .Take(request.PageSize)
             .Select(t => new CriteriaTemplateItem
