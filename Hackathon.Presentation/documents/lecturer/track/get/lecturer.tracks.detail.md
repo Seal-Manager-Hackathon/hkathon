@@ -5,7 +5,7 @@
 ## Nghiệp vụ
 
 - Chỉ truyền `trackId`, không cần eventId.
-- Response giống hệt Admin `GET /api/v1/admin/events/{eventId}/tracks/{trackId}`.
+- Response giống hệt Admin `GET /api/v1/admin/tracks/{trackId}`.
 
 ## Phân quyền
 - ✅ Lecturer
@@ -42,4 +42,4 @@
 | 403 | You do not have permission | Không phải Lecturer |
 | 404 | Resource Not Found | trackId không tồn tại |
 
-> **Ref:** [Admin API tương ứng](/api/v1/admin/events/{eventId}/tracks/{trackId})
+> **Ref:** [Admin API tương ứng](/api/v1/admin/tracks/{trackId})

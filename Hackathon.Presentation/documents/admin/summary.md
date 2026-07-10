@@ -201,9 +201,9 @@ Submissions (bài nộp)
 | Method | Route | Chức năng |
 |--------|-------|-----------|
 | GET | `/events/{eventId}/tracks` | Danh sách track của event |
-| GET | `/events/{eventId}/tracks/{trackId}` | Chi tiết 1 track |
+| GET | `/tracks/{trackId}` | Chi tiết 1 track |
 | POST | `/events/{eventId}/tracks` | Tạo track |
-| PATCH | `/events/{eventId}/tracks/{trackId}` | Update track |
+| PATCH | `/tracks/{trackId}` | Update track |
 | POST | `/tracks/{trackId}/delete` | Xóa mềm |
 | POST | `/tracks/{trackId}/restore` | Khôi phục |
 
