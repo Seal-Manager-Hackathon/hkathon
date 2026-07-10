@@ -57,4 +57,4 @@
 4. Kiểm tra ko bị duplicate assign
 5. Tạo record `AssignTracks` mới
 
-> **Ref:** [Admin API tương ứng](/api/v1/admin/assign/post/admin.assign.tracks.assign.md)
+> **Ref:** [Admin API tương ứng](/api/v1/admin/assign/event-assigns/{assignEventId}/tracks) — [`admin/assign/post/admin.assign.tracks.assign.md`](../../../admin/assign/post/admin.assign.tracks.assign.md)

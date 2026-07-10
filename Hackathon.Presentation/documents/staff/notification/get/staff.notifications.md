@@ -60,4 +60,4 @@ Staff xem toàn bộ thông báo trong hệ thống (giống Admin). API này gi
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu |
 | 403 | You do not have permission to perform this action | User không có role Staff |
 
-> **Ref:** [Admin API tương ứng](/api/v1/admin/notification/get/admin.notifications.md)
+> **Ref:** [Admin API tương ứng](/api/v1/admin/notifications) — [`admin/notification/get/admin.notifications.md`](../../../admin/notification/get/admin.notifications.md)

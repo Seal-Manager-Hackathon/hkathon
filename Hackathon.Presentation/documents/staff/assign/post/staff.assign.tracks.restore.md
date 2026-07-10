@@ -42,4 +42,4 @@ Ngược lại với API [remove track](staff.assign.tracks.remove.md).
 | 401 | Unauthorized | Token hết hạn/thiếu |
 | 403 | Forbidden | Không phải Staff / không được assign vào event |
 
-> **Ref:** [Admin API tương ứng](/api/v1/admin/assign/post/admin.assign.tracks.restore.md)
+> **Ref:** [Admin API tương ứng](/api/v1/admin/assign/event-assigns/{assignEventId}/tracks/{trackId}/restore) — [`admin/assign/post/admin.assign.tracks.restore.md`](../../../admin/assign/post/admin.assign.tracks.restore.md)

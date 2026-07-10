@@ -56,4 +56,4 @@
 | 403 | You do not have permission to perform this action | Không phải Staff hoặc không được phân công vào event | Ẩn chức năng |
 | 404 | Resource Not Found | scoreId không tồn tại | Hiển thị thông báo |
 
-> **Ref:** [Admin API tương ứng](/api/v1/admin/score/get/admin.scores.detail.md)
+> **Ref:** [Admin API tương ứng](/api/v1/admin/scores/{scoreId}) — [`admin/score/get/admin.scores.detail.md`](../../../admin/score/get/admin.scores.detail.md)

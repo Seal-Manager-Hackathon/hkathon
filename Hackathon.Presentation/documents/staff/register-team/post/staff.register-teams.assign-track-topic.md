@@ -54,4 +54,4 @@
 | 404 | Track Not Found | trackId ko tồn tại | Báo "Không tìm thấy track" |
 | 404 | Topic Not Found | topicId ko tồn tại | Báo "Không tìm thấy topic" |
 
-> **Ref:** [Admin API tương ứng](/api/v1/admin/register-team/post/admin.register-teams.assign-track-topic.md)
+> **Ref:** [Admin API tương ứng](/api/v1/admin/register-teams/{registerTeamId}/assign-track-topic) — [`admin/register-team/post/admin.register-teams.assign-track-topic.md`](../../../admin/register-team/post/admin.register-teams.assign-track-topic.md)

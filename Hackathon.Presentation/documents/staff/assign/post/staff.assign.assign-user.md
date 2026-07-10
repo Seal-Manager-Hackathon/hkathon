@@ -53,4 +53,4 @@
 | 404 | Event Role Not Found | EventRole không tồn tại trong hệ thống | Hiển thị thông báo lỗi |
 | 409 | User Is Already Assigned To This Event | Lecturer đã được assign vào event này | Hiển thị thông báo trùng lặp |
 
-> **Ref:** [Admin API tương ứng](/api/v1/admin/assign/post/admin.assign.assign-user.md)
+> **Ref:** [Admin API tương ứng](/api/v1/admin/assign/events/{eventId}/assign/users) — [`admin/assign/post/admin.assign.assign-user.md`](../../../admin/assign/post/admin.assign.assign-user.md)

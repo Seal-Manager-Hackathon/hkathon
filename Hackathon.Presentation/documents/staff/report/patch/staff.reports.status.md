@@ -40,4 +40,4 @@ Cập nhật trạng thái xử lý báo cáo: Pending, Reject, Resolved.
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu |
 | 403 | You do not have permission to perform this action | User không có role Staff |
 
-> **Ref:** [Admin API tương ứng](/api/v1/admin/report/patch/admin.reports.status.md)
+> **Ref:** [Admin API tương ứng](/api/v1/admin/reports/{reportId}/status) — [`admin/report/patch/admin.reports.status.md`](../../../admin/report/patch/admin.reports.status.md)

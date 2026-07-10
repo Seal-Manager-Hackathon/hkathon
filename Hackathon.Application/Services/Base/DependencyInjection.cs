@@ -1,7 +1,10 @@
 using Hackathon.Application.Services.Base.Auth;
-using Hackathon.Application.Services.Base.RegisterTeam;
-using Hackathon.Application.Services.Base.User;
 using Hackathon.Application.Services.Base.Notification;
+using Hackathon.Application.Services.Base.RegisterTeam;
+using Hackathon.Application.Services.Base.Team;
+using Hackathon.Application.Services.Base.Topic;
+using Hackathon.Application.Services.Base.Track;
+using Hackathon.Application.Services.Base.User;
 using Hackathon.Application.Common.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +19,9 @@ public static class DependencyInjection
         services.AddScoped<IUserProfileService, User.Service>();
         services.AddScoped<IRegisterTeamRoundService, RegisterTeam.Service>();
         services.AddScoped<INotificationService, Notification.Service>();
+        services.AddScoped<ITopicService, Topic.Service>();
+        services.AddScoped<ITrackService, Track.Service>();
+        services.AddScoped<ITeamService, Team.Service>();
         return services;
     }
 }

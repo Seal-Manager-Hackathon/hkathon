@@ -84,4 +84,4 @@
 | 401 | `Unauthorized` | Token hết hạn hoặc thiếu | Redirect sang trang login |
 | 403 | `Forbidden` | Không có role Staff hoặc không được phân công vào event | Hiển thị thông báo không có quyền |
 
-> **Ref:** [Admin API tương ứng](/api/v1/admin/register-team/get/admin.events.register-teams.md)
+> **Ref:** [Admin API tương ứng](/api/v1/admin/events/{eventId}/register-teams) — [`admin/register-team/get/admin.events.register-teams.md`](../../../admin/register-team/get/admin.events.register-teams.md)

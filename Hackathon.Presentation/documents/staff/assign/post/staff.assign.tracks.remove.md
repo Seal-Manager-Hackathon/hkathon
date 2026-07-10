@@ -43,4 +43,4 @@
 2. Kiểm tra assign track tồn tại (IsDisable == false)
 3. Set `IsDisable = true`, `UpdatedAt = now`
 
-> **Ref:** [Admin API tương ứng](/api/v1/admin/assign/post/admin.assign.tracks.remove.md)
+> **Ref:** [Admin API tương ứng](/api/v1/admin/assign/event-assigns/{assignEventId}/tracks/{trackId}/remove) — [`admin/assign/post/admin.assign.tracks.remove.md`](../../../admin/assign/post/admin.assign.tracks.remove.md)

@@ -47,4 +47,4 @@
 | 403 | `Forbidden` | Staff không được phân công vào event | Hiển thị thông báo không có quyền |
 | 404 | `Register team not found` | registerTeamId không tồn tại | Hiển thị thông báo không tìm thấy |
 
-> **Ref:** [Admin API tương ứng](/api/v1/admin/register-team/post/admin.register-teams.reject.md)
+> **Ref:** [Admin API tương ứng](/api/v1/admin/register-teams/{registerTeamId}/reject) — [`admin/register-team/post/admin.register-teams.reject.md`](../../../admin/register-team/post/admin.register-teams.reject.md)
