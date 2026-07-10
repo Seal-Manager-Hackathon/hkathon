@@ -9,13 +9,16 @@ namespace Hackathon.Application.Services.Base.Round;
 public class Service : IRoundService
 {
     private readonly IRoundRepository _roundRepository;
+    private readonly IEventRepository _eventRepository;
     private readonly IAuthorizationService _authorizationService;
 
     public Service(
         IRoundRepository roundRepository,
+        IEventRepository eventRepository,
         IAuthorizationService authorizationService)
     {
         _roundRepository = roundRepository;
+        _eventRepository = eventRepository;
         _authorizationService = authorizationService;
     }
 
@@ -44,5 +47,16 @@ public class Service : IRoundService
             CreatedAt = round.CreatedAt,
             UpdatedAt = round.UpdatedAt
         };
+    }
+
+    public async Task<int?> GetMaxRoundNo(Guid eventId)
+    {
+        _authorizationService.Authenticate();
+
+        var ev = await _eventRepository.GetByIdAsync(eventId);
+        if (ev == null)
+            throw new NotFoundException("Event Not Found");
+
+        return await _roundRepository.GetMaxRoundNoAsync(eventId);
     }
 }

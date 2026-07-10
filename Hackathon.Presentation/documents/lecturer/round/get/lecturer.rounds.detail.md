@@ -1,15 +1,16 @@
-# GET /api/v1/rounds/{roundId}
+# GET /api/v1/lecturer/rounds/{roundId}
 
-> Xem chi tiết một round — chỉ cần đăng nhập. Chỉ truyền roundId, không cần eventId.
-> **Controller:** `RoundController` — `GET /api/v1/rounds/{roundId}`
+> Lecturer xem chi tiết 1 round.
+> **Controller:** `LecturerRoundController` — `GET /api/v1/lecturer/rounds/{roundId}`
 
 ## Nghiệp vụ
 
-- Bất kỳ user nào đã đăng nhập đều có thể xem chi tiết round.
+- Lecturer xem thông tin chi tiết của 1 round.
 - Response giống hệt Admin `GET /api/v1/admin/rounds/{roundId}`.
+- Dùng lại Base Round API (tất cả role đã đăng nhập đều dùng chung).
 
 ## Phân quyền
-- ✅ Authenticated (chỉ cần đăng nhập)
+- ✅ Lecturer
 
 ## Request
 | Parameter | Type | Bắt buộc | Ghi chú |
@@ -45,6 +46,7 @@
 | Status | message | Khi nào |
 |--------|---------|---------|
 | 401 | Invalid Or Expired Token | Token hết hạn |
+| 403 | Forbidden | Không phải Lecturer |
 | 404 | Resource Not Found | roundId không tồn tại |
 
 > **Ref:** [Admin API tương ứng](/api/v1/admin/rounds/{roundId})

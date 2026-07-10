@@ -1,6 +1,7 @@
 # GET /api/v1/lecturer/criteria-templates/{templateId}/criteria-items
 
 > Lecturer lấy danh sách criteria items của 1 template — chỉ lấy items không bị disable.
+> **Controller:** `LecturerCriteriaTemplateController` — `GET /api/v1/lecturer/criteria-templates/{templateId}/criteria-items?keyword=`
 
 ## Nghiệp vụ
 

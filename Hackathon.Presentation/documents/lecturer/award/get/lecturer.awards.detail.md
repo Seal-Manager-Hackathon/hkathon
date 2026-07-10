@@ -1,6 +1,7 @@
 # GET /api/v1/lecturer/awards/{awardId}
 
 > Lecturer xem chi tiết 1 award.
+> **Controller:** `LecturerAwardController` — `GET /api/v1/lecturer/awards/{awardId}`
 
 ## Nghiệp vụ
 

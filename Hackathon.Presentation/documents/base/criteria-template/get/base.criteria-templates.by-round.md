@@ -1,6 +1,7 @@
 # GET /api/v1/rounds/{roundId}/criteria-templates
 
 > Xem danh sách criteria templates của một round — chỉ cần đăng nhập. Chỉ lấy các template đang active (IsDisable = false).
+> **Controller:** `CriteriaTemplateController` — `GET /api/v1/rounds/{roundId}/criteria-templates`
 
 ## Nghiệp vụ
 

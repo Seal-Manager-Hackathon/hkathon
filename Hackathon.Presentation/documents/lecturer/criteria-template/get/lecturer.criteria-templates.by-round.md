@@ -1,6 +1,7 @@
 # GET /api/v1/lecturer/rounds/{roundId}/criteria-templates
 
 > Lecturer lấy danh sách criteria templates đang active của 1 round.
+> **Controller:** `LecturerCriteriaTemplateController` — `GET /api/v1/lecturer/rounds/{roundId}/criteria-templates?keyword=`
 
 ## Nghiệp vụ
 

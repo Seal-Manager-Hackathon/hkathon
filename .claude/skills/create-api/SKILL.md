@@ -28,6 +28,11 @@ Base: c:\Users\phamq\OneDrive\Desktop\New folder (4)\Hackathon
 - [ ] Step 8: Helper check — nếu logic đã lặp lại ở ≥2 nơi (vd: pagination validation, date filter, ...), tách vào class ở `Hackathon.Application/Common/Helpers/` hoặc `Hackathon.Infrastructure/Helpers/`
 - [ ] Step 9: Add success message (use SuccessMessage.cs)
 - [ ] **Step 10: Write/update documentation ngay lập tức** — tạo file mới trong `documents/{role}/{entity}/{method}/` hoặc sửa file đã có nếu request/response thay đổi. KHÔNG ĐỢI NHẮC. **Phải viết chi tiết** (xem hướng dẫn bên dưới).
+  - **Link tới Controller:** Ghi rõ đường dẫn tới file controller để dễ nhảy tới sửa lỗi, VD: `[LecturerAwardController.cs](Controllers/Lecturer/LecturerAwardController.cs)`
+  - **Nghiệp vụ bằng lời:** Chuyển hết if/else thành mô tả bằng ngôn ngữ người dùng. VD thay vì "if keyword != null → filter Name.Contains(kw)" thì viết "Hỗ trợ tìm kiếm theo tên (không phân biệt hoa thường, tìm chuỗi con)".
+  - **Nói rõ cái gì ĐƯỢC và cái gì KHÔNG ĐƯỢC:** VD "Chỉ lấy round có IsDisable = false. KHÔNG cho phép lọc theo isDisable."
+  - **Ghi rõ điều kiện ẩn:** filter mặc định, sort order, exclude gì.
+  - **Ref link:** Luôn có `> **Ref:** [Admin API tương ứng](/api/v1/admin/...route...)` để FE dễ tra cứu.
 - [ ] Step 11: Register DI
 - [ ] Step 12: Check exception handling — các lỗi có thể xảy ra (404 not found, 400 validation/enum, 409 conflict, 401, 403, 409 đã disable...)
 
