@@ -1,4 +1,4 @@
-# GET /api/v1/judge/submissions/{submissionId}/my-score
+# GET /api/v1/judge/submissions/{submissionId}/scores/me
 
 > Judge xem lại điểm mình đã chấm cho 1 bài nộp.
 

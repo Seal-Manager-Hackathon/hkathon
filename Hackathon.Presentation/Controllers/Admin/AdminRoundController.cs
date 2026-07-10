@@ -40,10 +40,9 @@ public class AdminRoundController : ControllerBase
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Admin.RoundUpdated, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPost("events/{eventId:guid}/rounds/{roundId:guid}/swap")]
-    public async Task<IActionResult> SwapRound(Guid eventId, Guid roundId, [FromBody] SwapRoundRequest request)
+    [HttpPost("rounds/{roundId:guid}/swap")]
+    public async Task<IActionResult> SwapRound(Guid roundId, [FromBody] SwapRoundRequest request)
     {
-        request.EventId = eventId;
         request.RoundId = roundId;
         await _roundService.SwapRound(request);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.OperationSuccessful, traceId: HttpContext.TraceIdentifier));

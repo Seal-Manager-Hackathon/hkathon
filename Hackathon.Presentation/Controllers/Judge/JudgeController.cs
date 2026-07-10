@@ -69,7 +69,7 @@ public class JudgeController : ControllerBase
     /// <summary>
     /// Xem lại điểm judge đã chấm cho 1 bài
     /// </summary>
-    [HttpGet("submissions/{submissionId:guid}/my-score")]
+    [HttpGet("submissions/{submissionId:guid}/scores/me")]
     public async Task<IActionResult> GetMySubmissionScore(Guid submissionId)
     {
         var result = await _judgeService.GetMySubmissionScore(submissionId);
@@ -79,7 +79,7 @@ public class JudgeController : ControllerBase
     /// <summary>
     /// Chấm điểm 1 bài nộp
     /// </summary>
-    [HttpPost("submissions/{submissionId:guid}/score")]
+    [HttpPost("submissions/{submissionId:guid}/scores")]
     public async Task<IActionResult> SubmitScore(Guid submissionId, [FromBody] SubmitScoreRequest request)
     {
         var result = await _judgeService.SubmitScore(submissionId, request);
@@ -119,9 +119,9 @@ public class JudgeController : ControllerBase
     /// <summary>
     /// Danh sách điểm judge đã chấm trong 1 event
     /// </summary>
-    [HttpGet("events/{eventId:guid}/my-scores")]
+    [HttpGet("scores/me")]
     public async Task<IActionResult> GetMyScores(
-        Guid eventId,
+        [FromQuery] Guid eventId,
         [FromQuery] Guid? trackId,
         [FromQuery] bool? isGraded,
         [FromQuery] int pageIndex = 1,

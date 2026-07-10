@@ -231,18 +231,18 @@ public class Service : IRoundService
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
-        var ev = await _eventRepository.GetByIdAsync(request.EventId);
+        var currentRound = await _roundRepository.GetByIdAsync(request.RoundId);
+        if (currentRound == null)
+            throw new NotFoundException("Round Not Found");
+
+        var ev = await _eventRepository.GetByIdAsync(currentRound.EventId);
         if (ev == null)
             throw new NotFoundException("Event Not Found");
-
-        var currentRound = await _roundRepository.GetByIdAsync(request.RoundId);
-        if (currentRound == null || currentRound.EventId != request.EventId)
-            throw new NotFoundException("Round Not Found");
 
         if (request.TargetRoundNo < 1)
             throw new BadRequestException("Target Round No Must Be Greater Than 0");
 
-        var targetRound = await _roundRepository.GetByEventIdAndRoundNoAsync(request.EventId, request.TargetRoundNo);
+        var targetRound = await _roundRepository.GetByEventIdAndRoundNoAsync(currentRound.EventId, request.TargetRoundNo);
         if (targetRound == null)
             throw new BadRequestException(ErrMsg.Round.RoundNoNotFound);
 

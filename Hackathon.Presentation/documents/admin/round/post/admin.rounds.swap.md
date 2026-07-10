@@ -1,4 +1,4 @@
-# POST api/v1/admin/events/{eventId}/rounds/{roundId}/swap
+# POST api/v1/admin/rounds/{roundId}/swap
 
 Swap thứ tự 2 round trong cùng event.
 
@@ -33,8 +33,9 @@ Swap thứ tự 2 round trong cùng event.
 
 ## Logic
 
-1. Kiểm tra event tồn tại
-2. Kiểm tra current round tồn tại + thuộc event
-3. Tìm target round theo EventId + TargetRoundNo
+1. Kiểm tra current round tồn tại
+2. Lấy EventId từ current round
+3. Kiểm tra event tồn tại
+4. Tìm target round theo EventId + TargetRoundNo
 4. Cả 2 round ko được là **deleted** (IsDisable = true)
 5. Swap: RoundNo, StartTime, EndTime, StartSubmission, EndSubmission
