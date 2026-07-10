@@ -50,6 +50,7 @@ public static class DependencyInjection
         services.AddScoped<IAssignEventRepository, Repositories.AssignEventRepository>();
         services.AddScoped<ISubmissionRepository, Repositories.SubmissionRepository>();
         services.AddScoped<IScoreRepository, Repositories.ScoreRepository>();
+        services.AddScoped<IMentorNotificationRepository, Repositories.MentorNotificationRepository>();
 
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, Services.CurrentUserService>();
