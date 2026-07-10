@@ -1,11 +1,11 @@
-# GET /api/v1/staff/events/{eventId}/awards/{awardId}
+# GET /api/v1/staff/awards/{awardId}
 
-> Staff xem chi tiết 1 award trong event được phân công. Chỉ xem được award IsDisable = false.
+> Staff xem chi tiết 1 award. Chỉ xem được award IsDisable = false.
 
 ## Nghiệp vụ
 
 - Staff chỉ xem được award có `IsDisable = false`
-- Staff phải được assign vào event mới xem được
+- Staff phải được assign vào event của award mới xem được
 - 404 nếu awardId không tồn tại hoặc đã bị disable
 
 ## Phân quyền
@@ -15,7 +15,6 @@
 
 | Param    | Kiểu | Bắt buộc | Ví dụ |
 |----------|------|----------|-------|
-| eventId  | guid | ✅ (route) | `3fa85f64-5717-4562-b3fc-2c963f66afa6` |
 | awardId  | guid | ✅ (route) | `3fa85f64-5717-4562-b3fc-2c963f66afa6` |
 
 ## Response (200)

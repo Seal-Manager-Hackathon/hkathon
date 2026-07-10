@@ -164,16 +164,16 @@ public class Service : IAssignService
         };
     }
 
-    public async Task<GetAssignEventDetailResponse> GetAssignEventDetail(Guid eventId, Guid assignEventId)
+    public async Task<GetAssignEventDetailResponse> GetAssignEventDetail(Guid assignEventId)
     {
         _authorizationService.Authorize(RoleEnum.Staff);
-
-        await StaffAssignmentHelper.ValidateAndGetAssignmentAsync(
-            _assignEventRepository, _currentUserService, eventId);
 
         var assignEvent = await _assignEventRepository.GetByIdWithTracksAsync(assignEventId);
         if (assignEvent == null || assignEvent.IsDisable)
             throw new NotFoundException("Assign Event Not Found");
+
+        await StaffAssignmentHelper.ValidateAndGetAssignmentAsync(
+            _assignEventRepository, _currentUserService, assignEvent.EventId);
 
         return new GetAssignEventDetailResponse
         {

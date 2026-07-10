@@ -8,6 +8,8 @@ namespace Hackathon.Application.Services.Staff.CriteriaTemplate;
 
 public interface ICriteriaTemplateService
 {
-    Task<GetCriteriaTemplateResponse> GetCriteriaTemplateByRoundId(Guid eventId, Guid roundId);
-    Task<GetCriteriaItemsResponse> GetCriteriaItemsByTemplateId(Guid eventId, Guid criteriaTemplateId);
+    Task<GetCriteriaTemplateResponse> GetCriteriaTemplateByRoundId(Guid roundId);
+    Task<GetCriteriaItemsResponse> GetCriteriaItemsByTemplateId(Guid criteriaTemplateId);
+    Task<GetCriteriaTemplateDetailResponse> GetCriteriaTemplateDetail(Guid templateId);
+    Task<GetCriteriaItemDetailResponse> GetCriteriaItemDetail(Guid itemId);
 }

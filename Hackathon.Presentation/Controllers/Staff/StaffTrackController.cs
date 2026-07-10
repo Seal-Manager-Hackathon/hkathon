@@ -23,7 +23,7 @@ public class StaffTrackController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpGet("events/{eventId:guid}/tracks/{trackId:guid}")]
+    [HttpGet("tracks/{trackId:guid}")]
     public async Task<IActionResult> GetTrackDetail(Guid trackId)
     {
         var result = await _trackService.GetTrackDetail(trackId);
