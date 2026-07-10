@@ -141,13 +141,13 @@ public class LeaderboardHelper
 
     /// <summary>
     /// Tính chapter leaderboard — gom team qua các event → chapterScore → xếp hạng (DENSE_RANK).
-    /// Chỉ tính event có LeaderBoards với year trùng, status Published/Closed, IsDisable=false.
+    /// Chỉ tính event có LeaderBoards với year trùng, status Published/Closed, IsDisable=false, và leader board IsDisable=false.
     /// filteredLeaderBoards: nếu truyền vào thì chỉ tính trên các leader board đó (dùng cho Staff bị giới hạn event).
     /// </summary>
     public async Task<GetChapterLeaderboardResponse> GetChapterLeaderboardAsync(int year, int pageIndex, int pageSize, List<Domain.Entities.LeaderBoards>? filteredLeaderBoards = null)
     {
         var leaderBoards = filteredLeaderBoards ?? await _eventRepository.GetLeaderBoardByYearAsync(year);
-        var events = leaderBoards.Where(lb => lb.Event != null).Select(lb => lb.Event).ToList();
+        var events = leaderBoards.Where(lb => lb.Event != null && !lb.IsDisable).Select(lb => lb.Event).ToList();
 
         var teamDict = new Dictionary<Guid, (string Name, List<EventScoreDetail> EventScores)>();
         foreach (var ev in events)
