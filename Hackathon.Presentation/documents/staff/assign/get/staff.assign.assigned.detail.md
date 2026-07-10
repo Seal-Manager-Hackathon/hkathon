@@ -55,3 +55,5 @@
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Chuyển về trang login |
 | 403 | You do not have permission to perform this action | Không phải Staff hoặc không được phân công vào event | Hiển thị thông báo Không có quyền |
 | 404 | Resource Not Found | AssignEventId không tồn tại hoặc đã bị disable | Hiển thị thông báo Không tìm thấy |
+
+> **First** — API này là bản gốc, không có Admin tương ứng. Dùng làm chuẩn tham chiếu cho các role khác.

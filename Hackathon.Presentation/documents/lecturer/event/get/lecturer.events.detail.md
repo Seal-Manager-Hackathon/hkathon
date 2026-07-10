@@ -53,3 +53,5 @@
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Chuyển về trang login |
 | 403 | You do not have permission to perform this action | Không phải Lecturer | Hiển thị thông báo Không có quyền |
 | 404 | Event Not Found or You Are Not Assigned to This Event | EventId không tồn tại hoặc lecturer chưa được phân công | Hiển thị thông báo Không tìm thấy |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/events/{eventId})

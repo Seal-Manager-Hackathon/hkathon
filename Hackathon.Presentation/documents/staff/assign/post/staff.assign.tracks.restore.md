@@ -41,3 +41,5 @@ Ngược lại với API [remove track](staff.assign.tracks.remove.md).
 | 400 | Can Only Modify Lecturer's Tracks | User không phải Lecturer |
 | 401 | Unauthorized | Token hết hạn/thiếu |
 | 403 | Forbidden | Không phải Staff / không được assign vào event |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/assign/post/admin.assign.tracks.restore.md)

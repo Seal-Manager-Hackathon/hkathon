@@ -53,3 +53,5 @@
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Chuyển về trang login |
 | 403 | You do not have permission to perform this action | Không phải Staff hoặc không được phân công vào event | Hiển thị thông báo Không có quyền |
 | 404 | Resource Not Found | CriteriaTemplateId không tồn tại | Hiển thị thông báo Không tìm thấy |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/criteria-templates/{criteriaTemplateId}/items) — [`admin/criteria-template/get/criteria-items/admin.criteria-items.list.md`](../../../admin/criteria-template/get/criteria-items/admin.criteria-items.list.md)

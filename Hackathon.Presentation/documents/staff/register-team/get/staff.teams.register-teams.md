@@ -71,3 +71,5 @@
 | 400 | Page Index / Page Size | Pagination sai | Fix pagination |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | Không phải Staff | Ẩn chức năng |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/register-team/get/admin.teams.register-teams.md)

@@ -44,3 +44,5 @@ Lấy các event mà team đã được approve tham gia. Dựa trên các Regis
 |--------|---------|---------|
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu |
 | 403 | You do not have permission to perform this action | User không có role Staff |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/team/get/admin.teams.events.md)

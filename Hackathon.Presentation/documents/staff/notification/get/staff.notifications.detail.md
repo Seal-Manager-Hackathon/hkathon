@@ -34,3 +34,5 @@ Lấy thông tin chi tiết của một notification theo ID.
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu |
 | 403 | You do not have permission to perform this action | User không có role Staff |
 | 404 | Notification Not Found | ID không tồn tại |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/notification/get/admin.notifications.detail.md)

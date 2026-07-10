@@ -64,3 +64,5 @@
 |--------|---------|---------|----------|
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | User không có role Staff | Ẩn chức năng |
+
+> **First** — API này là bản gốc, không có Admin tương ứng. Dùng làm chuẩn tham chiếu cho các role khác.

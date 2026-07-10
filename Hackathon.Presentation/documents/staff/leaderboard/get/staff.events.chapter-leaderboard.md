@@ -72,3 +72,5 @@
 |--------|---------|---------|
 | 401 | Unauthorized | Token hết hạn/thiếu |
 | 403 | Forbidden | Không phải Staff |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/leaderboard/get/admin.leaderboard.chapter.md)

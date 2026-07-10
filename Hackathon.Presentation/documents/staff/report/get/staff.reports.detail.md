@@ -37,3 +37,5 @@ Lấy thông tin chi tiết của một report theo ID.
 | 404 | Resource Not Found | ID không tồn tại |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu |
 | 403 | You do not have permission to perform this action | User không có role Staff |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/report/get/admin.reports.detail.md)

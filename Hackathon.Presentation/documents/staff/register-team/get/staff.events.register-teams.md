@@ -83,3 +83,5 @@
 | 400 | `Invalid Status value` | Giá trị Status không hợp lệ (không thuộc enum) | Hiển thị thông báo lỗi |
 | 401 | `Unauthorized` | Token hết hạn hoặc thiếu | Redirect sang trang login |
 | 403 | `Forbidden` | Không có role Staff hoặc không được phân công vào event | Hiển thị thông báo không có quyền |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/register-team/get/admin.events.register-teams.md)

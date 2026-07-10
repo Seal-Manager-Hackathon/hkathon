@@ -38,3 +38,5 @@ Staff muốn xóa một Lecturer đã được phân công khỏi event. Hệ th
 | 400 | Can Only Remove Lecturer From Event | User không phải Lecturer |
 | 401 | Unauthorized | Token hết hạn/thiếu |
 | 403 | Forbidden | Không phải Staff / không được assign vào event |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/assign/post/admin.assign.event-remove.md)

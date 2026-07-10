@@ -43,3 +43,5 @@
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | User không có role Staff hoặc không được assign vào event | Ẩn chức năng |
 | 404 | Not Found | Không tìm thấy topic hoặc topic đã bị disable | Chuyển về danh sách |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/topics/{topicId}) — [`admin/topic/get/admin.topics.detail.md`](../../../admin/topic/get/admin.topics.detail.md)

@@ -65,3 +65,5 @@
 | 401    | Invalid Or Expired Token                          | Token hết hạn/thiếu                | Redirect login                      |
 | 403    | You Are Not Assigned to This Event                | Staff không được assign vào event  | Ẩn chức năng                        |
 | 404    | Resource Not Found                                    | eventId không tồn tại              | Báo "Không tìm thấy sự kiện"      |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/events/{eventId}/awards) — [`admin/award/get/admin.awards.list.md`](../../../admin/award/get/admin.awards.list.md)

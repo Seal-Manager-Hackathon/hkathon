@@ -59,3 +59,5 @@
 |--------|---------|---------|----------|
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | User không có role Staff hoặc không được assign vào event | Ẩn chức năng |
+
+> **Ref:** [Admin API tương ứng](/api/v1/admin/events/{eventId}/rounds) — [`admin/round/get/admin.rounds.list.md`](../../../admin/round/get/admin.rounds.list.md)
