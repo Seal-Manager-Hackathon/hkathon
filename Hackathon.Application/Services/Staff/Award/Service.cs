@@ -90,12 +90,9 @@ public class Service : IAwardService
         };
     }
 
-    public async Task<GetAwardDetailResponse> GetAwardDetail(Guid eventId, Guid awardId)
+    public async Task<GetAwardDetailResponse> GetAwardDetail(Guid awardId)
     {
         _authorizationService.Authorize(RoleEnum.Staff);
-
-        // Staff phải được assign vào event này
-        await EnsureStaffAssignedToEvent(eventId);
 
         var award = await _awardRepository.GetByIdAsync(awardId);
         if (award == null)
@@ -104,6 +101,9 @@ public class Service : IAwardService
         // Staff không xem được award đã disable
         if (award.IsDisable)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        // Staff phải được assign vào event này
+        await EnsureStaffAssignedToEvent(award.EventId);
 
         return new GetAwardDetailResponse
         {

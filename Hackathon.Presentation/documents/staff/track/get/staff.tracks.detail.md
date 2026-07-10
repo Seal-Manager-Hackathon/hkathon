@@ -1,4 +1,4 @@
-# GET /api/v1/staff/events/{eventId}/tracks/{trackId}
+# GET /api/v1/staff/tracks/{trackId}
 
 > Xem chi tiết track.
 

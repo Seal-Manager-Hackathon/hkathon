@@ -1,12 +1,11 @@
-# GET /api/v1/staff/events/{eventId}/assigned/{assignEventId}
+# GET /api/v1/staff/event-assigns/{assignEventId}
 
-> Staff xem chi tiết một Bản ghi phân công trong event.
+> Staff xem chi tiết một Bản ghi phân công.
 
 ## Nghiệp vụ
 - Staff phải được phân công vào event tương ứng.
 - Trả về thông tin chi tiết assign: user, vai trò, các track được gắn, thời gian tạo/cập nhật.
 - Nếu assign bị disable (`IsDisable = true`), API trả về 404.
-- Chỉ lấy track có `IsDisable = false`.
 
 ## Phân quyền
 - ✅ Staff (phải được phân công vào event tương ứng)
@@ -16,7 +15,6 @@
 ### Route Parameters
 | Parameter | Type | Bắt buộc | Ví dụ | Ghi chú |
 |-----------|------|----------|-------|---------|
-| eventId | Guid | Có | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID của event |
 | assignEventId | Guid | Có | 3fa85f64-5717-4562-b3fc-2c963f66afa6 | ID của Bản ghi assign trong bảng `AssignEvents` |
 
 ## Response (200)

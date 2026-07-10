@@ -1,4 +1,4 @@
-# GET /api/v1/staff/events/{eventId}/rounds/{roundId}/criteria-templates
+# GET /api/v1/staff/rounds/{roundId}/criteria-templates
 
 > Staff xem danh sách criteria template của round.
 

@@ -23,10 +23,10 @@ public class StaffAwardController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.AwardsFetched, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpGet("events/{eventId:guid}/awards/{awardId:guid}")]
-    public async Task<IActionResult> GetAwardDetail(Guid eventId, Guid awardId)
+    [HttpGet("awards/{awardId:guid}")]
+    public async Task<IActionResult> GetAwardDetail(Guid awardId)
     {
-        var result = await _awardService.GetAwardDetail(eventId, awardId);
+        var result = await _awardService.GetAwardDetail(awardId);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 }

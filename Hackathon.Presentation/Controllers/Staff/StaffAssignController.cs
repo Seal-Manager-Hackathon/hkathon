@@ -37,10 +37,10 @@ public class StaffAssignController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpGet("events/{eventId:guid}/assigned/{assignEventId:guid}")]
-    public async Task<IActionResult> GetAssignEventDetail(Guid eventId, Guid assignEventId)
+    [HttpGet("event-assigns/{assignEventId:guid}")]
+    public async Task<IActionResult> GetAssignEventDetail(Guid assignEventId)
     {
-        var result = await _assignService.GetAssignEventDetail(eventId, assignEventId);
+        var result = await _assignService.GetAssignEventDetail(assignEventId);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 

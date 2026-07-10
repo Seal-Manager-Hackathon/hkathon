@@ -16,17 +16,31 @@ public class StaffCriteriaTemplateController : ControllerBase
         _criteriaTemplateService = criteriaTemplateService;
     }
 
-    [HttpGet("events/{eventId:guid}/rounds/{roundId:guid}/criteria-templates")]
-    public async Task<IActionResult> GetCriteriaTemplateByRoundId(Guid eventId, Guid roundId)
+    [HttpGet("rounds/{roundId:guid}/criteria-templates")]
+    public async Task<IActionResult> GetCriteriaTemplateByRoundId(Guid roundId)
     {
-        var result = await _criteriaTemplateService.GetCriteriaTemplateByRoundId(eventId, roundId);
+        var result = await _criteriaTemplateService.GetCriteriaTemplateByRoundId(roundId);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpGet("events/{eventId:guid}/criteria-templates/{criteriaTemplateId:guid}/items")]
-    public async Task<IActionResult> GetCriteriaItemsByTemplateId(Guid eventId, Guid criteriaTemplateId)
+    [HttpGet("criteria-templates/{criteriaTemplateId:guid}/items")]
+    public async Task<IActionResult> GetCriteriaItemsByTemplateId(Guid criteriaTemplateId)
     {
-        var result = await _criteriaTemplateService.GetCriteriaItemsByTemplateId(eventId, criteriaTemplateId);
+        var result = await _criteriaTemplateService.GetCriteriaItemsByTemplateId(criteriaTemplateId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("criteria-templates/{templateId:guid}")]
+    public async Task<IActionResult> GetCriteriaTemplateDetail(Guid templateId)
+    {
+        var result = await _criteriaTemplateService.GetCriteriaTemplateDetail(templateId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("criteria-items/{itemId:guid}")]
+    public async Task<IActionResult> GetCriteriaItemDetail(Guid itemId)
+    {
+        var result = await _criteriaTemplateService.GetCriteriaItemDetail(itemId);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 }

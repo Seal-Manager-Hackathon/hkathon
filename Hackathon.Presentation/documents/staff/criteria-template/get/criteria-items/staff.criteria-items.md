@@ -1,4 +1,4 @@
-# GET /api/v1/staff/events/{eventId}/criteria-templates/{criteriaTemplateId}/items
+# GET /api/v1/staff/criteria-templates/{criteriaTemplateId}/items
 
 > Staff xem danh sách criteria items của một criteria template.
 
