@@ -63,6 +63,25 @@ public class ScoreRepository : IScoreRepository
             .ToListAsync();
     }
 
+    public async Task<List<Scores>> GetByAssignTrackIdAsync(Guid assignTrackId)
+    {
+        return await _context.Set<Scores>()
+            .Include(s => s.Submission)
+                .ThenInclude(sub => sub.RoundDetail)
+                    .ThenInclude(rd => rd.Round)
+            .Include(s => s.Submission)
+                .ThenInclude(sub => sub.RoundDetail)
+                    .ThenInclude(rd => rd.RegisterTeam)
+                        .ThenInclude(rt => rt.Team)
+            .Include(s => s.Submission)
+                .ThenInclude(sub => sub.RoundDetail)
+                    .ThenInclude(rd => rd.RegisterTeam)
+                        .ThenInclude(rt => rt.Track)
+            .Where(s => s.AssignTrackId == assignTrackId)
+            .OrderByDescending(s => s.CreatedAt)
+            .ToListAsync();
+    }
+
     public async Task AddAsync(Scores score)
         => await _context.Set<Scores>().AddAsync(score);
 
