@@ -32,15 +32,15 @@ public class AdminTrackController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpGet("events/{eventId:guid}/tracks/{trackId:guid}")]
-    public async Task<IActionResult> GetTrackDetail(Guid eventId, Guid trackId)
+    [HttpGet("tracks/{trackId:guid}")]
+    public async Task<IActionResult> GetTrackDetail(Guid trackId)
     {
-        var result = await _trackService.GetTrackDetail(eventId, trackId);
+        var result = await _trackService.GetTrackDetail(trackId);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPatch("events/{eventId:guid}/tracks/{trackId:guid}")]
-    public async Task<IActionResult> UpdateTrack(Guid eventId, Guid trackId, [FromBody] UpdateTrackRequest request)
+    [HttpPatch("tracks/{trackId:guid}")]
+    public async Task<IActionResult> UpdateTrack(Guid trackId, [FromBody] UpdateTrackRequest request)
     {
         request.TrackId = trackId;
         await _trackService.UpdateTrack(request);

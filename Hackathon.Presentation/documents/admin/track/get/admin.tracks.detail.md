@@ -1,4 +1,4 @@
-# GET /api/v1/admin/events/{eventId}/tracks/{trackId}
+# GET /api/v1/admin/tracks/{trackId}
 
 > Admin xem chi tiết track + số lượng register team đã chọn track này.
 
@@ -31,6 +31,6 @@
 ## Lỗi
 | Status | message | Khi nào |
 |--------|---------|---------|
-| 404 | Resource Not Found | EventId hoặc TrackId không tồn tại |
+| 404 | Resource Not Found | TrackId không tồn tại |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu |
 | 403 | You do not have permission to perform this action | Không phải Admin |

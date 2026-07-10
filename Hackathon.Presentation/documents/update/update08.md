@@ -29,3 +29,11 @@
 **Trước:** Sắp xếp theo `FirstName, LastName`  
 **Sau:** Sắp xếp theo `Email` (đồng bộ giữa staff available, lecturer available, assigned)  
 **Files:** `Repositories/UserRepository.cs` (GetAvailableUsersByRoleAsync), `Repositories/AssignEventRepository.cs` (GetAssignedUsersByEventAsync — cả 2 overload)
+
+## 7. Sửa route Admin Track detail + update (bỏ eventId)
+**Trước:** `GET /api/v1/admin/events/{eventId}/tracks/{trackId}` và `PATCH /api/v1/admin/events/{eventId}/tracks/{trackId}`  
+**Sau:** `GET /api/v1/admin/tracks/{trackId}` và `PATCH /api/v1/admin/tracks/{trackId}` (bỏ eventId vì track đã biết event của nó)  
+**Files:** `Controllers/Admin/AdminTrackController.cs`, `Services/Admin/Track/ITrackService.cs`, `Services/Admin/Track/Service.cs`, `documents/admin/track/get/admin.tracks.detail.md`
+**Trước:** Sắp xếp theo `FirstName, LastName`  
+**Sau:** Sắp xếp theo `Email` (đồng bộ giữa staff available, lecturer available, assigned)  
+**Files:** `Repositories/UserRepository.cs` (GetAvailableUsersByRoleAsync), `Repositories/AssignEventRepository.cs` (GetAssignedUsersByEventAsync — cả 2 overload)
