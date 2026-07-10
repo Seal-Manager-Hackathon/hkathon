@@ -33,6 +33,33 @@ public class Service : IAssignService
         _authorizationService = authorizationService;
     }
 
+    public async Task<GetAvailableStaffResponse> GetAvailableStaff(Guid eventId, GetAvailableLecturersRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Staff);
+
+        await StaffAssignmentHelper.ValidateAndGetAssignmentAsync(
+            _assignEventRepository, _currentUserService, eventId);
+
+        var (items, totalCount) = await _userRepository.GetAvailableUsersByRoleAsync(
+            eventId, RoleEnum.Staff, request.Keyword, request.PageIndex, request.PageSize);
+
+        return new GetAvailableStaffResponse
+        {
+            Items = items.Select(u => new AvailableStaffItem
+            {
+                Id = u.Id,
+                Email = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                AvatarUrl = string.IsNullOrEmpty(u.AvatarUrl) ? null : u.AvatarUrl,
+                PhoneNumber = string.IsNullOrEmpty(u.PhoneNumber) ? null : u.PhoneNumber
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = request.PageIndex,
+            PageSize = request.PageSize
+        };
+    }
+
     public async Task<GetAvailableLecturersResponse> GetAvailableLecturers(Guid eventId, GetAvailableLecturersRequest request)
     {
         _authorizationService.Authorize(RoleEnum.Staff);
