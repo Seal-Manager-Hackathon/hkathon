@@ -48,7 +48,7 @@ public class Service : IEventService
 
         return new GetMyEventsResponse
         {
-            Items = items.Select(e => new StaffEventItem
+            Events = items.Select(e => new StaffEventItem
             {
                 Id = e.Id,
                 Name = e.Name,
@@ -93,7 +93,7 @@ public class Service : IEventService
 
         return new GetMyEventsResponse
         {
-            Items = items.Select(ae => new StaffEventItem
+            Events = items.Select(ae => new StaffEventItem
             {
                 Id = ae.Event.Id,
                 Name = ae.Event.Name,

@@ -29,7 +29,7 @@
 ```json
 {
   "data": {
-    "items": [
+    "events": [
       {
         "id": "guid",
         "name": "Hackathon AI 2026",

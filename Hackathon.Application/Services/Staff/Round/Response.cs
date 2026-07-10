@@ -29,6 +29,7 @@ public class GetRoundDetailResponse
 {
     public Guid Id { get; set; }
     public Guid EventId { get; set; }
+    public string? EventName { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
     public int? RoundNo { get; set; }

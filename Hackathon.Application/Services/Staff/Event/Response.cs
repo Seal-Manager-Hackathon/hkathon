@@ -2,7 +2,7 @@ namespace Hackathon.Application.Services.Staff.Event;
 
 public class GetMyEventsResponse
 {
-    public List<StaffEventItem> Items { get; set; } = new();
+    public List<StaffEventItem> Events { get; set; } = new();
     public int TotalCount { get; set; }
     public int PageIndex { get; set; }
     public int PageSize { get; set; }
