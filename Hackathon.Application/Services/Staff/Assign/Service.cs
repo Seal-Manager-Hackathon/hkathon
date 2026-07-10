@@ -148,13 +148,14 @@ public class Service : IAssignService
                     LastName = ae.User.LastName,
                     AvatarUrl = string.IsNullOrEmpty(ae.User.AvatarUrl) ? null : ae.User.AvatarUrl,
                     EventRole = ae.EventRole?.Name.ToString(),
+                    IsDisable = ae.IsDisable,
                     AssignTracks = ae.AssignTracks
-                        .Where(at => !at.IsDisable)
                         .Select(at => new AssignedTrackItem
                         {
                             TrackId = at.TrackId,
                             Title = at.Track.Title,
-                            EventId = ae.EventId
+                            EventId = ae.EventId,
+                            IsDisable = at.IsDisable
                         }).ToList()
                 }).ToList(),
             TotalCount = totalCount,
@@ -185,12 +186,12 @@ public class Service : IAssignService
             AvatarUrl = string.IsNullOrEmpty(assignEvent.User.AvatarUrl) ? null : assignEvent.User.AvatarUrl,
             EventRole = assignEvent.EventRole?.Name.ToString(),
             Tracks = assignEvent.AssignTracks
-                .Where(at => !at.IsDisable)
                 .Select(at => new AssignedTrackItem
                 {
                     TrackId = at.TrackId,
                     Title = at.Track.Title,
-                    EventId = assignEvent.EventId
+                    EventId = assignEvent.EventId,
+                    IsDisable = at.IsDisable
                 }).ToList(),
             CreatedAt = assignEvent.CreatedAt,
             UpdatedAt = assignEvent.UpdatedAt

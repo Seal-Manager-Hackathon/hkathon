@@ -66,7 +66,7 @@ public class Service : ITopicService
 
         return new GetTopicsResponse
         {
-            Items = topicItems,
+            Topics = topicItems,
             TotalCount = totalCount,
             PageIndex = request.PageIndex,
             PageSize = request.PageSize

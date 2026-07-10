@@ -54,12 +54,16 @@ public class Service : ICriteriaTemplateService
             {
                 Id = t.Id,
                 RoundId = t.RoundId,
-                Name = t.Title,
+                Title = t.Title,
                 Description = t.Description,
                 IsDisable = t.IsDisable,
+                IsActive = t.IsActive,
                 CreatedAt = t.CreatedAt,
                 UpdatedAt = t.UpdatedAt
-            }).ToList()
+            }).ToList(),
+            TotalCount = activeTemplates.Count,
+            PageIndex = 1,
+            PageSize = activeTemplates.Count > 0 ? activeTemplates.Count : 10
         };
     }
 
@@ -80,21 +84,24 @@ public class Service : ICriteriaTemplateService
         if (template == null)
             throw new NotFoundException("Criteria Template Not Found");
 
+        var items = template.CriteriaItems.Where(ci => !ci.IsDisable).ToList();
+
         return new GetCriteriaItemsResponse
         {
-            Items = template.CriteriaItems
-                .Where(ci => !ci.IsDisable)
-                .Select(ci => new CriteriaItemDetail
-                {
-                    Id = ci.Id,
-                    CriteriaTemplateId = ci.CriteriaTemplateId,
-                    Name = ci.Name,
-                    Description = ci.Description,
-                    MaxScore = ci.Score,
-                    IsDisable = ci.IsDisable,
-                    CreatedAt = ci.CreatedAt,
-                    UpdatedAt = ci.UpdatedAt
-                }).ToList()
+            Items = items.Select(ci => new CriteriaItemDetail
+            {
+                Id = ci.Id,
+                CriteriaTemplateId = ci.CriteriaTemplateId,
+                Name = ci.Name,
+                Description = ci.Description,
+                Score = ci.Score,
+                IsDisable = ci.IsDisable,
+                CreatedAt = ci.CreatedAt,
+                UpdatedAt = ci.UpdatedAt
+            }).ToList(),
+            TotalCount = items.Count,
+            PageIndex = 1,
+            PageSize = items.Count > 0 ? items.Count : 10
         };
     }
 }

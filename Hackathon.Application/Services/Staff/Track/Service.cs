@@ -62,7 +62,7 @@ public class Service : ITrackService
 
         return new GetTracksResponse
         {
-            Items = trackItems,
+            Tracks = trackItems,
             TotalCount = totalCount,
             PageIndex = request.PageIndex,
             PageSize = request.PageSize

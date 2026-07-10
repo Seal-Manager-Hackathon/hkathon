@@ -2,7 +2,7 @@ namespace Hackathon.Application.Services.Staff.Topic;
 
 public class GetTopicsResponse
 {
-    public List<StaffTopicItem> Items { get; set; } = new();
+    public List<StaffTopicItem> Topics { get; set; } = new();
     public int TotalCount { get; set; }
     public int PageIndex { get; set; }
     public int PageSize { get; set; }

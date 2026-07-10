@@ -41,11 +41,13 @@
         "lastName": "Van A",
         "avatarUrl": "https://example.com/avatar.jpg",
         "eventRole": "Judge",
+        "isDisable": false,
         "assignTracks": [
           {
             "trackId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
             "title": "Tri tue nhan tao",
-            "eventId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+            "eventId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "isDisable": false
           }
         ]
       }

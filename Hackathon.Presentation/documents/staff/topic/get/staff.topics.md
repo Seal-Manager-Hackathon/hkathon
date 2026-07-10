@@ -23,7 +23,7 @@
 ```json
 {
   "data": {
-    "items": [
+    "topics": [
       {
         "id": "guid",
         "trackId": "guid",

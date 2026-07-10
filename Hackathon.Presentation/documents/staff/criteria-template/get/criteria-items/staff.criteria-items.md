@@ -5,7 +5,7 @@
 ## Nghiệp vụ
 - Staff phải được phân công vào event tương ứng.
 - Chỉ trả về item có `IsDisable = false`.
-- Entity `CriteriaItem` dùng field `Score` ánh xạ sang `maxScore` trong response.
+- Entity `CriteriaItem` dùng field `Score` ánh xạ sang `score` trong response.
 
 ## Phân quyền
 - ✅ Staff (phải được phân công vào event tương ứng)
@@ -28,12 +28,15 @@
         "criteriaTemplateId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         "name": "Tính sáng tạo",
         "description": "Ý tưởng có tính mới và sáng tạo",
-        "maxScore": 30,
+        "score": 30,
         "isDisable": false,
         "createdAt": "2026-05-01T00:00:00Z",
         "updatedAt": "2026-06-01T00:00:00Z"
       }
-    ]
+    ],
+    "totalCount": 5,
+    "pageIndex": 1,
+    "pageSize": 10
   },
   "message": "Fetched Successfully",
   "error": null,

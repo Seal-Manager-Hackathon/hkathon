@@ -2,7 +2,7 @@ namespace Hackathon.Application.Services.Staff.Track;
 
 public class GetTracksResponse
 {
-    public List<StaffTrackItem> Items { get; set; } = new();
+    public List<StaffTrackItem> Tracks { get; set; } = new();
     public int TotalCount { get; set; }
     public int PageIndex { get; set; }
     public int PageSize { get; set; }

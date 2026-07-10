@@ -26,13 +26,17 @@
       {
         "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         "roundId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "name": "Tiêu chí chấm điểm vòng loại",
+        "title": "Tiêu chí chấm điểm vòng loại",
         "description": "Đánh giá ý tưởng và khả thi",
         "isDisable": false,
+        "isActive": true,
         "createdAt": "2026-05-01T00:00:00Z",
         "updatedAt": "2026-06-01T00:00:00Z"
       }
-    ]
+    ],
+    "totalCount": 1,
+    "pageIndex": 1,
+    "pageSize": 10
   },
   "message": "Fetched Successfully",
   "error": null,

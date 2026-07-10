@@ -1,4 +1,4 @@
-# Update 02 — Staff API response alignment với Admin
+# Update 05 — Staff API response alignment với Admin
 
 > Đồng bộ response DTO của Staff API cho khớp với Admin API (cùng field names, cấu trúc, và response shape). Staff API là copy từ Admin, chỉ khác authorization role.
 

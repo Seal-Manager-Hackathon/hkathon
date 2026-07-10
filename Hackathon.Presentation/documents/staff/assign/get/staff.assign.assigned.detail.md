@@ -35,7 +35,8 @@
       {
         "trackId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         "title": "Tri tue nhan tao",
-        "eventId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        "eventId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "isDisable": false
       }
     ],
     "createdAt": "2026-05-01T00:00:00Z",
