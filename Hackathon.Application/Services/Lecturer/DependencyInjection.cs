@@ -2,6 +2,7 @@ using Hackathon.Application.Services.Lecturer.Assign;
 using Hackathon.Application.Services.Lecturer.Award;
 using Hackathon.Application.Services.Lecturer.CriteriaTemplate;
 using Hackathon.Application.Services.Lecturer.Event;
+using Hackathon.Application.Services.Lecturer.Leaderboard;
 using Hackathon.Application.Services.Lecturer.Round;
 using Hackathon.Application.Services.Lecturer.Notification;
 using Hackathon.Application.Services.Lecturer.RegisterTeam;
@@ -26,6 +27,7 @@ public static class DependencyInjection
         services.AddScoped<ICriteriaTemplateService, CriteriaTemplate.Service>();
         services.AddScoped<IAwardService, Award.Service>();
         services.AddScoped<IRoundService, Round.Service>();
+        services.AddScoped<ILeaderboardService, Leaderboard.Service>();
         return services;
     }
 }

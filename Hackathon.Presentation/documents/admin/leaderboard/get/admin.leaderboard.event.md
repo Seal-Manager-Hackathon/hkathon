@@ -21,6 +21,7 @@
     "eventId": "guid",
     "eventName": "Hackathon 2026",
     "totalRounds": 3,
+    "isDisable": false,
     "items": [
       {
         "rank": 1,
