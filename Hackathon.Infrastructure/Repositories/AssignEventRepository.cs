@@ -110,6 +110,7 @@ public class AssignEventRepository : IAssignEventRepository
             .Include(ae => ae.User)
             .Include(ae => ae.EventRole)
             .Include(ae => ae.AssignTracks)
+                .ThenInclude(at => at.Track)
             .FirstOrDefaultAsync(ae => ae.Id == id);
 
     public async Task<bool> IsTrackAssignedAsync(Guid assignEventId, Guid trackId)
@@ -254,7 +255,6 @@ public class AssignEventRepository : IAssignEventRepository
             .Include(ae => ae.Event)
             .Include(ae => ae.EventRole)
             .Where(ae => ae.UserId == userId
-                && !ae.IsDisable
                 && ae.EventRole != null
                 && (ae.EventRole.Name == EventRoleEnum.Judge || ae.EventRole.Name == EventRoleEnum.Mentor)
                 && ae.Event.Status != EventStatusEnum.Draft);
