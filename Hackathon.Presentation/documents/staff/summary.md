@@ -32,7 +32,7 @@ Tất cả API Staff đều yêu cầu:
 | Method | Route | Chức năng |
 |--------|-------|-----------|
 | GET | `/api/v1/staff/events/{eventId}/tracks` | [Lấy danh sách track của event](track/get/staff.tracks.md) |
-| GET | `/api/v1/staff/events/{eventId}/tracks/{trackId}` | [Xem chi tiết track](track/get/staff.tracks.detail.md) |
+| GET | `/api/v1/staff/tracks/{trackId}` | [Xem chi tiết track](track/get/staff.tracks.detail.md) |
 
 ### Topic
 | Method | Route | Chức năng |

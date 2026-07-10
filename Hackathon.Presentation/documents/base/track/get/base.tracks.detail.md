@@ -5,7 +5,7 @@
 ## Nghiệp vụ
 
 - Bất kỳ user nào đã đăng nhập đều có thể xem chi tiết track.
-- Response giống hệt Admin `GET /api/v1/admin/events/{eventId}/tracks/{trackId}`.
+- Response giống hệt Admin `GET /api/v1/admin/tracks/{trackId}`.
 
 ## Phân quyền
 - ✅ Authenticated (chỉ cần đăng nhập)
@@ -41,4 +41,4 @@
 | 401 | Invalid Or Expired Token | Token hết hạn |
 | 404 | Resource Not Found | trackId không tồn tại |
 
-> **Ref:** [Admin API tương ứng](/api/v1/admin/events/{eventId}/tracks/{trackId})
+> **Ref:** [Admin API tương ứng](/api/v1/admin/tracks/{trackId})
