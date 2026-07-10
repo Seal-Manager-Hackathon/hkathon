@@ -52,4 +52,18 @@ public class Service : ILeaderboardService
 
         await _leaderboardHelper.HideChapterAsync(year);
     }
+
+    public async Task PublishEvent(Guid eventId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        await _leaderboardHelper.PublishEventAsync(eventId);
+    }
+
+    public async Task HideEvent(Guid eventId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        await _leaderboardHelper.HideEventAsync(eventId);
+    }
 }

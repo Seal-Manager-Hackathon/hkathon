@@ -3,6 +3,8 @@ using Hackathon.Application.Services.Staff.Award;
 using Hackathon.Application.Services.Staff.CriteriaTemplate;
 using Hackathon.Application.Services.Staff.Event;
 using Hackathon.Application.Services.Staff.Leaderboard;
+using Hackathon.Application.Services.Staff.Notification;
+using Hackathon.Application.Services.Staff.Report;
 using Hackathon.Application.Services.Staff.Round;
 using Hackathon.Application.Services.Staff.Team;
 using Hackathon.Application.Services.Staff.Topic;
@@ -20,6 +22,8 @@ public static class DependencyInjection
     public static IServiceCollection AddStaffServices(this IServiceCollection services)
     {
         services.AddScoped<IEventService, Event.Service>();
+        services.AddScoped<INotificationService, Notification.Service>();
+        services.AddScoped<IReportService, Report.Service>();
         services.AddScoped<IRoundService, Round.Service>();
         services.AddScoped<ICriteriaTemplateService, CriteriaTemplate.Service>();
         services.AddScoped<ITrackService, Track.Service>();

@@ -230,6 +230,39 @@ public class LeaderboardHelper
     }
 
     /// <summary>
+    /// Publish event leaderboard — set IsDisable=false, IsPublished=true cho leader board của event.
+    /// </summary>
+    public async Task<int> PublishEventAsync(Guid eventId)
+    {
+        var lb = await _eventRepository.GetLeaderBoardByEventIdAsync(eventId);
+        if (lb == null)
+            return 0;
+
+        lb.IsDisable = false;
+        lb.IsPublished = true;
+        lb.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _eventRepository.UpdateLeaderBoardAsync(lb);
+        return await _unitOfWork.SaveChangesAsync();
+    }
+
+    /// <summary>
+    /// Hide (soft-delete) event leaderboard — set IsDisable=true cho leader board của event.
+    /// </summary>
+    public async Task<int> HideEventAsync(Guid eventId)
+    {
+        var lb = await _eventRepository.GetLeaderBoardByEventIdAsync(eventId);
+        if (lb == null)
+            return 0;
+
+        lb.IsDisable = true;
+        lb.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _eventRepository.UpdateLeaderBoardAsync(lb);
+        return await _unitOfWork.SaveChangesAsync();
+    }
+
+    /// <summary>
     /// Hide (soft-delete) chapter leaderboard — set IsDisable=true cho tất cả leader board trong năm.
     /// </summary>
     public async Task<int> HideChapterAsync(int year)

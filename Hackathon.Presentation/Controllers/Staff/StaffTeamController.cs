@@ -29,4 +29,11 @@ public class StaffTeamController : ControllerBase
         var result = await _teamService.GetTeamDetail(teamId);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.TeamDetailFetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpGet("teams/{teamId:guid}/events")]
+    public async Task<IActionResult> GetTeamEvents(Guid teamId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+    {
+        var result = await _teamService.GetTeamEvents(new GetTeamEventsRequest { TeamId = teamId, PageIndex = pageIndex, PageSize = pageSize });
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
 }

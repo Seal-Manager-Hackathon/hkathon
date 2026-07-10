@@ -9,4 +9,6 @@ public interface ILeaderboardService
     Task<GetChapterLeaderboardResponse> GetChapterLeaderboard(int year, int pageIndex, int pageSize);
     Task PublishChapter(int year);
     Task HideChapter(int year);
+    Task PublishEvent(Guid eventId);
+    Task HideEvent(Guid eventId);
 }

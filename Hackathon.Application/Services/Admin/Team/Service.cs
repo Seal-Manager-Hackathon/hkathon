@@ -11,12 +11,14 @@ namespace Hackathon.Application.Services.Admin.Team;
 public class Service : ITeamService
 {
     private readonly ITeamRepository _teamRepository;
+    private readonly IRegisterTeamRepository _registerTeamRepository;
     private readonly IAuthorizationService _authorizationService;
     private readonly IUnitOfWork _unitOfWork;
 
-    public Service(ITeamRepository teamRepository, IAuthorizationService authorizationService, IUnitOfWork unitOfWork)
+    public Service(ITeamRepository teamRepository, IRegisterTeamRepository registerTeamRepository, IAuthorizationService authorizationService, IUnitOfWork unitOfWork)
     {
         _teamRepository = teamRepository;
+        _registerTeamRepository = registerTeamRepository;
         _authorizationService = authorizationService;
         _unitOfWork = unitOfWork;
     }
@@ -160,6 +162,32 @@ public class Service : ITeamService
                 IsLeader = td.IsLeader,
                 Status = td.Status?.ToString(),
                 CreatedAt = td.CreatedAt
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = request.PageIndex,
+            PageSize = request.PageSize
+        };
+    }
+
+    public async Task<GetTeamEventsResponse> GetTeamEvents(GetTeamEventsRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        PaginationHelper.Validate(request.PageIndex, request.PageSize);
+
+        var (items, totalCount) = await _registerTeamRepository.GetByTeamIdAsync(
+            request.TeamId, Domain.Enums.RegisterTeam.RegisterTeamStatusEnum.Approved, false,
+            request.PageIndex, request.PageSize);
+
+        return new GetTeamEventsResponse
+        {
+            Items = items.Select(rt => new TeamEventItem
+            {
+                RegisterTeamId = rt.Id,
+                EventId = rt.EventId,
+                EventName = rt.Event?.Name ?? "",
+                Status = rt.Event?.Status?.ToString(),
+                CreatedAt = rt.CreatedAt
             }).ToList(),
             TotalCount = totalCount,
             PageIndex = request.PageIndex,

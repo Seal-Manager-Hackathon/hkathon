@@ -50,4 +50,18 @@ public class AdminLeaderboardController : ControllerBase
         await _leaderboardService.HideChapter(year);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpPost("events/{eventId:guid}/leaderboard/publish")]
+    public async Task<IActionResult> PublishEvent(Guid eventId)
+    {
+        await _leaderboardService.PublishEvent(eventId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("events/{eventId:guid}/leaderboard/hide")]
+    public async Task<IActionResult> HideEvent(Guid eventId)
+    {
+        await _leaderboardService.HideEvent(eventId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
 }

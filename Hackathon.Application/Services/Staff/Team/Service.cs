@@ -3,6 +3,7 @@ using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
 using Hackathon.Domain.Entities;
+using Hackathon.Domain.Enums.RegisterTeam;
 using Hackathon.Domain.Enums.TeamDetail;
 using Hackathon.Domain.Enums.User;
 
@@ -11,11 +12,13 @@ namespace Hackathon.Application.Services.Staff.Team;
 public class Service : ITeamService
 {
     private readonly ITeamRepository _teamRepository;
+    private readonly IRegisterTeamRepository _registerTeamRepository;
     private readonly IAuthorizationService _authorizationService;
 
-    public Service(ITeamRepository teamRepository, IAuthorizationService authorizationService)
+    public Service(ITeamRepository teamRepository, IRegisterTeamRepository registerTeamRepository, IAuthorizationService authorizationService)
     {
         _teamRepository = teamRepository;
+        _registerTeamRepository = registerTeamRepository;
         _authorizationService = authorizationService;
     }
 
@@ -108,6 +111,32 @@ public class Service : ITeamService
                 IsLeader = td.IsLeader,
                 Status = td.Status?.ToString(),
                 CreatedAt = td.CreatedAt
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = request.PageIndex,
+            PageSize = request.PageSize
+        };
+    }
+
+    public async Task<GetTeamEventsResponse> GetTeamEvents(GetTeamEventsRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Staff);
+
+        PaginationHelper.Validate(request.PageIndex, request.PageSize);
+
+        var (items, totalCount) = await _registerTeamRepository.GetByTeamIdAsync(
+            request.TeamId, RegisterTeamStatusEnum.Approved, false,
+            request.PageIndex, request.PageSize);
+
+        return new GetTeamEventsResponse
+        {
+            Items = items.Select(rt => new TeamEventItem
+            {
+                RegisterTeamId = rt.Id,
+                EventId = rt.EventId,
+                EventName = rt.Event?.Name ?? "",
+                Status = rt.Event?.Status?.ToString(),
+                CreatedAt = rt.CreatedAt
             }).ToList(),
             TotalCount = totalCount,
             PageIndex = request.PageIndex,

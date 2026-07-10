@@ -31,6 +31,13 @@ public class GetTeamsRequest
     public int PageSize { get; set; } = 10;
 }
 
+public class GetTeamEventsRequest
+{
+    public Guid TeamId { get; set; }
+    public int PageIndex { get; set; } = 1;
+    public int PageSize { get; set; } = 10;
+}
+
 public class GetTeamCountRequest
 {
     /// <summary>

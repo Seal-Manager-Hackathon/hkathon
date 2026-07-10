@@ -1,0 +1,46 @@
+using Hackathon.Application.Common;
+using Hackathon.Application.Common.Models;
+using Hackathon.Application.Services.Staff.Report;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Hackathon.Presentation.Controllers.Staff;
+
+[Route("api/v1/staff")]
+[ApiController]
+public class StaffReportController : ControllerBase
+{
+    private readonly IReportService _reportService;
+
+    public StaffReportController(IReportService reportService)
+    {
+        _reportService = reportService;
+    }
+
+    [HttpGet("reports")]
+    public async Task<IActionResult> GetReports([FromQuery] GetReportsRequest request)
+    {
+        var result = await _reportService.GetReports(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("reports/{reportId:guid}")]
+    public async Task<IActionResult> GetReportDetail(Guid reportId)
+    {
+        var result = await _reportService.GetReportDetail(reportId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("reports/recent")]
+    public async Task<IActionResult> GetRecentReports()
+    {
+        var result = await _reportService.GetRecentReports();
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RecentReportsFetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPatch("reports/{reportId:guid}/status")]
+    public async Task<IActionResult> UpdateReportStatus(Guid reportId, [FromBody] UpdateReportStatusRequest request)
+    {
+        await _reportService.UpdateReportStatus(reportId, request);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
+}

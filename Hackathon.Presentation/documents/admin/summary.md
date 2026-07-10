@@ -117,6 +117,7 @@
 | GET | `/teams` | Danh sách team (pagination) |
 | GET | `/teams/count` | Đếm số team |
 | GET | `/teams/{teamId}` | Chi tiết 1 team |
+| GET | `/teams/{teamId}/events` | DS event team đã tham gia |
 | PATCH | `/teams/{teamId}` | Update team |
 | POST | `/teams/{teamId}/delete` | Xóa mềm |
 | POST | `/teams/{teamId}/restore` | Khôi phục |
@@ -146,6 +147,10 @@
 | GET | `/rounds/{roundId}/leaderboard` | Bảng xếp hạng round (scopeScore từng team, sắp xếp theo điểm) |
 | GET | `/events/{eventId}/leaderboard` | Bảng xếp hạng event (eventScore = weighted avg round, weight=1) |
 | GET | `/events/chapter/{year}/leaderboard` | Bảng xếp hạng chapter (chapterScore = AVG eventScores trong năm) |
+| POST | `/events/{eventId}/leaderboard/publish` | Công bố leader board event |
+| POST | `/events/{eventId}/leaderboard/hide` | Ẩn leader board event |
+| POST | `/events/{eventId}/leaderboard/publish` | Công bố leader board event |
+| POST | `/events/{eventId}/leaderboard/hide` | Ẩn leader board event |
 
 ---
 

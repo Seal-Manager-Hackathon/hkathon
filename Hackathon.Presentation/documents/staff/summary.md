@@ -108,12 +108,36 @@ Tất cả API Staff đều yêu cầu:
 | GET | `/api/v1/staff/events/chapter/{year}/leaderboard` | [BXH chapter theo năm](leaderboard/get/staff.events.chapter-leaderboard.md) |
 | POST | `/api/v1/staff/events/chapter/{year}/leaderboard/publish` | [Công bố leader board chapter](leaderboard/post/staff.chapter.publish.md) |
 | POST | `/api/v1/staff/events/chapter/{year}/leaderboard/hide` | [Ẩn leader board chapter](leaderboard/post/staff.chapter.hide.md) |
+| POST | `/api/v1/staff/events/{eventId}/leaderboard/publish` | [Công bố leader board event](leaderboard/post/staff.leaderboard.events.publish.md) |
+| POST | `/api/v1/staff/events/{eventId}/leaderboard/hide` | [Ẩn leader board event](leaderboard/post/staff.leaderboard.events.hide.md) |
+| POST | `/api/v1/staff/events/{eventId}/leaderboard/publish` | [Công bố leader board event](leaderboard/post/staff.leaderboard.events.publish.md) |
+| POST | `/api/v1/staff/events/{eventId}/leaderboard/hide` | [Ẩn leader board event](leaderboard/post/staff.leaderboard.events.hide.md) |
+
+### Notification
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/api/v1/staff/notifications` | [DS thông báo](notification/get/staff.notifications.md) |
+| GET | `/api/v1/staff/notifications/recent` | [Thông báo gần đây](notification/get/staff.notifications.recent.md) |
+| GET | `/api/v1/staff/notifications/{notificationId}` | [Chi tiết thông báo](notification/get/staff.notifications.detail.md) |
+| POST | `/api/v1/staff/notifications` | [Tạo thông báo](notification/post/staff.notifications.create.md) |
+| PATCH | `/api/v1/staff/notifications/{notificationId}` | [Cập nhật thông báo](notification/patch/staff.notifications.update.md) |
+| POST | `/api/v1/staff/notifications/{notificationId}/delete` | [Xóa mềm thông báo](notification/post/staff.notifications.delete.md) |
+| POST | `/api/v1/staff/notifications/{notificationId}/restore` | [Khôi phục thông báo](notification/post/staff.notifications.restore.md) |
+
+### Report
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/api/v1/staff/reports` | [DS báo cáo](report/get/staff.reports.md) |
+| GET | `/api/v1/staff/reports/{reportId}` | [Chi tiết báo cáo](report/get/staff.reports.detail.md) |
+| GET | `/api/v1/staff/reports/recent` | [Báo cáo gần đây](report/get/staff.reports.recent.md) |
+| PATCH | `/api/v1/staff/reports/{reportId}/status` | [Cập nhật trạng thái](report/patch/staff.reports.status.md) |
 
 ### Team
 | Method | Route | Chức năng |
 |--------|-------|-----------|
 | GET | `/api/v1/staff/teams` | [Danh sách teams](team/get/staff.teams.md) |
 | GET | `/api/v1/staff/teams/{teamId}` | [Chi tiết team](team/get/staff.teams.detail.md) |
+| GET | `/api/v1/staff/teams/{teamId}/events` | [DS event team đã tham gia](team/get/staff.teams.events.md) |
 
 ### User
 | Method | Route | Chức năng |

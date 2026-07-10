@@ -66,3 +66,20 @@ public class GetTeamCountResponse
 {
     public int Total { get; set; }
 }
+
+public class GetTeamEventsResponse
+{
+    public List<TeamEventItem> Items { get; set; } = new();
+    public int TotalCount { get; set; }
+    public int PageIndex { get; set; }
+    public int PageSize { get; set; }
+}
+
+public class TeamEventItem
+{
+    public Guid RegisterTeamId { get; set; }
+    public Guid EventId { get; set; }
+    public string EventName { get; set; } = null!;
+    public string? Status { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+}
