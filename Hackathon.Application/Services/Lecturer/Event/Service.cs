@@ -102,35 +102,4 @@ public class Service : IEventService
             UpdatedAt = ev.UpdatedAt
         };
     }
-
-    public async Task<GetLecturerAssignedInfoResponse> GetLecturerAssignedInfo(Guid eventId)
-    {
-        _authorizationService.Authorize(RoleEnum.Lecturer);
-
-        var currentUserId = _currentUserService.UserId;
-        if (!currentUserId.HasValue)
-            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
-
-        var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdWithTracksAsync(
-            eventId, currentUserId.Value);
-
-        if (assignEvent == null)
-            throw new NotFoundException("Event Not Found or You Are Not Assigned to This Event");
-
-        return new GetLecturerAssignedInfoResponse
-        {
-            AssignEventId = assignEvent.Id,
-            EventId = assignEvent.EventId,
-            EventRole = assignEvent.EventRole?.Name.ToString(),
-            Tracks = assignEvent.AssignTracks
-                .Where(at => !at.IsDisable && !at.Track.IsDisable)
-                .Select(at => new LecturerAssignedTrackItem
-                {
-                    AssignTrackId = at.Id,
-                    TrackId = at.TrackId,
-                    Title = at.Track.Title,
-                    IsDisable = at.IsDisable
-                }).ToList()
-        };
-    }
 }
