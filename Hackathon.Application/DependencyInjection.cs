@@ -1,6 +1,7 @@
 using Hackathon.Application.Common.Helpers.Leaderboard;
 using Hackathon.Application.Services.Admin;
 using Hackathon.Application.Services.Base;
+using Hackathon.Application.Services.Judge;
 using Hackathon.Application.Services.Lecturer;
 using Hackathon.Application.Services.Mentor;
 using Hackathon.Application.Services.Staff;
@@ -18,6 +19,7 @@ public static class DependencyInjection
         services.AddStaffServices();
         services.AddLecturerServices();
         services.AddMentorServices();
+        services.AddJudgeServices();
         return services;
     }
 }
