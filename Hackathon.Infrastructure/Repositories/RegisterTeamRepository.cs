@@ -136,6 +136,36 @@ public class RegisterTeamRepository : IRegisterTeamRepository
         => await _context.Set<RegisterTeams>()
             .CountAsync(rt => rt.TrackId == trackId);
 
+    public async Task<(List<RegisterTeams> Items, int TotalCount)> GetByTrackIdAsync(
+        Guid trackId, string? keyword, int pageIndex, int pageSize)
+    {
+        var query = _context.Set<RegisterTeams>()
+            .Include(rt => rt.Team)
+            .Include(rt => rt.Event)
+            .Include(rt => rt.Track)
+            .Include(rt => rt.Topic)
+            .Include(rt => rt.RoundDetails)
+                .ThenInclude(rd => rd.Round)
+            .Where(rt => rt.TrackId == trackId && !rt.IsDisable)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var kw = keyword.Trim().ToLower();
+            query = query.Where(rt => rt.Team.Name.ToLower().Contains(kw));
+        }
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderByDescending(rt => rt.CreatedAt)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
+
     public async Task<(List<RegisterTeams> Items, int TotalCount)> SearchAsync(
         Guid eventId, string? keyword, RegisterTeamStatusEnum? status,
         bool? isBanned, bool? isDisable,
