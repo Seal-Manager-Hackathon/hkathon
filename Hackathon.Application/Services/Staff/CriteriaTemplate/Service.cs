@@ -50,7 +50,7 @@ public class Service : ICriteriaTemplateService
 
         return new GetCriteriaTemplateResponse
         {
-            Items = activeTemplates.Select(t => new CriteriaTemplateItem
+            Templates = activeTemplates.Select(t => new CriteriaTemplateItem
             {
                 Id = t.Id,
                 RoundId = t.RoundId,

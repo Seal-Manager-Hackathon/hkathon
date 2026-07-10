@@ -1,4 +1,4 @@
-# GET /api/v1/staff/events/{eventId}/rounds/{roundId}
+# GET /api/v1/staff/rounds/{roundId}
 
 > Xem chi tiết round.
 
@@ -13,7 +13,6 @@
 ## Request
 | Param | Kiểu | Bắt buộc | Ví dụ | Ghi chú |
 |-------|------|----------|-------|---------|
-| `eventId` | guid | ✅ | `3fa85f64-5717-4562-b3fc-2c963f66afa6` | ID của event (route) |
 | `roundId` | guid | ✅ | `3fa85f64-5717-4562-b3fc-2c963f66afa6` | ID của round (route) |
 
 ## Response (200)
@@ -22,6 +21,7 @@
   "data": {
     "id": "guid",
     "eventId": "guid",
+    "eventName": "Hackathon AI 2026",
     "name": "Vòng loại",
     "description": "Vòng loại chọn top 20 đội",
     "roundNo": 1,
@@ -34,7 +34,7 @@
     "createdAt": "2026-05-01T00:00:00Z",
     "updatedAt": "2026-06-01T00:00:00Z"
   },
-  "message": "Round detail fetched successfully",
+  "message": "Fetched Successfully",
   "error": null,
   "isSuccess": true,
   "status": 200,

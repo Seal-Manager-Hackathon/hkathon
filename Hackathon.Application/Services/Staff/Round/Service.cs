@@ -66,7 +66,7 @@ public class Service : IRoundService
         };
     }
 
-    public async Task<GetRoundDetailResponse> GetRoundDetail(Guid eventId, Guid roundId)
+    public async Task<GetRoundDetailResponse> GetRoundDetail(Guid roundId)
     {
         _authorizationService.Authorize(RoleEnum.Staff);
 
@@ -74,19 +74,20 @@ public class Service : IRoundService
         if (!currentUserId.HasValue)
             throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
 
-        var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdAsync(
-            eventId, currentUserId.Value);
-        if (assignEvent == null)
-            throw new ForbiddenException("You Are Not Assigned to This Event");
-
         var round = await _roundRepository.GetDetailByIdAsync(roundId);
         if (round == null || round.IsDisable)
             throw new NotFoundException("Round Not Found");
+
+        var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdAsync(
+            round.EventId, currentUserId.Value);
+        if (assignEvent == null)
+            throw new ForbiddenException("You Are Not Assigned to This Event");
 
         return new GetRoundDetailResponse
         {
             Id = round.Id,
             EventId = round.EventId,
+            EventName = round.Event?.Name,
             Name = round.Name,
             Description = round.Description,
             RoundNo = round.RoundNo,
