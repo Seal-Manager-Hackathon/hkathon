@@ -120,13 +120,15 @@ public class Service : IEventService
         return new GetLecturerAssignedInfoResponse
         {
             AssignEventId = assignEvent.Id,
+            EventId = assignEvent.EventId,
             EventRole = assignEvent.EventRole?.Name.ToString(),
             Tracks = assignEvent.AssignTracks
+                .Where(at => !at.IsDisable && !at.Track.IsDisable)
                 .Select(at => new LecturerAssignedTrackItem
                 {
+                    AssignTrackId = at.Id,
                     TrackId = at.TrackId,
                     Title = at.Track.Title,
-                    EventId = assignEvent.EventId,
                     IsDisable = at.IsDisable
                 }).ToList()
         };

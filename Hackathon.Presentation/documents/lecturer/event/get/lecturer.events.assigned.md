@@ -1,12 +1,12 @@
 # GET /api/v1/lecturer/events/{eventId}/assigned
 
-> Lecturer xem thông tin phân công của chính họ trong một event: vai trò (Judge/Mentor) và danh sách track được gán.
+> Lecturer xem thông tin phân công của chính họ trong một event: vai trò (Judge/Mentor), eventId, và danh sách track được gán (chỉ track không bị disable).
 
 ## Nghiệp vụ
 
-- Lecturer muốn kiểm tra xem trong event này họ được phân công vai trò gì (Judge hay Mentor) và được gán vào những track nào.
-- Lecturer phải được phân công vào event đó thì mới xem được.
-- Trả về assignEventId, eventRole, và danh sách tracks kèm trạng thái isDisable.
+- Lecturer muốn kiểm tra xem họ được phân công vai trò gì (Judge hay Mentor) và được gán vào những track nào.
+- Chỉ trả về các track có `IsDisable = false` và bản thân track đó cũng có `IsDisable = false`.
+- Trả về assignEventId, eventId, eventRole, và danh sách tracks hợp lệ.
 
 ## Phân quyền
 - ✅ Lecturer (RoleEnum = Lecturer) — dữ liệu chỉ của chính lecturer đang đăng nhập
@@ -23,12 +23,13 @@
 {
   "data": {
     "assignEventId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "eventId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "eventRole": "Judge",
     "tracks": [
       {
+        "assignTrackId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         "trackId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         "title": "Tri tue nhan tao",
-        "eventId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         "isDisable": false
       }
     ]
@@ -47,6 +48,6 @@
 |--------|---------|---------|----------|
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Chuyển về trang login |
 | 403 | You do not have permission to perform this action | Không phải Lecturer | Hiển thị thông báo Không có quyền |
-| 404 | Event Not Found or You Are Not Assigned to This Event | EventId không tồn tại hoặc lecturer chưa được phân công | Hiển thị thông báo Không tìm thấy |
+| 404 | Event Not Found or You Are Not Assigned to This Event | eventId không tồn tại hoặc lecturer chưa được phân công | Hiển thị thông báo Không tìm thấy |
 
 > **First** — API này là bản gốc, không có Admin tương ứng. Dùng làm chuẩn tham chiếu cho các role khác.
