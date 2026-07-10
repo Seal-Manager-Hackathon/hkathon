@@ -161,5 +161,82 @@
 | `documents/staff/event/get/staff.events.md` + `staff.events.my-staff.md` | `"items"` → `"events"` |
 | `documents/staff/criteria-template/get/staff.criteria-templates.md` | `"items"` → `"templates"` |
 
+---
+
+## 4. Lecturer Notification APIs
+
+> Tạo mới service + controller cho Lecturer nhận thông báo (System + Personal).
+
+### API endpoints
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/api/v1/lecturer/notifications` | Danh sách thông báo (filter, search, phân trang) |
+| GET | `/api/v1/lecturer/notifications/unread-count` | Số lượng chưa đọc |
+| GET | `/api/v1/lecturer/notifications/{id}` | Chi tiết thông báo |
+| POST | `/api/v1/lecturer/notifications/{id}/read` | Đánh dấu đã đọc |
+| POST | `/api/v1/lecturer/notifications/read-all` | Đánh dấu tất cả đã đọc |
+
+### Files created
+- `Services/Lecturer/Notification/*.cs` — INotificationService, Request, Response, Service
+- `Controllers/Lecturer/LecturerNotificationController.cs`
+- `documents/lecturer/notification/{get,post}/*.md` — 5 file doc
+
+### Logic
+- Lọc: `!IsDisable && (UserId == currentUserId || TargetType == System)`
+- Hỗ trợ filter theo `TargetType`, `Status` (Unread/Read), keyword, date range
+
+---
+
+## 5. Staff My Notification APIs
+
+> Thêm endpoints cho Staff xem thông báo của bản thân (System + Personal).
+
+### API endpoints
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| GET | `/api/v1/staff/notifications/my` | Danh sách thông báo (filter, search, phân trang) |
+| GET | `/api/v1/staff/notifications/my/unread-count` | Số lượng chưa đọc |
+| GET | `/api/v1/staff/notifications/my/{id}` | Chi tiết thông báo |
+| POST | `/api/v1/staff/notifications/my/{id}/read` | Đánh dấu đã đọc |
+| POST | `/api/v1/staff/notifications/my/read-all` | Đánh dấu tất cả đã đọc |
+
+### Files changed
+- `Services/Staff/Notification/Response.cs` — thêm `GetMyNotificationsResponse`, `GetUnreadCountResponse`
+- `Services/Staff/Notification/Request.cs` — thêm `GetMyNotificationsRequest`
+- `Services/Staff/Notification/Service.cs` — thêm `ICurrentUserService`, 5 methods mới
+- `Controllers/Staff/StaffNotificationController.cs` — thêm 5 endpoints
+
+---
+
+## 6. Repository — INotificationRepository
+
+### Files changed
+- `Common/IRepository/INotificationRepository.cs` — thêm `GetUserNotificationsAsync`
+- `Infrastructure/Repositories/NotificationRepository.cs` — implement
+
+---
+
+## Tổng kết
+
+### File thay đổi (code)
+
+| File | Thay đổi |
+|------|----------|
+| `Staff/StaffRoundController.cs` | Route round detail bỏ eventId |
+| `Staff/Round/IRoundService.cs` | Signature GetRoundDetail bỏ eventId |
+| `Staff/Round/Service.cs` | Mapping EventName, lấy EventId từ entity |
+| `Staff/Round/Response.cs` | Thêm `EventName` |
+| `Staff/Event/Response.cs` | `Items` → `Events` |
+| `Staff/Event/Service.cs` | `Items =` → `Events =` (2 places) |
+| `Staff/CriteriaTemplate/Response.cs` | `Items` → `Templates` |
+| `Staff/CriteriaTemplate/Service.cs` | `Items =` → `Templates =` |
+| `Staff/Notification/*.cs` | Thêm 5 methods + DTOs cho My Notifications |
+| `Staff/StaffNotificationController.cs` | Thêm 5 endpoints my notifications |
+| `Lecturer/Notification/*.cs` | 4 file mới |
+| `Lecturer/DependencyInjection.cs` | Register notification service |
+| `LecturerEventController.cs` | Controller mới |
+| `INotificationRepository.cs` | Thêm `GetUserNotificationsAsync` |
+| `NotificationRepository.cs` | Implement `GetUserNotificationsAsync` |
+
 ### Build
 - 0 errors, 0 warnings

@@ -35,6 +35,45 @@ public class NotificationRepository : INotificationRepository
             .Take(count)
             .ToListAsync();
 
+    public async Task<(List<Notifications> Items, int TotalCount)> GetUserNotificationsAsync(
+        Guid userId, string? keyword, NotificationTargetTypeEnum? targetType,
+        NotificationStatusEnum? status,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate,
+        int pageIndex, int pageSize)
+    {
+        var query = _context.Notifications
+            .Where(n => !n.IsDisable
+                && (n.UserId == userId || n.TargetType == NotificationTargetTypeEnum.System));
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var kw = keyword.Trim().ToLower();
+            query = query.Where(n => n.Title != null && n.Title.ToLower().Contains(kw));
+        }
+
+        if (targetType.HasValue)
+            query = query.Where(n => n.TargetType == targetType.Value);
+
+        if (status.HasValue)
+            query = query.Where(n => n.Status == status.Value);
+
+        if (fromDate.HasValue)
+            query = query.Where(n => n.CreatedAt >= fromDate.Value);
+
+        if (toDate.HasValue)
+            query = query.Where(n => n.CreatedAt <= toDate.Value);
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderByDescending(n => n.CreatedAt)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
+
     public async Task<(List<Notifications> Items, int TotalCount)> SearchAsync(
         string? title, NotificationTargetTypeEnum? targetType,
         DateTimeOffset? fromDate, DateTimeOffset? toDate, bool? isDisable,

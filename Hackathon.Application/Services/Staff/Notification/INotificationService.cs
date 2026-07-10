@@ -9,4 +9,10 @@ public interface INotificationService
     Task UpdateNotification(UpdateNotificationRequest request);
     Task DeleteNotification(DeleteNotificationRequest request);
     Task RestoreNotification(Guid notificationId);
+    // My notifications
+    Task<GetMyNotificationsResponse> GetMyNotifications(GetMyNotificationsRequest request);
+    Task<NotificationDetailResponse> GetMyNotificationDetail(Guid notificationId);
+    Task<GetUnreadCountResponse> GetMyUnreadCount();
+    Task ReadMyNotification(Guid notificationId);
+    Task ReadAllMyNotifications();
 }

@@ -1,4 +1,4 @@
-namespace Hackathon.Application.Services.Staff.Notification;
+namespace Hackathon.Application.Services.Lecturer.Notification;
 
 public class GetUnreadCountResponse
 {
@@ -6,19 +6,6 @@ public class GetUnreadCountResponse
 }
 
 public class GetMyNotificationsResponse
-{
-    public List<NotificationCard> Notifications { get; set; } = new();
-    public int TotalCount { get; set; }
-    public int PageIndex { get; set; }
-    public int PageSize { get; set; }
-}
-
-public class GetRecentNotificationsResponse
-{
-    public List<NotificationCard> Notifications { get; set; } = new();
-}
-
-public class GetNotificationsResponse
 {
     public List<NotificationCard> Notifications { get; set; } = new();
     public int TotalCount { get; set; }
