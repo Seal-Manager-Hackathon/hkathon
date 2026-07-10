@@ -18,44 +18,44 @@ public static class FPTSeed
     private static readonly DateTimeOffset Now = new(2026, 7, 3, 0, 0, 0, TimeSpan.Zero);
 
     // ── Constants: Event 1 (Spring 2026 — đang diễn ra, Round 1) ──
-    private static readonly Guid Event1Id      = Guid.Parse("20000000-0000-0000-0000-000000000100");
+    private static readonly Guid Event1Id = Guid.Parse("20000000-0000-0000-0000-000000000100");
     private static readonly Guid Event1Round1Id = Guid.Parse("21000000-0000-0000-0000-000000000100");
     private static readonly Guid Event1Round2Id = Guid.Parse("21000000-0000-0000-0000-000000000101");
     private static readonly Guid Event1LeaderBoardId = Guid.Parse("60000000-0000-0000-0000-000000000100");
 
     // ── Constants: Event 2 (Summer 2026 — đang đăng kí) ──
-    private static readonly Guid Event2Id      = Guid.Parse("20000000-0000-0000-0000-000000000200");
+    private static readonly Guid Event2Id = Guid.Parse("20000000-0000-0000-0000-000000000200");
     private static readonly Guid Event2Round1Id = Guid.Parse("21000000-0000-0000-0000-000000000200");
     private static readonly Guid Event2Round2Id = Guid.Parse("21000000-0000-0000-0000-000000000201");
     private static readonly Guid Event2LeaderBoardId = Guid.Parse("60000000-0000-0000-0000-000000000200");
 
     // ── Tracks Event 1 ──
-    private static readonly Guid Ev1TrackAiId     = Guid.Parse("24000000-0000-0000-0000-000000000100");
+    private static readonly Guid Ev1TrackAiId = Guid.Parse("24000000-0000-0000-0000-000000000100");
     private static readonly Guid Ev1TrackMobileId = Guid.Parse("24000000-0000-0000-0000-000000000101");
-    private static readonly Guid Ev1TrackWebId    = Guid.Parse("24000000-0000-0000-0000-000000000102");
-    private static readonly Guid Ev1TrackDataId   = Guid.Parse("24000000-0000-0000-0000-000000000103");
-    private static readonly Guid Ev1TrackCloudId  = Guid.Parse("24000000-0000-0000-0000-000000000104");
+    private static readonly Guid Ev1TrackWebId = Guid.Parse("24000000-0000-0000-0000-000000000102");
+    private static readonly Guid Ev1TrackDataId = Guid.Parse("24000000-0000-0000-0000-000000000103");
+    private static readonly Guid Ev1TrackCloudId = Guid.Parse("24000000-0000-0000-0000-000000000104");
     private static readonly List<Guid> Ev1TrackIds = [Ev1TrackAiId, Ev1TrackMobileId, Ev1TrackWebId, Ev1TrackDataId, Ev1TrackCloudId];
 
     // ── Tracks Event 2 ──
-    private static readonly Guid Ev2TrackAiId     = Guid.Parse("24000000-0000-0000-0000-000000000200");
+    private static readonly Guid Ev2TrackAiId = Guid.Parse("24000000-0000-0000-0000-000000000200");
     private static readonly Guid Ev2TrackMobileId = Guid.Parse("24000000-0000-0000-0000-000000000201");
-    private static readonly Guid Ev2TrackWebId    = Guid.Parse("24000000-0000-0000-0000-000000000202");
-    private static readonly Guid Ev2TrackDataId   = Guid.Parse("24000000-0000-0000-0000-000000000203");
-    private static readonly Guid Ev2TrackCloudId  = Guid.Parse("24000000-0000-0000-0000-000000000204");
+    private static readonly Guid Ev2TrackWebId = Guid.Parse("24000000-0000-0000-0000-000000000202");
+    private static readonly Guid Ev2TrackDataId = Guid.Parse("24000000-0000-0000-0000-000000000203");
+    private static readonly Guid Ev2TrackCloudId = Guid.Parse("24000000-0000-0000-0000-000000000204");
     private static readonly List<Guid> Ev2TrackIds = [Ev2TrackAiId, Ev2TrackMobileId, Ev2TrackWebId, Ev2TrackDataId, Ev2TrackCloudId];
 
     // ── Topics per Track (1 topic per track, 5 total per event) ──
-    private static readonly Guid Ev1TopicAiId     = Guid.Parse("25000000-0000-0000-0000-000000000100");
+    private static readonly Guid Ev1TopicAiId = Guid.Parse("25000000-0000-0000-0000-000000000100");
     private static readonly Guid Ev1TopicMobileId = Guid.Parse("25000000-0000-0000-0000-000000000101");
-    private static readonly Guid Ev1TopicWebId    = Guid.Parse("25000000-0000-0000-0000-000000000102");
-    private static readonly Guid Ev1TopicDataId   = Guid.Parse("25000000-0000-0000-0000-000000000103");
-    private static readonly Guid Ev1TopicCloudId  = Guid.Parse("25000000-0000-0000-0000-000000000104");
-    private static readonly Guid Ev2TopicAiId     = Guid.Parse("25000000-0000-0000-0000-000000000200");
+    private static readonly Guid Ev1TopicWebId = Guid.Parse("25000000-0000-0000-0000-000000000102");
+    private static readonly Guid Ev1TopicDataId = Guid.Parse("25000000-0000-0000-0000-000000000103");
+    private static readonly Guid Ev1TopicCloudId = Guid.Parse("25000000-0000-0000-0000-000000000104");
+    private static readonly Guid Ev2TopicAiId = Guid.Parse("25000000-0000-0000-0000-000000000200");
     private static readonly Guid Ev2TopicMobileId = Guid.Parse("25000000-0000-0000-0000-000000000201");
-    private static readonly Guid Ev2TopicWebId    = Guid.Parse("25000000-0000-0000-0000-000000000202");
-    private static readonly Guid Ev2TopicDataId   = Guid.Parse("25000000-0000-0000-0000-000000000203");
-    private static readonly Guid Ev2TopicCloudId  = Guid.Parse("25000000-0000-0000-0000-000000000204");
+    private static readonly Guid Ev2TopicWebId = Guid.Parse("25000000-0000-0000-0000-000000000202");
+    private static readonly Guid Ev2TopicDataId = Guid.Parse("25000000-0000-0000-0000-000000000203");
+    private static readonly Guid Ev2TopicCloudId = Guid.Parse("25000000-0000-0000-0000-000000000204");
 
     // ── Criteria Templates: Event 1 Round 1 (3 templates, 1st active) ──
     private static readonly Guid Ev1R1Tpl1Id = Guid.Parse("22000000-0000-0000-0000-000000000100");

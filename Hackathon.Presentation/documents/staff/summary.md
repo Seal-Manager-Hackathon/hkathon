@@ -110,8 +110,6 @@ Tất cả API Staff đều yêu cầu:
 | POST | `/api/v1/staff/events/chapter/{year}/leaderboard/hide` | [Ẩn leader board chapter](leaderboard/post/staff.chapter.hide.md) |
 | POST | `/api/v1/staff/events/{eventId}/leaderboard/publish` | [Công bố leader board event](leaderboard/post/staff.leaderboard.events.publish.md) |
 | POST | `/api/v1/staff/events/{eventId}/leaderboard/hide` | [Ẩn leader board event](leaderboard/post/staff.leaderboard.events.hide.md) |
-| POST | `/api/v1/staff/events/{eventId}/leaderboard/publish` | [Công bố leader board event](leaderboard/post/staff.leaderboard.events.publish.md) |
-| POST | `/api/v1/staff/events/{eventId}/leaderboard/hide` | [Ẩn leader board event](leaderboard/post/staff.leaderboard.events.hide.md) |
 
 ### Notification
 | Method | Route | Chức năng |

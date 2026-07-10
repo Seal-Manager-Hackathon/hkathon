@@ -22,7 +22,7 @@ public static class ScoreSeed
             CreateScoreItem(Guid.Parse("51000000-0000-0000-0000-000000000005"), SeedConstants.GreenCodersIdeaScoreId, SeedConstants.InnovationCriteriaItemId, SeedConstants.JudgeGreenAssignTrackId, 32m, "Useful concept"),
             CreateScoreItem(Guid.Parse("51000000-0000-0000-0000-000000000006"), SeedConstants.GreenCodersIdeaScoreId, SeedConstants.FeasibilityCriteriaItemId, SeedConstants.JudgeGreenAssignTrackId, 46m, "Good execution path"),
             CreateScoreItem(Guid.Parse("51000000-0000-0000-0000-000000000007"), SeedConstants.GreenCodersFinalScoreId, SeedConstants.TechnicalCriteriaItemId, SeedConstants.JudgeGreenAssignTrackId, 40m, "Working prototype"),
-            CreateScoreItem(Guid.Parse("51000000-0000-0000-0000-000000000008"), SeedConstants.GreenCodersFinalScoreId, SeedConstants.PresentationCriteriaItemId, SeedConstants.JudgeGreenAssignTrackId, 42m, "Good demo" )
+            CreateScoreItem(Guid.Parse("51000000-0000-0000-0000-000000000008"), SeedConstants.GreenCodersFinalScoreId, SeedConstants.PresentationCriteriaItemId, SeedConstants.JudgeGreenAssignTrackId, 42m, "Good demo")
         );
     }
 

@@ -149,8 +149,6 @@
 | GET | `/events/chapter/{year}/leaderboard` | Bảng xếp hạng chapter (chapterScore = AVG eventScores trong năm) |
 | POST | `/events/{eventId}/leaderboard/publish` | Công bố leader board event |
 | POST | `/events/{eventId}/leaderboard/hide` | Ẩn leader board event |
-| POST | `/events/{eventId}/leaderboard/publish` | Công bố leader board event |
-| POST | `/events/{eventId}/leaderboard/hide` | Ẩn leader board event |
 
 ---
 

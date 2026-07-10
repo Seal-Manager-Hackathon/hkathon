@@ -41,7 +41,7 @@ public static class SwaggerExtensions
             });
         });
     }
-    
+
     public static void UseSwaggerAPI(this WebApplication app)
     {
         app.UseSwagger();

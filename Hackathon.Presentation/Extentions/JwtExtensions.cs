@@ -16,13 +16,13 @@ public static class JwtExtensions
     public const string StaffOrAdminPolicy = "StaffOrAdminPolicy";
     public const string StudentVerifiedPolicy = "StudentVerifiedPolicy";
     public const string StaffLecturerOrAdminPolicy = "StaffLecturerOrAdminPolicy";
-    
+
     public static void AddJwtServices(this IServiceCollection services, IConfiguration configuration)
     {
         JwtOptions jwtOption = new JwtOptions();
         configuration.GetSection("JwtOptions").Bind(jwtOption);
         var key = Encoding.UTF8.GetBytes(jwtOption.SecretKey);
-    
+
         services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -46,13 +46,13 @@ public static class JwtExtensions
                 {
                     OnMessageReceived = context =>
                     {
-                        
+
                         if (context.Request.Cookies.TryGetValue(CookieExtensions.AccessTokenCookieName, out var token))
                         {
-                            context.Token = token; 
+                            context.Token = token;
                         }
 
-                        
+
                         return Task.CompletedTask;
                     }
                 };
@@ -62,17 +62,17 @@ public static class JwtExtensions
             options.AddPolicy(AdminPolicy, policy =>
                 policy.RequireRole(RoleEnum.Admin.ToString()));
             // [Authorize(Policy = JwtExtensions.AdminPolicy)]
-        
+
             options.AddPolicy(StaffPolicy, policy =>
                 policy.RequireRole(RoleEnum.Staff.ToString()));
             // [Authorize(Policy = JwtExtensions.StaffPolicy)]
-        
+
             options.AddPolicy(StudentPolicy, policy =>
                 policy.RequireRole(RoleEnum.Student.ToString()));
-            
+
             options.AddPolicy(LecturerPolicy, policy =>
                 policy.RequireRole(RoleEnum.Lecturer.ToString()));
-        
+
             options.AddPolicy(StaffOrAdminPolicy, policy =>
                 policy.RequireRole(RoleEnum.Staff.ToString(), RoleEnum.Admin.ToString()));
             // [Authorize(Policy = JwtExtensions.StaffOrAdminPolicy)]
