@@ -65,4 +65,39 @@ public class StaffNotificationController : ControllerBase
         await _notificationService.RestoreNotification(notificationId);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpGet("notifications/my")]
+    public async Task<IActionResult> GetMyNotifications([FromQuery] GetMyNotificationsRequest request)
+    {
+        var result = await _notificationService.GetMyNotifications(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("notifications/my/unread-count")]
+    public async Task<IActionResult> GetMyUnreadCount()
+    {
+        var result = await _notificationService.GetMyUnreadCount();
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("notifications/my/{notificationId:guid}")]
+    public async Task<IActionResult> GetMyNotificationDetail(Guid notificationId)
+    {
+        var result = await _notificationService.GetMyNotificationDetail(notificationId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("notifications/my/{notificationId:guid}/read")]
+    public async Task<IActionResult> ReadMyNotification(Guid notificationId)
+    {
+        await _notificationService.ReadMyNotification(notificationId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("notifications/my/read-all")]
+    public async Task<IActionResult> ReadAllMyNotifications()
+    {
+        await _notificationService.ReadAllMyNotifications();
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
 }

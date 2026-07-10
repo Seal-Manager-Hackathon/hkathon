@@ -13,4 +13,9 @@ public interface INotificationRepository
         string? title, Domain.Enums.Notification.NotificationTargetTypeEnum? targetType,
         DateTimeOffset? fromDate, DateTimeOffset? toDate, bool? isDisable,
         int pageIndex, int pageSize);
+    Task<(List<Notifications> Items, int TotalCount)> GetUserNotificationsAsync(
+        Guid userId, string? keyword, Domain.Enums.Notification.NotificationTargetTypeEnum? targetType,
+        Domain.Enums.Notification.NotificationStatusEnum? status,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate,
+        int pageIndex, int pageSize);
 }
