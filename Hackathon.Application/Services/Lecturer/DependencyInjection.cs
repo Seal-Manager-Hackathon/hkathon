@@ -2,6 +2,9 @@ using Hackathon.Application.Services.Lecturer.Assign;
 using Hackathon.Application.Services.Lecturer.Event;
 using Hackathon.Application.Services.Lecturer.Notification;
 using Hackathon.Application.Services.Lecturer.RegisterTeam;
+using Hackathon.Application.Services.Lecturer.Team;
+using Hackathon.Application.Services.Lecturer.Topic;
+using Hackathon.Application.Services.Lecturer.Track;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hackathon.Application.Services.Lecturer;
@@ -14,6 +17,9 @@ public static class DependencyInjection
         services.AddScoped<INotificationService, Notification.Service>();
         services.AddScoped<IAssignService, Assign.Service>();
         services.AddScoped<IRegisterTeamService, RegisterTeam.Service>();
+        services.AddScoped<ITeamService, Team.Service>();
+        services.AddScoped<ITopicService, Topic.Service>();
+        services.AddScoped<ITrackService, Track.Service>();
         return services;
     }
 }

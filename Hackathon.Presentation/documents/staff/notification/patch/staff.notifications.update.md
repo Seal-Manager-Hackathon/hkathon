@@ -33,4 +33,4 @@ Cập nhật tiêu đề và/hoặc nội dung thông báo. Chỉ update các fi
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu |
 | 403 | You do not have permission to perform this action | User không có role Staff |
 
-> **Ref:** [Admin API tương ứng](/api/v1/admin/notification/patch/admin.notifications.update.md)
+> **Ref:** [Admin API tương ứng](/api/v1/admin/notifications/{notificationId}) — [`admin/notification/patch/admin.notifications.update.md`](../../../admin/notification/patch/admin.notifications.update.md)

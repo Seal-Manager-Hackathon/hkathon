@@ -52,4 +52,4 @@
 | 403 | You do not have permission to perform this action | Staff không được phân công vào event | Ẩn chức năng |
 | 404 | Register Team Not Found | registerTeamId ko tồn tại | Báo "Không tìm thấy đơn đăng ký" |
 
-> **Ref:** [Admin API tương ứng](/api/v1/admin/register-team/post/admin.register-teams.assign-next-round.md)
+> **Ref:** [Admin API tương ứng](/api/v1/admin/register-teams/{registerTeamId}/assign-next-round) — [`admin/register-team/post/admin.register-teams.assign-next-round.md`](../../../admin/register-team/post/admin.register-teams.assign-next-round.md)

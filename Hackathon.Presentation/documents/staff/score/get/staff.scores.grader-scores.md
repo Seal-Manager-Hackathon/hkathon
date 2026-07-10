@@ -98,4 +98,4 @@ VD: Bài nộp có 3 judge:
 | 403 | You do not have permission to perform this action | Không phải Staff hoặc không được phân công vào event | Ẩn chức năng |
 | 404 | Resource Not Found | submissionId không tồn tại | Hiển thị thông báo |
 
-> **Ref:** [Admin API tương ứng](/api/v1/admin/score/get/admin.submissions.grader-scores.md)
+> **Ref:** [Admin API tương ứng](/api/v1/admin/submissions/{submissionId}/grader-scores) — [`admin/score/get/admin.submissions.grader-scores.md`](../../../admin/score/get/admin.submissions.grader-scores.md)

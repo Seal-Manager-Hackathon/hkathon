@@ -53,4 +53,4 @@
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | Không phải Staff | Ẩn chức năng |
 
-> **Ref:** [Admin API tương ứng](/api/v1/admin/user/get/admin.users.detail.md)
+> **Ref:** [Admin API tương ứng](/api/v1/admin/users/{userId}) — [`admin/user/get/admin.users.detail.md`](../../../admin/user/get/admin.users.detail.md)

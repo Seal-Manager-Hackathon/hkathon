@@ -26,4 +26,4 @@ Soft-delete: set IsDisable = true. Không xóa khỏi database.
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu |
 | 403 | You do not have permission to perform this action | User không có role Staff |
 
-> **Ref:** [Admin API tương ứng](/api/v1/admin/notification/post/admin.notifications.delete.md)
+> **Ref:** [Admin API tương ứng](/api/v1/admin/notifications/{notificationId}/delete) — [`admin/notification/post/admin.notifications.delete.md`](../../../admin/notification/post/admin.notifications.delete.md)
