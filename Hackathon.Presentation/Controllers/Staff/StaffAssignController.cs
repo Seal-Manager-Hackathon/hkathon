@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Hackathon.Presentation.Controllers.Staff;
 
-[Route("api/v1/staff")]
+[Route("api/v1/staff/assign")]
 [ApiController]
 public class StaffAssignController : ControllerBase
 {
