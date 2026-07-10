@@ -1,3 +1,4 @@
+using Hackathon.Application.Services.Lecturer.Assign;
 using Hackathon.Application.Services.Lecturer.Event;
 using Hackathon.Application.Services.Lecturer.Notification;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IEventService, Event.Service>();
         services.AddScoped<INotificationService, Notification.Service>();
+        services.AddScoped<IAssignService, Assign.Service>();
         return services;
     }
 }
