@@ -30,4 +30,14 @@ public class LecturerTrackController : ControllerBase
         var result = await _trackService.GetTrackDetail(trackId);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpGet("events/{eventId:guid}/my-tracks")]
+    public async Task<IActionResult> GetMyAssignedTracks(
+        Guid eventId,
+        [FromQuery] int pageIndex = 1,
+        [FromQuery] int pageSize = 10)
+    {
+        var result = await _trackService.GetMyAssignedTracks(eventId, pageIndex, pageSize);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
 }
