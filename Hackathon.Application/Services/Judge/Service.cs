@@ -332,8 +332,6 @@ public class Service : IJudgeService
             template.CriteriaItems.Where(ci => !ci.IsDisable).ToList(),
             submittedItems);
 
-        // Override TotalScore with the one from request
-        score.TotalScore = request.TotalScore;
         score.IsRetake = false;
 
         await _scoreRepository.AddAsync(score);
@@ -369,8 +367,8 @@ public class Service : IJudgeService
             total += itemInput.Score;
         }
 
-        // Use TotalScore from request (FE có thể tự tính hoặc override)
-        score.TotalScore = request.TotalScore;
+        // Auto-calculate TotalScore as SUM of ScoreItems
+        score.TotalScore = total;
         score.UpdatedAt = DateTimeOffset.UtcNow;
 
         await _unitOfWork.SaveChangesAsync();

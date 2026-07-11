@@ -78,7 +78,12 @@
       "Bash(curl -s -X POST http://localhost:5247/api/v1/admin/assign/event-assigns/39926625-44c2-4a36-8cf9-7e6f6709a4ea/restore -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI3ZmYwNTM1MS1hMDU2LTQ5ZWItOWI5ZS00YTAzNDgxMjgwNDkiLCJleHAiOjE3ODM2Njg0MTIsImlzcyI6IkhhY2thdGhvbl9JZGVudGl0eV9TZXJ2ZXIiLCJhdWQiOiJIYWNrYXRob25fVXNlcnMifQ.6ZdnTMw7RsUvzTIJj0Wp8DdSIGoMR59HPMN7UtMKPtM' -H 'Content-Type: application/json')",
       "Bash(curl -s 'http://localhost:5247/api/v1/admin/events/20000000-0000-0000-0000-000000000100/submissions?pageIndex=1&pageSize=5' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI3ZmYwNTM1MS1hMDU2LTQ5ZWItOWI5ZS00YTAzNDgxMjgwNDkiLCJleHAiOjE3ODM2Njg0MTIsImlzcyI6IkhhY2thdGhvbl9JZGVudGl0eV9TZXJ2ZXIiLCJhdWQiOiJIYWNrYXRob25fVXNlcnMifQ.6ZdnTMw7RsUvzTIJj0Wp8DdSIGoMR59HPMN7UtMKPtM')",
       "mcp__filesystem__write_file",
-      "Bash(Select-String -Pattern \"error\")"
+      "Bash(Select-String -Pattern \"error\")",
+      "PowerShell(netstat -ano)",
+      "Bash(taskkill /f /pid 31252)",
+      "PowerShell(taskkill /f /pid 31252 2>$null)",
+      "PowerShell(Get-Process -Id 31252 -ErrorAction SilentlyContinue)",
+      "Bash(dotnet run *)"
     ],
     "additionalDirectories": [
       "c:\\Users\\phamq\\.claude\\projects\\c--Users-phamq-OneDrive-Desktop-New-folder--4--BE-SEAL-HACKATHON\\memory",

@@ -5,9 +5,6 @@ namespace Hackathon.Application.Services.Judge;
 public class SubmitScoreRequest
 {
     [Required]
-    public decimal TotalScore { get; set; }
-
-    [Required]
     public List<ScoreItemInput> Scores { get; set; } = [];
 }
 

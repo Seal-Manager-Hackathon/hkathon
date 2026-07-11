@@ -26,6 +26,12 @@
 - `POST /api/v1/admin/awards/{awardId}/restore`
 - `POST /api/v1/admin/awards/{awardId}/delete`
 
+## 4. Sửa Judge SubmitScoreRequest — bỏ TotalScore, tự tính SUM
+**Trước:** `SubmitScoreRequest` yêu cầu FE gửi `totalScore`, service override `score.TotalScore = request.TotalScore`  
+**Sau:** Bỏ `TotalScore` khỏi request, `ScoreSubmissionHelper.CreateScore` tự tính = SUM ScoreItems. `UpdateScore` cũng tự tính total = SUM.  
+**Files:** `Services/Judge/Request.cs`, `Services/Judge/Service.cs`
+**Docs:** `documents/judge/score/post/judge.scores.submit.md`
+
 **Files:** `Controllers/Admin/AdminAwardController.cs`
 **Docs:** `documents/admin/award/**/*.md` (patch + swap + delete + restore)
 
