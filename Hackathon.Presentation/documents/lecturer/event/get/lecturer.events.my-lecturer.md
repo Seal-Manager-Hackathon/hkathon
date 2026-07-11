@@ -1,24 +1,22 @@
-# GET /api/v1/lecturer/events
+# GET /api/v1/lecturer/events/my-lecturer
 
-> Lecturer lấy danh sách events phân trang, có search keyword, lọc status, thời gian tạo.
+> Lecturer lấy danh sách event mà họ được phân công (AssignEvents, EventRole = Judge/Mentor), không phân biệt event có bị disable hay không.
 
 **Controller:** [LecturerEventController.cs](Controllers/Lecturer/LecturerEventController.cs)
 
 ## Nghiệp vụ
 
-**Router:** `GET /api/v1/lecturer/events`
+**Router:** `GET /api/v1/lecturer/events/my-lecturer`
 
-- Giống hệt Admin `GET /api/v1/admin/events`, khác auth là Lecturer.
-- Lecturer thấy tất cả events (không giới hạn theo assign).
-- Keyword search theo tên event.
-- Filter Status (Draft, Published, Closed).
-- Filter IsDisable.
-- FromDate / ToDate theo CreatedAt.
-- Sắp xếp gần nhất trên cùng.
-- Phân trang: mặc định pageIndex=1, pageSize=10.
+- Chỉ lấy các bản ghi AssignEvents mà user hiện tại có EventRole = Judge hoặc Mentor.
+- Tự động loại bỏ event có status Draft.
+- Trả về tất cả event kể cả event bị disable (IsDisable = true) — FE dùng field isDisable để hiển thị.
+- Hỗ trợ lọc theo keyword, status, khoảng thời gian.
+- Hỗ trợ phân trang.
+- Response giống Admin GET /api/v1/admin/events.
 
 ## Phân quyền
-- ✅ Lecturer
+- ✅ Lecturer (phải có bản ghi AssignEvents với EventRole = Judge/Mentor)
 
 ## Request
 | Param | Kiểu | Bắt buộc | Ví dụ | Ghi chú |
@@ -38,17 +36,17 @@
     "events": [
       {
         "id": "guid",
-        "name": "Hackathon 2026",
-        "description": "...",
+        "name": "Hackathon AI 2026",
+        "description": "Cuộc thi về trí tuệ nhân tạo",
         "status": "Published",
-        "startTime": "2026-08-01T00:00:00Z",
-        "endTime": "2026-08-10T00:00:00Z",
+        "startTime": "2026-06-01T00:00:00Z",
+        "endTime": "2026-07-01T00:00:00Z",
         "isDisable": false,
-        "createdAt": "2026-07-07T12:00:00Z",
-        "updatedAt": "2026-07-07T12:00:00Z"
+        "createdAt": "2026-05-01T00:00:00Z",
+        "updatedAt": "2026-06-01T00:00:00Z"
       }
     ],
-    "totalCount": 10,
+    "totalCount": 1,
     "pageIndex": 1,
     "pageSize": 10
   },

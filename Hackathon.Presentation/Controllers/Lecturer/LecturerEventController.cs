@@ -23,6 +23,13 @@ public class LecturerEventController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpGet("events/my-lecturer")]
+    public async Task<IActionResult> GetLecturerAssignEvents([FromQuery] GetLecturerEventsRequest request)
+    {
+        var result = await _eventService.GetLecturerAssignEvents(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("events/{eventId:guid}")]
     public async Task<IActionResult> GetLecturerEventDetail(Guid eventId)
     {
