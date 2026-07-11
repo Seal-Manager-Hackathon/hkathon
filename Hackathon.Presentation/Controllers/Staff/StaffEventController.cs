@@ -16,6 +16,13 @@ public class StaffEventController : ControllerBase
         _eventService = eventService;
     }
 
+    [HttpGet("events/recent")]
+    public async Task<IActionResult> GetRecentEvents()
+    {
+        var result = await _eventService.GetRecentEvents();
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RecentEventsFetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("events")]
     public async Task<IActionResult> GetMyEvents([FromQuery] GetMyEventsRequest request)
     {

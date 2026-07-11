@@ -1,7 +1,8 @@
+using Hackathon.Application.Common.Helpers;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
-using Hackathon.Application.Services.Admin.Track;
+using Hackathon.Application.Services.Staff.Track;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
 
@@ -21,6 +22,40 @@ public class Service : ITrackService
         _trackRepository = trackRepository;
         _registerTeamRepository = registerTeamRepository;
         _authorizationService = authorizationService;
+    }
+
+    public async Task<GetTracksResponse> GetTracks(Guid eventId, GetTracksRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Lecturer);
+
+        PaginationHelper.Validate(request.PageIndex, request.PageSize);
+
+        var (items, totalCount) = await _trackRepository.GetByEventIdAsync(
+            eventId, request.Keyword, isDisable: false,
+            request.PageIndex, request.PageSize);
+
+        var trackItems = items
+            .OrderByDescending(t => t.CreatedAt)
+            .Select(t => new StaffTrackItem
+            {
+                Id = t.Id,
+                EventId = t.EventId,
+                Title = t.Title,
+                Description = t.Description,
+                MaxTeam = t.MaxTeam,
+                IsDisable = t.IsDisable,
+                CreatedAt = t.CreatedAt,
+                UpdatedAt = t.UpdatedAt
+            })
+            .ToList();
+
+        return new GetTracksResponse
+        {
+            Tracks = trackItems,
+            TotalCount = totalCount,
+            PageIndex = request.PageIndex,
+            PageSize = request.PageSize
+        };
     }
 
     public async Task<GetTrackDetailResponse> GetTrackDetail(Guid trackId)

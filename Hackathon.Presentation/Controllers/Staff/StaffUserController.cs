@@ -19,6 +19,13 @@ public class StaffUserController : ControllerBase
         _teamService = teamService;
     }
 
+    [HttpGet("users/recent")]
+    public async Task<IActionResult> GetRecentUsers()
+    {
+        var result = await _userService.GetRecentUsers();
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RecentUsersFetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("users")]
     public async Task<IActionResult> GetAllUsers([FromQuery] GetAllUsersRequest request)
     {
