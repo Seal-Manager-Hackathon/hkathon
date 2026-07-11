@@ -44,3 +44,22 @@ public class LecturerAssignedTrackItem
     public string Title { get; set; } = string.Empty;
     public bool IsDisable { get; set; }
 }
+
+public class GetAvailableUserResponse
+{
+    public List<AvailableUserItem> Items { get; set; } = new();
+    public int TotalCount { get; set; }
+    public int PageIndex { get; set; }
+    public int PageSize { get; set; }
+}
+
+public class AvailableUserItem
+{
+    public Guid Id { get; set; }
+    public string Email { get; set; } = null!;
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public string? AvatarUrl { get; set; }
+    public string? College { get; set; }
+    public string? PhoneNumber { get; set; }
+}

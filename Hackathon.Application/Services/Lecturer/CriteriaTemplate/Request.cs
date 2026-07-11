@@ -1,16 +1,16 @@
-namespace Hackathon.Application.Services.Lecturer.Assign;
+namespace Hackathon.Application.Services.Lecturer.CriteriaTemplate;
 
-public class GetAssignedUsersRequest
+public class GetCriteriaTemplatesByRoundRequest
 {
+    public Guid RoundId { get; set; }
     public string? Keyword { get; set; }
-    public string? EventRole { get; set; }
     public int PageIndex { get; set; } = 1;
     public int PageSize { get; set; } = 10;
 }
 
-public class GetAvailableUserRequest
+public class GetCriteriaItemsByTemplateRequest
 {
-    public Guid EventId { get; set; }
+    public Guid TemplateId { get; set; }
     public string? Keyword { get; set; }
     public int PageIndex { get; set; } = 1;
     public int PageSize { get; set; } = 10;

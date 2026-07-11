@@ -12,15 +12,18 @@ public class Service : IAssignService
     private readonly IAssignEventRepository _assignEventRepository;
     private readonly ICurrentUserService _currentUserService;
     private readonly IAuthorizationService _authorizationService;
+    private readonly IUserRepository _userRepository;
 
     public Service(
         IAssignEventRepository assignEventRepository,
         ICurrentUserService currentUserService,
-        IAuthorizationService authorizationService)
+        IAuthorizationService authorizationService,
+        IUserRepository userRepository)
     {
         _assignEventRepository = assignEventRepository;
         _currentUserService = currentUserService;
         _authorizationService = authorizationService;
+        _userRepository = userRepository;
     }
 
     public async Task<GetAssignedUsersResponse> GetAssignedUsers(Guid eventId, GetAssignedUsersRequest request)
@@ -107,6 +110,50 @@ public class Service : IAssignService
                     Title = at.Track.Title,
                     IsDisable = at.IsDisable
                 }).ToList()
+        };
+    }
+
+    public async Task<GetAvailableUserResponse> GetAvailableStaff(GetAvailableUserRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Lecturer);
+
+        PaginationHelper.Validate(request.PageIndex, request.PageSize);
+
+        var (items, totalCount) = await _userRepository.GetAvailableUsersByRoleAsync(
+            request.EventId, RoleEnum.Staff, request.Keyword, request.PageIndex, request.PageSize);
+
+        return MapResponse(items, totalCount, request);
+    }
+
+    public async Task<GetAvailableUserResponse> GetAvailableLecturer(GetAvailableUserRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Lecturer);
+
+        PaginationHelper.Validate(request.PageIndex, request.PageSize);
+
+        var (items, totalCount) = await _userRepository.GetAvailableUsersByRoleAsync(
+            request.EventId, RoleEnum.Lecturer, request.Keyword, request.PageIndex, request.PageSize);
+
+        return MapResponse(items, totalCount, request);
+    }
+
+    private static GetAvailableUserResponse MapResponse(List<Domain.Entities.Users> items, int totalCount, GetAvailableUserRequest request)
+    {
+        return new GetAvailableUserResponse
+        {
+            Items = items.Select(u => new AvailableUserItem
+            {
+                Id = u.Id,
+                Email = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                AvatarUrl = string.IsNullOrEmpty(u.AvatarUrl) ? null : u.AvatarUrl,
+                College = string.IsNullOrEmpty(u.College) ? null : u.College,
+                PhoneNumber = string.IsNullOrEmpty(u.PhoneNumber) ? null : u.PhoneNumber
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = request.PageIndex,
+            PageSize = request.PageSize
         };
     }
 }
