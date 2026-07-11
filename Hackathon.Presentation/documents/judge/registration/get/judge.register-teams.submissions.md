@@ -1,14 +1,15 @@
 # GET /api/v1/judge/register-teams/{registerTeamId}/submissions
 
-> Judge xem tất cả bài nộp qua các round của 1 register team (team đăng ký event) — mỗi round chỉ hiện submission cuối cùng, kèm điểm của judge hiện tại.
+> Judge xem **bài nộp mới nhất** của 1 register team (không phân biệt round), kèm điểm của judge hiện tại. Format giống track submissions.
 
 **Controller:** [JudgeController.cs](Controllers/Judge/JudgeController.cs)
 
 ## Nghiệp vụ
 
-- Lấy toàn bộ round (không phân trang) của register team, mỗi round hiện **submission cuối cùng** (`lastSubmission`).
+- Chỉ lấy **1 bài nộp duy nhất** — bài mới nhất (`SubmittedAt` cao nhất) trong tất cả round của register team.
 - Hiển thị trạng thái chấm của **chính judge hiện tại**: `Graded` / `Pending`.
 - Nếu đã chấm → trả về `scoreId` và `totalScore`.
+- Trả về thông tin: team, event, round, track, topic, submittedBy (leader).
 - Judge phải được assign vào event chứa register team đó.
 
 ## Phân quyền
@@ -29,39 +30,30 @@
     "registerTeamId": "guid",
     "teamId": "guid",
     "teamName": "Team ABC",
-    "rounds": [
-      {
-        "roundId": "guid",
-        "roundName": "Vòng 1",
-        "roundNo": 1,
-        "lastSubmission": {
-          "id": "guid",
-          "submittedAt": "2026-07-11T10:00:00Z",
-          "url": "https://example.com/submission-v1.pdf",
-          "description": "Bài nộp vòng 1",
-          "status": "Submitted"
-        },
-        "gradingStatus": "Graded",
-        "scoreId": "guid",
-        "totalScore": 85.5
-      },
-      {
-        "roundId": "guid",
-        "roundName": "Vòng 2",
-        "roundNo": 2,
-        "lastSubmission": {
-          "id": "guid",
-          "submittedAt": "2026-07-12T10:00:00Z",
-          "url": "https://example.com/submission-v2.pdf",
-          "description": "Bài nộp vòng 2",
-          "status": "Submitted"
-        },
-        "gradingStatus": "Pending",
-        "scoreId": null,
-        "totalScore": null
-      }
-    ],
-    "totalCount": 2
+    "eventId": "guid",
+    "eventName": "Hackathon 2026",
+    "roundId": "guid",
+    "roundName": "Vòng 2",
+    "trackId": "guid",
+    "trackTitle": "Trí tuệ nhân tạo",
+    "topicId": "guid",
+    "topicTitle": "AI trong Y tế",
+    "submittedBy": {
+      "userId": "guid",
+      "email": "leader@email.com",
+      "firstName": "Nguyễn",
+      "lastName": "Văn A"
+    },
+    "lastSubmission": {
+      "id": "guid",
+      "submittedAt": "2026-07-12T10:00:00Z",
+      "url": "https://example.com/submission.pdf",
+      "description": "Bài nộp cuối",
+      "status": "Submitted"
+    },
+    "gradingStatus": "Graded",
+    "scoreId": "guid",
+    "totalScore": 85.5
   },
   "message": "Fetched Successfully",
   "error": null,
@@ -77,11 +69,23 @@
 | Field | Ý nghĩa |
 |-------|---------|
 | `registerTeamId` / `teamId` / `teamName` | Thông tin team đăng ký |
-| `roundId` / `roundName` / `roundNo` | Round và số thứ tự |
-| `lastSubmission` | Bài nộp cuối cùng trong round (null nếu chưa có) |
+| `eventId` / `eventName` | Event |
+| `roundId` / `roundName` | Round của bài nộp mới nhất |
+| `trackId` / `trackTitle` | Track team đăng ký |
+| `topicId` / `topicTitle` | Topic team chọn |
+| `submittedBy` | Leader của team (người nộp bài) |
+| `lastSubmission` | Bài nộp mới nhất (trong tất cả round) |
 | `gradingStatus` | `Graded` (đã chấm) / `Pending` (chưa chấm) |
 | `scoreId` | ID score của judge hiện tại, null nếu chưa chấm |
 | `totalScore` | Tổng điểm, null nếu chưa chấm |
+
+### submittedBy
+
+| Field | Ý nghĩa |
+|-------|---------|
+| `userId` | ID của leader |
+| `email` | Email |
+| `firstName` / `lastName` | Tên leader |
 
 ### lastSubmission
 

@@ -129,21 +129,21 @@ public class UpdatedScoreItemResponse
     public bool IsUpdated { get; set; }
 }
 
-// RegisterTeam Submissions
+// RegisterTeam Submissions — single latest submission per register team
 public class GetRegisterTeamSubmissionsResponse
 {
     public Guid RegisterTeamId { get; set; }
     public Guid TeamId { get; set; }
     public string TeamName { get; set; } = string.Empty;
-    public List<RegisterTeamRoundSubmissionItem> Rounds { get; set; } = new();
-    public int TotalCount { get; set; }
-}
-
-public class RegisterTeamRoundSubmissionItem
-{
+    public Guid EventId { get; set; }
+    public string EventName { get; set; } = string.Empty;
     public Guid RoundId { get; set; }
     public string RoundName { get; set; } = string.Empty;
-    public int? RoundNo { get; set; }
+    public Guid? TrackId { get; set; }
+    public string? TrackTitle { get; set; }
+    public Guid? TopicId { get; set; }
+    public string? TopicTitle { get; set; }
+    public SubmittedByInfo? SubmittedBy { get; set; }
     public LastSubmissionInfo? LastSubmission { get; set; }
     public string GradingStatus { get; set; } = "Pending";
     public Guid? ScoreId { get; set; }
