@@ -2,7 +2,6 @@ using Hackathon.Application.Common.Helpers;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
-using Hackathon.Application.Services.Staff.Track;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
 
@@ -24,19 +23,20 @@ public class Service : ITrackService
         _authorizationService = authorizationService;
     }
 
-    public async Task<GetTracksResponse> GetTracks(Guid eventId, GetTracksRequest request)
+    public async Task<GetTracksByEventResponse> GetTracksByEvent(GetTracksByEventRequest request)
     {
         _authorizationService.Authorize(RoleEnum.Lecturer);
 
         PaginationHelper.Validate(request.PageIndex, request.PageSize);
 
+        // Lecturer: luôn lấy IsDisable = false
         var (items, totalCount) = await _trackRepository.GetByEventIdAsync(
-            eventId, request.Keyword, isDisable: false,
+            request.EventId, request.Keyword, isDisable: false,
             request.PageIndex, request.PageSize);
 
-        var trackItems = items
-            .OrderByDescending(t => t.CreatedAt)
-            .Select(t => new StaffTrackItem
+        return new GetTracksByEventResponse
+        {
+            Tracks = items.Select(t => new TrackItem
             {
                 Id = t.Id,
                 EventId = t.EventId,
@@ -46,12 +46,7 @@ public class Service : ITrackService
                 IsDisable = t.IsDisable,
                 CreatedAt = t.CreatedAt,
                 UpdatedAt = t.UpdatedAt
-            })
-            .ToList();
-
-        return new GetTracksResponse
-        {
-            Tracks = trackItems,
+            }).ToList(),
             TotalCount = totalCount,
             PageIndex = request.PageIndex,
             PageSize = request.PageSize

@@ -1,7 +1,7 @@
+using Hackathon.Application.Common.Helpers;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
-using Hackathon.Application.Services.Admin.Team;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
 
@@ -10,14 +10,46 @@ namespace Hackathon.Application.Services.Lecturer.Team;
 public class Service : ITeamService
 {
     private readonly ITeamRepository _teamRepository;
+    private readonly IRegisterTeamRepository _registerTeamRepository;
     private readonly IAuthorizationService _authorizationService;
 
     public Service(
         ITeamRepository teamRepository,
+        IRegisterTeamRepository registerTeamRepository,
         IAuthorizationService authorizationService)
     {
         _teamRepository = teamRepository;
+        _registerTeamRepository = registerTeamRepository;
         _authorizationService = authorizationService;
+    }
+
+    public async Task<GetTeamsResponse> GetTeams(GetTeamsRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Lecturer);
+
+        PaginationHelper.Validate(request.PageIndex, request.PageSize);
+
+        // Lecturer: luôn lọc IsDisable = false
+        var (items, totalCount) = await _teamRepository.SearchAsync(
+            request.Keyword, request.CanEdit,
+            request.FromDate, request.ToDate, false,
+            request.PageIndex, request.PageSize);
+
+        return new GetTeamsResponse
+        {
+            Teams = items.Select(t => new TeamCard
+            {
+                Id = t.Id,
+                Name = t.Name,
+                CanEdit = t.CanEdit,
+                IsDisable = t.IsDisable,
+                CreatedAt = t.CreatedAt,
+                UpdatedAt = t.UpdatedAt
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = request.PageIndex,
+            PageSize = request.PageSize
+        };
     }
 
     public async Task<GetTeamDetailResponse> GetTeamDetail(Guid teamId)
@@ -48,6 +80,44 @@ public class Service : ITeamService
                 IsLeader = m.IsLeader,
                 Status = m.Status?.ToString()
             }).ToList()
+        };
+    }
+
+    public async Task<GetTeamEventsResponse> GetTeamEvents(GetTeamEventsRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Lecturer);
+
+        PaginationHelper.Validate(request.PageIndex, request.PageSize);
+
+        var (items, totalCount) = await _registerTeamRepository.GetByTeamIdAsync(
+            request.TeamId, Domain.Enums.RegisterTeam.RegisterTeamStatusEnum.Approved, false,
+            request.PageIndex, request.PageSize);
+
+        return new GetTeamEventsResponse
+        {
+            Items = items.Select(rt => new TeamEventItem
+            {
+                RegisterTeamId = rt.Id,
+                EventId = rt.EventId,
+                EventName = rt.Event?.Name ?? "",
+                Status = rt.Event?.Status?.ToString(),
+                CreatedAt = rt.CreatedAt
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = request.PageIndex,
+            PageSize = request.PageSize
+        };
+    }
+
+    public async Task<GetTeamCountResponse> GetTeamCount(GetTeamCountRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Lecturer);
+
+        var total = await _teamRepository.CountAsync(false);
+
+        return new GetTeamCountResponse
+        {
+            Total = total
         };
     }
 }
