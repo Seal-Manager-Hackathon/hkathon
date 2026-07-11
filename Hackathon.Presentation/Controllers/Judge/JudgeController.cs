@@ -42,17 +42,18 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Danh sách bài chưa chấm của judge
+    /// Danh sách submissions trong event (myscope = bài được phân công theo track), filter track + round + status
     /// </summary>
-    [HttpGet("events/{eventId:guid}/submissions/pending")]
-    public async Task<IActionResult> GetPendingSubmissions(
+    [HttpGet("events/{eventId:guid}/myscope")]
+    public async Task<IActionResult> GetMyScope(
         Guid eventId,
         [FromQuery] Guid? trackId,
         [FromQuery] Guid? roundId,
+        [FromQuery] string? status,
         [FromQuery] int pageIndex = 1,
         [FromQuery] int pageSize = 10)
     {
-        var result = await _judgeService.GetPendingSubmissions(eventId, trackId, roundId, pageIndex, pageSize);
+        var result = await _judgeService.GetMyScope(eventId, trackId, roundId, status, pageIndex, pageSize);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
@@ -67,16 +68,6 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Xem lại điểm judge đã chấm cho 1 bài
-    /// </summary>
-    [HttpGet("submissions/{submissionId:guid}/scores/me")]
-    public async Task<IActionResult> GetMySubmissionScore(Guid submissionId)
-    {
-        var result = await _judgeService.GetMySubmissionScore(submissionId);
-        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
-    }
-
-    /// <summary>
     /// Chấm điểm 1 bài nộp
     /// </summary>
     [HttpPost("submissions/{submissionId:guid}/scores")]
@@ -87,47 +78,65 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Sửa toàn bộ điểm
+    /// Sửa toàn bộ điểm, trả về paginated score items với flag isUpdated
     /// </summary>
     [HttpPatch("scores/{scoreId:guid}")]
-    public async Task<IActionResult> UpdateScore(Guid scoreId, [FromBody] SubmitScoreRequest request)
+    public async Task<IActionResult> UpdateScore(
+        Guid scoreId,
+        [FromBody] SubmitScoreRequest request,
+        [FromQuery] int pageIndex = 1,
+        [FromQuery] int pageSize = 10)
     {
-        var result = await _judgeService.UpdateScore(scoreId, request);
+        var result = await _judgeService.UpdateScore(scoreId, request, pageIndex, pageSize);
         return Ok(ApiResponseFactory.Success(result, message: "Score Updated Successfully", traceId: HttpContext.TraceIdentifier));
     }
 
     /// <summary>
-    /// Sửa 1 item điểm riêng lẻ
+    /// Sửa 1 item điểm riêng lẻ (ko cần scoreId trên route)
     /// </summary>
-    [HttpPatch("scores/{scoreId:guid}/items/{scoreItemId:guid}")]
-    public async Task<IActionResult> UpdateScoreItem(Guid scoreId, Guid scoreItemId, [FromBody] UpdateScoreItemRequest request)
+    [HttpPatch("score-items/{scoreItemId:guid}")]
+    public async Task<IActionResult> UpdateScoreItem(Guid scoreItemId, [FromBody] UpdateScoreItemRequest request)
     {
-        var result = await _judgeService.UpdateScoreItem(scoreId, scoreItemId, request);
+        var result = await _judgeService.UpdateScoreItem(scoreItemId, request);
         return Ok(ApiResponseFactory.Success(result, message: "Score Item Updated Successfully", traceId: HttpContext.TraceIdentifier));
     }
 
     /// <summary>
-    /// Finalize điểm
+    /// Danh sách bài nộp kèm điểm judge đã chấm trong 1 event, filter theo round, track, isGraded
     /// </summary>
-    [HttpPost("scores/{scoreId:guid}/finalize")]
-    public async Task<IActionResult> FinalizeScore(Guid scoreId)
-    {
-        var result = await _judgeService.FinalizeScore(scoreId);
-        return Ok(ApiResponseFactory.Success(result, message: result, traceId: HttpContext.TraceIdentifier));
-    }
-
-    /// <summary>
-    /// Danh sách điểm judge đã chấm trong 1 event
-    /// </summary>
-    [HttpGet("scores/me")]
+    [HttpGet("events/{eventId:guid}/scores/me")]
     public async Task<IActionResult> GetMyScores(
-        [FromQuery] Guid eventId,
+        Guid eventId,
+        [FromQuery] Guid? roundId,
         [FromQuery] Guid? trackId,
         [FromQuery] bool? isGraded,
         [FromQuery] int pageIndex = 1,
         [FromQuery] int pageSize = 10)
     {
-        var result = await _judgeService.GetMyScores(eventId, trackId, isGraded, pageIndex, pageSize);
+        var result = await _judgeService.GetMyScores(eventId, roundId, trackId, isGraded, pageIndex, pageSize);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    /// <summary>
+    /// Score items (điểm từng tiêu chí) của 1 lượt chấm — giống Admin, auth Judge
+    /// </summary>
+    [HttpGet("scores/{scoreId:guid}/items")]
+    public async Task<IActionResult> GetScoreItems(
+        Guid scoreId,
+        [FromQuery] int pageIndex = 1,
+        [FromQuery] int pageSize = 10)
+    {
+        var result = await _judgeService.GetScoreItems(scoreId, pageIndex, pageSize);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    /// <summary>
+    /// Chi tiết 1 score item — giống Admin, auth Judge
+    /// </summary>
+    [HttpGet("score-items/{scoreItemId:guid}")]
+    public async Task<IActionResult> GetScoreItemDetail(Guid scoreItemId)
+    {
+        var result = await _judgeService.GetScoreItemDetail(scoreItemId);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 }

@@ -1,13 +1,15 @@
 # POST /api/v1/judge/submissions/{submissionId}/scores
 
-> Judge chấm điểm 1 bài nộp.
+> Judge chấm điểm 1 bài nộp. Chỉ chấm được khi round đã kết thúc thời gian nộp bài (EndSubmission) và event chưa kết thúc (EndTime). Tự động kiểm tra chấm đủ tất cả tiêu chí.
 
-**Controller:** `JudgeController`
+**Controller:** [JudgeController.cs](Controllers/Judge/JudgeController.cs)
 
 ## Nghiệp vụ
 
-- Judge gửi điểm cho 1 submission.
-- Dùng `ScoreSubmissionHelper.CreateScore` — item ko nhập → Score = 0.
+- **Không nhập thông tin người chấm** — tự động lấy từ token (currentUser).
+- **Chỉ chấm được khi round đã qua EndSubmission**: nếu `EndSubmission` > now → lỗi 400.
+- **Chỉ chấm được khi event chưa kết thúc**: nếu `Event.EndTime` ≤ now → lỗi 400.
+- **Bắt buộc chấm đủ tất cả tiêu chí** trong criteria template active của round. Nếu thiếu → lỗi 400 kèm tên tiêu chí thiếu.
 - **`TotalScore` tự động tính = SUM Score items**, FE ko cần gửi.
 - Judge phải được assign vào track.
 
@@ -29,6 +31,11 @@
       "criteriaItemId": "guid",
       "score": 25.0,
       "comment": "Y tuong tot"
+    },
+    {
+      "criteriaItemId": "guid",
+      "score": 18.0,
+      "comment": "Tot"
     }
   ]
 }
@@ -36,7 +43,7 @@
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| scores | array | Có | Danh sách điểm tiêu chí — TotalScore tự tính = SUM scores |
+| scores | array | Có | Danh sách điểm tiêu chí |
 | scores[].criteriaItemId | Guid | Có | ID criteria item |
 | scores[].score | decimal | Có | Điểm cho tiêu chí |
 | scores[].comment | string | No | Nhận xét |
@@ -49,7 +56,7 @@
     "submissionId": "guid",
     "assignTrackId": "guid",
     "retakeFromScoreId": null,
-    "totalScore": 85.0,
+    "totalScore": 43.0,
     "isRetake": false,
     "isMock": false,
     "scoreItems": [
@@ -58,16 +65,31 @@
         "criteriaItemName": "Tinh sang tao",
         "score": 25.0,
         "comment": "Y tuong tot"
+      },
+      {
+        "criteriaItemId": "guid",
+        "criteriaItemName": "Ky thuat",
+        "score": 18.0,
+        "comment": "Tot"
       }
     ]
-  }
+  },
+  "message": "Score Submitted Successfully",
+  "error": null,
+  "isSuccess": true,
+  "status": 200,
+  "traceId": "00-abc123...",
+  "timestampUtc": "2026-07-11T12:00:00Z"
 }
 ```
 
 ## Lỗi
 | Status | message | Khi nào |
 |--------|---------|---------|
+| 400 | Submission Period Has Not Ended Yet. Cannot Grade Before EndSubmission. | Round chưa qua EndSubmission |
+| 400 | Event Has Ended. Cannot Grade. | Event đã kết thúc (EndTime) |
+| 400 | Missing Criteria Items: "Tên tiêu chí 1", "Tên tiêu chí 2" | Chưa chấm đủ hết tiêu chí |
+| 400 | No Active Criteria Template Found for This Round | Round chưa có template |
 | 401 | Invalid Or Expired Token | Token hết hạn |
 | 403 | You Are Not Assigned as Judge for This Track | Ko được assign |
-| 400 | No Active Criteria Template Found | Round chưa có template |
 | 404 | Submission Not Found | submissionId ko tồn tại |

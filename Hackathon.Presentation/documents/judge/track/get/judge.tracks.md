@@ -2,7 +2,7 @@
 
 > Judge lấy danh sách track được phân công trong 1 event (giống Mentor).
 
-**Controller:** `JudgeController` — `GET /api/v1/judge/events/{eventId}/tracks`
+**Controller:** [JudgeController.cs](Controllers/Judge/JudgeController.cs)
 
 ## Nghiệp vụ
 
@@ -32,7 +32,13 @@
       "eventId": "guid",
       "eventName": "Hackathon 2026"
     }
-  ]
+  ],
+  "message": "Fetched Successfully",
+  "error": null,
+  "isSuccess": true,
+  "status": 200,
+  "traceId": "00-abc123...",
+  "timestampUtc": "2026-07-11T12:00:00Z"
 }
 ```
 
