@@ -17,9 +17,10 @@ public class LecturerCriteriaTemplateController : ControllerBase
     }
 
     [HttpGet("rounds/{roundId:guid}/criteria-templates")]
-    public async Task<IActionResult> GetCriteriaTemplatesByRound(Guid roundId, [FromQuery] string? keyword)
+    public async Task<IActionResult> GetCriteriaTemplatesByRound(Guid roundId, [FromQuery] GetCriteriaTemplatesByRoundRequest request)
     {
-        var result = await _criteriaTemplateService.GetCriteriaTemplatesByRound(roundId, keyword);
+        request.RoundId = roundId;
+        var result = await _criteriaTemplateService.GetCriteriaTemplatesByRound(request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
@@ -31,9 +32,10 @@ public class LecturerCriteriaTemplateController : ControllerBase
     }
 
     [HttpGet("criteria-templates/{templateId:guid}/criteria-items")]
-    public async Task<IActionResult> GetCriteriaItemsByTemplate(Guid templateId, [FromQuery] string? keyword)
+    public async Task<IActionResult> GetCriteriaItemsByTemplate(Guid templateId, [FromQuery] GetCriteriaItemsByTemplateRequest request)
     {
-        var result = await _criteriaTemplateService.GetCriteriaItemsByTemplate(templateId, keyword);
+        request.TemplateId = templateId;
+        var result = await _criteriaTemplateService.GetCriteriaItemsByTemplate(request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 

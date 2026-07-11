@@ -1,7 +1,6 @@
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
-using Hackathon.Application.Services.Admin.CriteriaTemplate;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
 
@@ -26,27 +25,31 @@ public class Service : ICriteriaTemplateService
         _authorizationService = authorizationService;
     }
 
-    public async Task<GetCriteriaTemplatesByRoundResponse> GetCriteriaTemplatesByRound(Guid roundId, string? keyword)
+    public async Task<GetCriteriaTemplatesByRoundResponse> GetCriteriaTemplatesByRound(GetCriteriaTemplatesByRoundRequest request)
     {
         _authorizationService.Authorize(RoleEnum.Lecturer);
 
-        var round = await _roundRepository.GetByIdAsync(roundId);
+        var round = await _roundRepository.GetByIdAsync(request.RoundId);
         if (round == null)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
 
-        var templates = await _criteriaTemplateRepository.GetByRoundIdAsync(roundId);
+        var allTemplates = await _criteriaTemplateRepository.GetByRoundIdAsync(request.RoundId);
 
         // Lecturer chỉ lấy template đang active và không bị disable
-        var query = templates
-            .Where(t => t.IsActive && !t.IsDisable);
+        var query = allTemplates.Where(t => t.IsActive && !t.IsDisable);
 
-        if (!string.IsNullOrWhiteSpace(keyword))
+        if (!string.IsNullOrWhiteSpace(request.Keyword))
         {
-            var kw = keyword.Trim().ToLower();
+            var kw = request.Keyword.Trim().ToLower();
             query = query.Where(t => t.Title.ToLower().Contains(kw));
         }
 
-        var result = query
+        var totalCount = query.Count();
+
+        var items = query
+            .OrderByDescending(t => t.CreatedAt)
+            .Skip((request.PageIndex - 1) * request.PageSize)
+            .Take(request.PageSize)
             .Select(t => new CriteriaTemplateItem
             {
                 Id = t.Id,
@@ -62,10 +65,10 @@ public class Service : ICriteriaTemplateService
 
         return new GetCriteriaTemplatesByRoundResponse
         {
-            Templates = result,
-            TotalCount = result.Count,
-            PageIndex = 1,
-            PageSize = result.Count > 0 ? result.Count : 10
+            Templates = items,
+            TotalCount = totalCount,
+            PageIndex = request.PageIndex,
+            PageSize = request.PageSize
         };
     }
 
@@ -101,26 +104,31 @@ public class Service : ICriteriaTemplateService
         };
     }
 
-    public async Task<GetCriteriaItemsByTemplateResponse> GetCriteriaItemsByTemplate(Guid templateId, string? keyword)
+    public async Task<GetCriteriaItemsByTemplateResponse> GetCriteriaItemsByTemplate(GetCriteriaItemsByTemplateRequest request)
     {
         _authorizationService.Authorize(RoleEnum.Lecturer);
 
-        var template = await _criteriaTemplateRepository.GetByIdAsync(templateId);
+        var template = await _criteriaTemplateRepository.GetByIdAsync(request.TemplateId);
         if (template == null)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
 
-        var items = await _criteriaTemplateRepository.GetItemsByTemplateIdAsync(templateId);
+        var allItems = await _criteriaTemplateRepository.GetItemsByTemplateIdAsync(request.TemplateId);
 
-        var query = items
-            .Where(i => !i.IsDisable);
+        // Lecturer chỉ lấy items không bị disable
+        var query = allItems.Where(i => !i.IsDisable);
 
-        if (!string.IsNullOrWhiteSpace(keyword))
+        if (!string.IsNullOrWhiteSpace(request.Keyword))
         {
-            var kw = keyword.Trim().ToLower();
+            var kw = request.Keyword.Trim().ToLower();
             query = query.Where(i => i.Name.ToLower().Contains(kw));
         }
 
-        var result = query
+        var totalCount = query.Count();
+
+        var items = query
+            .OrderByDescending(i => i.CreatedAt)
+            .Skip((request.PageIndex - 1) * request.PageSize)
+            .Take(request.PageSize)
             .Select(i => new CriteriaItemInfo
             {
                 Id = i.Id,
@@ -136,10 +144,10 @@ public class Service : ICriteriaTemplateService
 
         return new GetCriteriaItemsByTemplateResponse
         {
-            Items = result,
-            TotalCount = result.Count,
-            PageIndex = 1,
-            PageSize = result.Count > 0 ? result.Count : 10
+            Items = items,
+            TotalCount = totalCount,
+            PageIndex = request.PageIndex,
+            PageSize = request.PageSize
         };
     }
 
