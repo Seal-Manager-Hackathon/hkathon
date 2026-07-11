@@ -2,6 +2,7 @@ using Hackathon.Application.Common.Helpers;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
+using Hackathon.Application.Services.Admin.Score;
 using Hackathon.Domain.Entities;
 using Hackathon.Domain.Enums.EventRole;
 using Hackathon.Domain.Enums.User;
@@ -113,18 +114,31 @@ public class Service : IJudgeService
             var lastSubmission = SubmissionHelper.GetLastSubmission(rd);
             var myScore = lastSubmission?.Scores
                 .FirstOrDefault(s => s.AssignTrackId == assignTrack.Id);
+            var rt = rd.RegisterTeam;
             return new TrackSubmissionItem
             {
-                SubmissionId = lastSubmission?.Id,
-                RoundDetailId = rd.Id,
+                RegisterTeamId = rt.Id,
+                TeamId = rt.TeamId,
+                TeamName = rt.Team.Name,
+                EventId = rt.EventId,
+                EventName = rt.Event?.Name ?? "",
                 RoundId = rd.RoundId,
                 RoundName = rd.Round.Name,
-                TeamId = rd.RegisterTeam.TeamId,
-                TeamName = rd.RegisterTeam.Team.Name,
-                Url = lastSubmission?.Url,
-                Description = lastSubmission?.Description,
-                Status = lastSubmission?.Status?.ToString(),
-                SubmittedAt = lastSubmission?.SubmittedAt,
+                TrackId = rt.TrackId,
+                TrackTitle = rt.Track?.Title,
+                TopicId = rt.TopicId,
+                TopicTitle = rt.Topic?.Title,
+                SubmittedBy = GetTeamLeader(rt.Team.TeamDetails),
+                LastSubmission = lastSubmission != null
+                    ? new LastSubmissionInfo
+                    {
+                        Id = lastSubmission.Id,
+                        SubmittedAt = lastSubmission.SubmittedAt,
+                        Url = lastSubmission.Url,
+                        Description = lastSubmission.Description,
+                        Status = lastSubmission.Status?.ToString()
+                    }
+                    : null,
                 GradingStatus = myScore != null ? "Graded" : "Pending",
                 ScoreId = myScore?.Id,
                 TotalScore = myScore?.TotalScore
@@ -150,7 +164,7 @@ public class Service : IJudgeService
         };
     }
 
-    public async Task<GetTrackSubmissionsResponse> GetPendingSubmissions(Guid eventId, Guid? trackId, Guid? roundId, int pageIndex, int pageSize)
+    public async Task<GetTrackSubmissionsResponse> GetMyScope(Guid eventId, Guid? trackId, Guid? roundId, string? status, int pageIndex, int pageSize)
     {
         var currentUserId = GetCurrentUserId();
         PaginationHelper.Validate(pageIndex, pageSize);
@@ -168,7 +182,7 @@ public class Service : IJudgeService
             if (lastSubmission == null) continue;
 
             // Check if current judge has already graded this submission
-            var hasScore = lastSubmission.Scores.Any(s =>
+            var myScore = lastSubmission.Scores.FirstOrDefault(s =>
             {
                 var track = s.AssignTrack;
                 return track != null
@@ -177,21 +191,41 @@ public class Service : IJudgeService
                     && track.AssignEvent.EventRole.Name == EventRoleEnum.Judge;
             });
 
-            if (hasScore) continue;
+            var gradingStatus = myScore != null ? "Graded" : "Pending";
 
+            // Filter by status
+            if (!string.IsNullOrWhiteSpace(status))
+            {
+                if (!status.Equals(gradingStatus, StringComparison.OrdinalIgnoreCase))
+                    continue;
+            }
+
+            var rt = rd.RegisterTeam;
             result.Add(new TrackSubmissionItem
             {
-                SubmissionId = lastSubmission.Id,
-                RoundDetailId = rd.Id,
+                RegisterTeamId = rt.Id,
+                TeamId = rt.TeamId,
+                TeamName = rt.Team.Name,
+                EventId = rt.EventId,
+                EventName = rt.Event?.Name ?? "",
                 RoundId = rd.RoundId,
                 RoundName = rd.Round.Name,
-                TeamId = rd.RegisterTeam.TeamId,
-                TeamName = rd.RegisterTeam.Team.Name,
-                Url = lastSubmission.Url,
-                Description = lastSubmission.Description,
-                Status = lastSubmission.Status?.ToString(),
-                SubmittedAt = lastSubmission.SubmittedAt,
-                GradingStatus = "Pending"
+                TrackId = rt.TrackId,
+                TrackTitle = rt.Track?.Title,
+                TopicId = rt.TopicId,
+                TopicTitle = rt.Topic?.Title,
+                SubmittedBy = GetTeamLeader(rt.Team.TeamDetails),
+                LastSubmission = new LastSubmissionInfo
+                {
+                    Id = lastSubmission.Id,
+                    SubmittedAt = lastSubmission.SubmittedAt,
+                    Url = lastSubmission.Url,
+                    Description = lastSubmission.Description,
+                    Status = lastSubmission.Status?.ToString()
+                },
+                GradingStatus = gradingStatus,
+                ScoreId = myScore?.Id,
+                TotalScore = myScore?.TotalScore
             });
         }
 
@@ -233,62 +267,45 @@ public class Service : IJudgeService
         var roundDetail = submission.RoundDetail;
         var template = await _criteriaTemplateRepository.GetActiveByRoundIdAsync(roundDetail!.RoundId);
 
+        if (template == null)
+        {
+            return new SubmissionCriteriaResponse
+            {
+                SubmissionId = submissionId,
+                Id = Guid.Empty,
+                RoundId = roundDetail.RoundId,
+                Title = "",
+                Items = []
+            };
+        }
+
         return new SubmissionCriteriaResponse
         {
             SubmissionId = submissionId,
-            RoundId = roundDetail.RoundId,
-            TemplateId = template?.Id,
-            TemplateTitle = template?.Title,
-            CriteriaItems = template?.CriteriaItems
+            Id = template.Id,
+            RoundId = template.RoundId,
+            Title = template.Title,
+            Description = template.Description,
+            IsDisable = template.IsDisable,
+            IsActive = template.IsActive,
+            Items = template.CriteriaItems
                 .Where(ci => !ci.IsDisable)
-                .Select(ci => new CriteriaItemResponse
+                .Select(ci => new CriteriaItemDetail
                 {
                     Id = ci.Id,
+                    CriteriaTemplateId = ci.CriteriaTemplateId,
                     Name = ci.Name,
                     Description = ci.Description,
-                    MaxScore = ci.Score
-                }).ToList() ?? []
+                    Score = ci.Score,
+                    IsDisable = ci.IsDisable,
+                    CreatedAt = ci.CreatedAt
+                }).ToList(),
+            CreatedAt = template.CreatedAt,
+            UpdatedAt = template.UpdatedAt
         };
     }
 
-    public async Task<JudgeSubmissionScoreResponse?> GetMySubmissionScore(Guid submissionId)
-    {
-        var currentUserId = GetCurrentUserId();
-
-        var submission = await _submissionRepository.GetByIdAsync(submissionId);
-        if (submission == null)
-            throw new NotFoundException("Submission Not Found");
-
-        var registerTeam = submission.RoundDetail?.RegisterTeam;
-        if (registerTeam == null)
-            throw new NotFoundException("Register Team Not Found");
-
-        // Try to get track from register team, or from submission's scores' assign tracks
-        Guid eventId = registerTeam.EventId;
-        Guid? trackId = registerTeam.TrackId;
-        if (trackId == null)
-        {
-            trackId = submission.Scores
-                .Select(s => s.AssignTrack?.TrackId)
-                .FirstOrDefault(t => t.HasValue);
-        }
-        if (!trackId.HasValue)
-            throw new BadRequestException("Register Team Has No Track Assigned");
-
-        var assignTrack = await _assignEventRepository.GetGraderAssignTrackAsync(
-            currentUserId, eventId, trackId.Value);
-        if (assignTrack == null)
-            throw new ForbiddenException("You Are Not Assigned as Judge for This Track");
-
-        // Find my score for this submission
-        var myScore = submission.Scores
-            .FirstOrDefault(s => s.AssignTrackId == assignTrack.Id);
-
-        if (myScore == null)
-            return null;
-
-        return MapToJudgeSubmissionScoreResponse(myScore);
-    }
+    // GetMySubmissionScore removed — use GetEventSubmissions or GetMyScores instead
 
     public async Task<JudgeSubmissionScoreResponse> SubmitScore(Guid submissionId, SubmitScoreRequest request)
     {
@@ -301,6 +318,19 @@ public class Service : IJudgeService
         var registerTeam = submission.RoundDetail?.RegisterTeam;
         if (registerTeam == null)
             throw new NotFoundException("Register Team Not Found");
+
+        var round = submission.RoundDetail?.Round;
+        if (round == null)
+            throw new NotFoundException("Round Not Found");
+
+        // Validate round đã qua EndSubmission chưa
+        if (round.EndSubmission.HasValue && round.EndSubmission.Value > DateTimeOffset.UtcNow)
+            throw new BadRequestException("Submission Period Has Not Ended Yet. Cannot Grade Before EndSubmission.");
+
+        // Validate event chưa kết thúc
+        var ev = await _eventRepository.GetByIdAsync(registerTeam.EventId);
+        if (ev != null && ev.EndTime.HasValue && ev.EndTime.Value <= DateTimeOffset.UtcNow)
+            throw new BadRequestException("Event Has Ended. Cannot Grade.");
 
         Guid? trackId = registerTeam.TrackId;
         if (trackId == null)
@@ -319,6 +349,24 @@ public class Service : IJudgeService
         if (template == null)
             throw new BadRequestException("No Active Criteria Template Found for This Round");
 
+        var activeItems = template.CriteriaItems.Where(ci => !ci.IsDisable).ToList();
+
+        // Validate: judge phải chấm đủ tất cả tiêu chí
+        var submittedIds = request.Scores
+            .Where(s => s.CriteriaItemId != Guid.Empty)
+            .Select(s => s.CriteriaItemId)
+            .ToHashSet();
+
+        var missingItems = activeItems
+            .Where(ci => !submittedIds.Contains(ci.Id))
+            .ToList();
+
+        if (missingItems.Count > 0)
+        {
+            var missingNames = string.Join(", ", missingItems.Select(ci => $"\"{ci.Name}\""));
+            throw new BadRequestException($"Missing Criteria Items: {missingNames}");
+        }
+
         var submittedItems = request.Scores
             .Where(s => s.CriteriaItemId != Guid.Empty)
             .ToDictionary(
@@ -329,7 +377,7 @@ public class Service : IJudgeService
             submissionId,
             assignTrack.Id,
             isMock: false,
-            template.CriteriaItems.Where(ci => !ci.IsDisable).ToList(),
+            activeItems,
             submittedItems);
 
         score.IsRetake = false;
@@ -340,9 +388,10 @@ public class Service : IJudgeService
         return MapToJudgeSubmissionScoreResponse(score);
     }
 
-    public async Task<JudgeSubmissionScoreResponse> UpdateScore(Guid scoreId, SubmitScoreRequest request)
+    public async Task<UpdateScoreResponse> UpdateScore(Guid scoreId, SubmitScoreRequest request, int pageIndex = 1, int pageSize = 10)
     {
         var currentUserId = GetCurrentUserId();
+        PaginationHelper.Validate(pageIndex, pageSize);
 
         var score = await _scoreRepository.GetByIdAsync(scoreId);
         if (score == null)
@@ -352,8 +401,19 @@ public class Service : IJudgeService
         if (score.AssignTrack?.AssignEvent?.UserId != currentUserId)
             throw new ForbiddenException("You Are Not Authorized to Update This Score");
 
-        // Update each score item
-        decimal total = 0m;
+        // Validate event chưa kết thúc
+        var registerTeam = score.Submission?.RoundDetail?.RegisterTeam;
+        if (registerTeam != null)
+        {
+            var ev = await _eventRepository.GetByIdAsync(registerTeam.EventId);
+            if (ev != null && ev.EndTime.HasValue && ev.EndTime.Value <= DateTimeOffset.UtcNow)
+                throw new BadRequestException("Event Has Ended. Cannot Update Score.");
+        }
+
+        // Track which criteria items were updated
+        var updatedIds = new HashSet<Guid>();
+
+        // Update each score item (chỉ sửa items gửi lên, giữ nguyên items ko gửi)
         foreach (var itemInput in request.Scores)
         {
             var scoreItem = score.ScoreItems
@@ -363,20 +423,49 @@ public class Service : IJudgeService
                 scoreItem.Score = itemInput.Score;
                 scoreItem.Comment = itemInput.Comment;
                 scoreItem.UpdatedAt = DateTimeOffset.UtcNow;
+                updatedIds.Add(scoreItem.Id);
             }
-            total += itemInput.Score;
         }
 
-        // Auto-calculate TotalScore as SUM of ScoreItems
-        score.TotalScore = total;
+        // Auto-calculate TotalScore as SUM of all ScoreItems
+        score.TotalScore = score.ScoreItems.Sum(si => si.Score ?? 0);
         score.UpdatedAt = DateTimeOffset.UtcNow;
 
         await _unitOfWork.SaveChangesAsync();
 
-        return MapToJudgeSubmissionScoreResponse(score);
+        // Trả về paginated list of score items với flag isUpdated
+        var allItems = score.ScoreItems
+            .OrderBy(si => si.CreatedAt)
+            .ToList();
+
+        var totalCount = allItems.Count;
+        var paged = allItems
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        return new UpdateScoreResponse
+        {
+            ScoreId = scoreId,
+            Items = paged.Select(si => new UpdatedScoreItemResponse
+            {
+                ScoreItemId = si.Id,
+                ScoreId = si.ScoreId,
+                SubmissionId = score.SubmissionId,
+                CriteriaItemId = si.CriteriaItemId,
+                CriteriaItemName = si.CriteriaItem?.Name ?? "",
+                Score = si.Score,
+                Comment = si.Comment,
+                GradedByUserId = si.AssignTrack?.AssignEvent?.UserId,
+                IsUpdated = updatedIds.Contains(si.Id)
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = pageIndex,
+            PageSize = pageSize
+        };
     }
 
-    public async Task<JudgeScoreItemResponse> UpdateScoreItem(Guid scoreId, Guid scoreItemId, UpdateScoreItemRequest request)
+    public async Task<UpdatedScoreItemResponse> UpdateScoreItem(Guid scoreItemId, UpdateScoreItemRequest request)
     {
         var currentUserId = GetCurrentUserId();
 
@@ -386,6 +475,15 @@ public class Service : IJudgeService
 
         if (scoreItem.ScoreEntity?.AssignTrack?.AssignEvent?.UserId != currentUserId)
             throw new ForbiddenException("You Are Not Authorized to Update This Score Item");
+
+        // Validate event chưa kết thúc
+        var registerTeam = scoreItem.ScoreEntity?.Submission?.RoundDetail?.RegisterTeam;
+        if (registerTeam != null)
+        {
+            var ev = await _eventRepository.GetByIdAsync(registerTeam.EventId);
+            if (ev != null && ev.EndTime.HasValue && ev.EndTime.Value <= DateTimeOffset.UtcNow)
+                throw new BadRequestException("Event Has Ended. Cannot Update Score.");
+        }
 
         if (request.Score.HasValue)
             scoreItem.Score = request.Score;
@@ -404,83 +502,103 @@ public class Service : IJudgeService
 
         await _unitOfWork.SaveChangesAsync();
 
-        return new JudgeScoreItemResponse
+        var subId = scoreItem.ScoreEntity?.SubmissionId;
+
+        return new UpdatedScoreItemResponse
         {
+            ScoreItemId = scoreItem.Id,
+            ScoreId = scoreItem.ScoreId,
+            SubmissionId = subId ?? Guid.Empty,
             CriteriaItemId = scoreItem.CriteriaItemId,
             CriteriaItemName = scoreItem.CriteriaItem?.Name ?? "",
             Score = scoreItem.Score,
-            Comment = scoreItem.Comment
+            Comment = scoreItem.Comment,
+            GradedByUserId = scoreItem.AssignTrack?.AssignEvent?.UserId,
+            IsUpdated = true
         };
     }
 
-    public async Task<string> FinalizeScore(Guid scoreId)
-    {
-        var currentUserId = GetCurrentUserId();
-
-        var score = await _scoreRepository.GetByIdAsync(scoreId);
-        if (score == null)
-            throw new NotFoundException("Score Not Found");
-
-        if (score.AssignTrack?.AssignEvent?.UserId != currentUserId)
-            throw new ForbiddenException("You Are Not Authorized to Finalize This Score");
-
-        score.UpdatedAt = DateTimeOffset.UtcNow;
-        await _unitOfWork.SaveChangesAsync();
-
-        return "Score Finalized Successfully";
-    }
-
-    public async Task<GetMyScoresResponse> GetMyScores(Guid eventId, Guid? trackId, bool? isGraded, int pageIndex, int pageSize)
+    public async Task<GetMyScoresResponse> GetMyScores(Guid eventId, Guid? roundId, Guid? trackId, bool? isGraded, int pageIndex, int pageSize)
     {
         var currentUserId = GetCurrentUserId();
         PaginationHelper.Validate(pageIndex, pageSize);
 
         await ValidateJudgeEventAssignment(currentUserId, eventId);
 
-        // Lấy danh sách scores của judge trong event này
+        // Lấy assign tracks của judge trong event này
         var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdWithTracksAsync(eventId, currentUserId);
         if (assignEvent == null)
             throw new NotFoundException("Event Not Found or You Are Not Assigned to This Event");
 
-        var myScores = new List<JudgeMyScoreItem>();
-        foreach (var at in assignEvent.AssignTracks.Where(a => !a.IsDisable))
-        {
-            if (trackId.HasValue && at.TrackId != trackId.Value) continue;
+        var myAssignTrackIds = assignEvent.AssignTracks
+            .Where(at => !at.IsDisable)
+            .Select(at => at.Id)
+            .ToHashSet();
 
-            var scores = await _scoreRepository.GetByAssignTrackIdAsync(at.Id);
-            foreach (var s in scores)
+        if (myAssignTrackIds.Count == 0)
+        {
+            return new GetMyScoresResponse
             {
-                var sub = s.Submission;
-                if (sub?.RoundDetail?.RegisterTeam == null) continue;
-
-                var rt = sub.RoundDetail.RegisterTeam;
-                myScores.Add(new JudgeMyScoreItem
-                {
-                    ScoreId = s.Id,
-                    SubmissionId = s.SubmissionId,
-                    TrackId = rt.TrackId!.Value,
-                    TrackTitle = rt.Track?.Title ?? "",
-                    TeamId = rt.TeamId,
-                    TeamName = rt.Team.Name,
-                    TotalScore = s.TotalScore,
-                    IsRetake = s.IsRetake,
-                    IsMock = s.IsMock,
-                    SubmittedAt = sub.SubmittedAt,
-                    UpdatedAt = s.UpdatedAt
-                });
-            }
+                Items = new List<JudgeMyScoreItem>(),
+                TotalCount = 0,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
         }
 
-        // Filter isGraded — tất cả scores trong list này đều đã graded (có score)
-        // isGraded=false: submissions chưa chấm — khác logic, dùng GetPendingSubmissions
-        if (isGraded.HasValue && !isGraded.Value)
+        // Lấy all submissions trong event, filter theo track/round
+        var (items, totalCount) = await _submissionRepository.GetSubmissionsAsync(
+            eventId, roundId, trackId, null, null, null,
+            1, int.MaxValue);
+
+        var result = new List<JudgeMyScoreItem>();
+        foreach (var rd in items)
         {
-            myScores = new List<JudgeMyScoreItem>();
+            var lastSubmission = SubmissionHelper.GetLastSubmission(rd);
+            if (lastSubmission == null) continue;
+
+            // Kiểm tra submission này có thuộc track judge được phân công ko
+            Guid? submissionTrackId = rd.RegisterTeam.TrackId;
+            bool belongsToMyTrack = submissionTrackId.HasValue
+                && assignEvent.AssignTracks.Any(at =>
+                    at.TrackId == submissionTrackId.Value && !at.IsDisable);
+
+            if (!belongsToMyTrack) continue;
+
+            // Tìm score của chính judge này (nếu đã chấm)
+            var myScore = lastSubmission.Scores
+                .FirstOrDefault(s => myAssignTrackIds.Contains(s.AssignTrackId));
+
+            result.Add(new JudgeMyScoreItem
+            {
+                RegisterTeamId = rd.RegisterTeamId,
+                TeamId = rd.RegisterTeam.TeamId,
+                TeamName = rd.RegisterTeam.Team.Name,
+                TrackId = rd.RegisterTeam.TrackId,
+                TrackTitle = rd.RegisterTeam.Track?.Title,
+                RoundId = rd.RoundId,
+                RoundName = rd.Round.Name,
+                SubmissionId = lastSubmission.Id,
+                Url = lastSubmission.Url,
+                SubmittedAt = lastSubmission.SubmittedAt,
+                GradingStatus = myScore != null ? "Graded" : "Pending",
+                ScoreId = myScore?.Id,
+                TotalScore = myScore?.TotalScore
+            });
         }
 
-        var totalCount = myScores.Count;
-        var paged = myScores
-            .OrderByDescending(s => s.UpdatedAt)
+        // Filter isGraded
+        if (isGraded.HasValue)
+        {
+            result = result
+                .Where(s => isGraded.Value
+                    ? s.GradingStatus == "Graded"
+                    : s.GradingStatus == "Pending")
+                .ToList();
+        }
+
+        var paged = result
+            .OrderByDescending(s => s.SubmittedAt)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .ToList();
@@ -488,9 +606,118 @@ public class Service : IJudgeService
         return new GetMyScoresResponse
         {
             Items = paged,
+            TotalCount = result.Count,
+            PageIndex = pageIndex,
+            PageSize = pageSize
+        };
+    }
+
+    public async Task<GetScoreItemsResponse> GetScoreItems(Guid scoreId, int pageIndex, int pageSize)
+    {
+        var currentUserId = GetCurrentUserId();
+        PaginationHelper.Validate(pageIndex, pageSize);
+
+        var score = await _scoreRepository.GetByIdAsync(scoreId);
+        if (score == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        // Verify judge owns this score
+        if (score.AssignTrack?.AssignEvent?.UserId != currentUserId)
+            throw new ForbiddenException("You Are Not Authorized to View This Score");
+
+        var (items, totalCount) = await _scoreRepository.GetScoreItemsByScoreIdAsync(scoreId, pageIndex, pageSize);
+
+        return new GetScoreItemsResponse
+        {
+            ScoreId = scoreId,
+            Items = items.Select(si =>
+            {
+                var rt = si.ScoreEntity?.Submission?.RoundDetail?.RegisterTeam;
+                return new ScoreItemDetail
+                {
+                    ScoreItemId = si.Id,
+                    ScoreId = si.ScoreId,
+                    CriteriaItemId = si.CriteriaItemId,
+                    AssignTrackId = si.AssignTrackId,
+                    AssignEventId = si.AssignTrack?.AssignEventId ?? Guid.Empty,
+                    CriteriaName = si.CriteriaItem?.Name ?? "",
+                    Score = si.Score,
+                    Comment = si.Comment,
+                    GradedBy = si.AssignTrack?.AssignEvent?.User != null
+                        ? new GraderInfo
+                        {
+                            UserId = si.AssignTrack.AssignEvent.User.Id,
+                            Email = si.AssignTrack.AssignEvent.User.Email,
+                            FirstName = si.AssignTrack.AssignEvent.User.FirstName,
+                            LastName = si.AssignTrack.AssignEvent.User.LastName
+                        }
+                        : null,
+                    TrackTitle = rt?.Track?.Title,
+                    TrackId = rt?.TrackId,
+                    TopicId = rt?.TopicId,
+                    TopicTitle = rt?.Topic?.Title,
+                    CreatedAt = si.CreatedAt,
+                    UpdatedAt = si.UpdatedAt
+                };
+            }).ToList(),
             TotalCount = totalCount,
             PageIndex = pageIndex,
             PageSize = pageSize
+        };
+    }
+
+    public async Task<ScoreItemDetail> GetScoreItemDetail(Guid scoreItemId)
+    {
+        var currentUserId = GetCurrentUserId();
+
+        var scoreItem = await _scoreRepository.GetScoreItemByIdAsync(scoreItemId);
+        if (scoreItem == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        // Verify judge owns this score item
+        if (scoreItem.AssignTrack?.AssignEvent?.UserId != currentUserId)
+            throw new ForbiddenException("You Are Not Authorized to View This Score Item");
+
+        var rt = scoreItem.ScoreEntity?.Submission?.RoundDetail?.RegisterTeam;
+
+        return new ScoreItemDetail
+        {
+            ScoreItemId = scoreItem.Id,
+            ScoreId = scoreItem.ScoreId,
+            CriteriaItemId = scoreItem.CriteriaItemId,
+            AssignTrackId = scoreItem.AssignTrackId,
+            AssignEventId = scoreItem.AssignTrack?.AssignEventId ?? Guid.Empty,
+            CriteriaName = scoreItem.CriteriaItem?.Name ?? "",
+            Score = scoreItem.Score,
+            Comment = scoreItem.Comment,
+            GradedBy = scoreItem.AssignTrack?.AssignEvent?.User != null
+                ? new GraderInfo
+                {
+                    UserId = scoreItem.AssignTrack.AssignEvent.User.Id,
+                    Email = scoreItem.AssignTrack.AssignEvent.User.Email,
+                    FirstName = scoreItem.AssignTrack.AssignEvent.User.FirstName,
+                    LastName = scoreItem.AssignTrack.AssignEvent.User.LastName
+                }
+                : null,
+            TrackTitle = rt?.Track?.Title,
+            TrackId = rt?.TrackId,
+            TopicId = rt?.TopicId,
+            TopicTitle = rt?.Topic?.Title,
+            CreatedAt = scoreItem.CreatedAt,
+            UpdatedAt = scoreItem.UpdatedAt
+        };
+    }
+
+    private static SubmittedByInfo? GetTeamLeader(ICollection<TeamDetails>? teamDetails)
+    {
+        var leader = teamDetails?.FirstOrDefault(td => td.IsLeader);
+        if (leader?.User == null) return null;
+        return new SubmittedByInfo
+        {
+            UserId = leader.User.Id,
+            Email = leader.User.Email,
+            FirstName = leader.User.FirstName,
+            LastName = leader.User.LastName
         };
     }
 

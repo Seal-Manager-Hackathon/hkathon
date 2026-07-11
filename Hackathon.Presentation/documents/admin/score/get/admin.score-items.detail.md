@@ -1,5 +1,5 @@
 # GET /api/v1/admin/score-items/{scoreItemId}
-
+`
 > Admin xem chi tiết 1 score item (điểm 1 tiêu chí trong 1 lượt chấm), kèm thông tin track/topic.
 
 ## Nghiệp vụ
