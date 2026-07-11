@@ -12,15 +12,21 @@ public class Service : ITrackService
     private readonly ITrackRepository _trackRepository;
     private readonly IRegisterTeamRepository _registerTeamRepository;
     private readonly IAuthorizationService _authorizationService;
+    private readonly IAssignEventRepository _assignEventRepository;
+    private readonly ICurrentUserService _currentUserService;
 
     public Service(
         ITrackRepository trackRepository,
         IRegisterTeamRepository registerTeamRepository,
-        IAuthorizationService authorizationService)
+        IAuthorizationService authorizationService,
+        IAssignEventRepository assignEventRepository,
+        ICurrentUserService currentUserService)
     {
         _trackRepository = trackRepository;
         _registerTeamRepository = registerTeamRepository;
         _authorizationService = authorizationService;
+        _assignEventRepository = assignEventRepository;
+        _currentUserService = currentUserService;
     }
 
     public async Task<GetTracksByEventResponse> GetTracksByEvent(GetTracksByEventRequest request)
@@ -74,6 +80,52 @@ public class Service : ITrackService
             RegisterTeamCount = registerTeamCount,
             CreatedAt = track.CreatedAt,
             UpdatedAt = track.UpdatedAt
+        };
+    }
+
+    public async Task<GetMyAssignedTracksResponse> GetMyAssignedTracks(Guid eventId, int pageIndex = 1, int pageSize = 10)
+    {
+        _authorizationService.Authorize(RoleEnum.Lecturer);
+
+        PaginationHelper.Validate(pageIndex, pageSize);
+
+        var currentUserId = _currentUserService.UserId;
+        if (!currentUserId.HasValue)
+            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
+
+        var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdWithTracksAsync(eventId, currentUserId.Value);
+        if (assignEvent == null)
+            throw new NotFoundException("Event Not Found or You Are Not Assigned to This Event");
+
+        var allTracks = assignEvent.AssignTracks
+            .Where(at => !at.IsDisable && at.Track != null && !at.Track.IsDisable)
+            .Select(at => new MyAssignedTrackItem
+            {
+                Id = at.TrackId,
+                EventId = eventId,
+                Title = at.Track.Title,
+                Description = at.Track.Description,
+                MaxTeam = at.Track.MaxTeam,
+                IsDisable = false,
+                EventRoleId = assignEvent.EventRoleId ?? Guid.Empty,
+                EventRoleName = assignEvent.EventRole?.Name.ToString() ?? "",
+                CreatedAt = at.Track.CreatedAt,
+                UpdatedAt = at.Track.UpdatedAt
+            })
+            .ToList();
+
+        var totalCount = allTracks.Count;
+        var paged = allTracks
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        return new GetMyAssignedTracksResponse
+        {
+            Tracks = paged,
+            TotalCount = totalCount,
+            PageIndex = pageIndex,
+            PageSize = pageSize
         };
     }
 }
