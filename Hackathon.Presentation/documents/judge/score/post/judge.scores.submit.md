@@ -8,7 +8,7 @@
 
 - Judge gửi điểm cho 1 submission.
 - Dùng `ScoreSubmissionHelper.CreateScore` — item ko nhập → Score = 0.
-- **`TotalScore` do FE gửi lên** (có thể override từ SUM scores).
+- **`TotalScore` tự động tính = SUM Score items**, FE ko cần gửi.
 - Judge phải được assign vào track.
 
 ## Phân quyền
@@ -24,7 +24,6 @@
 ### Body
 ```json
 {
-  "totalScore": 85.0,
   "scores": [
     {
       "criteriaItemId": "guid",
@@ -37,8 +36,7 @@
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| totalScore | decimal | Có | Tổng điểm (FE tính) |
-| scores | array | Có | Danh sách điểm tiêu chí |
+| scores | array | Có | Danh sách điểm tiêu chí — TotalScore tự tính = SUM scores |
 | scores[].criteriaItemId | Guid | Có | ID criteria item |
 | scores[].score | decimal | Có | Điểm cho tiêu chí |
 | scores[].comment | string | No | Nhận xét |
