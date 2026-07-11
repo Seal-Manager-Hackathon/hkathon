@@ -1,7 +1,9 @@
 using Hackathon.Application.Common;
 using Hackathon.Application.Common.Models;
-using Hackathon.Application.Services.Staff.Event;
+using Hackathon.Application.Services.Admin.Event;
 using Microsoft.AspNetCore.Mvc;
+using StaffEventService = Hackathon.Application.Services.Staff.Event.IEventService;
+using StaffModels = Hackathon.Application.Services.Staff.Event;
 
 namespace Hackathon.Presentation.Controllers.Staff;
 
@@ -9,9 +11,9 @@ namespace Hackathon.Presentation.Controllers.Staff;
 [ApiController]
 public class StaffEventController : ControllerBase
 {
-    private readonly IEventService _eventService;
+    private readonly StaffEventService _eventService;
 
-    public StaffEventController(IEventService eventService)
+    public StaffEventController(StaffEventService eventService)
     {
         _eventService = eventService;
     }
@@ -23,15 +25,22 @@ public class StaffEventController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RecentEventsFetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpGet("events/count")]
+    public async Task<IActionResult> GetEventCount([FromQuery] GetEventCountRequest request)
+    {
+        var result = await _eventService.GetEventCount(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.EventCountFetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("events")]
-    public async Task<IActionResult> GetMyEvents([FromQuery] GetMyEventsRequest request)
+    public async Task<IActionResult> GetMyEvents([FromQuery] StaffModels.GetMyEventsRequest request)
     {
         var result = await _eventService.GetMyEvents(request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.EventsFetched, traceId: HttpContext.TraceIdentifier));
     }
 
     [HttpGet("events/my-staff")]
-    public async Task<IActionResult> GetMyStaffEvents([FromQuery] GetMyEventsRequest request)
+    public async Task<IActionResult> GetMyStaffEvents([FromQuery] StaffModels.GetMyEventsRequest request)
     {
         var result = await _eventService.GetMyStaffEvents(request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.EventsFetched, traceId: HttpContext.TraceIdentifier));

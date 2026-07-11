@@ -121,4 +121,10 @@ public class TeamRepository : ITeamRepository
 
         return (items, totalCount);
     }
+
+    public async Task<List<Teams>> GetRecentAsync(int count)
+        => await _context.Set<Teams>()
+            .OrderByDescending(t => t.CreatedAt)
+            .Take(count)
+            .ToListAsync();
 }

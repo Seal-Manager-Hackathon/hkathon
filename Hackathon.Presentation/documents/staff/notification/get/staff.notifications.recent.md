@@ -29,7 +29,11 @@ Lấy nhanh các thông báo mới nhất (10 bản ghi) không phân trang. Dù
     ]
   },
   "message": "Notifications Fetched Successfully",
-  "status": 200
+  "error": null,
+  "isSuccess": true,
+  "status": 200,
+  "traceId": "...",
+  "timestampUtc": "2026-07-07T12:00:00Z"
 }
 ```
 

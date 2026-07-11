@@ -113,11 +113,31 @@ public class Service : ITeamService
     {
         _authorizationService.Authorize(RoleEnum.Lecturer);
 
-        var total = await _teamRepository.CountAsync(false);
+        var total = await _teamRepository.CountAsync(request.IsDisable);
 
         return new GetTeamCountResponse
         {
             Total = total
+        };
+    }
+
+    public async Task<Admin.Team.GetRecentTeamsResponse> GetRecentTeams()
+    {
+        _authorizationService.Authorize(RoleEnum.Lecturer);
+
+        var teams = await _teamRepository.GetRecentAsync(10);
+
+        return new Admin.Team.GetRecentTeamsResponse
+        {
+            Teams = teams.Select(t => new Admin.Team.TeamCard
+            {
+                Id = t.Id,
+                Name = t.Name,
+                CanEdit = t.CanEdit,
+                IsDisable = t.IsDisable,
+                CreatedAt = t.CreatedAt,
+                UpdatedAt = t.UpdatedAt
+            }).ToList()
         };
     }
 }

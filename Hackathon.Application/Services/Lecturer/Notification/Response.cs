@@ -1,5 +1,10 @@
 namespace Hackathon.Application.Services.Lecturer.Notification;
 
+public class GetRecentNotificationsResponse
+{
+    public List<NotificationCard> Notifications { get; set; } = new();
+}
+
 public class GetUnreadCountResponse
 {
     public int Count { get; set; }

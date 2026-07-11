@@ -86,6 +86,26 @@ public class Service : IUserService
         };
     }
 
+    public async Task<GetUserCountResponse> GetUserCount(GetUserCountRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Staff);
+
+        RoleEnum? role = null;
+        if (!string.IsNullOrWhiteSpace(request.Role))
+        {
+            if (!Enum.TryParse<RoleEnum>(request.Role, true, out var parsedRole))
+                throw new BadRequestException("Invalid Role. Must be: Admin, Staff, Student, Lecturer");
+            role = parsedRole;
+        }
+
+        var total = await _userRepository.CountByRoleAsync(role);
+
+        return new GetUserCountResponse
+        {
+            Total = total
+        };
+    }
+
     public async Task<UserDetailResponse> GetUserDetail(GetUserDetailRequest request)
     {
         _authorizationService.Authorize(RoleEnum.Staff);

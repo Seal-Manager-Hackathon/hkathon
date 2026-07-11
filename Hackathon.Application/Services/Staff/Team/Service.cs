@@ -2,6 +2,7 @@ using Hackathon.Application.Common.Helpers;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
+using Hackathon.Application.Services.Admin.Team;
 using Hackathon.Domain.Entities;
 using Hackathon.Domain.Enums.RegisterTeam;
 using Hackathon.Domain.Enums.TeamDetail;
@@ -141,6 +142,38 @@ public class Service : ITeamService
             TotalCount = totalCount,
             PageIndex = request.PageIndex,
             PageSize = request.PageSize
+        };
+    }
+
+    public async Task<GetTeamCountResponse> GetTeamCount(GetTeamCountRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Staff);
+
+        var total = await _teamRepository.CountAsync(request.IsDisable);
+
+        return new GetTeamCountResponse
+        {
+            Total = total
+        };
+    }
+
+    public async Task<GetRecentTeamsResponse> GetRecentTeams()
+    {
+        _authorizationService.Authorize(RoleEnum.Staff);
+
+        var teams = await _teamRepository.GetRecentAsync(10);
+
+        return new GetRecentTeamsResponse
+        {
+            Teams = teams.Select(t => new Admin.Team.TeamCard
+            {
+                Id = t.Id,
+                Name = t.Name,
+                CanEdit = t.CanEdit,
+                IsDisable = t.IsDisable,
+                CreatedAt = t.CreatedAt,
+                UpdatedAt = t.UpdatedAt
+            }).ToList()
         };
     }
 }

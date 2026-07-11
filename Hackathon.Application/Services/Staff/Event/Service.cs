@@ -32,22 +32,54 @@ public class Service : IEventService
     {
         _authorizationService.Authorize(RoleEnum.Staff);
 
-        var events = await _eventRepository.GetRecentAsync(10);
+        var currentUserId = _currentUserService.UserId;
+        if (!currentUserId.HasValue)
+            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
+
+        var (items, _) = await _assignEventRepository.GetStaffAssignEventsByUserIdAsync(
+            currentUserId.Value, null, null,
+            null, null, 1, 10);
 
         return new GetRecentEventsResponse
         {
-            Events = events.Select(e => new EventItem
+            Events = items.Select(ae => new EventItem
             {
-                Id = e.Id,
-                Name = e.Name,
-                Description = e.Description,
-                Status = e.Status?.ToString(),
-                StartTime = e.StartTime,
-                EndTime = e.EndTime,
-                IsDisable = e.IsDisable,
-                CreatedAt = e.CreatedAt,
-                UpdatedAt = e.UpdatedAt
+                Id = ae.Event.Id,
+                Name = ae.Event.Name,
+                Description = ae.Event.Description,
+                Status = ae.Event.Status?.ToString(),
+                StartTime = ae.Event.StartTime,
+                EndTime = ae.Event.EndTime,
+                IsDisable = ae.Event.IsDisable,
+                CreatedAt = ae.Event.CreatedAt,
+                UpdatedAt = ae.Event.UpdatedAt
             }).ToList()
+        };
+    }
+
+    public async Task<GetEventCountResponse> GetEventCount(GetEventCountRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Staff);
+
+        var currentUserId = _currentUserService.UserId;
+        if (!currentUserId.HasValue)
+            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
+
+        EventStatusEnum? status = null;
+        if (!string.IsNullOrWhiteSpace(request.Status))
+        {
+            if (!Enum.TryParse<EventStatusEnum>(request.Status, true, out var parsed))
+                throw new BadRequestException("Invalid Status. Must be: Draft, Published, Closed");
+            status = parsed;
+        }
+
+        var (_, totalCount) = await _assignEventRepository.GetStaffAssignEventsByUserIdAsync(
+            currentUserId.Value, null, status,
+            null, null, 1, int.MaxValue);
+
+        return new GetEventCountResponse
+        {
+            Total = totalCount
         };
     }
 
