@@ -51,6 +51,8 @@ public class GetTrackDetailResponse
     public int? MaxTeam { get; set; }
     public bool IsDisable { get; set; }
     public int RegisterTeamCount { get; set; }
+    public Guid EventRoleId { get; set; }
+    public string EventRoleName { get; set; } = string.Empty;
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
 }

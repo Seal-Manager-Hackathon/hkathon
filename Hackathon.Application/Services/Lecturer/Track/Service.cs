@@ -67,6 +67,20 @@ public class Service : ITrackService
         if (track == null)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
 
+        var currentUserId = _currentUserService.UserId;
+        Guid? eventRoleId = null;
+        string? eventRoleName = null;
+
+        if (currentUserId.HasValue)
+        {
+            var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdWithTracksAsync(track.EventId, currentUserId.Value);
+            if (assignEvent != null)
+            {
+                eventRoleId = assignEvent.EventRoleId;
+                eventRoleName = assignEvent.EventRole?.Name.ToString();
+            }
+        }
+
         var registerTeamCount = await _registerTeamRepository.CountByTrackIdAsync(trackId);
 
         return new GetTrackDetailResponse
@@ -78,6 +92,8 @@ public class Service : ITrackService
             MaxTeam = track.MaxTeam,
             IsDisable = track.IsDisable,
             RegisterTeamCount = registerTeamCount,
+            EventRoleId = eventRoleId ?? Guid.Empty,
+            EventRoleName = eventRoleName ?? "",
             CreatedAt = track.CreatedAt,
             UpdatedAt = track.UpdatedAt
         };
