@@ -723,63 +723,77 @@ public class Service : IJudgeService
         await ValidateJudgeEventAssignment(currentUserId, registerTeam.EventId);
 
         // Get all rounds with submissions for this register team
-        var (items, totalCount) = await _submissionRepository.GetSubmissionsAsync(
+        var (items, _) = await _submissionRepository.GetSubmissionsAsync(
             registerTeam.EventId, null, null, null, registerTeamId, null,
             1, int.MaxValue);
 
-        var rounds = items.Select(rd =>
+        // Find the absolute latest submission across all rounds
+        var allSubmissions = items
+            .SelectMany(rd => rd.Submissions
+                .Select(s => new { RoundDetail = rd, Submission = s }))
+            .OrderByDescending(x => x.Submission.SubmittedAt)
+            .ToList();
+
+        var latest = allSubmissions.FirstOrDefault();
+        if (latest == null)
         {
-            var lastSubmission = SubmissionHelper.GetLastSubmission(rd);
-
-            // Find the current judge's score if any — match via AssignTrack → AssignEvent
-            Guid? myScoreId = null;
-            decimal? myTotalScore = null;
-
-            if (lastSubmission != null)
+            // No submissions at all — return basic info with no lastSubmission
+            return new GetRegisterTeamSubmissionsResponse
             {
-                var myScore = lastSubmission.Scores.FirstOrDefault(s =>
-                {
-                    var track = s.AssignTrack;
-                    return track != null
-                        && track.AssignEvent.UserId == currentUserId
-                        && track.AssignEvent.EventRole != null
-                        && track.AssignEvent.EventRole.Name == EventRoleEnum.Judge;
-                });
-                if (myScore != null)
-                {
-                    myScoreId = myScore.Id;
-                    myTotalScore = myScore.TotalScore;
-                }
-            }
-
-            return new RegisterTeamRoundSubmissionItem
-            {
-                RoundId = rd.RoundId,
-                RoundName = rd.Round.Name,
-                RoundNo = rd.Round.RoundNo,
-                LastSubmission = lastSubmission != null
-                    ? new LastSubmissionInfo
-                    {
-                        Id = lastSubmission.Id,
-                        SubmittedAt = lastSubmission.SubmittedAt,
-                        Url = lastSubmission.Url,
-                        Description = lastSubmission.Description,
-                        Status = lastSubmission.Status?.ToString()
-                    }
-                    : null,
-                GradingStatus = myScoreId.HasValue ? "Graded" : "Pending",
-                ScoreId = myScoreId,
-                TotalScore = myTotalScore
+                RegisterTeamId = registerTeam.Id,
+                TeamId = registerTeam.TeamId,
+                TeamName = registerTeam.Team.Name,
+                EventId = registerTeam.EventId,
+                EventName = registerTeam.Event?.Name ?? "",
+                TrackId = registerTeam.TrackId,
+                TrackTitle = registerTeam.Track?.Title,
+                TopicId = registerTeam.TopicId,
+                TopicTitle = registerTeam.Topic?.Title,
+                RoundId = Guid.Empty,
+                RoundName = "",
+                SubmittedBy = GetTeamLeader(registerTeam.Team.TeamDetails),
+                LastSubmission = null,
+                GradingStatus = "Pending",
+                ScoreId = null,
+                TotalScore = null
             };
-        }).ToList();
+        }
+
+        // Find the current judge's score for this submission
+        var myScore = latest.Submission.Scores.FirstOrDefault(s =>
+        {
+            var track = s.AssignTrack;
+            return track != null
+                && track.AssignEvent.UserId == currentUserId
+                && track.AssignEvent.EventRole != null
+                && track.AssignEvent.EventRole.Name == EventRoleEnum.Judge;
+        });
 
         return new GetRegisterTeamSubmissionsResponse
         {
             RegisterTeamId = registerTeam.Id,
             TeamId = registerTeam.TeamId,
             TeamName = registerTeam.Team.Name,
-            Rounds = rounds,
-            TotalCount = rounds.Count
+            EventId = registerTeam.EventId,
+            EventName = registerTeam.Event?.Name ?? "",
+            RoundId = latest.RoundDetail.RoundId,
+            RoundName = latest.RoundDetail.Round.Name,
+            TrackId = registerTeam.TrackId,
+            TrackTitle = registerTeam.Track?.Title,
+            TopicId = registerTeam.TopicId,
+            TopicTitle = registerTeam.Topic?.Title,
+            SubmittedBy = GetTeamLeader(registerTeam.Team.TeamDetails),
+            LastSubmission = new LastSubmissionInfo
+            {
+                Id = latest.Submission.Id,
+                SubmittedAt = latest.Submission.SubmittedAt,
+                Url = latest.Submission.Url,
+                Description = latest.Submission.Description,
+                Status = latest.Submission.Status?.ToString()
+            },
+            GradingStatus = myScore != null ? "Graded" : "Pending",
+            ScoreId = myScore?.Id,
+            TotalScore = myScore?.TotalScore
         };
     }
 
