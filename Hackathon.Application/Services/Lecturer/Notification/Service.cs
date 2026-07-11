@@ -24,7 +24,7 @@ public class Service : INotificationService
         _authorizationService = authorizationService;
     }
 
-    public async Task<GetMyNotificationsResponse> GetMyNotifications(GetMyNotificationsRequest request)
+    public async Task<GetNotificationsResponse> GetNotifications(GetNotificationsRequest request)
     {
         _authorizationService.Authorize(RoleEnum.Lecturer);
 
@@ -34,6 +34,7 @@ public class Service : INotificationService
         if (!currentUserId.HasValue)
             throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
 
+        // Parse TargetType
         NotificationTargetTypeEnum? targetType = null;
         if (!string.IsNullOrWhiteSpace(request.TargetType))
         {
@@ -42,20 +43,16 @@ public class Service : INotificationService
             targetType = parsed;
         }
 
-        NotificationStatusEnum? status = null;
-        if (!string.IsNullOrWhiteSpace(request.Status))
-        {
-            if (!Enum.TryParse<NotificationStatusEnum>(request.Status, true, out var parsed))
-                throw new BadRequestException("Invalid Status. Must be: Unread, Read");
-            status = parsed;
-        }
-
+        // GetUserNotificationsAsync tự filter:
+        //   - IsDisable = false (luôn)
+        //   - Personal: UserId == currentUser
+        //   - System: TargetType == System
         var (items, totalCount) = await _notificationRepository.GetUserNotificationsAsync(
-            currentUserId.Value, request.Keyword, targetType, status,
+            currentUserId.Value, request.Title, targetType, null,
             request.FromDate, request.ToDate,
             request.PageIndex, request.PageSize);
 
-        return new GetMyNotificationsResponse
+        return new GetNotificationsResponse
         {
             Notifications = items.Select(n => new NotificationCard
             {
@@ -136,21 +133,13 @@ public class Service : INotificationService
         }
     }
 
-    public async Task<NotificationDetailResponse> GetMyNotificationDetail(Guid notificationId)
+    public async Task<NotificationDetailResponse> GetNotificationDetail(Guid notificationId)
     {
         _authorizationService.Authorize(RoleEnum.Lecturer);
-
-        var currentUserId = _currentUserService.UserId;
-        if (!currentUserId.HasValue)
-            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
 
         var notification = await _notificationRepository.GetByIdAsync(notificationId);
         if (notification == null)
             throw new NotFoundException("Notification Not Found");
-
-        if (notification.TargetType != NotificationTargetTypeEnum.System
-            && notification.UserId != currentUserId.Value)
-            throw new ForbiddenException("You Do Not Have Access to This Notification");
 
         return new NotificationDetailResponse
         {

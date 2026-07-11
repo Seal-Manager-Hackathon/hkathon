@@ -29,4 +29,11 @@ public class LecturerLeaderboardController : ControllerBase
         var result = await _leaderboardService.GetRoundLeaderboard(roundId, pageIndex, pageSize);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpGet("events/chapter/{year:int}/leaderboard")]
+    public async Task<IActionResult> GetChapterLeaderboard(int year, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+    {
+        var result = await _leaderboardService.GetChapterLeaderboard(year, pageIndex, pageSize);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
 }

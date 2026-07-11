@@ -19,7 +19,8 @@ public class LecturerRegisterTeamController : ControllerBase
     [HttpGet("events/{eventId:guid}/register-teams")]
     public async Task<IActionResult> GetRegisterTeams(Guid eventId, [FromQuery] GetRegisterTeamsRequest request)
     {
-        var result = await _registerTeamService.GetRegisterTeams(eventId, request);
+        request.EventId = eventId;
+        var result = await _registerTeamService.GetRegisterTeams(request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RegisterTeamsFetched, traceId: HttpContext.TraceIdentifier));
     }
 
@@ -35,5 +36,12 @@ public class LecturerRegisterTeamController : ControllerBase
     {
         var result = await _registerTeamService.GetRegisterTeamsByTeam(teamId, request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RegisterTeamsFetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("users/{userId:guid}/events")]
+    public async Task<IActionResult> GetUserEvents(Guid userId, [FromQuery] GetUserEventsRequest request)
+    {
+        var result = await _registerTeamService.GetUserEvents(userId, request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 }
