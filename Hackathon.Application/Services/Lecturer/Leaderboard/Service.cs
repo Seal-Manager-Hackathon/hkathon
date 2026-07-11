@@ -41,4 +41,11 @@ public class Service : ILeaderboardService
 
         return await _leaderboardHelper.GetRoundLeaderboardAsync(roundId, pageIndex, pageSize);
     }
+
+    public async Task<GetChapterLeaderboardResponse> GetChapterLeaderboard(int year, int pageIndex, int pageSize)
+    {
+        _authorizationService.Authorize(RoleEnum.Lecturer);
+
+        return await _leaderboardHelper.GetChapterLeaderboardAsync(year, pageIndex, pageSize);
+    }
 }

@@ -2,7 +2,7 @@ using Hackathon.Application.Common.Helpers;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
-using Hackathon.Application.Services.Staff.RegisterTeam;
+using Hackathon.Domain.Entities;
 using Hackathon.Domain.Enums.RegisterTeam;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
@@ -13,39 +13,21 @@ public class Service : IRegisterTeamService
 {
     private readonly IRegisterTeamRepository _registerTeamRepository;
     private readonly ITeamRepository _teamRepository;
-    private readonly IAssignEventRepository _assignEventRepository;
-    private readonly ICurrentUserService _currentUserService;
     private readonly IAuthorizationService _authorizationService;
 
     public Service(
         IRegisterTeamRepository registerTeamRepository,
         ITeamRepository teamRepository,
-        IAssignEventRepository assignEventRepository,
-        ICurrentUserService currentUserService,
         IAuthorizationService authorizationService)
     {
         _registerTeamRepository = registerTeamRepository;
         _teamRepository = teamRepository;
-        _assignEventRepository = assignEventRepository;
-        _currentUserService = currentUserService;
         _authorizationService = authorizationService;
     }
 
-    private async Task EnsureLecturerAssignedToEvent(Guid eventId)
-    {
-        var currentUserId = _currentUserService.UserId;
-        if (!currentUserId.HasValue)
-            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
-
-        var assignment = await _assignEventRepository.GetByEventIdAndUserIdAsync(eventId, currentUserId.Value);
-        if (assignment == null)
-            throw new ForbiddenException("You Are Not Assigned to This Event");
-    }
-
-    public async Task<GetRegisterTeamsResponse> GetRegisterTeams(Guid eventId, GetRegisterTeamsRequest request)
+    public async Task<GetRegisterTeamsResponse> GetRegisterTeams(GetRegisterTeamsRequest request)
     {
         _authorizationService.Authorize(RoleEnum.Lecturer);
-        await EnsureLecturerAssignedToEvent(eventId);
 
         PaginationHelper.Validate(request.PageIndex, request.PageSize);
 
@@ -57,10 +39,9 @@ public class Service : IRegisterTeamService
             status = parsed;
         }
 
-        // Lecturer only sees active register teams (IsDisable = false)
         var (items, totalCount) = await _registerTeamRepository.SearchAsync(
-            eventId, request.Keyword, status,
-            request.IsBanned, false,
+            request.EventId, request.Keyword, status,
+            request.IsBanned, request.IsDisable,
             request.FromDate, request.ToDate,
             request.RoundId, request.TrackId, request.TopicId,
             request.PageIndex, request.PageSize);
@@ -111,8 +92,6 @@ public class Service : IRegisterTeamService
         if (rt == null)
             throw new NotFoundException("Register Team Not Found");
 
-        await EnsureLecturerAssignedToEvent(rt.EventId);
-
         var members = await _teamRepository.GetTeamMembersAsync(rt.TeamId);
 
         var maxRound = rt.RoundDetails
@@ -133,20 +112,24 @@ public class Service : IRegisterTeamService
             RoundNo = maxRound?.Round?.RoundNo,
             CreatedAt = rt.CreatedAt,
             UpdatedAt = rt.UpdatedAt,
+
             EventId = rt.EventId,
             EventName = rt.Event?.Name,
             EventDescription = rt.Event?.Description,
             EventStartDate = rt.Event?.StartTime,
             EventEndDate = rt.Event?.EndTime,
+
             TeamId = rt.TeamId,
             TeamName = rt.Team?.Name,
             TeamCanEdit = rt.Team?.CanEdit ?? false,
             TeamIsDisable = rt.Team?.IsDisable ?? false,
             TeamCreatedAt = rt.Team?.CreatedAt ?? default,
+
             TrackId = rt.TrackId,
             TrackTitle = rt.Track?.Title,
             TopicId = rt.TopicId,
             TopicTitle = rt.Topic?.Title,
+
             Members = members.Select(m => new RegisterTeamMemberItem
             {
                 UserId = m.UserId,
@@ -208,6 +191,47 @@ public class Service : IRegisterTeamService
                     CreatedAt = rt.CreatedAt,
                     UpdatedAt = rt.UpdatedAt
                 };
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = request.PageIndex,
+            PageSize = request.PageSize
+        };
+    }
+
+    public async Task<GetUserEventsResponse> GetUserEvents(Guid userId, GetUserEventsRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Lecturer);
+
+        PaginationHelper.Validate(request.PageIndex, request.PageSize);
+
+        var (items, totalCount) = await _registerTeamRepository.GetApprovedByUserIdAsync(
+            userId, request.Keyword, request.PageIndex, request.PageSize);
+
+        return new GetUserEventsResponse
+        {
+            Events = items.Select(rt => new UserEventItem
+            {
+                RegisterTeamId = rt.Id,
+                Status = rt.Status?.ToString(),
+                IsBanned = rt.IsBanned,
+                IsDisable = rt.IsDisable,
+                CreatedAt = rt.CreatedAt,
+                UpdatedAt = rt.UpdatedAt,
+
+                EventId = rt.EventId,
+                EventName = rt.Event?.Name,
+                EventDescription = rt.Event?.Description,
+                EventStartTime = rt.Event?.StartTime,
+                EventEndTime = rt.Event?.EndTime,
+                EventStatus = rt.Event?.Status?.ToString(),
+
+                TeamId = rt.TeamId,
+                TeamName = rt.Team?.Name,
+
+                TrackId = rt.TrackId,
+                TrackTitle = rt.Track?.Title,
+                TopicId = rt.TopicId,
+                TopicTitle = rt.Topic?.Title
             }).ToList(),
             TotalCount = totalCount,
             PageIndex = request.PageIndex,

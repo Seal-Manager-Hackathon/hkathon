@@ -10,17 +10,14 @@ namespace Hackathon.Application.Services.Lecturer.Event;
 
 public class Service : IEventService
 {
-    private readonly IAssignEventRepository _assignEventRepository;
-    private readonly ICurrentUserService _currentUserService;
+    private readonly IEventRepository _eventRepository;
     private readonly IAuthorizationService _authorizationService;
 
     public Service(
-        IAssignEventRepository assignEventRepository,
-        ICurrentUserService currentUserService,
+        IEventRepository eventRepository,
         IAuthorizationService authorizationService)
     {
-        _assignEventRepository = assignEventRepository;
-        _currentUserService = currentUserService;
+        _eventRepository = eventRepository;
         _authorizationService = authorizationService;
     }
 
@@ -30,36 +27,33 @@ public class Service : IEventService
 
         PaginationHelper.Validate(request.PageIndex, request.PageSize);
 
-        var currentUserId = _currentUserService.UserId;
-        if (!currentUserId.HasValue)
-            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
-
         // Parse status enum
         EventStatusEnum? status = null;
-        if (!string.IsNullOrWhiteSpace(request.Status)
-            && Enum.TryParse<EventStatusEnum>(request.Status, true, out var parsedStatus))
+        if (!string.IsNullOrWhiteSpace(request.Status))
         {
-            status = parsedStatus;
+            if (!Enum.TryParse<EventStatusEnum>(request.Status, true, out var parsed))
+                throw new BadRequestException("Invalid Status. Must be: Draft, Published, Closed");
+            status = parsed;
         }
 
-        var (items, totalCount) = await _assignEventRepository.GetLecturerAssignEventsByUserIdAsync(
-            currentUserId.Value, request.Keyword, status,
-            request.FromDate, request.ToDate,
+        var (items, totalCount) = await _eventRepository.SearchAsync(
+            request.Keyword, status,
+            request.FromDate, request.ToDate, request.IsDisable,
             request.PageIndex, request.PageSize);
 
         return new GetLecturerEventsResponse
         {
-            Events = items.Select(ae => new LecturerEventItem
+            Events = items.Select(e => new LecturerEventItem
             {
-                Id = ae.Event.Id,
-                Name = ae.Event.Name,
-                Description = ae.Event.Description,
-                Status = ae.Event.Status?.ToString(),
-                StartTime = ae.Event.StartTime,
-                EndTime = ae.Event.EndTime,
-                IsDisable = ae.Event.IsDisable,
-                CreatedAt = ae.Event.CreatedAt,
-                UpdatedAt = ae.Event.UpdatedAt
+                Id = e.Id,
+                Name = e.Name,
+                Description = e.Description,
+                Status = e.Status?.ToString(),
+                StartTime = e.StartTime,
+                EndTime = e.EndTime,
+                IsDisable = e.IsDisable,
+                CreatedAt = e.CreatedAt,
+                UpdatedAt = e.UpdatedAt
             }).ToList(),
             TotalCount = totalCount,
             PageIndex = request.PageIndex,
@@ -71,17 +65,9 @@ public class Service : IEventService
     {
         _authorizationService.Authorize(RoleEnum.Lecturer);
 
-        var currentUserId = _currentUserService.UserId;
-        if (!currentUserId.HasValue)
-            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
-
-        var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdWithEventAsync(
-            eventId, currentUserId.Value);
-
-        if (assignEvent == null)
-            throw new NotFoundException("Event Not Found or You Are Not Assigned to This Event");
-
-        var ev = assignEvent.Event;
+        var ev = await _eventRepository.GetByIdAsync(eventId);
+        if (ev == null)
+            throw new NotFoundException("Event Not Found");
 
         return new GetLecturerEventDetailResponse
         {

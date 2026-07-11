@@ -5,7 +5,7 @@ public class GetUnreadCountResponse
     public int Count { get; set; }
 }
 
-public class GetMyNotificationsResponse
+public class GetNotificationsResponse
 {
     public List<NotificationCard> Notifications { get; set; } = new();
     public int TotalCount { get; set; }

@@ -17,9 +17,9 @@ public class LecturerNotificationController : ControllerBase
     }
 
     [HttpGet("notifications")]
-    public async Task<IActionResult> GetMyNotifications([FromQuery] GetMyNotificationsRequest request)
+    public async Task<IActionResult> GetNotifications([FromQuery] GetNotificationsRequest request)
     {
-        var result = await _notificationService.GetMyNotifications(request);
+        var result = await _notificationService.GetNotifications(request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
@@ -31,9 +31,9 @@ public class LecturerNotificationController : ControllerBase
     }
 
     [HttpGet("notifications/{notificationId:guid}")]
-    public async Task<IActionResult> GetMyNotificationDetail(Guid notificationId)
+    public async Task<IActionResult> GetNotificationDetail(Guid notificationId)
     {
-        var result = await _notificationService.GetMyNotificationDetail(notificationId);
+        var result = await _notificationService.GetNotificationDetail(notificationId);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
