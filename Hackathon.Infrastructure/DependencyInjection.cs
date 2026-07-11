@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Quartz;
 
 namespace Hackathon.Infrastructure;
 
@@ -54,6 +55,17 @@ public static class DependencyInjection
 
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserService, Services.CurrentUserService>();
+
+        // Background Jobs — Quartz
+        services.AddQuartz(q =>
+        {
+            var jobKey = new JobKey("AutoCloseExpiredEventsJob");
+            q.AddJob<Services.BackgroundJobs.AutoCloseExpiredEventsJob>(opts => opts.WithIdentity(jobKey));
+            q.AddTrigger(opts => opts
+                .ForJob(jobKey)
+                .WithCronSchedule("0 */10 * * * ?")); // every 10 minutes
+        });
+        services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
         return services;
     }

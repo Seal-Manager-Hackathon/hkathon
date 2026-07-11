@@ -17,6 +17,7 @@ Tất cả API Staff đều yêu cầu:
 ### Event
 | Method | Route | Chức năng |
 |--------|-------|-----------|
+| GET | `/api/v1/staff/events/recent` | [10 event mới nhất (dashboard)](event/get/staff.events.recent.md) |
 | GET | `/api/v1/staff/events` | [Lấy danh sách event được phân công (mọi EventRole)](event/get/staff.events.md) |
 | GET | `/api/v1/staff/events/my-staff` | [Lấy danh sách event với EventRole=Staff](event/get/staff.events.my-staff.md) |
 | GET | `/api/v1/staff/events/current` | [Lấy event đang diễn ra (được phân công)](event/get/staff.events.current.md) |
@@ -140,6 +141,7 @@ Tất cả API Staff đều yêu cầu:
 ### User
 | Method | Route | Chức năng |
 |--------|-------|-----------|
+| GET | `/api/v1/staff/users/recent` | [10 user mới nhất (dashboard)](user/get/staff.users.recent.md) |
 | GET | `/api/v1/staff/users` | [Danh sách users](user/get/staff.users.md) |
 | GET | `/api/v1/staff/users/{userId}` | [Chi tiết user](user/get/staff.users.detail.md) |
 | GET | `/api/v1/staff/users/{userId}/teams` | [Team của user](user/get/staff.users.teams.md) |

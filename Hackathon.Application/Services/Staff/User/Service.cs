@@ -2,6 +2,7 @@ using Hackathon.Application.Common.Helpers;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
+using Hackathon.Application.Services.Admin.User;
 using Hackathon.Domain.Entities;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
@@ -19,6 +20,27 @@ public class Service : IUserService
     {
         _userRepository = userRepository;
         _authorizationService = authorizationService;
+    }
+
+    public async Task<GetRecentUsersResponse> GetRecentUsers()
+    {
+        _authorizationService.Authorize(RoleEnum.Staff);
+
+        var users = await _userRepository.GetRecentAsync(10);
+
+        return new GetRecentUsersResponse
+        {
+            Users = users.Select(u => new RecentUserItem
+            {
+                Id = u.Id,
+                Email = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                AvatarUrl = string.IsNullOrEmpty(u.AvatarUrl) ? null : u.AvatarUrl,
+                Role = u.Role.ToString(),
+                CreatedAt = u.CreatedAt
+            }).ToList()
+        };
     }
 
     public async Task<GetAllUsersResponse> GetAllUsers(GetAllUsersRequest request)

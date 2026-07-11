@@ -2,6 +2,7 @@ using Hackathon.Application.Common.Helpers;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
+using Hackathon.Application.Services.Admin.Event;
 using Hackathon.Domain.Enums.Event;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
@@ -25,6 +26,29 @@ public class Service : IEventService
         _assignEventRepository = assignEventRepository;
         _currentUserService = currentUserService;
         _authorizationService = authorizationService;
+    }
+
+    public async Task<GetRecentEventsResponse> GetRecentEvents()
+    {
+        _authorizationService.Authorize(RoleEnum.Staff);
+
+        var events = await _eventRepository.GetRecentAsync(10);
+
+        return new GetRecentEventsResponse
+        {
+            Events = events.Select(e => new EventItem
+            {
+                Id = e.Id,
+                Name = e.Name,
+                Description = e.Description,
+                Status = e.Status?.ToString(),
+                StartTime = e.StartTime,
+                EndTime = e.EndTime,
+                IsDisable = e.IsDisable,
+                CreatedAt = e.CreatedAt,
+                UpdatedAt = e.UpdatedAt
+            }).ToList()
+        };
     }
 
     public async Task<GetMyEventsResponse> GetMyEvents(GetMyEventsRequest request)
