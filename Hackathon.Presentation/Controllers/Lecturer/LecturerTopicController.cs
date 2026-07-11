@@ -1,7 +1,6 @@
 using Hackathon.Application.Common;
 using Hackathon.Application.Common.Models;
-using AdminTopic = Hackathon.Application.Services.Admin.Topic;
-using LecturerTopic = Hackathon.Application.Services.Lecturer.Topic;
+using Hackathon.Application.Services.Lecturer.Topic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hackathon.Presentation.Controllers.Lecturer;
@@ -10,15 +9,15 @@ namespace Hackathon.Presentation.Controllers.Lecturer;
 [ApiController]
 public class LecturerTopicController : ControllerBase
 {
-    private readonly LecturerTopic.ITopicService _topicService;
+    private readonly ITopicService _topicService;
 
-    public LecturerTopicController(LecturerTopic.ITopicService topicService)
+    public LecturerTopicController(ITopicService topicService)
     {
         _topicService = topicService;
     }
 
     [HttpGet("tracks/{trackId:guid}/topics")]
-    public async Task<IActionResult> GetTopicsByTrack(Guid trackId, [FromQuery] AdminTopic.GetTopicsByTrackRequest request)
+    public async Task<IActionResult> GetTopicsByTrack(Guid trackId, [FromQuery] GetTopicsByTrackRequest request)
     {
         request.TrackId = trackId;
         var result = await _topicService.GetTopicsByTrack(request);
