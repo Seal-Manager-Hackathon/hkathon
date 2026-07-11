@@ -1,0 +1,33 @@
+using Hackathon.Application.Common;
+using Hackathon.Application.Common.Models;
+using AdminUser = Hackathon.Application.Services.Admin.User;
+using LecturerUser = Hackathon.Application.Services.Lecturer.User;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Hackathon.Presentation.Controllers.Lecturer;
+
+[Route("api/v1/lecturer")]
+[ApiController]
+public class LecturerUserController : ControllerBase
+{
+    private readonly LecturerUser.IUserService _userService;
+
+    public LecturerUserController(LecturerUser.IUserService userService)
+    {
+        _userService = userService;
+    }
+
+    [HttpGet("users/recent")]
+    public async Task<IActionResult> GetRecentUsers()
+    {
+        var result = await _userService.GetRecentUsers();
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RecentUsersFetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("users/count")]
+    public async Task<IActionResult> GetUserCount([FromQuery] AdminUser.GetUserCountRequest request)
+    {
+        var result = await _userService.GetUserCount(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.UserCountFetched, traceId: HttpContext.TraceIdentifier));
+    }
+}

@@ -67,6 +67,11 @@ public class GetTeamCountResponse
     public int Total { get; set; }
 }
 
+public class GetRecentTeamsResponse
+{
+    public List<TeamCard> Teams { get; set; } = new();
+}
+
 public class GetTeamEventsResponse
 {
     public List<TeamEventItem> Items { get; set; } = new();

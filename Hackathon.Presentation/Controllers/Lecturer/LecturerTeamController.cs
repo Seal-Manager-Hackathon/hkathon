@@ -37,6 +37,13 @@ public class LecturerTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpGet("teams/recent")]
+    public async Task<IActionResult> GetRecentTeams()
+    {
+        var result = await _teamService.GetRecentTeams();
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("teams/count")]
     public async Task<IActionResult> GetTeamCount([FromQuery] GetTeamCountRequest request)
     {

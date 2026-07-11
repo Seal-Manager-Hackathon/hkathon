@@ -1,11 +1,9 @@
 using Hackathon.Application.Services.Admin.User;
 
-namespace Hackathon.Application.Services.Staff.User;
+namespace Hackathon.Application.Services.Lecturer.User;
 
 public interface IUserService
 {
     Task<GetRecentUsersResponse> GetRecentUsers();
-    Task<GetAllUsersResponse> GetAllUsers(GetAllUsersRequest request);
-    Task<UserDetailResponse> GetUserDetail(GetUserDetailRequest request);
     Task<GetUserCountResponse> GetUserCount(GetUserCountRequest request);
 }

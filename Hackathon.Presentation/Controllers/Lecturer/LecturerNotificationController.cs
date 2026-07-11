@@ -23,6 +23,13 @@ public class LecturerNotificationController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpGet("notifications/recent")]
+    public async Task<IActionResult> GetRecentNotifications()
+    {
+        var result = await _notificationService.GetRecentNotifications();
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("notifications/unread-count")]
     public async Task<IActionResult> GetMyUnreadCount()
     {

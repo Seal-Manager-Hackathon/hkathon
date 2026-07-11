@@ -9,6 +9,7 @@ using Hackathon.Application.Services.Lecturer.RegisterTeam;
 using Hackathon.Application.Services.Lecturer.Team;
 using Hackathon.Application.Services.Lecturer.Topic;
 using Hackathon.Application.Services.Lecturer.Track;
+using Hackathon.Application.Services.Lecturer.User;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hackathon.Application.Services.Lecturer;
@@ -28,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<IAwardService, Award.Service>();
         services.AddScoped<IRoundService, Round.Service>();
         services.AddScoped<ILeaderboardService, Leaderboard.Service>();
+        services.AddScoped<IUserService, User.Service>();
         return services;
     }
 }

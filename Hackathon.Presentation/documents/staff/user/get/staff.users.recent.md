@@ -27,7 +27,13 @@
         "createdAt": "2026-07-11T00:00:00Z"
       }
     ]
-  }
+  },
+  "message": "Recent Users Fetched Successfully",
+  "error": null,
+  "isSuccess": true,
+  "status": 200,
+  "traceId": "...",
+  "timestampUtc": "2026-07-11T00:00:00Z"
 }
 ```
 

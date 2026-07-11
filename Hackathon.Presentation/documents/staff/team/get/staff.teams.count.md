@@ -1,20 +1,17 @@
-# GET /api/v1/lecturer/teams/count
+# GET /api/v1/staff/teams/count
 
-> Lecturer đếm số lượng teams. Có thể lọc theo trạng thái isDisable.
+> Staff đếm số lượng teams. Có thể lọc theo trạng thái isDisable.
 
-**Controller:** [LecturerTeamController.cs](Controllers/Lecturer/LecturerTeamController.cs)
+**Controller:** [StaffTeamController.cs](Controllers/Staff/StaffTeamController.cs)
 
 ## Nghiệp vụ
 
-**Router:** `GET /api/v1/lecturer/teams/count`
+**Router:** `GET /api/v1/staff/teams/count`
 
-- Giống hệt Admin `GET /api/v1/admin/teams/count`, khác auth là Lecturer.
-- Không truyền IsDisable → đếm tất cả.
-- IsDisable=true → team bị disable.
-- IsDisable=false → team active.
+- Giống hệt Admin `GET /api/v1/admin/teams/count`, khác auth là Staff.
 
 ## Phân quyền
-- ✅ Lecturer
+- ✅ Staff
 
 ## Request
 | Param | Kiểu | Bắt buộc | Ví dụ | Ghi chú |
@@ -38,6 +35,6 @@
 | Status | message | Khi nào |
 |--------|---------|---------|
 | 401 | Unauthorized | Token hết hạn/thiếu |
-| 403 | Forbidden | Không phải Lecturer |
+| 403 | Forbidden | Không phải Staff |
 
 > **Ref:** [Admin API tương ứng](/api/v1/admin/teams/count)

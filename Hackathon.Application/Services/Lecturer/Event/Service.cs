@@ -2,6 +2,7 @@ using Hackathon.Application.Common.Helpers;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
+using Hackathon.Application.Services.Admin.Event;
 using Hackathon.Domain.Enums.Event;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
@@ -107,6 +108,61 @@ public class Service : IEventService
             TotalCount = totalCount,
             PageIndex = request.PageIndex,
             PageSize = request.PageSize
+        };
+    }
+
+    public async Task<GetRecentEventsResponse> GetRecentEvents()
+    {
+        _authorizationService.Authorize(RoleEnum.Lecturer);
+
+        var currentUserId = _currentUserService.UserId;
+        if (!currentUserId.HasValue)
+            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
+
+        var (items, _) = await _assignEventRepository.GetLecturerAssignEventsByUserIdAsync(
+            currentUserId.Value, null, null,
+            null, null, 1, 10);
+
+        return new GetRecentEventsResponse
+        {
+            Events = items.Select(ae => new EventItem
+            {
+                Id = ae.Event.Id,
+                Name = ae.Event.Name,
+                Description = ae.Event.Description,
+                Status = ae.Event.Status?.ToString(),
+                StartTime = ae.Event.StartTime,
+                EndTime = ae.Event.EndTime,
+                IsDisable = ae.Event.IsDisable,
+                CreatedAt = ae.Event.CreatedAt,
+                UpdatedAt = ae.Event.UpdatedAt
+            }).ToList()
+        };
+    }
+
+    public async Task<GetEventCountResponse> GetEventCount(GetEventCountRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Lecturer);
+
+        var currentUserId = _currentUserService.UserId;
+        if (!currentUserId.HasValue)
+            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
+
+        EventStatusEnum? status = null;
+        if (!string.IsNullOrWhiteSpace(request.Status))
+        {
+            if (!Enum.TryParse<EventStatusEnum>(request.Status, true, out var parsed))
+                throw new BadRequestException("Invalid Status. Must be: Draft, Published, Closed");
+            status = parsed;
+        }
+
+        var (_, totalCount) = await _assignEventRepository.GetLecturerAssignEventsByUserIdAsync(
+            currentUserId.Value, null, status,
+            null, null, 1, int.MaxValue);
+
+        return new GetEventCountResponse
+        {
+            Total = totalCount
         };
     }
 

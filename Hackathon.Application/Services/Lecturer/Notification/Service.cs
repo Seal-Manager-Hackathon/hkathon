@@ -2,6 +2,7 @@ using Hackathon.Application.Common.Helpers;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
+using Hackathon.Application.Services.Admin.Notification;
 using Hackathon.Domain.Enums.Notification;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
@@ -70,6 +71,36 @@ public class Service : INotificationService
             TotalCount = totalCount,
             PageIndex = request.PageIndex,
             PageSize = request.PageSize
+        };
+    }
+
+    public async Task<GetRecentNotificationsResponse> GetRecentNotifications()
+    {
+        _authorizationService.Authorize(RoleEnum.Lecturer);
+
+        var currentUserId = _currentUserService.UserId;
+        if (!currentUserId.HasValue)
+            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
+
+        var (items, _) = await _notificationRepository.GetUserNotificationsAsync(
+            currentUserId.Value, null, null, null,
+            null, null, 1, 10);
+
+        return new GetRecentNotificationsResponse
+        {
+            Notifications = items.Select(n => new NotificationCard
+            {
+                Id = n.Id,
+                UserId = n.UserId,
+                TeamId = n.TeamId,
+                Title = n.Title,
+                Status = n.Status?.ToString(),
+                Description = n.Description,
+                TargetType = n.TargetType.ToString(),
+                IsDisable = n.IsDisable,
+                CreatedAt = n.CreatedAt,
+                UpdatedAt = n.UpdatedAt
+            }).ToList()
         };
     }
 

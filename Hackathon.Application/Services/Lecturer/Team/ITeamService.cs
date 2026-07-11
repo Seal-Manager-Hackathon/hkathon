@@ -6,4 +6,5 @@ public interface ITeamService
     Task<GetTeamDetailResponse> GetTeamDetail(Guid teamId);
     Task<GetTeamEventsResponse> GetTeamEvents(GetTeamEventsRequest request);
     Task<GetTeamCountResponse> GetTeamCount(GetTeamCountRequest request);
+    Task<Admin.Team.GetRecentTeamsResponse> GetRecentTeams();
 }

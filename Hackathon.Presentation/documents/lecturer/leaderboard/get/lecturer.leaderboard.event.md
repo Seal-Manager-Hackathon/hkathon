@@ -63,7 +63,11 @@
     "pageSize": 10
   },
   "message": "Fetched Successfully",
-  "traceId": "..."
+  "error": null,
+  "isSuccess": true,
+  "status": 200,
+  "traceId": "...",
+  "timestampUtc": "2026-07-07T12:00:00Z"
 }
 ```
 

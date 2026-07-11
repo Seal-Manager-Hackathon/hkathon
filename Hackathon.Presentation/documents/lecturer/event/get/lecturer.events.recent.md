@@ -1,19 +1,19 @@
-# GET /api/v1/staff/events/recent
+# GET /api/v1/lecturer/events/recent
 
-> Staff lấy 10 events được phân công gần nhất.
+> Lecturer lấy 10 events được phân công gần nhất.
 
-**Controller:** [StaffEventController.cs](Controllers/Staff/StaffEventController.cs)
+**Controller:** [LecturerEventController.cs](Controllers/Lecturer/LecturerEventController.cs)
 
 ## Nghiệp vụ
 
-**Router:** `GET /api/v1/staff/events/recent`
+**Router:** `GET /api/v1/lecturer/events/recent`
 
-- **Khác Admin:** Chỉ lấy event mà Staff được phân công (AssignEvents với EventRole = Staff).
+- **Khác Admin:** Chỉ lấy event mà Lecturer được phân công (AssignEvents với EventRole = Judge/Mentor).
 - Response format giống Admin.
 - Sắp xếp theo CreatedAt giảm dần, lấy 10 events mới nhất.
 
 ## Phân quyền
-- ✅ Staff
+- ✅ Lecturer
 
 ## Response (200)
 ```json
@@ -25,11 +25,11 @@
         "name": "Hackathon 2026",
         "description": "Cuộc thi lập trình",
         "status": "Published",
-        "startTime": "2026-07-15T00:00:00Z",
-        "endTime": "2026-07-20T00:00:00Z",
+        "startTime": "2026-08-01T00:00:00Z",
+        "endTime": "2026-08-03T00:00:00Z",
         "isDisable": false,
-        "createdAt": "2026-07-11T00:00:00Z",
-        "updatedAt": "2026-07-11T00:00:00Z"
+        "createdAt": "2026-07-07T12:00:00Z",
+        "updatedAt": "2026-07-07T12:00:00Z"
       }
     ]
   },
@@ -46,6 +46,6 @@
 | Status | message | Khi nào |
 |--------|---------|---------|
 | 401 | Unauthorized | Token hết hạn/thiếu |
-| 403 | Forbidden | Không phải Staff |
+| 403 | Forbidden | Không phải Lecturer |
 
 > **Ref:** [Admin API tương ứng](/api/v1/admin/events/recent)

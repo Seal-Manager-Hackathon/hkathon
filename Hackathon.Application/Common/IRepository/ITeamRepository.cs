@@ -16,4 +16,5 @@ public interface ITeamRepository
         string? keyword, bool? canEdit,
         DateTimeOffset? fromDate, DateTimeOffset? toDate, bool? isDisable,
         int pageIndex, int pageSize);
+    Task<List<Teams>> GetRecentAsync(int count);
 }
