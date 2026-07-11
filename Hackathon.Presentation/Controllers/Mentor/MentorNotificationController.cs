@@ -17,9 +17,9 @@ public class MentorNotificationController : ControllerBase
     }
 
     [HttpGet("events/{eventId:guid}/tracks")]
-    public async Task<IActionResult> GetTracksByEvent(Guid eventId)
+    public async Task<IActionResult> GetTracksByEvent(Guid eventId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
     {
-        var result = await _mentorNotificationService.GetTracksByEvent(eventId);
+        var result = await _mentorNotificationService.GetTracksByEvent(eventId, pageIndex, pageSize);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 

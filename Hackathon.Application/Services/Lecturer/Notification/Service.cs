@@ -104,6 +104,24 @@ public class Service : INotificationService
         };
     }
 
+    public async Task<GetNotificationCountResponse> GetNotificationCount()
+    {
+        _authorizationService.Authorize(RoleEnum.Lecturer);
+
+        var currentUserId = _currentUserService.UserId;
+        if (!currentUserId.HasValue)
+            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
+
+        var (items, _) = await _notificationRepository.GetUserNotificationsAsync(
+            currentUserId.Value, null, null, null,
+            null, null, 1, int.MaxValue);
+
+        return new GetNotificationCountResponse
+        {
+            Total = items.Count
+        };
+    }
+
     public async Task<GetUnreadCountResponse> GetMyUnreadCount()
     {
         _authorizationService.Authorize(RoleEnum.Lecturer);

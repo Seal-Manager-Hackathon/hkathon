@@ -32,6 +32,11 @@ public class NotificationCard
     public DateTimeOffset UpdatedAt { get; set; }
 }
 
+public class GetNotificationCountResponse
+{
+    public int Total { get; set; }
+}
+
 public class NotificationDetailResponse
 {
     public Guid Id { get; set; }
