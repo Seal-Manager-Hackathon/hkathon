@@ -13,15 +13,21 @@ public class Service : IRegisterTeamService
 {
     private readonly IRegisterTeamRepository _registerTeamRepository;
     private readonly ITeamRepository _teamRepository;
+    private readonly IRoundRepository _roundRepository;
+    private readonly ITrackRepository _trackRepository;
     private readonly IAuthorizationService _authorizationService;
 
     public Service(
         IRegisterTeamRepository registerTeamRepository,
         ITeamRepository teamRepository,
+        IRoundRepository roundRepository,
+        ITrackRepository trackRepository,
         IAuthorizationService authorizationService)
     {
         _registerTeamRepository = registerTeamRepository;
         _teamRepository = teamRepository;
+        _roundRepository = roundRepository;
+        _trackRepository = trackRepository;
         _authorizationService = authorizationService;
     }
 
@@ -236,6 +242,109 @@ public class Service : IRegisterTeamService
             TotalCount = totalCount,
             PageIndex = request.PageIndex,
             PageSize = request.PageSize
+        };
+    }
+
+    public async Task<GetRegisterTeamsByTrackResponse> GetRegisterTeamsByTrack(Guid trackId, Guid? roundId, int pageIndex, int pageSize)
+    {
+        _authorizationService.Authorize(RoleEnum.Lecturer);
+
+        PaginationHelper.Validate(pageIndex, pageSize);
+
+        var track = await _trackRepository.GetByIdAsync(trackId);
+        if (track == null)
+            throw new NotFoundException("Track Not Found");
+
+        var (items, totalCount) = await _registerTeamRepository.SearchAsync(
+            eventId: track.EventId, keyword: null, status: null,
+            isBanned: null, isDisable: null,
+            fromDate: null, toDate: null,
+            roundId: roundId, trackId: trackId, topicId: null,
+            pageIndex, pageSize);
+
+        return new GetRegisterTeamsByTrackResponse
+        {
+            RegisterTeams = items.Select(rt =>
+            {
+                var maxRound = rt.RoundDetails
+                    .Where(rd => rd.Round != null && !rd.IsDisable)
+                    .OrderByDescending(rd => rd.Round!.RoundNo)
+                    .FirstOrDefault();
+
+                return new RegisterTeamByTrackItem
+                {
+                    Id = rt.Id,
+                    TeamId = rt.TeamId,
+                    TeamName = rt.Team?.Name,
+                    EventId = rt.EventId,
+                    EventName = rt.Event?.Name,
+                    TrackId = rt.TrackId,
+                    TrackName = rt.Track?.Title,
+                    TopicId = rt.TopicId,
+                    TopicName = rt.Topic?.Title,
+                    Description = rt.Description,
+                    Status = rt.Status?.ToString(),
+                    IsBanned = rt.IsBanned,
+                    IsDisable = rt.IsDisable,
+                    RoundId = maxRound?.RoundId,
+                    RoundName = maxRound?.Round?.Name,
+                    RoundNo = maxRound?.Round?.RoundNo,
+                    CreatedAt = rt.CreatedAt,
+                    UpdatedAt = rt.UpdatedAt
+                };
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = pageIndex,
+            PageSize = pageSize
+        };
+    }
+
+    public async Task<GetCompetitionStatusResponse> GetCompetitionStatus(Guid registerTeamId)
+    {
+        _authorizationService.Authorize(RoleEnum.Lecturer);
+
+        var rt = await _registerTeamRepository.GetByIdAsync(registerTeamId);
+        if (rt == null)
+            throw new NotFoundException("Register Team Not Found");
+
+        // Get max round detail of this team
+        var maxRound = rt.RoundDetails
+            .Where(rd => rd.Round != null && !rd.IsDisable)
+            .OrderByDescending(rd => rd.Round!.RoundNo)
+            .FirstOrDefault();
+
+        // Determine current round based on UTC now
+        var now = DateTimeOffset.UtcNow;
+        var allRounds = await _roundRepository.SearchByEventIdAsync(
+            rt.EventId, null, null, null, 1, int.MaxValue);
+        var currentRound = allRounds.Items
+            .Where(r => r.StartTime.HasValue && r.StartTime.Value <= now
+                && (!r.EndTime.HasValue || r.EndTime.Value >= now))
+            .OrderBy(r => r.RoundNo)
+            .FirstOrDefault();
+
+        var isStillCompeting = currentRound != null
+            && maxRound?.Round?.RoundNo != null
+            && maxRound.Round.RoundNo >= currentRound.RoundNo;
+
+        return new GetCompetitionStatusResponse
+        {
+            RegisterTeamId = rt.Id,
+            TeamId = rt.TeamId,
+            TeamName = rt.Team?.Name,
+            EventId = rt.EventId,
+            EventName = rt.Event?.Name,
+            TrackId = rt.TrackId,
+            TrackName = rt.Track?.Title,
+            TopicId = rt.TopicId,
+            TopicName = rt.Topic?.Title,
+            CurrentRoundId = currentRound?.Id,
+            CurrentRoundName = currentRound?.Name,
+            CurrentRoundNo = currentRound?.RoundNo,
+            MaxRoundId = maxRound?.RoundId,
+            MaxRoundName = maxRound?.Round?.Name,
+            MaxRoundNo = maxRound?.Round?.RoundNo,
+            IsStillCompeting = isStillCompeting
         };
     }
 }

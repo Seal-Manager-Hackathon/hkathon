@@ -129,6 +129,27 @@ public class UpdatedScoreItemResponse
     public bool IsUpdated { get; set; }
 }
 
+// RegisterTeam Submissions
+public class GetRegisterTeamSubmissionsResponse
+{
+    public Guid RegisterTeamId { get; set; }
+    public Guid TeamId { get; set; }
+    public string TeamName { get; set; } = string.Empty;
+    public List<RegisterTeamRoundSubmissionItem> Rounds { get; set; } = new();
+    public int TotalCount { get; set; }
+}
+
+public class RegisterTeamRoundSubmissionItem
+{
+    public Guid RoundId { get; set; }
+    public string RoundName { get; set; } = string.Empty;
+    public int? RoundNo { get; set; }
+    public LastSubmissionInfo? LastSubmission { get; set; }
+    public string GradingStatus { get; set; } = "Pending";
+    public Guid? ScoreId { get; set; }
+    public decimal? TotalScore { get; set; }
+}
+
 // My Scores
 public class GetMyScoresResponse
 {

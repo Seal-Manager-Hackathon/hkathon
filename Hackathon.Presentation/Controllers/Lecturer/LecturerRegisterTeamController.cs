@@ -44,4 +44,25 @@ public class LecturerRegisterTeamController : ControllerBase
         var result = await _registerTeamService.GetUserEvents(userId, request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpGet("tracks/{trackId:guid}/register-teams")]
+    public async Task<IActionResult> GetRegisterTeamsByTrack(
+        Guid trackId,
+        [FromQuery] Guid? roundId,
+        [FromQuery] int pageIndex = 1,
+        [FromQuery] int pageSize = 10)
+    {
+        var result = await _registerTeamService.GetRegisterTeamsByTrack(trackId, roundId, pageIndex, pageSize);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RegisterTeamsFetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    /// <summary>
+    /// Kiểm tra 1 register team còn đang thi đấu ko, kèm track/topic/round hiện tại
+    /// </summary>
+    [HttpGet("register-teams/{registerTeamId:guid}/competition-status")]
+    public async Task<IActionResult> GetCompetitionStatus(Guid registerTeamId)
+    {
+        var result = await _registerTeamService.GetCompetitionStatus(registerTeamId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
 }

@@ -42,6 +42,8 @@
         "startTime": "2026-06-01T00:00:00Z",
         "endTime": "2026-07-01T00:00:00Z",
         "isDisable": false,
+        "eventRoleId": "guid",
+        "eventRoleName": "Mentor",
         "createdAt": "2026-05-01T00:00:00Z",
         "updatedAt": "2026-06-01T00:00:00Z"
       }
@@ -58,6 +60,13 @@
   "timestampUtc": "2026-07-07T12:00:00Z"
 }
 ```
+
+### Field ý nghĩa
+
+| Field | Ý nghĩa |
+|-------|---------|
+| `eventRoleId` | ID event role của lecturer trong event (VD: Mentor, Judge) |
+| `eventRoleName` | Tên event role: `Mentor`, `Judge`, `Staff` |
 
 ## Lỗi
 | Status | message | Khi nào |

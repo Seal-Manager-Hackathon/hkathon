@@ -10,8 +10,9 @@
 
 - Giống hệt Admin `GET /api/v1/admin/events/{eventId}`, khác auth là Lecturer.
 - Trả về tất cả fields của event (kể cả Status, IsDisable, Season, NumberRound, RegisterLimitTime...).
+- **Thêm** `eventRoleId` + `eventRoleName` của lecturer hiện tại trong event (VD: Mentor, Judge).
+- Nếu lecturer chưa được assign → `eventRoleId` = null, `eventRoleName` = null.
 - 404 nếu eventId không tồn tại.
-- Không check assign — Lecturer thấy bất kỳ event nào.
 
 ## Phân quyền
 - ✅ Lecturer
@@ -38,6 +39,8 @@
     "isDisable": false,
     "numberRound": 3,
     "season": "Summer",
+    "eventRoleId": "guid",
+    "eventRoleName": "Mentor",
     "createdAt": "2026-07-07T12:00:00Z",
     "updatedAt": "2026-07-07T12:00:00Z"
   },

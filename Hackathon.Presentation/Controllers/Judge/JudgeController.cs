@@ -131,6 +131,16 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
+    /// Submissions per round cho 1 register team — last submission + judge score status
+    /// </summary>
+    [HttpGet("register-teams/{registerTeamId:guid}/submissions")]
+    public async Task<IActionResult> GetRegisterTeamSubmissions(Guid registerTeamId)
+    {
+        var result = await _judgeService.GetRegisterTeamSubmissions(registerTeamId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    /// <summary>
     /// Chi tiết 1 score item — giống Admin, auth Judge
     /// </summary>
     [HttpGet("score-items/{scoreItemId:guid}")]
