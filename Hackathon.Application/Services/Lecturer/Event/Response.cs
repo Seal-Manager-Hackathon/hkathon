@@ -17,6 +17,8 @@ public class LecturerEventItem
     public DateTimeOffset? StartTime { get; set; }
     public DateTimeOffset? EndTime { get; set; }
     public bool IsDisable { get; set; }
+    public Guid? EventRoleId { get; set; }
+    public string? EventRoleName { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
 }
@@ -36,6 +38,8 @@ public class GetLecturerEventDetailResponse
     public bool IsDisable { get; set; }
     public int? NumberRound { get; set; }
     public string? Season { get; set; }
+    public Guid? EventRoleId { get; set; }
+    public string? EventRoleName { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
 }

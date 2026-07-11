@@ -18,6 +18,7 @@ public class Service : IJudgeService
     private readonly ISubmissionRepository _submissionRepository;
     private readonly IScoreRepository _scoreRepository;
     private readonly ICriteriaTemplateRepository _criteriaTemplateRepository;
+    private readonly IRegisterTeamRepository _registerTeamRepository;
     private readonly ICurrentUserService _currentUserService;
     private readonly IAuthorizationService _authorizationService;
     private readonly IUnitOfWork _unitOfWork;
@@ -29,6 +30,7 @@ public class Service : IJudgeService
         ISubmissionRepository submissionRepository,
         IScoreRepository scoreRepository,
         ICriteriaTemplateRepository criteriaTemplateRepository,
+        IRegisterTeamRepository registerTeamRepository,
         ICurrentUserService currentUserService,
         IAuthorizationService authorizationService,
         IUnitOfWork unitOfWork)
@@ -39,6 +41,7 @@ public class Service : IJudgeService
         _submissionRepository = submissionRepository;
         _scoreRepository = scoreRepository;
         _criteriaTemplateRepository = criteriaTemplateRepository;
+        _registerTeamRepository = registerTeamRepository;
         _currentUserService = currentUserService;
         _authorizationService = authorizationService;
         _unitOfWork = unitOfWork;
@@ -705,6 +708,78 @@ public class Service : IJudgeService
             TopicTitle = rt?.Topic?.Title,
             CreatedAt = scoreItem.CreatedAt,
             UpdatedAt = scoreItem.UpdatedAt
+        };
+    }
+
+    public async Task<GetRegisterTeamSubmissionsResponse> GetRegisterTeamSubmissions(Guid registerTeamId)
+    {
+        var currentUserId = GetCurrentUserId();
+
+        var registerTeam = await _registerTeamRepository.GetByIdAsync(registerTeamId);
+        if (registerTeam == null)
+            throw new NotFoundException("Register Team Not Found");
+
+        // Validate judge is assigned to this event
+        await ValidateJudgeEventAssignment(currentUserId, registerTeam.EventId);
+
+        // Get all rounds with submissions for this register team
+        var (items, totalCount) = await _submissionRepository.GetSubmissionsAsync(
+            registerTeam.EventId, null, null, null, registerTeamId, null,
+            1, int.MaxValue);
+
+        var rounds = items.Select(rd =>
+        {
+            var lastSubmission = SubmissionHelper.GetLastSubmission(rd);
+
+            // Find the current judge's score if any — match via AssignTrack → AssignEvent
+            Guid? myScoreId = null;
+            decimal? myTotalScore = null;
+
+            if (lastSubmission != null)
+            {
+                var myScore = lastSubmission.Scores.FirstOrDefault(s =>
+                {
+                    var track = s.AssignTrack;
+                    return track != null
+                        && track.AssignEvent.UserId == currentUserId
+                        && track.AssignEvent.EventRole != null
+                        && track.AssignEvent.EventRole.Name == EventRoleEnum.Judge;
+                });
+                if (myScore != null)
+                {
+                    myScoreId = myScore.Id;
+                    myTotalScore = myScore.TotalScore;
+                }
+            }
+
+            return new RegisterTeamRoundSubmissionItem
+            {
+                RoundId = rd.RoundId,
+                RoundName = rd.Round.Name,
+                RoundNo = rd.Round.RoundNo,
+                LastSubmission = lastSubmission != null
+                    ? new LastSubmissionInfo
+                    {
+                        Id = lastSubmission.Id,
+                        SubmittedAt = lastSubmission.SubmittedAt,
+                        Url = lastSubmission.Url,
+                        Description = lastSubmission.Description,
+                        Status = lastSubmission.Status?.ToString()
+                    }
+                    : null,
+                GradingStatus = myScoreId.HasValue ? "Graded" : "Pending",
+                ScoreId = myScoreId,
+                TotalScore = myTotalScore
+            };
+        }).ToList();
+
+        return new GetRegisterTeamSubmissionsResponse
+        {
+            RegisterTeamId = registerTeam.Id,
+            TeamId = registerTeam.TeamId,
+            TeamName = registerTeam.Team.Name,
+            Rounds = rounds,
+            TotalCount = rounds.Count
         };
     }
 

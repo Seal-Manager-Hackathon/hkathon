@@ -102,6 +102,8 @@ public class Service : IEventService
                 StartTime = ae.Event.StartTime,
                 EndTime = ae.Event.EndTime,
                 IsDisable = ae.Event.IsDisable,
+                EventRoleId = ae.EventRoleId,
+                EventRoleName = ae.EventRole?.Name.ToString(),
                 CreatedAt = ae.Event.CreatedAt,
                 UpdatedAt = ae.Event.UpdatedAt
             }).ToList(),
@@ -174,6 +176,20 @@ public class Service : IEventService
         if (ev == null)
             throw new NotFoundException("Event Not Found");
 
+        var currentUserId = _currentUserService.UserId;
+        Guid? eventRoleId = null;
+        string? eventRoleName = null;
+
+        if (currentUserId.HasValue)
+        {
+            var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdAsync(eventId, currentUserId.Value);
+            if (assignEvent != null)
+            {
+                eventRoleId = assignEvent.EventRoleId;
+                eventRoleName = assignEvent.EventRole?.Name.ToString();
+            }
+        }
+
         return new GetLecturerEventDetailResponse
         {
             Id = ev.Id,
@@ -189,6 +205,8 @@ public class Service : IEventService
             IsDisable = ev.IsDisable,
             NumberRound = ev.NumberRound,
             Season = ev.Season?.ToString(),
+            EventRoleId = eventRoleId,
+            EventRoleName = eventRoleName,
             CreatedAt = ev.CreatedAt,
             UpdatedAt = ev.UpdatedAt
         };
