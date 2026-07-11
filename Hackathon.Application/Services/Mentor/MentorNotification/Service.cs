@@ -36,9 +36,11 @@ public class Service : IMentorNotificationService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<List<MentorTrackItem>> GetTracksByEvent(Guid eventId)
+    public async Task<GetMentorTracksResponse> GetTracksByEvent(Guid eventId, int pageIndex = 1, int pageSize = 10)
     {
         _authorizationService.Authorize(RoleEnum.Lecturer);
+
+        PaginationHelper.Validate(pageIndex, pageSize);
 
         var currentUserId = _currentUserService.UserId;
         if (!currentUserId.HasValue)
@@ -56,20 +58,37 @@ public class Service : IMentorNotificationService
             .Select(at => at.TrackId)
             .ToHashSet();
 
-        var ev = await _eventRepository.GetByIdAsync(eventId);
-
-        return tracks
+        var filtered = tracks
             .Where(t => mentorTrackIds.Contains(t.Id) && !t.IsDisable)
+            .OrderByDescending(t => t.CreatedAt)
+            .ToList();
+
+        var totalCount = filtered.Count;
+        var items = filtered
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
             .Select(t => new MentorTrackItem
             {
-                AssignTrackId = assignEvent.AssignTracks
-                    .First(at => at.TrackId == t.Id)
-                    .Id,
-                TrackId = t.Id,
-                TrackTitle = t.Title,
-                EventId = eventId,
-                EventName = ev?.Name ?? ""
-            }).ToList();
+                Id = t.Id,
+                EventId = t.EventId,
+                Title = t.Title,
+                Description = t.Description,
+                MaxTeam = t.MaxTeam,
+                IsDisable = t.IsDisable,
+                EventRoleId = assignEvent.EventRoleId,
+                EventRoleName = assignEvent.EventRole?.Name.ToString(),
+                CreatedAt = t.CreatedAt,
+                UpdatedAt = t.UpdatedAt
+            })
+            .ToList();
+
+        return new GetMentorTracksResponse
+        {
+            Tracks = items,
+            TotalCount = totalCount,
+            PageIndex = pageIndex,
+            PageSize = pageSize
+        };
     }
 
     public async Task<SendNotificationResponse> SendTrackNotification(Guid trackId, SendTrackNotificationRequest request)

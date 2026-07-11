@@ -2,7 +2,7 @@ namespace Hackathon.Application.Services.Mentor.MentorNotification;
 
 public interface IMentorNotificationService
 {
-    Task<List<MentorTrackItem>> GetTracksByEvent(Guid eventId);
+    Task<GetMentorTracksResponse> GetTracksByEvent(Guid eventId, int pageIndex = 1, int pageSize = 10);
     Task<SendNotificationResponse> SendTrackNotification(Guid trackId, SendTrackNotificationRequest request);
     Task<GetNotificationsByTrackResponse> GetTrackNotifications(Guid trackId, int pageIndex, int pageSize);
     Task<MentorNotificationDetailResponse> GetMentorNotificationDetail(Guid mentorNotificationId);

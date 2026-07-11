@@ -3,17 +3,20 @@
 > Admin xem danh sách track trong event, phân trang, search, lọc.
 
 ## Phân quyền
+
 - ✅ Admin
 
 ## Query Parameters
-| Field | Bắt buộc | Ràng buộc |
-|-------|----------|-----------|
-| keyword | ❌ | Tìm theo tên |
-| isDisable | ❌ | true/false |
-| pageIndex | ❌ | Mặc định 1 |
-| pageSize | ❌ | 1-100, mặc định 10 |
+
+| Field     | Bắt buộc | Ràng buộc          |
+| --------- | -------- | ------------------ |
+| keyword   | ❌       | Tìm theo tên       |
+| isDisable | ❌       | true/false         |
+| pageIndex | ❌       | Mặc định 1         |
+| pageSize  | ❌       | 1-100, mặc định 10 |
 
 ## Response (200)
+
 ```json
 {
   "data": {
@@ -43,8 +46,9 @@
 ```
 
 ## Lỗi
-| Status | message | Khi nào |
-|--------|---------|---------|
-| 404 | Resource Not Found | EventId không tồn tại |
-| 401 | Invalid Or Expired Token | Token hết hạn/thiếu |
-| 403 | You do not have permission to perform this action | Không phải Admin |
+
+| Status | message                                           | Khi nào               |
+| ------ | ------------------------------------------------- | --------------------- |
+| 404    | Resource Not Found                                | EventId không tồn tại |
+| 401    | Invalid Or Expired Token                          | Token hết hạn/thiếu   |
+| 403    | You do not have permission to perform this action | Không phải Admin      |
