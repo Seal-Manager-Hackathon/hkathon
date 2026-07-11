@@ -22,4 +22,11 @@ public class MentorScoreController : ControllerBase
         var result = await _scoreService.GetTeamRoundScore(roundId, registerTeamId);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpGet("register-teams/{registerTeamId:guid}/scores")]
+    public async Task<IActionResult> GetRegisterTeamScores(Guid registerTeamId)
+    {
+        var result = await _scoreService.GetRegisterTeamScores(registerTeamId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
 }

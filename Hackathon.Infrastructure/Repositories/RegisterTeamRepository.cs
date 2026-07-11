@@ -104,6 +104,18 @@ public class RegisterTeamRepository : IRegisterTeamRepository
                 .ThenInclude(rd => rd.Submissions)
             .FirstOrDefaultAsync(rt => rt.Id == id);
 
+    public async Task<RegisterTeams?> GetByIdWithRoundDetailsAndScoresAsync(Guid id)
+        => await _context.Set<RegisterTeams>()
+            .Include(rt => rt.Team)
+            .Include(rt => rt.Track)
+            .Include(rt => rt.Topic)
+            .Include(rt => rt.RoundDetails)
+                .ThenInclude(rd => rd.Round)
+            .Include(rt => rt.RoundDetails)
+                .ThenInclude(rd => rd.Submissions)
+                    .ThenInclude(s => s.Scores)
+            .FirstOrDefaultAsync(rt => rt.Id == id);
+
     public async Task<(List<RegisterTeams> Items, int TotalCount)> GetApprovedByEventIdWithScoresAsync(
         Guid eventId, int pageIndex, int pageSize)
     {

@@ -15,19 +15,22 @@ public class Service : IScoreService
     private readonly IAssignEventRepository _assignEventRepository;
     private readonly ICurrentUserService _currentUserService;
     private readonly IAuthorizationService _authorizationService;
+    private readonly IEventRepository _eventRepository;
 
     public Service(
         IRoundRepository roundRepository,
         IRegisterTeamRepository registerTeamRepository,
         IAssignEventRepository assignEventRepository,
         ICurrentUserService currentUserService,
-        IAuthorizationService authorizationService)
+        IAuthorizationService authorizationService,
+        IEventRepository eventRepository)
     {
         _roundRepository = roundRepository;
         _registerTeamRepository = registerTeamRepository;
         _assignEventRepository = assignEventRepository;
         _currentUserService = currentUserService;
         _authorizationService = authorizationService;
+        _eventRepository = eventRepository;
     }
 
     public async Task<GetTeamRoundScoreResponse> GetTeamRoundScore(Guid roundId, Guid registerTeamId)
@@ -86,6 +89,68 @@ public class Service : IScoreService
             SubmissionId = lastSubmission?.Id,
             SubmittedAt = lastSubmission?.SubmittedAt,
             IsLastSubmission = lastSubmission != null
+        };
+    }
+
+    public async Task<GetRegisterTeamScoresResponse> GetRegisterTeamScores(Guid registerTeamId)
+    {
+        _authorizationService.Authorize(RoleEnum.Lecturer);
+
+        var currentUserId = _currentUserService.UserId;
+        if (!currentUserId.HasValue)
+            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
+
+        var registerTeam = await _registerTeamRepository.GetByIdWithRoundDetailsAndScoresAsync(registerTeamId);
+        if (registerTeam == null || registerTeam.IsDisable)
+            throw new NotFoundException("Register Team Not Found");
+
+        var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdAsync(registerTeam.EventId, currentUserId.Value);
+        if (assignEvent == null)
+            throw new ForbiddenException("You Are Not Assigned to This Event");
+
+        var hasTrackAccess = assignEvent.AssignTracks
+            .Any(at => at.TrackId == registerTeam.TrackId && !at.IsDisable);
+        if (!hasTrackAccess)
+            throw new ForbiddenException("You Are Not Assigned to This Track");
+
+        var rounds = registerTeam.RoundDetails
+            .OrderBy(rd => rd.Round.RoundNo)
+            .Select(rd =>
+            {
+                var lastSubmission = SubmissionHelper.GetLastSubmission(rd);
+                var totalScore = lastSubmission != null
+                    ? Math.Round(
+                        lastSubmission.Scores
+                            .Where(s => s.TotalScore.HasValue)
+                            .Sum(s => s.TotalScore!.Value),
+                        2)
+                    : (decimal?)null;
+
+                return new RoundScoreItem
+                {
+                    RoundId = rd.RoundId,
+                    RoundNo = rd.Round.RoundNo ?? 0,
+                    RoundName = rd.Round.Name,
+                    TotalScore = totalScore,
+                    SubmissionId = lastSubmission?.Id,
+                    SubmissionUrl = lastSubmission?.Url,
+                    SubmittedAt = lastSubmission?.SubmittedAt,
+                    JudgeCount = lastSubmission?.Scores
+                        .Count(s => s.TotalScore.HasValue) ?? 0
+                };
+            })
+            .ToList();
+
+        return new GetRegisterTeamScoresResponse
+        {
+            RegisterTeamId = registerTeamId,
+            EventId = registerTeam.EventId,
+            EventName = registerTeam.Event?.Name ?? "",
+            TrackId = registerTeam.TrackId,
+            TrackTitle = registerTeam.Track?.Title,
+            TopicId = registerTeam.TopicId,
+            TopicTitle = registerTeam.Topic?.Title,
+            Rounds = rounds
         };
     }
 }
