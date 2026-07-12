@@ -68,6 +68,16 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
+    /// Chi tiết 1 bài nộp — giống Admin, auth Judge
+    /// </summary>
+    [HttpGet("submissions/{submissionId:guid}")]
+    public async Task<IActionResult> GetSubmissionDetail(Guid submissionId)
+    {
+        var result = await _judgeService.GetSubmissionDetail(submissionId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    /// <summary>
     /// Chấm điểm 1 bài nộp
     /// </summary>
     [HttpPost("submissions/{submissionId:guid}/scores")]
