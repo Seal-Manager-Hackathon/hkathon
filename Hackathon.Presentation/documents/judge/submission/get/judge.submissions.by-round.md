@@ -8,6 +8,7 @@ Judge muon xem tat ca bai nop trong 1 round cu the:
 - Neu **khong truyen trackId**: lay bai nop cua tat ca track judge duoc phan cong trong round do.
 - Neu **co truyen trackId**: chi lay bai nop cua track do. Neu judge khong duoc phan cong track nay -> 403 Forbidden.
 - Moi register team chi lay bai nop **cuoi cung** (moi nhat) trong round.
+- Co the loc theo isGraded (da cham/chua cham boi judge hien tai).
 - Chi lay cac doi da co bai nop (submissions.Count > 0).
 - Sap xep theo thoi gian nop bai giam dan (moi nhat truoc).
 
@@ -27,6 +28,7 @@ Judge muon xem tat ca bai nop trong 1 round cu the:
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
 | trackId | Guid | No | - | Loc theo track. Neu de trong -> lay het track duoc phan cong |
+| isGraded | bool | No | - | Lọc theo trạng thái chấm: true=đã chấm, false=chưa chấm |
 | pageIndex | int | No | 1 | Trang hien tai |
 | pageSize | int | No | 10 | So luong item moi trang |
 

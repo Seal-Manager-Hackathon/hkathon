@@ -197,4 +197,83 @@ public class Service : IInvitationService
             PageSize = pageSize
         };
     }
+
+    public async Task AcceptInvitation(Guid invitationId)
+    {
+        _authorizationService.Authorize(RoleEnum.Student);
+
+        var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
+
+        var invitation = await _invitationRepository.GetByIdAsync(invitationId);
+        if (invitation == null)
+            throw new NotFoundException("Invitation Not Found");
+
+        if (invitation.UserId != userId)
+            throw new ForbiddenException("This Invitation Is Not for You");
+
+        if (invitation.Status != InvitationStatusEnum.Pending)
+            throw new BadRequestException("Invitation Is Not in Pending Status");
+
+        // Check limit time
+        if (invitation.LimitTime.HasValue && invitation.LimitTime.Value < DateTimeOffset.UtcNow)
+        {
+            invitation.Status = InvitationStatusEnum.Expired;
+            invitation.UpdatedAt = DateTimeOffset.UtcNow;
+            await _unitOfWork.SaveChangesAsync();
+            throw new BadRequestException("Invitation Has Expired");
+        }
+
+        var team = invitation.Team;
+        if (team == null || team.IsDisable)
+            throw new NotFoundException("Team Not Found");
+
+        // Check user is not already a member
+        var members = await _teamRepository.GetTeamMembersAsync(invitation.TeamId);
+        var existingMember = members.FirstOrDefault(m => m.UserId == userId && !m.IsDisable && m.Status == TeamDetailStatusEnum.Active);
+        if (existingMember != null)
+            throw new BadRequestException("You Are Already a Member of This Team");
+
+        var now = DateTimeOffset.UtcNow;
+
+        // Update invitation
+        invitation.Status = InvitationStatusEnum.Accepted;
+        invitation.UpdatedAt = now;
+
+        // Add as team member
+        var teamDetail = new TeamDetails
+        {
+            Id = Guid.NewGuid(),
+            TeamId = invitation.TeamId,
+            UserId = userId,
+            IsLeader = false,
+            Status = TeamDetailStatusEnum.Active,
+            CreatedAt = now,
+            UpdatedAt = now
+        };
+
+        await _teamRepository.AddTeamDetailAsync(teamDetail);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task RejectInvitation(Guid invitationId)
+    {
+        _authorizationService.Authorize(RoleEnum.Student);
+
+        var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
+
+        var invitation = await _invitationRepository.GetByIdAsync(invitationId);
+        if (invitation == null)
+            throw new NotFoundException("Invitation Not Found");
+
+        if (invitation.UserId != userId)
+            throw new ForbiddenException("This Invitation Is Not for You");
+
+        if (invitation.Status != InvitationStatusEnum.Pending)
+            throw new BadRequestException("Invitation Is Not in Pending Status");
+
+        invitation.Status = InvitationStatusEnum.Rejected;
+        invitation.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _unitOfWork.SaveChangesAsync();
+    }
 }

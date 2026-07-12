@@ -800,7 +800,7 @@ public class Service : IJudgeService
         };
     }
 
-    public async Task<GetTrackSubmissionsResponse> GetSubmissionsByRound(Guid roundId, Guid? trackId, int pageIndex, int pageSize)
+    public async Task<GetTrackSubmissionsResponse> GetSubmissionsByRound(Guid roundId, Guid? trackId, bool? isGraded, int pageIndex, int pageSize)
     {
         var currentUserId = GetCurrentUserId();
         PaginationHelper.Validate(pageIndex, pageSize);
@@ -833,35 +833,90 @@ public class Service : IJudgeService
             };
         }
 
-        // If trackId provided, validate judge is assigned to that specific track
+        // Determine which trackIds to filter by
+        List<Guid> filterTrackIds;
         if (trackId.HasValue)
         {
             if (!myTrackIds.Contains(trackId.Value))
                 throw new ForbiddenException("You Are Not Assigned as Judge for This Track");
-
-            // Filter only to this one track
-            var (singleItems, singleTotal) = await _submissionRepository.GetRoundSubmissionsAsync(
-                roundId, new List<Guid> { trackId.Value }, pageIndex, pageSize);
-
-            var submissions = MapToTrackSubmissions(singleItems, assignEvent, round.EventId);
-            return new GetTrackSubmissionsResponse
-            {
-                Items = submissions,
-                TotalCount = singleTotal,
-                PageIndex = pageIndex,
-                PageSize = pageSize
-            };
+            filterTrackIds = new List<Guid> { trackId.Value };
+        }
+        else
+        {
+            filterTrackIds = myTrackIds;
         }
 
-        // No trackId: return submissions from ALL assigned tracks
-        var (items, totalCount) = await _submissionRepository.GetRoundSubmissionsAsync(
-            roundId, myTrackIds, pageIndex, pageSize);
+        // Get all submissions for this round + assigned tracks (fetch all for filtering)
+        // We need to fetch ALL to do isGraded filtering + take the last submission per team
+        var (allItems, totalCount) = await _submissionRepository.GetRoundSubmissionsAsync(
+            roundId, filterTrackIds, 1, int.MaxValue);
 
-        var result = MapToTrackSubmissions(items, assignEvent, round.EventId);
+        // For each team, take ONLY the last (most recent) submission in this round
+        // Map and check grading status for each
+        var myAssignTrackIds = assignEvent.AssignTracks
+            .Where(at => !at.IsDisable)
+            .Select(at => at.Id)
+            .ToHashSet();
+
+        var submissions = new List<TrackSubmissionItem>();
+        foreach (var rd in allItems)
+        {
+            var lastSubmission = SubmissionHelper.GetLastSubmission(rd);
+            if (lastSubmission == null) continue;
+
+            var myScore = lastSubmission.Scores
+                .FirstOrDefault(s => myAssignTrackIds.Contains(s.AssignTrackId));
+
+            var gradingStatus = myScore != null ? "Graded" : "Pending";
+
+            // Filter by isGraded
+            if (isGraded.HasValue)
+            {
+                if (isGraded.Value && gradingStatus != "Graded") continue;
+                if (!isGraded.Value && gradingStatus != "Pending") continue;
+            }
+
+            var rt = rd.RegisterTeam;
+            submissions.Add(new TrackSubmissionItem
+            {
+                RegisterTeamId = rt.Id,
+                TeamId = rt.TeamId,
+                TeamName = rt.Team.Name,
+                EventId = rt.EventId,
+                EventName = rt.Event?.Name ?? "",
+                RoundId = rd.RoundId,
+                RoundName = rd.Round.Name,
+                TrackId = rt.TrackId,
+                TrackTitle = rt.Track?.Title,
+                TopicId = rt.TopicId,
+                TopicTitle = rt.Topic?.Title,
+                SubmittedBy = GetTeamLeader(rt.Team.TeamDetails),
+                LastSubmission = lastSubmission != null
+                    ? new LastSubmissionInfo
+                    {
+                        Id = lastSubmission.Id,
+                        SubmittedAt = lastSubmission.SubmittedAt,
+                        Url = lastSubmission.Url,
+                        Description = lastSubmission.Description,
+                        Status = lastSubmission.Status?.ToString()
+                    }
+                    : null,
+                GradingStatus = gradingStatus,
+                ScoreId = myScore?.Id,
+                TotalScore = myScore?.TotalScore
+            });
+        }
+
+        // Apply pagination after filtering
+        var paged = submissions
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
         return new GetTrackSubmissionsResponse
         {
-            Items = result,
-            TotalCount = totalCount,
+            Items = paged,
+            TotalCount = submissions.Count,
             PageIndex = pageIndex,
             PageSize = pageSize
         };
@@ -920,48 +975,6 @@ public class Service : IJudgeService
         };
     }
 
-    private List<TrackSubmissionItem> MapToTrackSubmissions(List<RoundDetails> items, AssignEvents assignEvent, Guid eventId)
-    {
-        return items.Select(rd =>
-        {
-            var lastSubmission = SubmissionHelper.GetLastSubmission(rd);
-            var myAssignTrackIds = assignEvent.AssignTracks
-                .Where(at => !at.IsDisable)
-                .Select(at => at.Id)
-                .ToHashSet();
-            var myScore = lastSubmission?.Scores
-                .FirstOrDefault(s => myAssignTrackIds.Contains(s.AssignTrackId));
-            var rt = rd.RegisterTeam;
-            return new TrackSubmissionItem
-            {
-                RegisterTeamId = rt.Id,
-                TeamId = rt.TeamId,
-                TeamName = rt.Team.Name,
-                EventId = rt.EventId,
-                EventName = rt.Event?.Name ?? "",
-                RoundId = rd.RoundId,
-                RoundName = rd.Round.Name,
-                TrackId = rt.TrackId,
-                TrackTitle = rt.Track?.Title,
-                TopicId = rt.TopicId,
-                TopicTitle = rt.Topic?.Title,
-                SubmittedBy = GetTeamLeader(rt.Team.TeamDetails),
-                LastSubmission = lastSubmission != null
-                    ? new LastSubmissionInfo
-                    {
-                        Id = lastSubmission.Id,
-                        SubmittedAt = lastSubmission.SubmittedAt,
-                        Url = lastSubmission.Url,
-                        Description = lastSubmission.Description,
-                        Status = lastSubmission.Status?.ToString()
-                    }
-                    : null,
-                GradingStatus = myScore != null ? "Graded" : "Pending",
-                ScoreId = myScore?.Id,
-                TotalScore = myScore?.TotalScore
-            };
-        }).ToList();
-    }
 
     private static SubmittedByInfo? GetTeamLeader(ICollection<TeamDetails>? teamDetails)
     {

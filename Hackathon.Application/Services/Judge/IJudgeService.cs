@@ -15,6 +15,6 @@ public interface IJudgeService
     Task<GetScoreItemsResponse> GetScoreItems(Guid scoreId, int pageIndex, int pageSize);
     Task<ScoreItemDetail> GetScoreItemDetail(Guid scoreItemId);
     Task<GetRegisterTeamSubmissionsResponse> GetRegisterTeamSubmissions(Guid registerTeamId);
-    Task<GetTrackSubmissionsResponse> GetSubmissionsByRound(Guid roundId, Guid? trackId, int pageIndex, int pageSize);
+    Task<GetTrackSubmissionsResponse> GetSubmissionsByRound(Guid roundId, Guid? trackId, bool? isGraded, int pageIndex, int pageSize);
     Task<JudgeSubmissionDetailResponse> GetSubmissionDetail(Guid submissionId);
 }
