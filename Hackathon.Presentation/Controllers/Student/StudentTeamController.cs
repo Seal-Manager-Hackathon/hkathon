@@ -16,6 +16,20 @@ public class StudentTeamController : ControllerBase
         _teamService = teamService;
     }
 
+    [HttpPost("teams")]
+    public async Task<IActionResult> CreateTeam([FromBody] CreateTeamRequest request)
+    {
+        var result = await _teamService.CreateTeam(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Team.Created, status: 201, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("teams/my-teams")]
+    public async Task<IActionResult> GetMyTeams([FromQuery] GetMyTeamsRequest request)
+    {
+        var result = await _teamService.GetMyTeams(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("teams/count")]
     public async Task<IActionResult> GetTeamCount([FromQuery] GetTeamCountRequest request)
     {
@@ -36,5 +50,20 @@ public class StudentTeamController : ControllerBase
         request.TeamId = teamId;
         var result = await _teamService.GetTeamEvents(request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPatch("teams/{teamId:guid}")]
+    public async Task<IActionResult> UpdateTeam(Guid teamId, [FromBody] UpdateTeamRequest request)
+    {
+        request.TeamId = teamId;
+        await _teamService.UpdateTeam(request);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Team.Updated, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("teams/{teamId:guid}/disband")]
+    public async Task<IActionResult> DisbandTeam(Guid teamId)
+    {
+        await _teamService.DisbandTeam(teamId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Team.Deleted, traceId: HttpContext.TraceIdentifier));
     }
 }

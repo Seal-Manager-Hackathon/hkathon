@@ -44,3 +44,30 @@ public class TeamEventItem
     public string? Status { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
 }
+
+public class CreateTeamResponse
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; } = null!;
+    public bool CanEdit { get; set; }
+}
+
+public class GetMyTeamsResponse
+{
+    public List<MyTeamItem> Teams { get; set; } = new();
+    public int TotalCount { get; set; }
+    public int PageIndex { get; set; }
+    public int PageSize { get; set; }
+}
+
+public class MyTeamItem
+{
+    public Guid TeamId { get; set; }
+    public Guid TeamDetailId { get; set; }
+    public string Name { get; set; } = null!;
+    public bool IsLeader { get; set; }
+    public bool CanEdit { get; set; }
+    public string? Status { get; set; }
+    public int MemberCount { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+}

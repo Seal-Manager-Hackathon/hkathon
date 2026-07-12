@@ -18,4 +18,6 @@ public interface ITeamRepository
         DateTimeOffset? fromDate, DateTimeOffset? toDate, bool? isDisable,
         int pageIndex, int pageSize);
     Task<List<Teams>> GetRecentAsync(int count);
+    Task AddAsync(Teams team);
+    Task AddTeamDetailAsync(TeamDetails teamDetail);
 }
