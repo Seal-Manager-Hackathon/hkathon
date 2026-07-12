@@ -7,8 +7,8 @@
 ## Nghiệp vụ
 - Chỉ leader của team mới được disband.
 - Khi disband:
-  - Tất cả member trong team bị set IsDisable = true.
-  - Team bị set IsDisable = true và CanEdit = false.
+  - Tất cả member trong team bị set IsDisable = true và Status = Inactive.
+- Team bị set IsDisable = true và CanEdit = false.
 - Nếu team đã bị disable → 404 Not Found.
 - Nếu user ko phải leader → 400 Bad Request.
 
