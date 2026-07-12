@@ -5,6 +5,7 @@ using Hackathon.Application.Services.Judge;
 using Hackathon.Application.Services.Lecturer;
 using Hackathon.Application.Services.Mentor;
 using Hackathon.Application.Services.Staff;
+using Hackathon.Application.Services.Student;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hackathon.Application;
@@ -20,6 +21,7 @@ public static class DependencyInjection
         services.AddLecturerServices();
         services.AddMentorServices();
         services.AddJudgeServices();
+        services.AddStudentServices();
         return services;
     }
 }
