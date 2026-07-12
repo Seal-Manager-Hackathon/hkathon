@@ -1,6 +1,6 @@
 # GET /api/v1/lecturer/events/my-lecturer
 
-> Lecturer lấy danh sách event mà họ được phân công (AssignEvents, EventRole = Judge/Mentor), không phân biệt event có bị disable hay không.
+> Lecturer lấy danh sách event mà họ được phân công (AssignEvents, EventRole = Judge/Mentor), chỉ lấy event và assignment còn active (ko bị disable).
 
 **Controller:** [LecturerEventController.cs](Controllers/Lecturer/LecturerEventController.cs)
 
@@ -10,10 +10,10 @@
 
 - Chỉ lấy các bản ghi AssignEvents mà user hiện tại có EventRole = Judge hoặc Mentor.
 - Tự động loại bỏ event có status Draft.
-- Trả về tất cả event kể cả event bị disable (IsDisable = true) — FE dùng field isDisable để hiển thị.
-- Hỗ trợ lọc theo keyword, status, khoảng thời gian.
+- **Chỉ lấy assignment đang active** (`AssignEvents.IsDisable = false`) và **event không bị disable** (`Event.IsDisable = false`).
+- Hỗ trợ tìm kiếm theo keyword (tên event), lọc theo status, khoảng thời gian.
+- Sắp xếp theo `CreatedAt` giảm dần (event mới nhất lên đầu).
 - Hỗ trợ phân trang.
-- Response giống Admin GET /api/v1/admin/events.
 
 ## Phân quyền
 - ✅ Lecturer (phải có bản ghi AssignEvents với EventRole = Judge/Mentor)

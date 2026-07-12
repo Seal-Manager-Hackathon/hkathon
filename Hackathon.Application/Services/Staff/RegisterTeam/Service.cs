@@ -209,6 +209,16 @@ public class Service : IRegisterTeamService
         if (rt.Status != RegisterTeamStatusEnum.Pending)
             throw new BadRequestException("Only Pending Register Team Can Be Approved");
 
+        // Check event time window
+        var ev = await _eventRepository.GetByIdAsync(rt.EventId);
+        if (ev != null)
+        {
+            if (ev.StartTime.HasValue && DateTimeOffset.UtcNow < ev.StartTime.Value)
+                throw new BadRequestException("Cannot Approve Before Event Starts");
+            if (ev.EndTime.HasValue && DateTimeOffset.UtcNow >= ev.EndTime.Value)
+                throw new BadRequestException("Cannot Approve After Event Has Ended");
+        }
+
         var firstRound = await _roundRepository.GetFirstRoundByEventIdAsync(rt.EventId);
         if (firstRound != null && firstRound.LimitTeam.HasValue)
         {
@@ -253,6 +263,16 @@ public class Service : IRegisterTeamService
 
         if (rt.Status != RegisterTeamStatusEnum.Pending)
             throw new BadRequestException("Only Pending Register Team Can Be Rejected");
+
+        // Check event time window
+        var ev = await _eventRepository.GetByIdAsync(rt.EventId);
+        if (ev != null)
+        {
+            if (ev.StartTime.HasValue && DateTimeOffset.UtcNow < ev.StartTime.Value)
+                throw new BadRequestException("Cannot Reject Before Event Starts");
+            if (ev.EndTime.HasValue && DateTimeOffset.UtcNow >= ev.EndTime.Value)
+                throw new BadRequestException("Cannot Reject After Event Has Ended");
+        }
 
         rt.Status = RegisterTeamStatusEnum.Rejected;
         if (rejectionReason != null)
