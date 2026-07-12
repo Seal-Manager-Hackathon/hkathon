@@ -975,6 +975,57 @@ public class Service : IJudgeService
         };
     }
 
+    public async Task<JudgeMyScoreBySubmissionResponse> GetMyScoreBySubmission(Guid submissionId)
+    {
+        var currentUserId = GetCurrentUserId();
+
+        var submission = await _submissionRepository.GetByIdAsync(submissionId);
+        if (submission == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        // Validate judge is assigned to the event
+        var eventId = submission.RoundDetail?.RegisterTeam?.EventId;
+        if (eventId.HasValue)
+            await ValidateJudgeEventAssignment(currentUserId, eventId.Value);
+
+        // Find this judge's score for this submission
+        var myScore = submission.Scores
+            .Where(s => s.AssignTrack != null
+                && s.AssignTrack.AssignEvent.UserId == currentUserId)
+            .OrderByDescending(s => s.CreatedAt)
+            .FirstOrDefault();
+
+        if (myScore == null)
+        {
+            return new JudgeMyScoreBySubmissionResponse
+            {
+                SubmissionId = submissionId,
+                ScoreId = null,
+                AssignTrackId = null,
+                TotalScore = null,
+                IsRetake = false,
+                IsMock = false,
+                ScoreItems = new List<JudgeScoreItemResponse>()
+            };
+        }
+
+        return new JudgeMyScoreBySubmissionResponse
+        {
+            SubmissionId = submissionId,
+            ScoreId = myScore.Id,
+            AssignTrackId = myScore.AssignTrackId,
+            TotalScore = myScore.TotalScore,
+            IsRetake = myScore.IsRetake,
+            IsMock = myScore.IsMock,
+            ScoreItems = myScore.ScoreItems.Select(si => new JudgeScoreItemResponse
+            {
+                CriteriaItemId = si.CriteriaItemId,
+                CriteriaItemName = si.CriteriaItem?.Name ?? "",
+                Score = si.Score,
+                Comment = si.Comment
+            }).ToList()
+        };
+    }
 
     private static SubmittedByInfo? GetTeamLeader(ICollection<TeamDetails>? teamDetails)
     {
