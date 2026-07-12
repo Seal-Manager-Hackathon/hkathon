@@ -288,6 +288,37 @@ public class AssignEventRepository : IAssignEventRepository
         return (items, totalCount);
     }
 
+    public async Task<(List<AssignEvents> Items, int TotalCount)> GetUserAssignEventsAsync(
+        Guid userId, string? keyword, EventRoleEnum? eventRole,
+        int pageIndex, int pageSize)
+    {
+        var query = _context.AssignEvents
+            .Include(ae => ae.Event)
+            .Include(ae => ae.EventRole)
+            .Where(ae => ae.UserId == userId
+                && !ae.IsDisable
+                && ae.EventRole != null);
+
+        if (eventRole.HasValue)
+            query = query.Where(ae => ae.EventRole.Name == eventRole.Value);
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var kw = keyword.Trim().ToLower();
+            query = query.Where(ae => ae.Event.Name.ToLower().Contains(kw));
+        }
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderByDescending(ae => ae.Event.CreatedAt)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
+
     public async Task<AssignEvents?> GetByEventIdAndUserIdWithTracksAsync(Guid eventId, Guid userId)
         => await _context.AssignEvents
             .Include(ae => ae.Event)

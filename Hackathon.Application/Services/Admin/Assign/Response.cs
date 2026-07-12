@@ -37,6 +37,31 @@ public class AssignedTrackItem
     public bool IsDisable { get; set; }
 }
 
+public class GetUserAssignEventsResponse
+{
+    public List<UserAssignEventItem> Events { get; set; } = new();
+    public int TotalCount { get; set; }
+    public int PageIndex { get; set; }
+    public int PageSize { get; set; }
+}
+
+public class UserAssignEventItem
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string? Description { get; set; }
+    public string? Status { get; set; }
+    public int? NumberRound { get; set; }
+    public string? Season { get; set; }
+    public DateTimeOffset? StartTime { get; set; }
+    public DateTimeOffset? EndTime { get; set; }
+    public Guid? EventRoleId { get; set; }
+    public string? EventRoleName { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
+    public bool IsDisable { get; set; }
+}
+
 public class AvailableUserItem
 {
     public Guid Id { get; set; }

@@ -247,6 +247,62 @@ public class Service : IRegisterTeamService
         };
     }
 
+    public async Task<GetRegisterTeamsResponse> GetTeamRegisterTeamsByEvent(Guid eventId, Guid teamId, string? status, int pageIndex, int pageSize)
+    {
+        _authorizationService.Authorize(RoleEnum.Student);
+
+        PaginationHelper.Validate(pageIndex, pageSize);
+
+        // Parse status filter
+        RegisterTeamStatusEnum? statusFilter = null;
+        if (!string.IsNullOrWhiteSpace(status))
+        {
+            if (!Enum.TryParse<RegisterTeamStatusEnum>(status, true, out var parsed))
+                throw new BadRequestException("Invalid Status. Must be: Pending, Approved, Rejected, Banned");
+            statusFilter = parsed;
+        }
+
+        var (items, totalCount) = await _registerTeamRepository.GetByEventIdAndTeamIdAsync(
+            eventId, teamId, statusFilter, pageIndex, pageSize);
+
+        return new GetRegisterTeamsResponse
+        {
+            RegisterTeams = items.Select(rt =>
+            {
+                var maxRound = rt.RoundDetails
+                    .Where(rd => rd.Round != null && !rd.IsDisable)
+                    .OrderByDescending(rd => rd.Round!.RoundNo)
+                    .FirstOrDefault();
+
+                return new RegisterTeamCard
+                {
+                    Id = rt.Id,
+                    TeamId = rt.TeamId,
+                    TeamName = rt.Team?.Name,
+                    EventId = rt.EventId,
+                    EventName = rt.Event?.Name,
+                    TrackId = rt.TrackId,
+                    TrackName = rt.Track?.Title,
+                    TopicId = rt.TopicId,
+                    TopicName = rt.Topic?.Title,
+                    Description = rt.Description,
+                    RejectionReason = rt.RejectionReason,
+                    Status = rt.Status?.ToString(),
+                    IsBanned = rt.IsBanned,
+                    IsDisable = rt.IsDisable,
+                    RoundId = maxRound?.RoundId,
+                    RoundName = maxRound?.Round?.Name,
+                    RoundNo = maxRound?.Round?.RoundNo,
+                    CreatedAt = rt.CreatedAt,
+                    UpdatedAt = rt.UpdatedAt
+                };
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = pageIndex,
+            PageSize = pageSize
+        };
+    }
+
     public async Task<GetUserEventsResponse> GetUserEvents(GetUserEventsRequest request)
     {
         _authorizationService.Authorize(RoleEnum.Student);

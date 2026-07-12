@@ -21,4 +21,7 @@ public interface IRegisterTeamRepository
     Task<int> CountByTrackIdAsync(Guid trackId);
     Task<(List<RegisterTeams> Items, int TotalCount)> GetApprovedByEventIdWithScoresAsync(Guid eventId, int pageIndex, int pageSize);
     Task<(List<RegisterTeams> Items, int TotalCount)> GetByTrackIdAsync(Guid trackId, string? keyword, int pageIndex, int pageSize);
+    Task<(List<RegisterTeams> Items, int TotalCount)> GetByEventIdAndTeamIdAsync(
+        Guid eventId, Guid teamId, RegisterTeamStatusEnum? status,
+        int pageIndex, int pageSize);
 }
