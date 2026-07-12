@@ -9,7 +9,7 @@
 - Lấy tất cả submissions của các team trong event mà judge được phân công (assign track).
 - Mỗi team chỉ hiển thị **submission cuối cùng** trong round.
 - `submittedBy` = **leader của team** (`TeamDetails.IsLeader = true`).
-- `status` filter: `"Graded"` = đã chấm, `"Pending"` = chưa chấm. Nếu ko truyền → lấy hết.
+- `status` filter: `"Graded"` = đã chấm, `"Submitted"` = chưa chấm. Nếu ko truyền → lấy hết.
 - Kèm `scoreId` và `totalScore` nếu đã chấm, null nếu chưa.
 
 ## Phân quyền
@@ -61,7 +61,6 @@
           "description": "Bài nộp cuối",
           "status": "Submitted"
         },
-        "gradingStatus": "Pending",
         "scoreId": null,
         "totalScore": null
       }

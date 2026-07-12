@@ -7,7 +7,7 @@
 ## Nghiệp vụ
 
 - Chỉ lấy **1 bài nộp duy nhất** — bài mới nhất (`SubmittedAt` cao nhất) trong tất cả round của register team.
-- Hiển thị trạng thái chấm của **chính judge hiện tại**: `Graded` / `Pending`.
+- Hiển thị trạng thái dựa trên `SubmissionStatusEnum`: `Submitted` = mới nộp, `Graded` = đã chấm.
 - Nếu đã chấm → trả về `scoreId` và `totalScore`.
 - Trả về thông tin: team, event, round, track, topic, submittedBy (leader).
 - Judge phải được assign vào event chứa register team đó.
@@ -51,7 +51,6 @@
       "description": "Bài nộp cuối",
       "status": "Submitted"
     },
-    "gradingStatus": "Graded",
     "scoreId": "guid",
     "totalScore": 85.5
   },
@@ -75,7 +74,7 @@
 | `topicId` / `topicTitle` | Topic team chọn |
 | `submittedBy` | Leader của team (người nộp bài) |
 | `lastSubmission` | Bài nộp mới nhất (trong tất cả round) |
-| `gradingStatus` | `Graded` (đã chấm) / `Pending` (chưa chấm) |
+| `lastSubmission.status` | `Submitted` (mới nộp) / `Graded` (đã chấm) |
 | `scoreId` | ID score của judge hiện tại, null nếu chưa chấm |
 | `totalScore` | Tổng điểm, null nếu chưa chấm |
 
