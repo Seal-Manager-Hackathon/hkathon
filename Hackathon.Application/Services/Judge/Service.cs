@@ -867,6 +867,59 @@ public class Service : IJudgeService
         };
     }
 
+    public async Task<JudgeSubmissionDetailResponse> GetSubmissionDetail(Guid submissionId)
+    {
+        var currentUserId = GetCurrentUserId();
+
+        var submission = await _submissionRepository.GetByIdAsync(submissionId);
+        if (submission == null)
+            throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
+
+        // Validate judge is assigned to the event
+        var eventId = submission.RoundDetail?.RegisterTeam?.EventId;
+        if (eventId.HasValue)
+            await ValidateJudgeEventAssignment(currentUserId, eventId.Value);
+
+        var validScores = submission.Scores.Where(s => s.TotalScore.HasValue).ToList();
+        var totalScore = validScores.Count > 0
+            ? Math.Round(validScores.Sum(s => s.TotalScore!.Value), 2)
+            : (decimal?)null;
+
+        return new JudgeSubmissionDetailResponse
+        {
+            Id = submission.Id,
+            RoundDetailId = submission.RoundDetailId,
+            RoundId = submission.RoundDetail.RoundId,
+            RoundName = submission.RoundDetail.Round.Name,
+            RegisterTeamId = submission.RoundDetail.RegisterTeamId,
+            TeamId = submission.RoundDetail.RegisterTeam.TeamId,
+            TeamName = submission.RoundDetail.RegisterTeam.Team.Name,
+            TrackId = submission.RoundDetail.RegisterTeam.TrackId,
+            TrackTitle = submission.RoundDetail.RegisterTeam.Track?.Title,
+            TopicId = submission.RoundDetail.RegisterTeam.TopicId,
+            TopicTitle = submission.RoundDetail.RegisterTeam.Topic?.Title,
+            Url = submission.Url,
+            Description = submission.Description,
+            Status = submission.Status?.ToString(),
+            SubmittedAt = submission.SubmittedAt,
+            IsRegrade = submission.IsRegrade,
+            SubmittedBy = submission.RoundDetail.RegisterTeam.Team.TeamDetails
+                .Where(td => td.IsLeader)
+                .Select(td => new JudgeSubmittedByUser
+                {
+                    UserId = td.UserId,
+                    Email = td.User.Email,
+                    FirstName = td.User.FirstName,
+                    LastName = td.User.LastName
+                })
+                .FirstOrDefault(),
+            TotalScore = totalScore,
+            JudgeCount = validScores.Count,
+            CreatedAt = submission.CreatedAt,
+            UpdatedAt = submission.UpdatedAt
+        };
+    }
+
     private List<TrackSubmissionItem> MapToTrackSubmissions(List<RoundDetails> items, AssignEvents assignEvent, Guid eventId)
     {
         return items.Select(rd =>
