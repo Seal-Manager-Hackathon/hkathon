@@ -30,4 +30,18 @@ public class LecturerUserController : ControllerBase
         var result = await _userService.GetUserCount(request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.UserCountFetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpGet("users")]
+    public async Task<IActionResult> GetUsers([FromQuery] AdminUser.GetAllUsersRequest request)
+    {
+        var result = await _userService.GetAllUsers(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("users/{userId:guid}")]
+    public async Task<IActionResult> GetUserDetail(Guid userId)
+    {
+        var result = await _userService.GetUserDetail(userId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
 }

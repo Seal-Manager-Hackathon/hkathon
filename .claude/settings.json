@@ -83,7 +83,10 @@
       "Bash(taskkill /f /pid 31252)",
       "PowerShell(taskkill /f /pid 31252 2>$null)",
       "PowerShell(Get-Process -Id 31252 -ErrorAction SilentlyContinue)",
-      "Bash(dotnet run *)"
+      "Bash(dotnet run *)",
+      "Bash(ECC_GATEGUARD=off dotnet build)",
+      "Bash(export ECC_GATEGUARD=off)",
+      "Bash(Select-String -Pattern \"error\\\\\\(s\\\\\\)|Build succeeded|Warning\\\\\\(s\\\\\\)\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\phamq\\.claude\\projects\\c--Users-phamq-OneDrive-Desktop-New-folder--4--BE-SEAL-HACKATHON\\memory",
