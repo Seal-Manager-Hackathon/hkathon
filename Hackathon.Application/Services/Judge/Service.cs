@@ -595,6 +595,7 @@ public class Service : IJudgeService
                 SubmissionId = lastSubmission.Id,
                 Url = lastSubmission.Url,
                 SubmittedAt = lastSubmission.SubmittedAt,
+                Status = lastSubmission.Status?.ToString(),
                 ScoreId = myScore?.Id,
                 TotalScore = myScore?.TotalScore
             });
