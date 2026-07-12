@@ -5,7 +5,7 @@
 ## Nghiệp vụ
 
 Student muốn xem toàn bộ lịch sử đăng ký của team:
-- Không lọc theo status: trả về tất cả (Pending, Approved, Rejected, Banned).
+- Có thể lọc theo status: `Pending`, `Approved`, `Rejected`, `Banned`. Ko truyền thì lấy hết.
 - Có thể thấy lý do từ chối (RejectionReason) nếu đơn bị từ chối.
 - Có thể thấy IsBanned nếu đơn bị ban.
 - Có thể thấy IsDisable nếu đơn bị disable.
@@ -27,6 +27,7 @@ Student muốn xem toàn bộ lịch sử đăng ký của team:
 ### Query Parameters
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
+| status | string | No | - | ⚠️ Lọc theo trạng thái: Pending, Approved, Rejected, Banned. Ko truyền = lấy hết |
 | pageIndex | int | No | 1 | Trang hiện tại |
 | pageSize | int | No | 10 | Số lượng item mỗi trang |
 
