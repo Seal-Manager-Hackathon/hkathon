@@ -1,17 +1,18 @@
 using Hackathon.Application.Services.Admin.Award;
+using Hackathon.Application.Services.Admin.Assign;
+using Hackathon.Application.Services.Admin.CriteriaTemplate;
 using Hackathon.Application.Services.Admin.Event;
+using Hackathon.Application.Services.Admin.Invitation;
+using Hackathon.Application.Services.Admin.Leaderboard;
 using Hackathon.Application.Services.Admin.Notification;
 using Hackathon.Application.Services.Admin.RegisterTeam;
 using Hackathon.Application.Services.Admin.Report;
 using Hackathon.Application.Services.Admin.Round;
+using Hackathon.Application.Services.Admin.Score;
+using Hackathon.Application.Services.Admin.Submission;
 using Hackathon.Application.Services.Admin.Team;
 using Hackathon.Application.Services.Admin.Track;
 using Hackathon.Application.Services.Admin.Topic;
-using Hackathon.Application.Services.Admin.CriteriaTemplate;
-using Hackathon.Application.Services.Admin.Assign;
-using Hackathon.Application.Services.Admin.Leaderboard;
-using Hackathon.Application.Services.Admin.Score;
-using Hackathon.Application.Services.Admin.Submission;
 using Hackathon.Application.Services.Admin.User;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -36,6 +37,7 @@ public static class DependencyInjection
         services.AddScoped<ISubmissionService, Submission.Service>();
         services.AddScoped<IScoreService, Score.Service>();
         services.AddScoped<ILeaderboardService, Leaderboard.Service>();
+        services.AddScoped<IInvitationService, Invitation.Service>();
         return services;
     }
 }

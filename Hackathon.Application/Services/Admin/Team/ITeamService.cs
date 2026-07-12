@@ -10,6 +10,7 @@ public interface ITeamService
     Task RestoreTeam(Guid teamId);
     Task<GetUserTeamsResponse> GetUserTeams(GetUserTeamsRequest request);
     Task<GetTeamEventsResponse> GetTeamEvents(GetTeamEventsRequest request);
+    Task<GetTeamMembersResponse> GetTeamMembers(Guid teamId, int pageIndex, int pageSize);
     Task LockTeam(Guid teamId);
     Task UnlockTeam(Guid teamId);
 }

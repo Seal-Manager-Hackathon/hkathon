@@ -48,6 +48,22 @@ public class TeamRepository : ITeamRepository
             .Where(td => td.TeamId == teamId)
             .ToListAsync();
 
+    public async Task<(List<TeamDetails> Items, int TotalCount)> GetTeamMembersPagedAsync(Guid teamId, int pageIndex, int pageSize)
+    {
+        var query = _context.Set<TeamDetails>()
+            .Include(td => td.User)
+            .Where(td => td.TeamId == teamId);
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
+
     public Task UpdateAsync(Teams team)
     {
         _context.Set<Teams>().Update(team);

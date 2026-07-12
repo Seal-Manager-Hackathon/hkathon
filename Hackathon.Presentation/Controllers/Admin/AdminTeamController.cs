@@ -44,6 +44,13 @@ public class AdminTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.TeamCountFetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpGet("teams/{teamId:guid}/members")]
+    public async Task<IActionResult> GetTeamMembers(Guid teamId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+    {
+        var result = await _teamService.GetTeamMembers(teamId, pageIndex, pageSize);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpPatch("teams/{teamId:guid}")]
     public async Task<IActionResult> UpdateTeam(Guid teamId, [FromBody] UpdateTeamRequest request)
     {
