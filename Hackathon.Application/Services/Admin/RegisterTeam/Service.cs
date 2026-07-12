@@ -12,6 +12,7 @@ namespace Hackathon.Application.Services.Admin.RegisterTeam;
 public class Service : IRegisterTeamService
 {
     private readonly IRegisterTeamRepository _registerTeamRepository;
+    private readonly IEventRepository _eventRepository;
     private readonly ITeamRepository _teamRepository;
     private readonly IRoundRepository _roundRepository;
     private readonly ITrackRepository _trackRepository;
@@ -21,6 +22,7 @@ public class Service : IRegisterTeamService
 
     public Service(
         IRegisterTeamRepository registerTeamRepository,
+        IEventRepository eventRepository,
         ITeamRepository teamRepository,
         IRoundRepository roundRepository,
         ITrackRepository trackRepository,
@@ -29,6 +31,7 @@ public class Service : IRegisterTeamService
         IUnitOfWork unitOfWork)
     {
         _registerTeamRepository = registerTeamRepository;
+        _eventRepository = eventRepository;
         _teamRepository = teamRepository;
         _roundRepository = roundRepository;
         _trackRepository = trackRepository;
@@ -370,6 +373,11 @@ public class Service : IRegisterTeamService
         if (rt == null)
             throw new NotFoundException("Register Team Not Found");
 
+        // Check event hasn't started
+        var ev = await _eventRepository.GetByIdAsync(rt.EventId);
+        if (ev != null && ev.StartTime.HasValue && DateTimeOffset.UtcNow >= ev.StartTime.Value)
+            throw new BadRequestException("Cannot Assign To Next Round After Event Has Started");
+
         // Lấy round hiện tại (có RoundNo cao nhất)
         var currentRoundDetail = rt.RoundDetails
             .OrderByDescending(rd => rd.Round?.RoundNo)
@@ -422,6 +430,11 @@ public class Service : IRegisterTeamService
         var rt = await _registerTeamRepository.GetByIdWithRoundDetailsAsync(registerTeamId);
         if (rt == null)
             throw new NotFoundException("Register Team Not Found");
+
+        // Check event hasn't started
+        var ev = await _eventRepository.GetByIdAsync(rt.EventId);
+        if (ev != null && ev.StartTime.HasValue && DateTimeOffset.UtcNow >= ev.StartTime.Value)
+            throw new BadRequestException("Cannot Revert To Previous Round After Event Has Started");
 
         // Lấy các round detail đang active, sắp xếp giảm dần theo RoundNo
         var activeRounds = rt.RoundDetails
