@@ -9,7 +9,7 @@
 - Lấy submissions của các team trong track judge được assign.
 - Mỗi team chỉ hiển thị **submission cuối cùng** trong round.
 - `submittedBy` = **leader của team** (`TeamDetails.IsLeader = true`).
-- **Phân biệt trạng thái:** `Graded` (đã chấm) / `Pending` (chưa chấm) dựa trên score của judge hiện tại.
+- Trạng thái dựa trên `SubmissionStatusEnum`: `Submitted` = mới nộp, `Graded` = đã chấm.
 - Filter `isGraded=true` → chỉ bài đã chấm, `isGraded=false` → chỉ bài chưa chấm.
 
 ## Phân quyền
@@ -60,7 +60,6 @@
           "description": "Bài nộp cuối",
           "status": "Submitted"
         },
-        "gradingStatus": "Pending",
         "scoreId": null,
         "totalScore": null
       }
@@ -90,8 +89,8 @@
 | `topicId` / `topicTitle` | Topic team đăng ký |
 | `submittedBy` | Leader của team (người nộp bài) |
 | `lastSubmission` | Bài nộp cuối cùng trong round |
-| `gradingStatus` | `Graded` (đã chấm) / `Pending` (chưa chấm) |
-| `scoreId` | ID score nếu đã chấm, null nếu chưa |
+| `lastSubmission.status` | `Submitted` (mới nộp) / `Graded` (đã chấm) |
+| `scoreId` | ID score nếu judge hiện tại đã chấm, null nếu chưa |
 | `totalScore` | Điểm nếu đã chấm, null nếu chưa |
 
 ### submittedBy

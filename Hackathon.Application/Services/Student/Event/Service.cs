@@ -24,8 +24,6 @@ public class Service : IEventService
 
     public async Task<GetEventsResponse> GetEvents(GetEventsRequest request)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         PaginationHelper.Validate(request.PageIndex, request.PageSize);
 
         EventStatusEnum? status = null;

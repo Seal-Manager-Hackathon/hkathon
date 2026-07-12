@@ -12,21 +12,24 @@
 - Hỗ trợ lọc theo roundId, phân trang.
 
 ## Phân quyền
+
 - ✅ Lecturer — phải được assign vào event
 
 ## Request
 
 ### Route Parameters
-| Parameter | Type | Description |
-|-----------|------|-------------|
+
+| Parameter      | Type | Description          |
+| -------------- | ---- | -------------------- |
 | registerTeamId | Guid | ID của register team |
 
 ### Query Parameters
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| roundId | Guid | No | - | Lọc theo round cụ thể |
-| pageIndex | int | No | 1 | Trang số |
-| pageSize | int | No | 10 | Số item (max 100) |
+
+| Parameter | Type | Required | Default | Description           |
+| --------- | ---- | -------- | ------- | --------------------- |
+| roundId   | Guid | No       | -       | Lọc theo round cụ thể |
+| pageIndex | int  | No       | 1       | Trang số              |
+| pageSize  | int  | No       | 10      | Số item (max 100)     |
 
 ## Response (200)
 
@@ -76,23 +79,24 @@
 
 ### Field ý nghĩa
 
-| Field | Ý nghĩa |
-|-------|---------|
-| `registerTeamId` | ID đăng ký team trong event |
-| `teamId` / `teamName` | Thông tin team |
-| `eventId` / `eventName` | Event |
-| `roundId` / `roundName` | Round hiện tại |
-| `trackId` / `trackTitle` | Track team đăng ký |
-| `topicId` / `topicTitle` | Topic team chọn |
-| `submittedBy` | Leader của team |
-| `lastSubmission` | Bài nộp cuối cùng trong round |
+| Field                    | Ý nghĩa                       |
+| ------------------------ | ----------------------------- |
+| `registerTeamId`         | ID đăng ký team trong event   |
+| `teamId` / `teamName`    | Thông tin team                |
+| `eventId` / `eventName`  | Event                         |
+| `roundId` / `roundName`  | Round hiện tại                |
+| `trackId` / `trackTitle` | Track team đăng ký            |
+| `topicId` / `topicTitle` | Topic team chọn               |
+| `submittedBy`            | Leader của team               |
+| `lastSubmission`         | Bài nộp cuối cùng trong round |
 
 ## Lỗi
-| Status | message | Khi nào |
-|--------|---------|---------|
-| 400 | Page Index/Size | Pagination sai |
-| 401 | Invalid Or Expired Token | Token hết hạn |
-| 403 | You Are Not Assigned to This Event | Lecturer ko được assign |
-| 404 | Register Team Not Found | registerTeamId ko tồn tại |
+
+| Status | message                            | Khi nào                   |
+| ------ | ---------------------------------- | ------------------------- |
+| 400    | Page Index/Size                    | Pagination sai            |
+| 401    | Invalid Or Expired Token           | Token hết hạn             |
+| 403    | You Are Not Assigned to This Event | Lecturer ko được assign   |
+| 404    | Register Team Not Found            | registerTeamId ko tồn tại |
 
 > **Ref:** [Admin API tương ứng](/api/v1/admin/register-teams/{registerTeamId}/submissions)
