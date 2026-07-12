@@ -47,7 +47,7 @@ public class Service : IMentorNotificationService
             throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
 
         // Check mentor is assigned to this event
-        var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdAsync(eventId, currentUserId.Value);
+        var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdWithTracksAsync(eventId, currentUserId.Value);
         if (assignEvent == null)
             throw new NotFoundException("Event Not Found or You Are Not Assigned to This Event");
 
@@ -105,7 +105,7 @@ public class Service : IMentorNotificationService
             throw new NotFoundException("Track Not Found");
 
         // Verify mentor is assigned to this track in the event
-        var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdAsync(track.EventId, currentUserId.Value);
+        var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdWithTracksAsync(track.EventId, currentUserId.Value);
         if (assignEvent == null)
             throw new ForbiddenException("You Are Not Assigned to This Event");
 
@@ -154,7 +154,7 @@ public class Service : IMentorNotificationService
             throw new NotFoundException("Track Not Found");
 
         // Verify mentor is assigned to this track
-        var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdAsync(track.EventId, currentUserId.Value);
+        var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdWithTracksAsync(track.EventId, currentUserId.Value);
         if (assignEvent == null)
             throw new ForbiddenException("You Are Not Assigned to This Event");
 
