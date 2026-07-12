@@ -8,6 +8,8 @@ public interface ISubmissionRepository
     Task<(List<RoundDetails> Items, int TotalCount)> GetSubmissionsAsync(
         Guid eventId, Guid? roundId, Guid? trackId, Guid? topicId, Guid? registerTeamId, string? keyword,
         int pageIndex, int pageSize);
+    Task<(List<RoundDetails> Items, int TotalCount)> GetRoundSubmissionsAsync(
+        Guid roundId, List<Guid>? trackIds, int pageIndex, int pageSize);
     Task<(List<RoundSummaryItem> Items, int TotalCount)> GetRoundSummaryAsync(
         Guid roundId, int pageIndex, int pageSize);
 }
