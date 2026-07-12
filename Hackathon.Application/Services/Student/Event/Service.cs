@@ -2,6 +2,7 @@ using Hackathon.Application.Common.Helpers;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
+using Hackathon.Domain.Entities;
 using Hackathon.Domain.Enums.Event;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
@@ -32,22 +33,42 @@ public class Service : IEventService
         {
             if (!Enum.TryParse<EventStatusEnum>(request.Status, true, out var parsed))
                 throw new BadRequestException("Invalid Status. Must be: Draft, Published, Closed");
+            if (parsed == EventStatusEnum.Draft)
+                throw new BadRequestException("Invalid Status");
             status = parsed;
         }
 
-        // Student: always filter out disabled events, only see Published/Closed
-        var (items, totalCount) = await _eventRepository.SearchAsync(
-            request.Keyword, status,
-            request.FromDate, request.ToDate, false,
-            request.PageIndex, request.PageSize);
+        List<Events> allItems;
+        int totalCount;
 
-        // Remove Draft events from results
-        var filtered = items.Where(e => e.Status != EventStatusEnum.Draft).ToList();
-        totalCount = filtered.Count;
+        if (status.HasValue)
+        {
+            // Khi có status filter, DB query đã loại Draft, ko cần post-filter
+            var (items, count) = await _eventRepository.SearchAsync(
+                request.Keyword, status,
+                request.FromDate, request.ToDate, false,
+                request.PageIndex, request.PageSize);
+            allItems = items;
+            totalCount = count;
+        }
+        else
+        {
+            // Ko có status filter: lấy tất cả non-disabled, filter Draft trong memory, rồi phân trang
+            var (items, count) = await _eventRepository.SearchAsync(
+                request.Keyword, null,
+                request.FromDate, request.ToDate, false,
+                1, int.MaxValue);
+            var filtered = items.Where(e => e.Status != EventStatusEnum.Draft).ToList();
+            totalCount = filtered.Count;
+            allItems = filtered
+                .Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToList();
+        }
 
         return new GetEventsResponse
         {
-            Events = filtered.Select(e => new EventItem
+            Events = allItems.Select(e => new EventItem
             {
                 Id = e.Id,
                 Name = e.Name,
