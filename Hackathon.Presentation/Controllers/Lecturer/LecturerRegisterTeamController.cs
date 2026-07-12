@@ -1,6 +1,7 @@
 using Hackathon.Application.Common;
 using Hackathon.Application.Common.Models;
 using Hackathon.Application.Services.Lecturer.RegisterTeam;
+using Hackathon.Application.Services.Lecturer.Submission;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hackathon.Presentation.Controllers.Lecturer;
@@ -10,10 +11,12 @@ namespace Hackathon.Presentation.Controllers.Lecturer;
 public class LecturerRegisterTeamController : ControllerBase
 {
     private readonly IRegisterTeamService _registerTeamService;
+    private readonly ISubmissionService _submissionService;
 
-    public LecturerRegisterTeamController(IRegisterTeamService registerTeamService)
+    public LecturerRegisterTeamController(IRegisterTeamService registerTeamService, ISubmissionService submissionService)
     {
         _registerTeamService = registerTeamService;
+        _submissionService = submissionService;
     }
 
     [HttpGet("events/{eventId:guid}/register-teams")]
@@ -54,6 +57,17 @@ public class LecturerRegisterTeamController : ControllerBase
     {
         var result = await _registerTeamService.GetRegisterTeamsByTrack(trackId, roundId, pageIndex, pageSize);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RegisterTeamsFetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("register-teams/{registerTeamId:guid}/submissions")]
+    public async Task<IActionResult> GetSubmissionsByRegisterTeam(
+        Guid registerTeamId,
+        [FromQuery] Guid? roundId,
+        [FromQuery] int pageIndex = 1,
+        [FromQuery] int pageSize = 10)
+    {
+        var result = await _submissionService.GetSubmissionsByRegisterTeam(registerTeamId, roundId, pageIndex, pageSize);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
     /// <summary>

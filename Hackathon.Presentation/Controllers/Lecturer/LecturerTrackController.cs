@@ -1,5 +1,6 @@
 using Hackathon.Application.Common;
 using Hackathon.Application.Common.Models;
+using Hackathon.Application.Services.Lecturer.Submission;
 using Hackathon.Application.Services.Lecturer.Track;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,12 @@ namespace Hackathon.Presentation.Controllers.Lecturer;
 public class LecturerTrackController : ControllerBase
 {
     private readonly ITrackService _trackService;
+    private readonly ISubmissionService _submissionService;
 
-    public LecturerTrackController(ITrackService trackService)
+    public LecturerTrackController(ITrackService trackService, ISubmissionService submissionService)
     {
         _trackService = trackService;
+        _submissionService = submissionService;
     }
 
     [HttpGet("events/{eventId:guid}/tracks")]
@@ -28,6 +31,16 @@ public class LecturerTrackController : ControllerBase
     public async Task<IActionResult> GetTrackDetail(Guid trackId)
     {
         var result = await _trackService.GetTrackDetail(trackId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("tracks/{trackId:guid}/submissions")]
+    public async Task<IActionResult> GetSubmissionsByTrack(
+        Guid trackId,
+        [FromQuery] int pageIndex = 1,
+        [FromQuery] int pageSize = 10)
+    {
+        var result = await _submissionService.GetSubmissionsByTrack(trackId, pageIndex, pageSize);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 

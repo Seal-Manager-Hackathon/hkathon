@@ -1,6 +1,7 @@
 using Hackathon.Application.Common;
 using Hackathon.Application.Common.Models;
 using Hackathon.Application.Services.Admin.Event;
+using Hackathon.Application.Services.Lecturer.Submission;
 using Microsoft.AspNetCore.Mvc;
 using LecturerEvent = Hackathon.Application.Services.Lecturer.Event;
 
@@ -11,10 +12,12 @@ namespace Hackathon.Presentation.Controllers.Lecturer;
 public class LecturerEventController : ControllerBase
 {
     private readonly LecturerEvent.IEventService _eventService;
+    private readonly ISubmissionService _submissionService;
 
-    public LecturerEventController(LecturerEvent.IEventService eventService)
+    public LecturerEventController(LecturerEvent.IEventService eventService, ISubmissionService submissionService)
     {
         _eventService = eventService;
+        _submissionService = submissionService;
     }
 
     [HttpGet("events/recent")]
@@ -49,6 +52,21 @@ public class LecturerEventController : ControllerBase
     public async Task<IActionResult> GetLecturerEventDetail(Guid eventId)
     {
         var result = await _eventService.GetLecturerEventDetail(eventId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("events/{eventId:guid}/submissions")]
+    public async Task<IActionResult> GetSubmissions(Guid eventId, [FromQuery] GetLecturerSubmissionsRequest request)
+    {
+        request.EventId = eventId;
+        var result = await _submissionService.GetSubmissions(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("submissions/{submissionId:guid}")]
+    public async Task<IActionResult> GetSubmissionDetail(Guid submissionId)
+    {
+        var result = await _submissionService.GetSubmissionDetail(submissionId);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 }
