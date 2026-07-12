@@ -1,4 +1,3 @@
-using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
 using Hackathon.Domain.Enums.User;
@@ -9,19 +8,15 @@ namespace Hackathon.Application.Services.Student.User;
 public class Service : IUserService
 {
     private readonly IUserRepository _userRepository;
-    private readonly IAuthorizationService _authorizationService;
 
     public Service(
-        IUserRepository userRepository,
-        IAuthorizationService authorizationService)
+        IUserRepository userRepository)
     {
         _userRepository = userRepository;
-        _authorizationService = authorizationService;
     }
 
     public async Task<StudentUserDetailResponse> GetUserDetail(Guid userId)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
 
         var user = await _userRepository.GetByIdAsync(userId);
         if (user == null)

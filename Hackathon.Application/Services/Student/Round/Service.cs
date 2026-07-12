@@ -1,5 +1,4 @@
 using Hackathon.Application.Common.Helpers;
-using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
 using Hackathon.Domain.Enums.User;
@@ -11,22 +10,17 @@ public class Service : IRoundService
 {
     private readonly IRoundRepository _roundRepository;
     private readonly IEventRepository _eventRepository;
-    private readonly IAuthorizationService _authorizationService;
 
     public Service(
         IRoundRepository roundRepository,
-        IEventRepository eventRepository,
-        IAuthorizationService authorizationService)
+        IEventRepository eventRepository)
     {
         _roundRepository = roundRepository;
         _eventRepository = eventRepository;
-        _authorizationService = authorizationService;
     }
 
     public async Task<GetRoundsResponse> GetRounds(GetRoundsRequest request)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         PaginationHelper.Validate(request.PageIndex, request.PageSize);
 
         var ev = await _eventRepository.GetByIdAsync(request.EventId);
@@ -64,8 +58,6 @@ public class Service : IRoundService
 
     public async Task<GetRoundDetailResponse> GetRoundDetail(Guid roundId)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         var round = await _roundRepository.GetDetailByIdAsync(roundId);
         if (round == null || round.IsDisable)
             throw new NotFoundException(ErrMsg.Round.RoundNoNotFound);

@@ -1,8 +1,6 @@
 using Hackathon.Application.Common.Helpers;
-using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
-using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
 
 namespace Hackathon.Application.Services.Student.Award;
@@ -11,22 +9,17 @@ public class Service : IAwardService
 {
     private readonly IAwardRepository _awardRepository;
     private readonly IEventRepository _eventRepository;
-    private readonly IAuthorizationService _authorizationService;
 
     public Service(
         IAwardRepository awardRepository,
-        IEventRepository eventRepository,
-        IAuthorizationService authorizationService)
+        IEventRepository eventRepository)
     {
         _awardRepository = awardRepository;
         _eventRepository = eventRepository;
-        _authorizationService = authorizationService;
     }
 
     public async Task<GetAwardsResponse> GetAwards(GetAwardsRequest request)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         var eventEntity = await _eventRepository.GetByIdAsync(request.EventId);
         if (eventEntity == null)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
@@ -76,8 +69,6 @@ public class Service : IAwardService
 
     public async Task<GetAwardDetailResponse> GetAwardDetail(Guid awardId)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         var award = await _awardRepository.GetByIdAsync(awardId);
         if (award == null || award.IsDisable)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
