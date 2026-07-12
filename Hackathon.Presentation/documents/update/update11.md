@@ -1,63 +1,120 @@
 # Cập nhật lần 11 — Submission status & xoá GradingStatus
 
+## Lý do
+
+Trước đây chưa có enum `SubmissionStatusEnum` trong entity `Submissions`, nên phải query score để biết đã chấm chưa (dùng `myScore != null` → `"Graded"/"Pending"`). Giờ `Submissions` đã có `Status` (Submitted / Graded / Failed), nên đơn giản hoá:
+
+- **Response:** xoá `gradingStatus`, `isGraded`, `gradedSubmissionCount`. Dùng `status` từ `SubmissionStatusEnum`.
+- **Logic khi chấm:** set `submission.Status = Graded` trong `SubmitScore` và `UpdateScore`.
+- **Filter:** `isGraded` query param vẫn giữ nguyên tên, nhưng filter dựa trên `submission.Status` thay vì `myScore`.
+
+---
+
 ## API thay đổi response
 
-### Judge: GET /api/v1/judge/submissions/{submissionId}
+### 1. GET /api/v1/judge/submissions/{submissionId}
 
-**Response cũ:** có field `isGraded`
-**Response mới:** xoá `isGraded`. `status` dùng `SubmissionStatusEnum`: `Submitted` = mới nộp, `Graded` = đã chấm.
+**Cũ:**
+```json
+{
+  "status": "Submitted",
+  "isGraded": false,    ← xoá
+  "totalScore": 170.50,
+  "judgeCount": 2
+}
+```
 
-### Judge: GET /api/v1/judge/rounds/{roundId}/submissions
-### Judge: GET /api/v1/judge/tracks/{trackId}/submissions
-### Judge: GET /api/v1/judge/events/{eventId}/myscope
-### Judge: GET /api/v1/judge/register-teams/{registerTeamId}/submissions
+**Mới:** xoá `isGraded`.
 
-**Response cũ (item):**
+### 2. GET /api/v1/judge/tracks/{trackId}/submissions
+
+**Cũ:**
 ```json
 {
   "lastSubmission": { "status": "Submitted" },
-  "gradingStatus": "Pending",     // computed từ myScore, ko phải submission status
-  "scoreId": null,
-  "totalScore": null
+  "gradingStatus": "Pending",   ← xoá
+  "scoreId": null
 }
 ```
 
-**Response mới — xoá `gradingStatus`:**
+**Mới:** xoá `gradingStatus`.
+
+### 3. GET /api/v1/judge/rounds/{roundId}/submissions
+
+**Cũ:** có `gradingStatus` trong item.
+**Mới:** xoá `gradingStatus`.
+
+### 4. GET /api/v1/judge/events/{eventId}/myscope
+
+**Cũ:** có `gradingStatus` trong item.
+**Mới:** xoá `gradingStatus`.
+
+### 5. GET /api/v1/judge/register-teams/{registerTeamId}/submissions
+
+**Cũ:**
 ```json
 {
-  "lastSubmission": { "status": "Submitted" },  // Submitted / Graded
-  "scoreId": null,
-  "totalScore": null
+  "lastSubmission": { "status": "Submitted" },
+  "gradingStatus": "Graded",   ← xoá
+  "scoreId": "guid"
 }
 ```
 
-**Field `status` trong `lastSubmission`:**
-- `Submitted` — bài mới nộp, chưa được chấm
-- `Graded` — đã có judge chấm điểm
+**Mới:** xoá `gradingStatus`.
 
-### Judge: GET /api/v1/judge/events/{eventId}/scores/me
+### 6. GET /api/v1/judge/events/{eventId}/scores/me
 
-**Response cũ (item):** có `gradingStatus`
-**Response mới:** xoá `gradingStatus`, thêm `status` (SubmissionStatusEnum)
+**Cũ:**
+```json
+{
+  "submissionId": "guid",
+  "gradingStatus": "Graded",   ← xoá
+  "scoreId": "guid"
+}
+```
 
-### Judge: GET /api/v1/judge/tracks/{trackId}
+**Mới:** thay `gradingStatus` bằng `status`: `"Submitted"` / `"Graded"`.
 
-**Response cũ:** có `gradedSubmissionCount`
-**Response mới:** xoá `gradedSubmissionCount`
+### 7. GET /api/v1/judge/tracks/{trackId}
 
-## Các API đã check — ko thay đổi
+**Cũ:** có `gradedSubmissionCount`.
+**Mới:** xoá `gradedSubmissionCount`.
 
+---
+
+## Thay đổi logic
+
+| Phương thức | Thay đổi |
+|------------|----------|
+| `SubmitScore` | Thêm `submission.Status = SubmissionStatusEnum.Graded` + `submission.UpdatedAt` |
+| `UpdateScore` | Thêm `score.Submission.Status = SubmissionStatusEnum.Graded` + `score.Submission.UpdatedAt` |
+| Tất cả filter `isGraded` | Filter dựa trên `lastSubmission.Status == "Graded"` thay vì `myScore != null` |
+
+---
+
+## File thay đổi
+
+### Code
+| File | Thay đổi |
+|------|----------|
+| `Judge/Response.cs` | Xoá `GradingStatus` khỏi `TrackSubmissionItem`, `GetRegisterTeamSubmissionsResponse`, `JudgeMyScoreItem`; xoá `GradedSubmissionCount` khỏi `JudgeTrackItem` |
+| `Judge/Service.cs` | Xoá toàn bộ logic `GradingStatus`, thay filter bằng `submission.Status`; thêm set `Status = Graded` trong `SubmitScore` + `UpdateScore` |
+
+### Doc
+| File | Thay đổi |
+|------|----------|
+| `judge.submissions.detail.md` | Xoá `isGraded` |
+| `judge.submissions.by-track.md` | Xoá `gradingStatus` khỏi JSON + field table |
+| `judge.submissions.by-round.md` | Xoá `gradingStatus` khỏi JSON + field table |
+| `judge.submissions.myscope.md` | Xoá `gradingStatus` khỏi JSON, sửa filter description |
+| `judge.register-teams.submissions.md` | Xoá `gradingStatus` khỏi JSON + field table |
+| `judge.scores.my-scores.md` | Thay `gradingStatus` bằng `status` trong JSON + field table |
+
+---
+
+## API không thay đổi
+
+- Tất cả Admin submission APIs (đã dùng `submission.Status` từ đầu)
+- Tất cả Lecturer submission APIs (đã dùng `submission.Status` từ đầu)
 - `GET /api/v1/judge/submissions/{submissionId}/criteria`
 - `GET /api/v1/judge/submissions/{submissionId}/my-score`
-- `GET /api/v1/lecturer/events/{eventId}/submissions` (đã dùng submission status)
-- `GET /api/v1/lecturer/register-teams/{registerTeamId}/submissions` (đã dùng submission status)
-- `GET /api/v1/lecturer/tracks/{trackId}/submissions` (đã dùng submission status)
-- Tất cả Admin submission APIs (đã dùng submission status)
-
-## Ghi chú cho FE
-
-Các response trước đây có 2 field trùng lặp:
-- `lastSubmission.status` — trạng thái thực tế của bài nộp (SubmissionStatusEnum)
-- `gradingStatus` — trạng thái chấm của judge hiện tại (dựa trên `myScore != null`)
-
-Giờ chỉ giữ lại `lastSubmission.status`. Filter `status=Graded` / `Pending` vẫn hoạt động như cũ, nhưng dựa trên `submission.Status` thay vì `myScore`.

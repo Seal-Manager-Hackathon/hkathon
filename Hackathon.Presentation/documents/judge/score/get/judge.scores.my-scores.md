@@ -14,8 +14,8 @@
   - `trackId`, `trackTitle`
   - `roundId`, `roundName`
   - `submissionId`, `url`, `submittedAt` — thông tin bài nộp
+  - `status`: `"Submitted"` = mới nộp, `"Graded"` = đã chấm
   - `scoreId`, `totalScore` — **nullable**: nếu judge đã chấm thì có giá trị, nếu chưa chấm để `null`
-  - `gradingStatus`: `"Graded"` hoặc `"Pending"`
 - Hỗ trợ lọc:
   - **roundId**: lọc theo round
   - **trackId**: lọc theo track (trong số các track judge được phân công)
@@ -58,7 +58,7 @@
         "submissionId": "guid",
         "url": "https://example.com/submission.pdf",
         "submittedAt": "2026-07-11T10:00:00Z",
-        "gradingStatus": "Graded",
+        "status": "Graded",
         "scoreId": "guid",
         "totalScore": 85.0
       },
@@ -73,7 +73,7 @@
         "submissionId": "guid",
         "url": null,
         "submittedAt": "2026-07-11T09:00:00Z",
-        "gradingStatus": "Pending",
+        "status": "Submitted",
         "scoreId": null,
         "totalScore": null
       }

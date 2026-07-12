@@ -62,7 +62,6 @@ Judge muon xem tat ca bai nop trong 1 round cu the:
           "description": "Bai nop cuoi",
           "status": "Submitted"
         },
-        "gradingStatus": "Pending",
         "scoreId": null,
         "totalScore": null
       }
@@ -83,7 +82,7 @@ Judge muon xem tat ca bai nop trong 1 round cu the:
 |-------|---------|
 | items[].registerTeamId | ID dang ky doi vao event |
 | items[].teamName | Ten doi |
-| items[].gradeStatus | "Pending" neu chua cham, "Graded" neu judge nay da cham |
+| items[].lastSubmission.status | "Submitted" (moi nop) / "Graded" (da cham) |
 | items[].scoreId | ID cua luot cham (null neu chua cham) |
 | items[].totalScore | Tong diem (null neu chua cham) |
 
