@@ -175,4 +175,14 @@ public class JudgeController : ControllerBase
         var result = await _judgeService.GetScoreItemDetail(scoreItemId);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    /// <summary>
+    /// Diem cua chinh judge cho 1 submission — scoreId, assignTrackId, totalScore, scoreItems
+    /// </summary>
+    [HttpGet("submissions/{submissionId:guid}/my-score")]
+    public async Task<IActionResult> GetMyScoreBySubmission(Guid submissionId)
+    {
+        var result = await _judgeService.GetMyScoreBySubmission(submissionId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
 }

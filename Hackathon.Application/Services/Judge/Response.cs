@@ -184,6 +184,18 @@ public class JudgeSubmittedByUser
     public string LastName { get; set; } = null!;
 }
 
+// Judge My Score By Submission
+public class JudgeMyScoreBySubmissionResponse
+{
+    public Guid SubmissionId { get; set; }
+    public Guid? ScoreId { get; set; }
+    public Guid? AssignTrackId { get; set; }
+    public decimal? TotalScore { get; set; }
+    public bool IsRetake { get; set; }
+    public bool IsMock { get; set; }
+    public List<JudgeScoreItemResponse> ScoreItems { get; set; } = [];
+}
+
 // My Scores
 public class GetMyScoresResponse
 {
