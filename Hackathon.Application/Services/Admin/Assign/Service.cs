@@ -293,6 +293,56 @@ public class Service : IAssignService
         await _unitOfWork.SaveChangesAsync();
     }
 
+    public async Task<GetUserAssignEventsResponse> GetUserAssignEvents(Guid userId, string? keyword, string? eventRole, int pageIndex, int pageSize)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        PaginationHelper.Validate(pageIndex, pageSize);
+
+        // Validate user exists and has valid role
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+            throw new NotFoundException(ErrMsg.Auth.UserNotFound);
+
+        if (user.Role != RoleEnum.Staff && user.Role != RoleEnum.Lecturer)
+            throw new BadRequestException("User Must Be Staff Or Lecturer To Have Event Assignments");
+
+        // Parse event role filter
+        Domain.Enums.EventRole.EventRoleEnum? eventRoleFilter = null;
+        if (!string.IsNullOrWhiteSpace(eventRole))
+        {
+            if (!Enum.TryParse<Domain.Enums.EventRole.EventRoleEnum>(eventRole, true, out var parsed))
+                throw new BadRequestException("Invalid EventRole. Must be: Staff, Judge, Mentor");
+            eventRoleFilter = parsed;
+        }
+
+        var (items, totalCount) = await _assignEventRepository.GetUserAssignEventsAsync(
+            userId, keyword, eventRoleFilter, pageIndex, pageSize);
+
+        return new GetUserAssignEventsResponse
+        {
+            Events = items.Select(ae => new UserAssignEventItem
+            {
+                Id = ae.Event.Id,
+                Name = ae.Event.Name,
+                Description = ae.Event.Description,
+                Status = ae.Event.Status?.ToString(),
+                NumberRound = ae.Event.NumberRound,
+                Season = ae.Event.Season?.ToString(),
+                StartTime = ae.Event.StartTime,
+                EndTime = ae.Event.EndTime,
+                EventRoleId = ae.EventRoleId,
+                EventRoleName = ae.EventRole?.Name.ToString(),
+                CreatedAt = ae.Event.CreatedAt,
+                UpdatedAt = ae.Event.UpdatedAt,
+                IsDisable = ae.Event.IsDisable
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = pageIndex,
+            PageSize = pageSize
+        };
+    }
+
     private static GetAvailableUserResponse MapResponse(List<Domain.Entities.Users> items, int totalCount, GetAvailableUserRequest request)
     {
         return new GetAvailableUserResponse

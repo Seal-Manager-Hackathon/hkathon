@@ -35,6 +35,10 @@ public interface IAssignEventRepository
         int pageIndex, int pageSize);
     Task<List<AssignEvents>> GetCurrentAssignedEventsByUserIdAsync(Guid userId);
     Task<AssignEvents?> GetByEventIdAndUserIdWithEventAsync(Guid eventId, Guid userId);
+    Task<(List<AssignEvents> Items, int TotalCount)> GetUserAssignEventsAsync(
+        Guid userId, string? keyword,
+        Domain.Enums.EventRole.EventRoleEnum? eventRole,
+        int pageIndex, int pageSize);
     Task<(List<AssignEvents> Items, int TotalCount)> GetLecturerAssignEventsByUserIdAsync(
         Guid userId, string? keyword, EventStatusEnum? status,
         DateTimeOffset? fromDate, DateTimeOffset? toDate,

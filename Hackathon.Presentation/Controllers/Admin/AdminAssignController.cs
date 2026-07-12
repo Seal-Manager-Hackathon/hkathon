@@ -91,4 +91,11 @@ public class AdminAssignController : ControllerBase
         await _assignService.RestoreAssignEvent(assignEventId);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpGet("users/{userId:guid}/assign-events")]
+    public async Task<IActionResult> GetUserAssignEvents(Guid userId, [FromQuery] string? keyword, [FromQuery] string? eventRole, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+    {
+        var result = await _assignService.GetUserAssignEvents(userId, keyword, eventRole, pageIndex, pageSize);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
 }
