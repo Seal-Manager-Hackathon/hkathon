@@ -52,6 +52,17 @@ public class TeamRepository : ITeamRepository
             .Select(td => td.TeamId)
             .ToListAsync();
 
+    public async Task<List<Guid>> GetUserActiveTeamIdsAsync(Guid userId)
+        => await _context.Set<TeamDetails>()
+            .Include(td => td.Team)
+            .Where(td => td.UserId == userId
+                && !td.IsDisable
+                && td.Status == TeamDetailStatusEnum.Active
+                && td.Team != null
+                && !td.Team.IsDisable)
+            .Select(td => td.TeamId)
+            .ToListAsync();
+
     public async Task<List<TeamDetails>> GetTeamMembersAsync(Guid teamId)
         => await _context.Set<TeamDetails>()
             .Include(td => td.User)

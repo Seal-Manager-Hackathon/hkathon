@@ -18,4 +18,10 @@ public interface INotificationRepository
         Domain.Enums.Notification.NotificationStatusEnum? status,
         DateTimeOffset? fromDate, DateTimeOffset? toDate,
         int pageIndex, int pageSize);
+    Task<(List<Notifications> Items, int TotalCount)> GetStudentNotificationsAsync(
+        Guid userId, List<Guid> teamIds, string? keyword,
+        Domain.Enums.Notification.NotificationTargetTypeEnum? targetType,
+        Domain.Enums.Notification.NotificationStatusEnum? status,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate,
+        int pageIndex, int pageSize);
 }

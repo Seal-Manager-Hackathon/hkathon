@@ -191,15 +191,23 @@ public class Service : IRegisterTeamService
         };
     }
 
-    public async Task<GetRegisterTeamsResponse> GetTeamRegisterTeams(Guid teamId, int pageIndex, int pageSize)
+    public async Task<GetRegisterTeamsResponse> GetTeamRegisterTeams(Guid teamId, string? status, int pageIndex, int pageSize)
     {
         _authorizationService.Authorize(RoleEnum.Student);
 
         PaginationHelper.Validate(pageIndex, pageSize);
 
-        // Get ALL register teams for this team — no status/isDisable/isBanned filter
+        // Parse status filter
+        Domain.Enums.RegisterTeam.RegisterTeamStatusEnum? statusFilter = null;
+        if (!string.IsNullOrWhiteSpace(status))
+        {
+            if (!Enum.TryParse<Domain.Enums.RegisterTeam.RegisterTeamStatusEnum>(status, true, out var parsed))
+                throw new BadRequestException("Invalid Status. Must be: Pending, Approved, Rejected, Banned");
+            statusFilter = parsed;
+        }
+
         var (items, totalCount) = await _registerTeamRepository.GetByTeamIdAsync(
-            teamId, null, null, pageIndex, pageSize);
+            teamId, statusFilter, null, pageIndex, pageSize);
 
         return new GetRegisterTeamsResponse
         {

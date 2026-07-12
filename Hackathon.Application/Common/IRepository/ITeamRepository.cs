@@ -7,6 +7,7 @@ public interface ITeamRepository
     Task<int> CountAsync(bool? isDisable);
     Task<bool> IsUserInTeamAsync(Guid teamId, Guid userId);
     Task<List<Guid>> GetUserTeamIdsAsync(Guid userId);
+    Task<List<Guid>> GetUserActiveTeamIdsAsync(Guid userId);
     Task<List<Guid>> GetTeamMemberIdsAsync(Guid teamId);
     Task<Teams?> GetByIdAsync(Guid id);
     Task<List<TeamDetails>> GetTeamMembersAsync(Guid teamId);
