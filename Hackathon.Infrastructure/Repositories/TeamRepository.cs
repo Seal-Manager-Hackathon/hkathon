@@ -24,6 +24,16 @@ public class TeamRepository : ITeamRepository
         return await query.CountAsync();
     }
 
+    public async Task AddAsync(Teams team)
+    {
+        await _context.Set<Teams>().AddAsync(team);
+    }
+
+    public async Task AddTeamDetailAsync(TeamDetails teamDetail)
+    {
+        await _context.Set<TeamDetails>().AddAsync(teamDetail);
+    }
+
     public async Task<Teams?> GetByIdAsync(Guid id)
         => await _context.Set<Teams>().FindAsync(id);
 
