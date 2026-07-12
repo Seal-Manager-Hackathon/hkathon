@@ -23,26 +23,29 @@ Không query params, không body.
       {
         "id": "guid",
         "name": "Hackathon 2026",
-        "description": "Event description",
+        "description": "...",
         "status": "Published",
-        "startTime": "2026-07-01T00:00:00Z",
-        "endTime": "2026-07-10T00:00:00Z",
+        "startTime": "2026-08-01T00:00:00Z",
+        "endTime": "2026-08-10T00:00:00Z",
         "isDisable": false,
-        "createdAt": "2026-07-10T00:00:00Z",
-        "updatedAt": "2026-07-10T00:00:00Z"
+        "createdAt": "2026-07-07T12:00:00Z",
+        "updatedAt": "2026-07-07T12:00:00Z"
       }
     ]
   },
   "message": "Fetched Successfully",
+  "error": null,
+  "isSuccess": true,
   "status": 200,
-  "traceId": "00-..."
+  "traceId": "00-abc123...",
+  "timestampUtc": "2026-07-07T12:00:00Z"
 }
 ```
 
 ## Lỗi
-| Status | message | Khi nào |
-|--------|---------|---------|
-| 401 | Unauthorized | Token hết hạn/thiếu |
-| 403 | Forbidden | Không phải Student |
+| Status | message | Khi nào | FE xử lý |
+|--------|---------|---------|----------|
+| 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
+| 403 | You do not have permission to perform this action | Không phải Student | Ẩn chức năng |
 
 > **Ref:** [Admin API tương ứng](/api/v1/admin/events/recent)
