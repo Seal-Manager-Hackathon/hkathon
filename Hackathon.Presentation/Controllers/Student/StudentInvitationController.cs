@@ -45,4 +45,24 @@ public class StudentInvitationController : ControllerBase
         var result = await _invitationService.GetReceivedInvitations(request.Keyword, request.Status, request.PageIndex, request.PageSize);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    /// <summary>
+    /// Chap nhan loi moi vao team
+    /// </summary>
+    [HttpPost("invitations/{invitationId:guid}/accept")]
+    public async Task<IActionResult> AcceptInvitation(Guid invitationId)
+    {
+        await _invitationService.AcceptInvitation(invitationId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
+
+    /// <summary>
+    /// Tu choi loi moi vao team
+    /// </summary>
+    [HttpPost("invitations/{invitationId:guid}/reject")]
+    public async Task<IActionResult> RejectInvitation(Guid invitationId)
+    {
+        await _invitationService.RejectInvitation(invitationId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
 }

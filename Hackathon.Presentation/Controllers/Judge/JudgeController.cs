@@ -151,16 +151,18 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Submissions trong 1 round, lọc theo track (nếu có). Nếu ko truyền trackId -> lấy hết track judge được phân công.
+    /// Submissions trong 1 round, lọc theo track (nếu có) và isGraded (đã chấm/chưa). Nếu ko truyền trackId -> lấy hết track judge được phân công.
+    /// Mỗi team chỉ lấy bài nộp cuối cùng trong round.
     /// </summary>
     [HttpGet("rounds/{roundId:guid}/submissions")]
     public async Task<IActionResult> GetSubmissionsByRound(
         Guid roundId,
         [FromQuery] Guid? trackId,
+        [FromQuery] bool? isGraded,
         [FromQuery] int pageIndex = 1,
         [FromQuery] int pageSize = 10)
     {
-        var result = await _judgeService.GetSubmissionsByRound(roundId, trackId, pageIndex, pageSize);
+        var result = await _judgeService.GetSubmissionsByRound(roundId, trackId, isGraded, pageIndex, pageSize);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
