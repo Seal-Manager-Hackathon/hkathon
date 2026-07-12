@@ -172,6 +172,7 @@ public class JudgeSubmissionDetailResponse
     public JudgeSubmittedByUser? SubmittedBy { get; set; }
     public decimal? TotalScore { get; set; }
     public int JudgeCount { get; set; }
+    public bool IsGraded { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
 }

@@ -940,6 +940,12 @@ public class Service : IJudgeService
             ? Math.Round(validScores.Sum(s => s.TotalScore!.Value), 2)
             : (decimal?)null;
 
+        // Check if current judge has graded this submission
+        var myScore = submission.Scores
+            .FirstOrDefault(s => s.AssignTrack != null
+                && s.AssignTrack.AssignEvent.UserId == currentUserId
+                && s.TotalScore.HasValue);
+
         return new JudgeSubmissionDetailResponse
         {
             Id = submission.Id,
@@ -970,6 +976,7 @@ public class Service : IJudgeService
                 .FirstOrDefault(),
             TotalScore = totalScore,
             JudgeCount = validScores.Count,
+            IsGraded = myScore != null,
             CreatedAt = submission.CreatedAt,
             UpdatedAt = submission.UpdatedAt
         };
