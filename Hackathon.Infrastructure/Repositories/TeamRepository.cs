@@ -149,6 +149,12 @@ public class TeamRepository : ITeamRepository
         return (items, totalCount);
     }
 
+    public Task UpdateTeamDetailAsync(TeamDetails teamDetail)
+    {
+        _context.Set<TeamDetails>().Update(teamDetail);
+        return Task.CompletedTask;
+    }
+
     public async Task<List<Teams>> GetRecentAsync(int count)
         => await _context.Set<Teams>()
             .OrderByDescending(t => t.CreatedAt)

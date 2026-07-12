@@ -95,6 +95,13 @@ public class StudentRegisterTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpGet("teams/{teamId:guid}/register-teams/all")]
+    public async Task<IActionResult> GetTeamRegisterTeams(Guid teamId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
+    {
+        var result = await _registerTeamService.GetTeamRegisterTeams(teamId, pageIndex, pageSize);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("users/{userId:guid}/events")]
     public async Task<IActionResult> GetUserEvents(Guid userId, [FromQuery] GetUserEventsRequest request)
     {

@@ -73,4 +73,26 @@ public class StudentTeamController : ControllerBase
         await _teamService.DisbandTeam(teamId);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Team.Deleted, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpPost("teams/{teamId:guid}/members/{memberId:guid}/kick")]
+    public async Task<IActionResult> KickMember(Guid teamId, Guid memberId)
+    {
+        await _teamService.KickMember(teamId, memberId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("teams/{teamId:guid}/change-leader")]
+    public async Task<IActionResult> ChangeLeader(Guid teamId, [FromBody] ChangeLeaderRequest request)
+    {
+        request.TeamId = teamId;
+        await _teamService.ChangeLeader(teamId, request.NewLeaderUserId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("teams/{teamId:guid}/leave")]
+    public async Task<IActionResult> LeaveTeam(Guid teamId)
+    {
+        await _teamService.LeaveTeam(teamId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
+    }
 }

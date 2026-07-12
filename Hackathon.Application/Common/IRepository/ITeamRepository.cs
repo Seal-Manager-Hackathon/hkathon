@@ -20,4 +20,5 @@ public interface ITeamRepository
     Task<List<Teams>> GetRecentAsync(int count);
     Task AddAsync(Teams team);
     Task AddTeamDetailAsync(TeamDetails teamDetail);
+    Task UpdateTeamDetailAsync(TeamDetails teamDetail);
 }

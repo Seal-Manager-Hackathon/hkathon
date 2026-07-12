@@ -35,3 +35,9 @@ public class GetMyTeamsRequest
     public int PageIndex { get; set; } = 1;
     public int PageSize { get; set; } = 10;
 }
+
+public class ChangeLeaderRequest
+{
+    public Guid TeamId { get; set; }
+    public Guid NewLeaderUserId { get; set; }
+}

@@ -10,4 +10,7 @@ public interface ITeamService
     Task<GetMyTeamsResponse> GetMyTeams(GetMyTeamsRequest request);
     Task<GetTeamMembersResponse> GetTeamMembers(Guid teamId, int pageIndex, int pageSize);
     Task DisbandTeam(Guid teamId);
+    Task KickMember(Guid teamId, Guid memberId);
+    Task ChangeLeader(Guid teamId, Guid newLeaderUserId);
+    Task LeaveTeam(Guid teamId);
 }
