@@ -8,6 +8,7 @@ Judge muốn xem chi tiết 1 bài nộp cụ thể:
 - Response giống hệt Admin API `GET /api/v1/admin/submissions/{submissionId}`.
 - Judge phải được assign vào event chứa bài nộp đó.
 - Trả về: thông tin submission, round, team, track, topic, người nộp, tổng điểm, số lượng judge đã chấm.
+- **`isGraded`**: cho biết judge đang đăng nhập **đã chấm bài này chưa** (true = đã chấm, false = chưa chấm).
 
 > **Ref:** [Admin API tương ứng](/api/v1/admin/submissions/{submissionId})
 
@@ -49,6 +50,7 @@ Judge muốn xem chi tiết 1 bài nộp cụ thể:
     },
     "totalScore": 170.50,
     "judgeCount": 2,
+    "isGraded": false,
     "createdAt": "2026-07-07T12:00:00Z",
     "updatedAt": "2026-07-08T10:00:00Z"
   },

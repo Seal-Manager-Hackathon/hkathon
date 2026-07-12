@@ -65,6 +65,12 @@ public static class DependencyInjection
             q.AddTrigger(opts => opts
                 .ForJob(jobKey)
                 .WithCronSchedule("0 */10 * * * ?")); // every 10 minutes
+
+            var expireInvitationsJobKey = new JobKey("ExpirePendingInvitationsJob");
+            q.AddJob<Services.BackgroundJobs.ExpirePendingInvitationsJob>(opts => opts.WithIdentity(expireInvitationsJobKey));
+            q.AddTrigger(opts => opts
+                .ForJob(expireInvitationsJobKey)
+                .WithCronSchedule("0 */15 * * * ?")); // every 15 minutes
         });
         services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
