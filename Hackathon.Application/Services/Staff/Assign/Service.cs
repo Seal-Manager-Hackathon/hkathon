@@ -382,4 +382,64 @@ public class Service : IAssignService
         _assignEventRepository.RestoreAssignTrack(assignTrack);
         await _unitOfWork.SaveChangesAsync();
     }
+
+    public async Task<Admin.Assign.GetUserAssignEventsResponse> GetUserAssignEvents(Guid userId, string? keyword, string? eventRole, int pageIndex, int pageSize)
+    {
+        _authorizationService.Authorize(RoleEnum.Staff);
+
+        // Staff must be assigned to at least one event to use this
+        var currentUserId = _currentUserService.UserId;
+        if (!currentUserId.HasValue)
+            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
+
+        var (currentAssigns, _) = await _assignEventRepository.GetStaffAssignEventsByUserIdAsync(
+            currentUserId.Value, null, null, null, null, 1, 1);
+        if (currentAssigns.Count == 0)
+            throw new ForbiddenException("You Are Not Assigned to Any Event");
+
+        PaginationHelper.Validate(pageIndex, pageSize);
+
+        // Validate target user
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+            throw new NotFoundException(ErrMsg.Auth.UserNotFound);
+
+        if (user.Role != RoleEnum.Staff && user.Role != RoleEnum.Lecturer)
+            throw new BadRequestException("User Must Be Staff Or Lecturer To Have Event Assignments");
+
+        // Parse event role filter
+        EventRoleEnum? eventRoleFilter = null;
+        if (!string.IsNullOrWhiteSpace(eventRole))
+        {
+            if (!Enum.TryParse<EventRoleEnum>(eventRole, true, out var parsed))
+                throw new BadRequestException("Invalid EventRole. Must be: Staff, Judge, Mentor");
+            eventRoleFilter = parsed;
+        }
+
+        var (items, totalCount) = await _assignEventRepository.GetUserAssignEventsAsync(
+            userId, keyword, eventRoleFilter, pageIndex, pageSize);
+
+        return new Admin.Assign.GetUserAssignEventsResponse
+        {
+            Events = items.Select(ae => new Admin.Assign.UserAssignEventItem
+            {
+                Id = ae.Event.Id,
+                Name = ae.Event.Name,
+                Description = ae.Event.Description,
+                Status = ae.Event.Status?.ToString(),
+                NumberRound = ae.Event.NumberRound,
+                Season = ae.Event.Season?.ToString(),
+                StartTime = ae.Event.StartTime,
+                EndTime = ae.Event.EndTime,
+                EventRoleId = ae.EventRoleId,
+                EventRoleName = ae.EventRole?.Name.ToString(),
+                CreatedAt = ae.Event.CreatedAt,
+                UpdatedAt = ae.Event.UpdatedAt,
+                IsDisable = ae.Event.IsDisable
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = pageIndex,
+            PageSize = pageSize
+        };
+    }
 }
