@@ -1,807 +1,888 @@
-# Admin — Nghiệp vụ (Business Rules)
+# Nghiệp vụ API theo role — kiểm tra từ code đang chạy
 
-> Chỉ ghi các check **nghiệp vụ** (BadRequest, Conflict, Forbidden).  
-> Không ghi: check role, check tồn tại (NotFound), pagination, enum parse, check read-only.
-
----
-
-## 1. AdminEventController
-
-### POST /api/v1/admin/events — `CreateEvent`
-- **EndTime > StartTime** — event phải có thời gian kết thúc sau thời gian bắt đầu
-
-### PATCH /api/v1/admin/events/{eventId} — `UpdateEvent`
-- **Không cho update event Closed** — chỉ cho phép sửa IsDisable (mở/ẩn)
-- **Status transitions:**
-  - ❌ Published → Draft (ko hạ)
-  - ❌ Draft → Closed (ko nhảy cóc — phải Publish trước)
-  - Draft → Published: **bắt buộc setup đủ** (gọi IsEventSetupComplete)
-- **EndTime > StartTime** — nếu có cập nhật thời gian
-- **IsDisable = false của Draft** → phải setup đủ mới show
-- **Tự động tạo LeaderBoard** nếu event chưa có và đã có StartTime
-
-### POST /api/v1/admin/events/{eventId}/delete — `DeleteEvent`
-- Ko delete event đã delete (IsDisable)
-
-### POST /api/v1/admin/events/{eventId}/restore — `RestoreEvent`
-- Ko restore event chưa delete
-- Tự động tạo/tìm LeaderBoard
+> Phạm vi: Admin, Staff, Student, Judge, Lecturer.
+>
+> Chỉ ghi **business rule đang active**: điều kiện gây `BadRequest`, `Conflict`, `Forbidden`, ownership/assignment/team membership, trạng thái chuyển tiếp, giới hạn số lượng, tính điểm, visibility/filter ẩn và side effect nghiệp vụ.
+>
+> Không ghi: authorization role chung, pagination, parse enum/query thông thường hoặc check entity tồn tại đơn thuần (`NotFound`).
+>
+> GitNexus MCP đã được gọi lại bằng `query`, `list_repos` và resource API nhưng server bị health hook chặn với `spawn EINVAL`. Vì vậy bản kiểm tra này được đối chiếu trực tiếp từ toàn bộ controller/service/helper liên quan; không tuyên bố là kết quả GitNexus khi MCP chưa chạy được.
 
 ---
 
-## 2. AdminRoundController
+# I. Admin
 
-### POST /api/v1/admin/rounds — `CreateRound`
-- **Duplicate name** trong cùng event
-- **EndTime > StartTime**
-- **Round time phải nằm trong event time** (StartTime >= event.StartTime, EndTime <= event.EndTime)
-- **Round no ≥ 2: StartTime phải >= EndTime của round trước** (previous round)
-- Auto-calculate RoundNo (max + 1)
-- Cập nhật NumberRound của event (+1)
+## 1. Event
 
-### PATCH /api/v1/admin/rounds/{roundId} — `UpdateRound`
-- **Bắt buộc có StartTime + EndTime** (khi update)
-- **EndTime > StartTime**
-- **Round time phải nằm trong event time**
-- **Previous round: StartTime >= EndTime của round trước**
-- Re-validate các field sau update
+### `POST /api/v1/admin/events` — `CreateEvent`
 
-### POST /api/v1/admin/rounds/{roundId}/swap — `SwapRound`
-- **TargetRoundNo > 0**
-- **Ko swap round đã delete** (IsDisable == true hoặc RoundNo == 0)
-- **Ko swap với chính nó**
-- Swap RoundNo, StartTime, EndTime, StartSubmission, EndSubmission giữa 2 round
+- `EndTime` phải lớn hơn `StartTime`; sai trả `End Time Must Be After Start Time`.
+- Event mới luôn được tạo với `Status = Draft`, `IsDisable = true`, `NumberRound = 0`.
 
-### POST /api/v1/admin/rounds/{roundId}/delete — `DeleteRound`
-- Set RoundNo = 0, IsDisable = true
-- **Giảm NumberRound của event** (không âm)
-- **Các round có RoundNo > round bị xóa → giảm RoundNo đi 1**
+### `GET /api/v1/admin/events/{eventId}/setup-check` — `IsEventSetupComplete`
 
-### POST /api/v1/admin/rounds/{roundId}/restore — `RestoreRound`
-- **Chỉ restore round đã delete** (IsDisable == true)
-- RoundNo mới = max roundNo hiện tại + 1
-- **Xóa toàn bộ thời gian** (StartTime, EndTime, StartSubmission, EndSubmission = null)
-- Cộng lại NumberRound của event
+Event được coi là setup đủ khi có:
 
-### POST /api/v1/admin/rounds/{roundId}/end — `EndRound`
-- **Set EndTime = hiện tại**
-- **Set EndSubmission = hiện tại**
+- `Name` không rỗng.
+- `EndTime` có giá trị và lớn hơn `StartTime`.
+- `Season` có giá trị.
+- `Description` không rỗng.
+- `LimitTeam > 0`.
+- `MinMember > 0`.
+- `MaxMember > 0`.
+- Có ít nhất một round.
 
----
+### `PATCH /api/v1/admin/events/{eventId}` — `UpdateEvent`
 
-## 3. AdminRegisterTeamController
+- Event `Closed` chỉ được đổi `IsDisable`; gửi bất kỳ field khác trả `Cannot Update A Closed Event`.
+- Không cho `Published -> Draft`: `Cannot Change Status From Published Back To Draft`.
+- Không cho `Draft -> Closed`: phải publish trước.
+- `Draft -> Published` chỉ thành công khi setup-check đầy đủ; lỗi liệt kê các field còn thiếu.
+- Nếu request đổi `StartTime` hoặc `EndTime`, giá trị sau merge phải thỏa `EndTime > StartTime`.
+- Bật hiển thị Draft (`IsDisable = false`) cũng yêu cầu setup-check đầy đủ.
+- Đổi `StartTime` cập nhật `Year` của leaderboard đã tồn tại.
+- Nếu event chưa có leaderboard và đã có `StartTime`, tự tạo leaderboard với `Year = StartTime.Year`, `IsPublished = true`.
 
-### POST /api/v1/admin/register-teams/{registerTeamId}/approve — `ApproveRegisterTeam`
-- **Chỉ approve Pending**
-- **Round 1 full check** — nếu LimitTeam != null && số team >= LimitTeam → ko approve
-- **Conflict check** — thành viên team đã được duyệt ở team khác trong cùng event? → ko approve
-- **Lock team** — CanEdit = false (ko thể sửa member)
-- **Tự động add team vào Round đầu tiên** (tạo RoundDetail)
+### `POST /api/v1/admin/events/{eventId}/delete` — `DeleteEvent`
 
-### POST /api/v1/admin/register-teams/{registerTeamId}/reject — `RejectRegisterTeam`
-- **Chỉ reject Pending**
-- **Unlock team** — CanEdit = true
+- Không xóa lại event đã disable: `Event Is Already Deleted`.
+- Xóa mềm bằng `IsDisable = true`.
 
-### POST /api/v1/admin/register-teams/{registerTeamId}/assign-next-round — `AssignToNextRound`
-- **Ko up round nếu đang ở round cuối** (ko có roundNo + 1)
-- **Ko gán trùng** — team đã có round detail cho round này
-- **Round full check** — LimitTeam của round tiếp theo
+### `POST /api/v1/admin/events/{eventId}/restore` — `RestoreEvent`
 
-### POST /api/v1/admin/register-teams/{registerTeamId}/revert-previous-round — `RevertToPreviousRound`
-- **Cần ≥ 2 round** mới down được
-- **Ko revert nếu round hiện tại đã có submission** — phải xóa submission trước
-- **Hard delete** round detail
-
-### POST /api/v1/admin/register-teams/{registerTeamId}/ban — `BanRegisterTeam`
-- **Chỉ ban Approved** (ko ban Pending/Rejected)
-- **Ko ban lại** (nếu IsBanned == true)
-- Set IsBanned = true, Status = Banned
-
-### POST /api/v1/admin/register-teams/{registerTeamId}/unban — `UnbanRegisterTeam`
-- **Chỉ unban khi đang bị ban** (IsBanned == true)
-- Revert Status = Approved, xóa RejectionReason
-
-### POST /api/v1/admin/register-teams/{registerTeamId}/assign-track-topic — `AssignTrackTopic`
-- **Track phải thuộc cùng event**
-- **Nếu có Topic → Topic phải thuộc Track đó**
-- Ghi đè TrackId/TopicId
-
-### POST /api/v1/admin/register-teams/{registerTeamId}/remove-track-topic — `RemoveTrackTopic`
-- Set TrackId = null, TopicId = null
-
-### PATCH /api/v1/admin/register-teams/{registerTeamId} — `UpdateRegisterTeam`
-- Parse status enum
+- Không restore event chưa bị delete: `Event Is Not Deleted`.
+- Restore event đồng thời bảo đảm leaderboard tồn tại; nếu đã có thì đồng bộ lại `Year` từ `StartTime`.
 
 ---
 
-## 4. AdminAwardController
+## 2. Round
 
-### POST /api/v1/admin/awards — `CreateAward`
-- **Duplicate name** trong cùng event
-- **Auto-calculate LevelAward**: nếu chưa có level 1 → level = 1, nếu có → level = max + 1
+### `POST /api/v1/admin/events/{eventId}/rounds` — `CreateRound`
 
-### PATCH /api/v1/admin/awards/{awardId} — `UpdateAward`
-- *(chỉ update field cơ bản, ko business rule đặc biệt)*
+- Tên round không được trùng trong cùng event: `Round Name Already Exists In This Event`.
+- `EndTime > StartTime`.
+- `StartTime >= Event.StartTime` và `EndTime <= Event.EndTime` nếu event có các mốc tương ứng.
+- `RoundNo` tự động bằng `max RoundNo + 1`.
+- Nếu là round số 2 trở lên, `StartTime` không được nhỏ hơn `EndTime` của round trước.
+- Tạo round tăng `Event.NumberRound` thêm 1.
 
-### POST /api/v1/admin/awards/{awardId}/swap — `SwapAwardLevel`
-- **TargetLevel > 0**
-- **Ko swap award đã delete** (IsDisable || LevelAward == 0)
-- **Ko swap với chính nó** (cùng level)
-- **Target level phải tồn tại** trong event
-- Swap LevelAward giữa 2 award
+### `PATCH /api/v1/admin/rounds/{roundId}` — `UpdateRound`
 
-### POST /api/v1/admin/awards/{awardId}/delete — `DeleteAward`
-- Set LevelAward = 0, IsDisable = true
-- **Các award có LevelAward > level bị xóa → giảm 1**
+- Giá trị sau merge bắt buộc có cả `StartTime` và `EndTime`: `Start Time And End Time Are Required`.
+- `EndTime > StartTime`.
+- Thời gian round phải nằm trong thời gian event.
+- Với round số 2 trở lên, `StartTime` không được nhỏ hơn `EndTime` round trước.
 
-### POST /api/v1/admin/awards/{awardId}/restore — `RestoreAward`
-- LevelAward mới = max level hiện tại + 1
+### `POST /api/v1/admin/rounds/{roundId}/swap` — `SwapRound`
 
----
+- `TargetRoundNo > 0`.
+- Không swap round đã xóa (`IsDisable = true` hoặc `RoundNo = 0`).
+- Không swap với chính round đó.
+- Target round phải thuộc cùng event và có `RoundNo` được yêu cầu.
+- Swap đồng thời `RoundNo`, `StartTime`, `EndTime`, `StartSubmission`, `EndSubmission`.
 
-## 5. AdminTrackController
+### `POST /api/v1/admin/rounds/{roundId}/delete` — `DeleteRound`
 
-### POST /api/v1/admin/tracks — `CreateTrack`
-- **Duplicate title** trong cùng event
+- Xóa mềm: `RoundNo = 0`, `IsDisable = true`.
+- Giảm `Event.NumberRound`, không xuống dưới 0.
+- Các round active có số lớn hơn round bị xóa được giảm `RoundNo` đi 1.
 
-### PATCH /api/v1/admin/tracks/{trackId} — `UpdateTrack`
-- *(no business rule)*
+### `POST /api/v1/admin/rounds/{roundId}/restore` — `RestoreRound`
 
-### POST /api/v1/admin/tracks/{trackId}/delete — `DeleteTrack`
-- IsDisable = true (xóa mềm)
+- Chỉ restore round đang bị xóa: `Round Not Deleted` nếu không.
+- `RoundNo` mới bằng `max RoundNo + 1`.
+- Xóa toàn bộ `StartTime`, `EndTime`, `StartSubmission`, `EndSubmission` khi restore.
+- Tăng `Event.NumberRound` thêm 1.
 
-### POST /api/v1/admin/tracks/{trackId}/restore — `RestoreTrack`
-- IsDisable = false
+### `POST /api/v1/admin/rounds/{roundId}/end-round` — `EndRound`
 
----
-
-## 6. AdminTopicController
-
-### POST /api/v1/admin/topics — `CreateTopic`
-- **Duplicate title** trong cùng track
-
-### PATCH /api/v1/admin/topics/{topicId} — `UpdateTopic`
-- *(no business rule)*
-
-### POST /api/v1/admin/topics/{topicId}/delete — `DeleteTopic`
-- Ko delete topic đã delete
-
-### POST /api/v1/admin/topics/{topicId}/restore — `RestoreTopic`
-- Ko restore topic chưa delete
+- Set `EndTime`, `EndSubmission`, `UpdatedAt` bằng thời điểm hiện tại.
 
 ---
 
-## 7. AdminUserController
+## 3. Register team
 
-### POST /api/v1/admin/users — `CreateUser`
-- **Duplicate email** (check trùng)
+### `PATCH /api/v1/admin/register-teams/{registerTeamId}` — `UpdateRegisterTeam`
 
-### PATCH /api/v1/admin/users/{userId} — `UpdateUser`
-- *(update các field thông thường, ko đặc biệt)*
+- Có thể cập nhật trực tiếp `Description`, `RejectionReason`, `Status`, `IsBanned`, `IsDisable`.
+- Không có state-transition guard ngoài parse status.
 
-### POST /api/v1/admin/users/{userId}/ban — `BanUser`
-- Set BanReason, BannedAt, Status = Banned
-- (IsDisable ko đổi — ban ko ẩn user)
+### `POST /api/v1/admin/register-teams/{registerTeamId}/approve` — `ApproveRegisterTeam`
 
-### POST /api/v1/admin/users/{userId}/unban — `UnbanUser`
-- Xóa BanReason, BannedAt, Status = Active
+- Chỉ approve registration `Pending`.
+- Nếu round đầu có `LimitTeam`, số team trong round phải nhỏ hơn giới hạn.
+- Không approve nếu bất kỳ member **không disabled** của team đã thuộc một registration Approved khác trong cùng event.
+- Khi approve: `Status = Approved`, khóa team (`CanEdit = false`) và tự thêm team vào round đầu nếu có.
 
-### POST /api/v1/admin/users/{userId}/delete — `DeleteUser`
-- IsDisable = true
+### `POST /api/v1/admin/register-teams/{registerTeamId}/reject` — `RejectRegisterTeam`
 
-### POST /api/v1/admin/users/{userId}/restore — `RestoreUser`
-- IsDisable = false
+- Chỉ reject registration `Pending`.
+- Set `Status = Rejected`, lưu rejection reason nếu được gửi.
+- Mở khóa team (`CanEdit = true`).
 
----
+### `POST /api/v1/admin/register-teams/{registerTeamId}/assign-next-round` — `AssignToNextRound`
 
-## 8. AdminTeamController
+- Phải tồn tại round tiếp theo; nếu không: `This Is The Last Round. Cannot Assign To Next Round`.
+- Không tạo trùng `RoundDetail` cho cùng round.
+- Nếu round kế có `LimitTeam`, số team hiện tại phải nhỏ hơn giới hạn.
+- Thành công tạo `RoundDetail` mới, không xóa round cũ.
 
-### PATCH /api/v1/admin/teams/{teamId} — `UpdateTeam`
-- *(no business rule)*
+### `POST /api/v1/admin/register-teams/{registerTeamId}/revert-previous-round` — `RevertToPreviousRound`
 
-### POST /api/v1/admin/teams/{teamId}/delete — `DeleteTeam`
-- Ko delete team đã disable
+- Team phải có ít nhất hai active round details.
+- Round hiện tại không được có submission; nếu có phải xóa submission trước.
+- Revert bằng hard-delete `RoundDetail` của round hiện tại.
 
-### POST /api/v1/admin/teams/{teamId}/restore — `RestoreTeam`
-- IsDisable = false
+### `POST /api/v1/admin/register-teams/{registerTeamId}/ban` — `BanRegisterTeam`
 
-### POST /api/v1/admin/teams/{teamId}/change-leader — `ChangeLeader`
-- **Member mới phải thuộc team**
-- **Ko chuyển leader cho inactive/disabled member**
-- **Ko chuyển cho chính người đang là leader**
-- **Phải có leader hiện tại trong team**
-- Cập nhật IsLeader cho cả cũ và mới
+- Không ban lại registration đang banned.
+- Chỉ ban registration `Approved`.
+- Set `IsBanned = true`, `Status = Banned`, lưu lý do.
 
-### POST /api/v1/admin/teams/{teamId}/lock — `LockTeam`
-- Ko lock team đã lock (CanEdit == false)
+### `POST /api/v1/admin/register-teams/{registerTeamId}/unban` — `UnbanRegisterTeam`
 
-### POST /api/v1/admin/teams/{teamId}/unlock — `UnlockTeam`
-- Ko unlock team đã unlock (CanEdit == true)
+- Chỉ unban khi `IsBanned = true`.
+- Set `IsBanned = false`, `Status = Approved`, xóa `RejectionReason`.
 
----
+### `POST /api/v1/admin/register-teams/{registerTeamId}/assign-track-topic` — `AssignTrackTopic`
 
-## 9. AdminInvitationController
+- Track phải thuộc cùng event với register team.
+- Nếu có Topic, Topic phải thuộc Track được chọn.
+- Ghi đè `TrackId` và `TopicId` hiện tại.
 
-### GET /api/v1/admin/teams/{teamId}/invitations — `GetInvitations`
-- *(chỉ đọc, không business rule)*
+### `POST /api/v1/admin/register-teams/{registerTeamId}/remove-track-topic` — `RemoveTrackTopic`
 
----
-
-## 10. AdminNotificationController
-
-### POST /api/v1/admin/notifications — `CreateNotification`
-- **System**: ko cần UserId/TeamId
-- **Team**: yêu cầu TeamId, bỏ qua UserId
-- **Personal**: yêu cầu UserId
-
-### POST /api/v1/admin/notifications/{notificationId}/delete — `DeleteNotification`
-- Ko delete notification đã disable
-
-### POST /api/v1/admin/notifications/{notificationId}/restore — `RestoreNotification`
-- IsDisable = false
-
-### PATCH /api/v1/admin/notifications/{notificationId} — `UpdateNotification`
-- *(no business rule)*
-
-### POST /api/v1/admin/my-notifications/{notificationId}/read — `ReadNotification`
-- **Chỉ đọc được của mình hoặc System**
-- Nếu đã Read rồi thì skip (ko save lại)
-
-### POST /api/v1/admin/my-notifications/read-all — `ReadAllNotifications`
-- Đọc tất cả Unread của admin đó
+- Set cả `TrackId` và `TopicId` về null.
 
 ---
 
-## 11. AdminAssignController
+## 4. Award
 
-### POST /api/v1/admin/assign/user-to-event — `AssignUserToEvent`
-- **Ko assign user đã disable**
-- **Ko assign user đã ban**
-- **Ko assign Student** (chỉ Staff/Lecturer)
-- **Ko assign Admin**
-- **Staff chỉ được role Staff**
-- **Lecturer ko được role Staff** (chỉ Judge/Mentor)
-- **Nếu assign đã tồn tại + IsDisable → re-enable + update role**
-- **Nếu assign đã tồn tại + !IsDisable → Conflict**
+### `POST /api/v1/admin/events/{eventId}/awards` — `CreateAward`
 
-### POST /api/v1/admin/assign/change-lecturer-role — `AssignEventRoleToLecturer`
-- **Chỉ dành cho Lecturer**
-- **Ko assign Staff role cho Lecturer**
-- Parse role
+- Tên award không được trùng trong cùng event.
+- Award đầu tiên có `LevelAward = 1`; các award sau nhận `max level + 1`.
 
-### POST /api/v1/admin/assign/{assignEventId}/assign-track — `AssignTrackToEvent`
-- **Staff ko được assign track**
-- **Track phải thuộc cùng event**
-- **Ko assign track đã được assign (Conflict)**
+### `POST /api/v1/admin/awards/{awardId}/swap` — `SwapAwardLevel`
 
-### POST /api/v1/admin/assign/{assignEventId}/remove-track/{trackId} — `RemoveTrackFromEvent`
-- Set IsDisable = true
+- `TargetLevel > 0`.
+- Không swap award bị delete (`IsDisable = true` hoặc `LevelAward = 0`).
+- Không swap với chính level hiện tại.
+- Target level phải tồn tại và active trong cùng event.
+- Thành công đổi level giữa hai award.
 
-### POST /api/v1/admin/assign/{assignEventId}/restore-track/{trackId} — `RestoreTrackToEvent`
-- Set IsDisable = false
-- Ko restore track đã active
+### `POST /api/v1/admin/awards/{awardId}/delete` — `DeleteAward`
 
-### POST /api/v1/admin/assign/{assignEventId}/remove — `RemoveAssignEvent`
-- Set IsDisable + disable tất cả tracks của assign đó
-- Ko remove assign đã remove
+- Set `IsDisable = true`, `LevelAward = 0`.
+- Các award có level cao hơn level bị xóa được giảm 1.
 
-### POST /api/v1/admin/assign/{assignEventId}/restore — `RestoreAssignEvent`
-- Set IsDisable = false + restore tất cả tracks
-- Ko restore assign đã active
+### `POST /api/v1/admin/awards/{awardId}/restore` — `RestoreAward`
+
+- Restore với `LevelAward = max active level + 1`.
 
 ---
 
-## 12. AdminReportController
+## 5. Track và Topic
 
-### PATCH /api/v1/admin/reports/{reportId} — `UpdateReportStatus`
-- Parse status
+### `POST /api/v1/admin/events/{eventId}/tracks` — `CreateTrack`
 
----
+- Title không được trùng trong cùng event.
 
-## 13. AdminScoreController
+### `POST /api/v1/admin/tracks/{trackId}/topics` — `CreateTopic`
 
-*(Read-only — không có business mutation)*
+- Title không được trùng trong cùng track.
 
----
+### `POST /api/v1/admin/topics/{topicId}/delete` — `DeleteTopic`
 
-## 14. AdminSubmissionController
+- Không delete lại topic đã delete.
 
-*(Read-only — không có business mutation)*
+### `POST /api/v1/admin/topics/{topicId}/restore` — `RestoreTopic`
 
----
+- Chỉ restore topic đang delete; nếu chưa delete trả `Topic Is Not Deleted`.
 
-## 15. AdminLeaderboardController
-
-### POST /api/v1/admin/leaderboard/chapter/{year}/publish — `PublishChapter`
-- *(delegate helper)*
-
-### POST /api/v1/admin/leaderboard/chapter/{year}/hide — `HideChapter`
-- *(delegate helper)*
-
-### POST /api/v1/admin/leaderboard/events/{eventId}/publish — `PublishEvent`
-- *(delegate helper)*
-
-### POST /api/v1/admin/leaderboard/events/{eventId}/hide — `HideEvent`
-- *(delegate helper)*
+Các update/delete/restore Track chỉ đổi field/`IsDisable`, không có state guard đặc biệt.
 
 ---
 
-## 16. AdminCriteriaTemplateController
+## 6. User và Team
 
-### POST /api/v1/admin/criteria-templates — `CreateCriteriaTemplate`
-- *(tạo template + items — ko có check đặc biệt)*
+### `POST /api/v1/admin/users` — `CreateUser`
 
-### PATCH /api/v1/admin/criteria-templates/{templateId} — `UpdateCriteriaTemplate`
-- *(no business rule)*
+- Email không được trùng; trùng trả Conflict `Email Already Exists`.
+- User được tạo với password mặc định `string`, `IsVerified = true`, `Status = Active`.
 
-### POST /api/v1/admin/criteria-templates/{templateId}/activate — `ActivateCriteriaTemplate`
-- **Ko activate template đã delete**
-- **Chỉ 1 template active/round** — tất cả template khác trong round bị deactivate
-- Ko activate template đã active
+### `POST /api/v1/admin/users/{userId}/ban` — `BanUser`
 
-### POST /api/v1/admin/criteria-templates/{templateId}/delete — `DeleteCriteriaTemplate`
-- **Ko delete template đang active** — phải deactivate (activate template khác) trước
+- Set `BanReason`, `BannedAt`, `Status = Banned`.
+- Không set `IsDisable`; user bị ban vẫn visible theo rule hiện tại.
 
-### POST /api/v1/admin/criteria-templates/{templateId}/restore — `RestoreCriteriaTemplate`
-- IsDisable = false
+### `POST /api/v1/admin/users/{userId}/unban` — `UnbanUser`
 
-### POST /api/v1/admin/criteria-templates/{templateId}/items — `CreateCriteriaItem`
-- *(no business rule)*
+- Xóa ban reason/time và set `Status = Active`.
 
-### PATCH /api/v1/admin/criteria-templates/items/{itemId} — `UpdateCriteriaItem`
-- *(no business rule)*
+### `POST /api/v1/admin/teams/{teamId}/delete` — `DeleteTeam`
 
-### POST /api/v1/admin/criteria-templates/items/{itemId}/delete — `DeleteCriteriaItem`
-- IsDisable = true
+- Không disable lại team đã disabled.
 
-### POST /api/v1/admin/criteria-templates/items/{itemId}/restore — `RestoreCriteriaItem`
-- IsDisable = false
+### `POST /api/v1/admin/teams/{teamId}/change-leader` — `ChangeLeader`
 
----
+- New leader phải là member của team.
+- New leader phải active và không disabled.
+- Team phải có leader active hiện tại.
+- Không chuyển cho member đã là leader.
+- Thành công hạ leader cũ và nâng leader mới.
 
-# Staff — Nghiệp vụ (Business Rules)
+### `POST /api/v1/admin/teams/{teamId}/lock` — `LockTeam`
 
-> Staff có quyền **giới hạn hơn Admin**:
-> - Phải được **assign vào event** mới thao tác được (mọi mutation đều check `EnsureStaffAssignedToEvent`)
-> - Chỉ thao tác trên **Lecturer** (ko được assign/remove Staff)
-> - Các API RegisterTeam giống hệt Admin nhưng có check staff assignment
+- Không lock team đã khóa (`CanEdit = false`).
+
+### `POST /api/v1/admin/teams/{teamId}/unlock` — `UnlockTeam`
+
+- Không unlock team đang editable (`CanEdit = true`).
 
 ---
 
-## 1. StaffEventController
+## 7. Notification
 
-### GET /api/v1/staff/my-events — `GetMyEvents`
-- *(chỉ đọc events được assign — ko business rule)*
+### `POST /api/v1/admin/notifications` — `CreateNotification`
 
-### GET /api/v1/staff/my-staff-events — `GetMyStaffEvents`
-- *(chỉ đọc events được assign — ko business rule)*
+- `System`: bỏ qua `UserId`/`TeamId`, tạo một notification global.
+- `Team`: bắt buộc `TeamId`, bỏ qua `UserId`.
+- `Personal`: bắt buộc `UserId`, `TeamId = null`.
 
-### GET /api/v1/staff/my-current-events — `GetMyCurrentEvents`
-- *(chỉ đọc events được assign — ko business rule)*
+### `POST /api/v1/admin/notifications/{notificationId}/delete` — `DeleteNotification`
 
-### GET /api/v1/staff/events/{eventId} — `GetMyEventDetail`
-- *(chỉ đọc — ko business rule)*
+- Không disable lại notification đã disabled.
 
----
+### `GET /api/v1/admin/notifications/{notificationId}` — `GetNotificationDetail`
 
-## 2. StaffRoundController
+- **Không** kiểm tra ownership/access. Chỉ check tồn tại. Bất kỳ admin nào cũng xem được mọi notification (Personal của người khác, Team, System).
 
-*(Read-only — chỉ đọc round)*
+### `GET /api/v1/admin/notifications/recent` — `GetRecentNotifications`
 
----
+- Dùng `GetRecentAsync` chỉ filter `!IsDisable`, **không** giới hạn user scope. Trả về tất cả notification (Personal của bất kỳ ai, Team, System) không bị disable — khác biệt với Lecturer (xem mục V.5).
 
-## 3. StaffRegisterTeamController
+### `GET /api/v1/admin/notifications/my/{notificationId}` — `GetMyNotificationDetail`
 
-> Giống Admin RegisterTeam, nhưng có **thêm check staff assignment**.  
-> Xem chi tiết ở mục 3 Admin để biết business rules đầy đủ.
+- Chỉ truy cập notification Personal của chính admin hoặc System.
+- Team notification không được chấp nhận bởi method này.
 
-### POST /api/v1/staff/register-teams/{registerTeamId}/approve — `ApproveRegisterTeam`
-- **Chỉ approve Pending**
-- **Round 1 full check**
-- **Conflict check** — thành viên team đã được duyệt ở team khác trong cùng event?
-- **Lock team** — CanEdit = false
+### `POST /api/v1/admin/notifications/my/{notificationId}/read` — `ReadNotification`
 
-### POST /api/v1/staff/register-teams/{registerTeamId}/reject — `RejectRegisterTeam`
-- **Chỉ reject Pending**
-- **Unlock team** — CanEdit = true
+- Chỉ mark-read notification Personal của chính admin hoặc System.
+- Method luôn set `Read` và save; không có nhánh skip khi đã Read.
 
-### POST /api/v1/staff/register-teams/{registerTeamId}/assign-next-round — `AssignToNextRound`
-- **Ko up round cuối**
-- **Ko gán trùng**
-- **Round full check**
+### `POST /api/v1/admin/notifications/my/read-all` — `ReadAllNotifications`
 
-### POST /api/v1/staff/register-teams/{registerTeamId}/revert-previous-round — `RevertToPreviousRound`
-- **Cần ≥ 2 round**
-- **Ko revert nếu round hiện tại có submission**
-
-### POST /api/v1/staff/register-teams/{registerTeamId}/ban — `BanRegisterTeam`
-- **Chỉ ban Approved**
-- **Ko ban lại**
-
-### POST /api/v1/staff/register-teams/{registerTeamId}/unban — `UnbanRegisterTeam`
-- **Chỉ unban khi đang bị ban**
-
-### POST /api/v1/staff/register-teams/{registerTeamId}/assign-track-topic — `AssignTrackTopic`
-- **Track phải thuộc cùng event**
-- **Topic phải thuộc Track đó**
-
-### POST /api/v1/staff/register-teams/{registerTeamId}/remove-track-topic — `RemoveTrackTopic`
-- Set TrackId = null, TopicId = null
-
-### PATCH /api/v1/staff/register-teams/{registerTeamId} — `UpdateRegisterTeam`
-- **Staff KO được sửa IsBanned, IsDisable** — chỉ Admin
+- Chỉ lấy các notification Unread trong inbox của admin theo repository scope và set tất cả thành Read.
 
 ---
 
-## 4. StaffAwardController
+## 8. Assign event/track
 
-*(Read-only — chỉ đọc award)*
+> Base route của controller: `/api/v1/admin/assign`.
 
----
+### `POST /api/v1/admin/assign/events/{eventId}/assign/users` — `AssignUserToEvent`
 
-## 5. StaffTrackController
+- Không assign user disabled hoặc banned.
+- Không assign Student hoặc Admin.
+- User role Staff chỉ được event role Staff.
+- User role Lecturer không được event role Staff; chỉ Judge/Mentor.
+- Assignment cũ disabled được re-enable và đổi role.
+- Assignment đang active gây Conflict `User Is Already Assigned To This Event`.
 
-*(Read-only — chỉ đọc track)*
+### `PATCH /api/v1/admin/assign/event-assigns/{assignEventId}/event-role` — `AssignEventRoleToLecturer`
 
----
+- Chỉ đổi role cho user có global role Lecturer.
+- Không gán event role Staff cho Lecturer.
+- Lưu ý code lấy `oldRoleName` sau khi đổi `EventRoleId`; navigation có thể vẫn phản ánh role cũ tùy tracking, nhưng rule nghiệp vụ là gửi notification old -> new.
 
-## 6. StaffTopicController
+### `POST /api/v1/admin/assign/event-assigns/{assignEventId}/tracks` — `AssignTrackToEvent`
 
-*(Read-only — chỉ đọc topic)*
+- Assignment có event role Staff không được gán track.
+- Track phải thuộc cùng event.
+- Không gán trùng track cho cùng assignment; trùng trả Conflict.
 
----
+### `POST /api/v1/admin/assign/event-assigns/{assignEventId}/tracks/{trackId}/restore` — `RestoreTrackToEvent`
 
-## 7. StaffUserController
+- Chỉ restore assign-track đang disabled; active trả `Assign Track Is Already Active`.
 
-*(Read-only — chỉ xem user)*
+### `POST /api/v1/admin/assign/event-assigns/{assignEventId}/remove` — `RemoveAssignEvent`
 
----
+- Không remove assignment đã removed.
+- Remove assignment đồng thời disable toàn bộ assign-tracks.
 
-## 8. StaffTeamController
+### `POST /api/v1/admin/assign/event-assigns/{assignEventId}/restore` — `RestoreAssignEvent`
 
-*(Read-only — chỉ xem team)*
+- Không restore assignment đang active.
+- Restore assignment đồng thời restore toàn bộ assign-tracks.
 
----
+### `GET /api/v1/admin/assign/users/{userId}/assign-events` — `GetUserAssignEvents`
 
-## 9. StaffNotificationController
-
-### POST /api/v1/staff/notifications — `CreateNotification`
-- **System**: ko cần UserId/TeamId
-- **Team**: yêu cầu TeamId
-- **Personal**: yêu cầu UserId
-
-### POST /api/v1/staff/notifications/{notificationId}/delete — `DeleteNotification`
-- Ko delete notification đã disable
-
-### POST /api/v1/staff/notifications/{notificationId}/restore — `RestoreNotification`
-- IsDisable = false
-
-### PATCH /api/v1/staff/notifications/{notificationId} — `UpdateNotification`
-- *(no business rule)*
-
-### POST /api/v1/staff/my-notifications/{notificationId}/read — `ReadMyNotification`
-- **Chỉ đọc được của mình hoặc System**
-
-### POST /api/v1/staff/my-notifications/read-all — `ReadAllMyNotifications`
-- Đọc tất cả Unread của staff đó
+- Target user phải có global role Staff hoặc Lecturer.
 
 ---
 
-## 10. StaffAssignController
+## 9. Criteria template
 
-### POST /api/v1/staff/assign/lecturer-to-event/{eventId} — `AssignLecturerToEvent`
-- **Ko assign user đã disable**
-- **Ko assign user đã ban**
-- **Chỉ assign Lecturer** (ko assign Staff)
-- **Staff chỉ được role Judge/Mentor** — ko được assign Staff role
-- **Nếu assign đã tồn tại + IsDisable → re-enable + update role**
-- **Nếu assign đã tồn tại + !IsDisable → Conflict**
+### `POST /api/v1/admin/rounds/{roundId}/criteria-templates` — `CreateCriteriaTemplate`
 
-### GET /api/v1/staff/assign/events/{eventId}/users — `GetAssignedUsers`
-- **Filter IsDisable = false** (chỉ hiện active)
+- Tạo template cùng toàn bộ items trong một lần.
+- Không tự activate template.
 
-### POST /api/v1/staff/assign/{assignEventId}/remove — `RemoveAssignEvent`
-- **Chỉ remove Lecturer** (ko remove Staff)
-- Có check staff assignment
-- Ko remove assign đã remove
-- Cascade disable tất cả tracks
+### `POST /api/v1/admin/criteria-templates/{templateId}/activate` — `ActivateCriteriaTemplate`
 
-### POST /api/v1/staff/assign/{assignEventId}/restore — `RestoreAssignEvent`
-- **Chỉ restore Lecturer** (ko restore Staff)
-- Ko restore assign đã active
-- Cascade restore tất cả tracks
+- Không activate template đã delete.
+- Không activate lại template đã active.
+- Chỉ một template active trong mỗi round: activate template được chọn và deactivate các template còn lại.
 
-### POST /api/v1/staff/assign/{assignEventId}/assign-track/{trackId} — `AssignTrackToEvent`
-- **Chỉ assign track cho Lecturer** (ko cho Staff)
-- Track phải thuộc cùng event
-- **Ko assign track đã được assign (Conflict)**
+### `POST /api/v1/admin/criteria-templates/{templateId}/delete` — `DeleteCriteriaTemplate`
 
-### POST /api/v1/staff/assign/{assignEventId}/remove-track/{trackId} — `RemoveTrackFromEvent`
-- **Chỉ modify Lecturer's tracks**
-- Set IsDisable = true
+- Không delete template đang active; phải chuyển active sang template khác trước.
 
-### POST /api/v1/staff/assign/{assignEventId}/restore-track/{trackId} — `RestoreTrackToEvent`
-- **Chỉ modify Lecturer's tracks**
-- Ko restore track đã active
-
-### GET /api/v1/staff/assign/users/{userId}/events — `GetUserAssignEvents`
-- **Staff phải có ít nhất 1 event assignment** mới dùng được
-- **User phải là Staff hoặc Lecturer**
+Item/template update, restore và item delete chỉ thay field/`IsDisable`, không có state guard đặc biệt khác.
 
 ---
 
-## 11. StaffReportController
+## 10. Leaderboard
 
-### PATCH /api/v1/staff/reports/{reportId} — `UpdateReportStatus`
-- Parse status
-- Gửi notification cho người gửi report
+### Các GET leaderboard — `GetRoundLeaderboard`, `GetEventLeaderboard`, `GetChapterLeaderboard`
 
----
+- `scopeScore` của round leaderboard = trung bình `Scores.TotalScore` của các judge đã chấm; judge chưa có score bị bỏ qua, điểm 0 vẫn tính; không ai chấm thì helper trả 0.
+- **Caveat API team-round-score:** Admin/Staff `GetTeamRoundScore` dùng `Average()` trực tiếp khi đã có submission; nếu submission tồn tại nhưng không có score nào có `TotalScore`, code có thể throw thay vì trả 0.
+- `eventScore` = tổng scopeScore các round team đã tham gia.
+- `chapterScore` = tổng eventScore các event trong năm.
+- Xếp hạng dùng `DENSE_RANK`: cùng điểm cùng rank, rank kế tăng 1, không nhảy số.
+- Admin Event leaderboard chỉ trả khi leaderboard `IsPublished = true` và không disabled.
+- Admin Chapter leaderboard chỉ dùng leaderboard `IsPublished = true` và không disabled.
+- Event leaderboard chỉ lấy Approved registrations qua repository; chapter còn loại register team disabled/banned.
+- Tính rank trên toàn bộ dữ liệu rồi mới phân trang.
 
-## 12. StaffScoreController
+### `POST /api/v1/admin/events/chapter/{year}/leaderboard/publish` — `PublishChapter`
 
-*(Read-only — chỉ đọc score)*
+- Set tất cả leaderboard trong năm `IsDisable = false`, `IsPublished = true`.
 
----
+### `POST /api/v1/admin/events/chapter/{year}/leaderboard/hide` — `HideChapter`
 
-## 13. StaffSubmissionController
+- Set tất cả leaderboard trong năm `IsDisable = true`.
 
-*(Read-only — chỉ đọc submission, có check staff assignment)*
+### `POST /api/v1/admin/events/{eventId}/leaderboard/publish` — `PublishEvent`
 
----
+- Set leaderboard event `IsDisable = false`, `IsPublished = true`.
 
-## 14. StaffLeaderboardController
+### `POST /api/v1/admin/events/{eventId}/leaderboard/hide` — `HideEvent`
 
-*(Delegate helper — giống Admin)*
-
----
-
-## 15. StaffCriteriaTemplateController
-
-*(Giống Admin CriteriaTemplate)*
-
----
-
-# Student — Nghiệp vụ (Business Rules)
-
-> Student tự quản lý team, invitation, đăng ký event, submission, report.
-> Các API đọc (Event, Round, Track, Topic, Award, Leaderboard, User) — không có business rule.
+- Set leaderboard event `IsDisable = true`.
 
 ---
 
-## 1. StudentTeamController
+## 11. Report
 
-### POST /api/v1/student/teams — `CreateTeam`
-- **Duplicate team name** (ko trùng tên)
-- **Phải có profile hoàn chỉnh** — gọi `StudentProfileHelper.ValidateProfile` (check StudentId, PhoneNumber, Address...)
+### `PATCH /api/v1/admin/reports/{reportId}/status` — `UpdateReportStatus`
 
-### PATCH /api/v1/student/teams/{teamId} — `UpdateTeam`
-- **Team ko bị disable**
-- **Team đang editable** (CanEdit == true)
-- **Chỉ leader mới được update team**
-- Chỉ sửa được Name
-
-### POST /api/v1/student/teams/{teamId}/disband — `DisbandTeam`
-- **Chỉ leader mới disband được**
-- **Ko disband nếu team đang tham gia event hoạt động** (Event.StartTime ≤ now ≤ Event.EndTime)
-- Disable tất cả member + team
-
-### POST /api/v1/student/teams/{teamId}/members/{memberId}/kick — `KickMember`
-- **Team editable** (CanEdit == true)
-- **Chỉ leader kick được**
-- **Ko kick chính mình**
-- **Ko kick leader** (chỉ member thường)
-- **Ko kick inactive/disabled member**
-- **Xóa cứng TeamDetails** (không IsDisable, xóa khỏi DB)
-
-### POST /api/v1/student/teams/{teamId}/change-leader — `ChangeLeader`
-- **Ko chuyển cho chính mình**
-- **Chỉ leader mới chuyển được**
-- **Member mới phải thuộc team**
-- **Ko chuyển cho inactive/disabled member**
-- Cập nhật IsLeader cho cả cũ và mới
-
-### POST /api/v1/student/teams/{teamId}/leave — `LeaveTeam`
-- **Team editable** (CanEdit == true)
-- **Leader ko leave được** — phải disband hoặc change leader trước
-- Set IsDisable = true, Status = Inactive
+- Ghi đè `Status` và `Reason`.
+- Gửi Personal notification cho người tạo report.
+- Không có state-transition guard (ví dụ Pending -> Resolved) ngoài parse enum.
 
 ---
 
-## 2. StudentInvitationController
+# II. Staff
 
-### POST /api/v1/student/teams/{teamId}/invitations — `SendInvitation`
-- **Team editable** (CanEdit == true)
-- **Chỉ leader mới gửi invitation**
-- **Ko invite disabled user**
-- **Người nhận ko được là member rồi**
-- **Ko gửi trùng** — đã có Pending invitation cho user đó trong team này
-- LimitTime mặc định = now + 15 ngày
+## Rule assignment dùng chung
 
-### POST /api/v1/student/invitations/{invitationId}/accept — `AcceptInvitation`
-- **Phải có profile hoàn chỉnh**
-- **Chỉ người được mời mới accept được**
-- **Chỉ accept Pending**
-- **Check limit time** — nếu hết hạn → tự động set Expired
-- **Team editable** (CanEdit == true)
-- **User chưa là member của team đó**
-- Tự động add team member (IsLeader = false, Status = Active)
+- Nhiều API Staff gọi `StaffAssignmentHelper.ValidateAndGetAssignmentAsync`: phải tìm thấy assignment theo user/event và event không disabled; nếu không trả Forbidden `You Are Not Assigned to This Event`.
+- **Caveat:** repository mà helper dùng không lọc `AssignEvent.IsDisable`, nên assignment đã remove vẫn có thể vượt qua guard này.
 
-### POST /api/v1/student/invitations/{invitationId}/reject — `RejectInvitation`
-- **Chỉ người được mời mới reject được**
-- **Chỉ reject Pending**
+## 1. Register team
 
----
+Mọi mutation bên dưới có thêm assignment guard theo event của register team.
 
-## 3. StudentTrackTopicRegisterTeamController
+### `PATCH /api/v1/staff/register-teams/{registerTeamId}` — `UpdateRegisterTeam`
 
-### POST /api/v1/student/register-teams — `CreateRegisterTeam`
-- **Chỉ leader mới register được**
-- **Ko register vào Draft/Closed event**
-- **Số lượng active member phải trong khoảng [MinMember, MaxMember]** của event
-- **Ko register nếu team đã bị ban** từ event đó
-- **Nếu đã từng bị Rejected → reset thành Pending**
-- **Nếu đã đăng ký rồi → báo lỗi**
-- **Conflict check** — thành viên team đã được duyệt ở team khác trong cùng event?
-- **Lock team** — CanEdit = false
+- Staff chỉ sửa Description, RejectionReason và Status.
+- Service không cho Staff sửa `IsBanned`/`IsDisable`.
 
-### GET /api/v1/student/events/{eventId}/register-teams — `GetRegisterTeams`
-- *(read-only, chỉ Approved + ko banned/disabled)*
+### `POST /api/v1/staff/register-teams/{registerTeamId}/approve` — `ApproveRegisterTeam`
 
-### GET /api/v1/student/register-teams/{registerTeamId} — `GetRegisterTeamDetail`
-- *(read-only, chỉ Approved + ko banned/disabled)*
+- Chỉ Pending.
+- Round 1 không được full.
+- Không có member không-disabled đã Approved ở team khác cùng event.
+- Thành công khóa team và thêm vào round đầu nếu có.
 
-### GET /api/v1/student/teams/{teamId}/register-teams — `GetRegisterTeamsByTeam`
-- *(read-only, chỉ Approved)*
+### `POST /api/v1/staff/register-teams/{registerTeamId}/reject` — `RejectRegisterTeam`
 
----
+- Chỉ Pending.
+- Thành công mở khóa team.
 
-## 4. StudentSubmissionController
+### `POST /api/v1/staff/register-teams/{registerTeamId}/ban` — `BanRegisterTeam`
 
-### POST /api/v1/student/submissions — `CreateSubmission`
-- **RegisterTeam phải Approved** (ko bị banned/disabled)
-- **Phải có Track + Topic assigned**
-- **Event phải Published** (ko Draft/Closed)
-- **Chỉ leader mới submit được**
-- **Round phải thuộc cùng event**
-- **Team phải registered trong round đó** (có RoundDetail)
+- Không ban lại registration đang banned.
+- Chỉ ban registration Approved.
 
----
+### `POST /api/v1/staff/register-teams/{registerTeamId}/unban` — `UnbanRegisterTeam`
 
-## 5. StudentReportController
+- Chỉ unban khi đang banned; trả về Approved và xóa rejection reason.
 
-### POST /api/v1/student/reports — `CreateReport`
-- *(tạo report, ko business rule đặc biệt)*
+### `POST /api/v1/staff/register-teams/{registerTeamId}/assign-next-round` — `AssignToNextRound`
 
-### POST /api/v1/student/reports/{reportId}/cancel — `CancelReport`
-- **Chỉ cancel report của mình**
-- **Chỉ cancel Pending** — ko cancel đã xử lý
+- Phải có round kế tiếp.
+- Không tạo RoundDetail trùng.
+- Round kế không được full.
 
----
+### `POST /api/v1/staff/register-teams/{registerTeamId}/revert-previous-round` — `RevertToPreviousRound`
 
-## 6. StudentNotificationController
+- Cần ít nhất hai active RoundDetails.
+- Current round không được có submission.
 
-### POST /api/v1/student/notifications/{notificationId}/read — `ReadNotification`
-- **Chỉ đọc được của mình, của team mình, hoặc System**
-- Nếu đã Read rồi thì skip
+### `POST /api/v1/staff/register-teams/{registerTeamId}/assign-track-topic` — `AssignTrackTopic`
 
-### POST /api/v1/student/notifications/read-all — `ReadAllNotifications`
-- Đọc tất cả Unread của student đó (personal + team + system)
+- Track phải cùng event với RegisterTeam.
+- Topic phải thuộc Track được chọn.
 
----
+### `POST /api/v1/staff/register-teams/{registerTeamId}/remove-track-topic` — `RemoveTrackTopic`
 
-## 7. StudentUserController
+- Set `TrackId` và `TopicId` về null.
 
-### GET /api/v1/student/users/{userId} — `GetUserDetail`
-- *(chỉ đọc public profile — ko business rule)*
+## 2. Assign lecturer
 
----
+> Base route: `/api/v1/staff/assign`.
 
-## 8. StudentAssignController
+### `POST /api/v1/staff/assign/events/{eventId}/assign/users` — `AssignLecturerToEvent`
 
-*(Read-only — xem assigned users của event)*
+- Staff thực hiện phải được assign vào event.
+- Target user không disabled/banned và phải có global role Lecturer.
+- Chỉ gán event role Judge/Mentor; không gán Staff.
+- Assignment disabled được re-enable; assignment active gây Conflict.
 
----
+### `POST /api/v1/staff/assign/event-assigns/{assignEventId}/remove` — `RemoveAssignEvent`
 
-## 9. StudentLeaderboardController
+- Chỉ remove assignment của Lecturer, không remove Staff.
+- Staff thực hiện phải được assign vào cùng event.
+- Không remove assignment đã removed.
+- Cascade disable toàn bộ assign-tracks.
 
-### GET /api/v1/student/leaderboard/my-year-rank — `GetMyYearRank`
-- **Phải login** mới xem được rank của mình
+### `POST /api/v1/staff/assign/event-assigns/{assignEventId}/restore` — `RestoreAssignEvent`
 
-### GET /api/v1/student/leaderboard/my-year-detail — `GetMyYearDetail`
-- **Phải login**
+- Chỉ restore Lecturer.
+- Không restore assignment active.
+- Cascade restore toàn bộ assign-tracks.
 
-### GET /api/v1/student/events/{eventId}/leaderboard/my-rank — `GetMyEventRank`
-- **Phải login**
+### `POST /api/v1/staff/assign/event-assigns/{assignEventId}/tracks` — `AssignTrackToEvent`
 
----
+- Chỉ gán track cho Lecturer.
+- Track phải thuộc cùng event.
+- Không gán trùng track; trùng trả Conflict.
 
-## 10. Còn lại (Read-only)
+### Remove/restore track
 
-| Controller | API |
-|-----------|-----|
-| StudentEventController | GET events, events/{id}, events/count, events/recent, events/popular |
-| StudentRoundController | GET rounds, rounds/{id} |
-| StudentAwardController | GET awards |
-| StudentTrackTopicRegisterTeamController | GET tracks, topics (còn lại) |
-| StudentCriteriaController | GET criteria-templates, criteria-items |
-| StudentLeaderboardController | GET chapter/event leaderboard |
+- Chỉ sửa track assignment của Lecturer.
+- Restore chỉ áp dụng khi assign-track đang disabled.
 
----
+### `GET /api/v1/staff/assign/users/{userId}/assign-events` — `GetUserAssignEvents`
 
-# Judge — Nghiệp vụ (Business Rules)
+- Staff hiện tại phải có ít nhất một event assignment bất kỳ.
+- Target user phải là Staff hoặc Lecturer.
 
-> Judge là Lecturer được assign Judge role trong event.
-> - Phải được assign vào event + track mới chấm được
-> - Chỉ 1 judge chấm 1 submission 1 lần (upsert — nếu đã có score thì update)
+## 3. Visibility và access cho GET
 
----
+- `GET /api/v1/staff/events` hiện đọc event toàn hệ thống theo filter, không giới hạn assignment.
+- `events/my-staff`, recent và count chỉ lấy assignment không disabled, event không disabled, event role Staff và event không Draft.
+- `GET /api/v1/staff/events/current` chỉ lấy assignment không disabled có event role Staff, event không disabled/không Draft, có đủ Start/End và `StartTime <= now <= EndTime`.
+- Event detail yêu cầu current Staff được assign vào event; chưa assign trả NotFound.
+- Award: Staff phải được assign vào event; chỉ thấy award active.
+- Round: Staff phải được assign vào event chứa round; chỉ thấy round active.
+- Track/Topic: Staff phải được assign vào event; chỉ thấy item active.
+- Criteria template/item: Staff phải được assign vào event suy ra từ round/template/item; list loại item/template disabled.
+- Score detail, submission detail/list và score theo round/register-team: Staff phải được assign vào event liên quan theo từng service method.
+- **Caveat:** một số Staff Score GET dựa trên navigation `RegisterTeam`; nếu navigation null thì assignment guard có thể không chạy.
+- RegisterTeam list/detail: Staff phải được assign vào event liên quan.
+- Team/User: service cho phép đọc toàn hệ thống theo filter, không yêu cầu event assignment.
 
-## JudgeController
+## 4. Staff leaderboard
 
-### POST /api/v1/judge/submissions/{submissionId}/scores — `SubmitScore`
-- **RegisterTeam phải có Track** (để lấy trackId)
-- **Judge phải được assign vào track đó**
-- **Phải có Criteria Template active** cho round đó
-- **Phải chấm hết tất cả criteria items** trong template (ko thiếu)
-- Upsert: nếu judge đã chấm → update score items + tính lại TotalScore
-- Nếu chưa → tạo mới Score
-- Set submission Status = Graded
+- Round/Event leaderboard yêu cầu Staff được assign vào event.
+- Event leaderboard chỉ trả khi leaderboard Published và không disabled.
+- Chapter GET dùng các leaderboard Published và không disabled.
+- Publish/Hide event chỉ cho event được assign.
+- Publish/Hide chapter chỉ tác động các event trong năm mà Staff được assign; nếu không có event nào trả Forbidden `You Are Not Assigned to Any Event In This Year`.
+- Công thức điểm và DENSE_RANK giống phần Admin.
 
-### PATCH /api/v1/judge/submissions/{submissionId}/scores — `UpdateScoreBySubmission`
-- Tìm score của judge hiện tại cho submission đó
-- Nếu chưa chấm → NotFound
-- Delegate sang `UpdateScore`
+## 5. Staff notification
 
-### PATCH /api/v1/judge/scores/{scoreId} — `UpdateScore`
-- **Score phải thuộc judge hiện tại** (ko sửa score của judge khác)
-- Chỉ update các criteria items gửi lên (giữ nguyên items ko gửi)
-- Auto-recalculate TotalScore = SUM các ScoreItems
-- Set submission Status = Graded
+- Create System/Team/Personal dùng cùng target rules như Admin.
+- `GET /api/v1/staff/notifications/{notificationId}` — `GetNotificationDetail`: **không** kiểm tra ownership/access. Chỉ check tồn tại. Bất kỳ staff nào cũng xem được mọi notification.
+- `GET /api/v1/staff/notifications/recent` — `GetRecentNotifications`: dùng `GetRecentAsync` chỉ filter `!IsDisable`, **không** giới hạn user scope. Trả về tất cả notification (Personal của bất kỳ ai, Team, System) không bị disable — khác biệt với Lecturer (xem mục V.5).
+- `notifications/my/{id}` và mark-read chỉ cho Personal của chính Staff hoặc System.
+- Service `ReadMyNotification`/`ReadAllMyNotifications` gọi repository update nhưng hiện không gọi `SaveChangesAsync`; đây là caveat implementation, không phải business rule mong muốn.
 
-### PATCH /api/v1/judge/score-items/{scoreItemId} — `UpdateScoreItem`
-- **Score item phải thuộc judge hiện tại**
-- Auto-recalculate TotalScore của parent Score
-- Chỉ update score/comment nếu có gửi
+## 6. Staff report
+
+### `PATCH /api/v1/staff/reports/{reportId}/status` — `UpdateReportStatus`
+
+- Ghi đè status/reason và gửi Personal notification cho người tạo report.
+- Không có event-assignment guard hoặc state-transition guard trong service hiện tại.
 
 ---
 
-# Lecturer — Nghiệp vụ (Business Rules)
+# III. Student
 
-> Lecturer CHỈ ĐỌC (Read-only).
-> - Phải được assign vào event để xem submissions
-> - Các API mutation: chỉ có **Notification** (Read, ReadAll)
+## 1. Visibility chung cho GET
+
+- Event list/detail/count/recent loại event Draft và disabled theo từng method; Student không được filter lấy Draft.
+- User search/detail loại user disabled; user banned vẫn visible.
+- Track, Topic, Round và Award GET loại entity disabled theo service tương ứng.
+- Criteria list theo round chỉ lấy template vừa `IsActive = true` vừa không disabled; CriteriaItems list/detail loại item disabled.
+- Public chapter/event leaderboard chỉ dùng leaderboard Published và không disabled.
+
+## 2. Team
+
+### `POST /api/v1/student/teams` — `CreateTeam`
+
+- Profile phải đủ: Email, FirstName, LastName, College, StudentId, PhoneNumber.
+- Tên team không được trùng.
+- Creator tự trở thành active leader.
+
+### `PATCH /api/v1/student/teams/{teamId}` — `UpdateTeam`
+
+- Team phải editable (`CanEdit = true`).
+- Chỉ leader có `IsDisable = false` được update; method này không kiểm tra `TeamDetail.Status`.
+- Service chỉ đổi Name.
+
+### `POST /api/v1/student/teams/{teamId}/disband` — `DisbandTeam`
+
+- Chỉ leader có `IsDisable = false` được disband; method này không kiểm tra `TeamDetail.Status`.
+- Không disband nếu team có Approved registration active trong event thỏa `StartTime <= now <= EndTime` (mốc null được coi là không chặn).
+- Thành công disable toàn bộ member, set họ Inactive, disable và khóa team.
+
+### `POST /api/v1/student/teams/{teamId}/members/{memberId}/kick` — `KickMember`
+
+- Team phải editable.
+- Chỉ leader có `IsDisable = false` được kick; method này không kiểm tra `TeamDetail.Status` của leader.
+- Không kick chính mình, inactive/disabled member hoặc leader.
+- Thành công hard-delete `TeamDetails` của member.
+
+### `POST /api/v1/student/teams/{teamId}/change-leader` — `ChangeLeader`
+
+- Không chuyển cho chính current leader.
+- Current user phải là leader có `IsDisable = false`; method này không kiểm tra `TeamDetail.Status` của current leader.
+- Target phải là member của team, `IsDisable = false` và `Status != Inactive`.
+- Thành công hạ leader cũ và nâng leader mới.
+
+### `POST /api/v1/student/teams/{teamId}/leave` — `LeaveTeam`
+
+- Team phải editable.
+- Member active mới leave được.
+- Leader không được leave; phải change leader hoặc disband.
+- Thành công set member disabled + Inactive.
+
+## 3. Invitation
+
+### `POST /api/v1/student/teams/{teamId}/invitations` — `SendInvitation`
+
+- Team phải editable.
+- Chỉ leader có `IsDisable = false` gửi được; method này không kiểm tra `TeamDetail.Status` của leader.
+- Không invite user disabled.
+- Không invite người đã là active member.
+- Không tạo invitation Pending trùng cho cùng user/team.
+- Invitation có `LimitTime = now + 15 days`.
+
+### `GET /api/v1/student/teams/{teamId}/invitations` — `GetSentInvitations`
+
+- Chỉ active leader của team được xem sent invitations.
+
+### `GET /api/v1/student/invitations/{invitationId}` và `/team`
+
+- Service hiện không kiểm tra owner/leader; ai có invitationId có thể gọi theo logic hiện tại.
+
+### `POST /api/v1/student/invitations/{invitationId}/accept` — `AcceptInvitation`
+
+- Profile phải đủ các field của `StudentProfileHelper`.
+- Chỉ đúng invited user được accept.
+- Invitation phải Pending.
+- Hết `LimitTime` thì service đổi status thành Expired, save rồi trả lỗi.
+- Team phải editable.
+- User chưa được là active member của team.
+- Thành công tạo active non-leader `TeamDetails`.
+
+### `POST /api/v1/student/invitations/{invitationId}/reject` — `RejectInvitation`
+
+- Chỉ invited user được reject.
+- Invitation phải Pending.
+
+## 4. Register team
+
+### `POST /api/v1/student/register-teams` — `CreateRegisterTeam`
+
+- Chỉ leader có `IsDisable = false` của team được đăng ký; method này không kiểm tra `TeamDetail.Status` của leader.
+- Event không được Draft hoặc Closed.
+- Số active members phải nằm trong `[Event.MinMember, Event.MaxMember]` khi các limit có giá trị.
+- Nếu registration cũ Banned: chặn đăng ký lại.
+- Nếu registration cũ Rejected: tái sử dụng record, set Pending và xóa rejection reason.
+- Các trạng thái cũ khác: chặn vì team đã đăng ký event.
+- Không đăng ký nếu bất kỳ member có `IsDisable = false` và `Status = Active` đã nằm trong một Approved team khác cùng event.
+- Tạo mới thành công khóa team (`CanEdit = false`).
+
+### GET register team
+
+- Public student list/detail chính chỉ lấy registration Approved, không banned, không disabled.
+- Route `/teams/{teamId}/register-teams/all` cho phép lọc toàn bộ trạng thái theo service hiện tại.
+
+## 5. Submission
+
+### `POST /api/v1/student/submissions` — `CreateSubmission`
+
+- RegisterTeam phải Approved, không banned/disabled.
+- Phải có cả Track và Topic.
+- Event phải Published.
+- Chỉ leader có `IsDisable = false` và `Status = Active` được submit.
+- Round phải thuộc cùng event.
+- Team phải có active `RoundDetail` trong round.
+- Mỗi call tạo một submission mới; không có duplicate/upsert guard.
+
+## 6. Notification
+
+### `GET /api/v1/student/register-teams/{registerTeamId}/mentor-notifications`
+
+- RegisterTeam phải Approved.
+- Current user phải là member active của team.
+- Chỉ lấy mentor notifications qua assign-track cùng Track của RegisterTeam.
+
+### `GET /api/v1/student/mentor-notifications/{mentorNotificationId}`
+
+- User phải thuộc ít nhất một active team có Approved registration cùng Track với notification.
+
+### Notification detail/read
+
+- Personal: chỉ owner.
+- Team: user phải thuộc active team đó.
+- System: được truy cập.
+- `ReadNotification` skip save nếu status đã Read.
+- `ReadAllNotifications` lấy Unread trong scope Personal + active teams + System rồi mark Read.
+
+## 7. Report
+
+### `GET /api/v1/student/reports/{reportId}` — `GetReportDetail`
+
+- Chỉ xem report của chính user; service dùng NotFound để che report người khác.
+
+### `POST /api/v1/student/reports/{reportId}/cancel` — `CancelReport`
+
+- Chỉ cancel report của chính user.
+- Chỉ report Pending được cancel; đã xử lý trả `Cannot Cancel a Report That Has Been Processed`.
+
+## 8. Student leaderboard
+
+- Chapter/Event leaderboard công khai chỉ dùng leaderboard Published và không disabled.
+- My-year rank/detail chỉ trả các active team của current user.
+- My-event rank chỉ trả active team của current user trong event.
+- Công thức scope/event/chapter score và DENSE_RANK giống phần Admin.
 
 ---
 
-### GET /api/v1/lecturer/events/{eventId}/submissions — `GetSubmissions`
-- *(chỉ đọc, check lecturer assigned)*
+# IV. Judge
 
-### GET /api/v1/lecturer/submissions/{submissionId} — `GetSubmissionDetail`
-- *(chỉ đọc, check lecturer assigned)*
+> Judge endpoint dùng global role Lecturer, sau đó kiểm tra assignment có event role Judge.
 
-### GET /api/v1/lecturer/register-teams/{registerTeamId}/competition-status — `GetCompetitionStatus`
-- *(chỉ đọc — dùng UtcNow để xác định round hiện tại, ko phải validation)*
+## 1. Quyền xem dữ liệu
 
-### POST /api/v1/lecturer/notifications/{notificationId}/read — `ReadNotification`
-- **Chỉ đọc được của mình hoặc System**
+### `GET /api/v1/judge/events/{eventId}/tracks` — `GetMyTracks`
 
-### POST /api/v1/lecturer/notifications/read-all — `ReadAllNotifications`
-- Đọc tất cả Unread
+- User phải được assign Judge trong event.
+- Chỉ trả assign-tracks active và Track active.
 
-### Còn lại: 100% Read-only
+### `GET /api/v1/judge/tracks/{trackId}/submissions` — `GetTrackSubmissions`
 
-| Controller | APIs |
-|-----------|------|
-| LecturerEventController | GET events, my-lecturer, detail |
-| LecturerRoundController | GET rounds, max-round-no |
-| LecturerRegisterTeamController | GET register-teams, detail, by-team, by-track |
-| LecturerAwardController | GET awards |
-| LecturerTrackController | GET tracks, my-tracks, submissions |
-| LecturerTopicController | GET topics |
-| LecturerTeamController | GET teams, detail, events |
-| LecturerUserController | GET users |
-| LecturerScoreController | GET scores, items, round-score |
-| LecturerLeaderboardController | GET leaderboard |
-| LecturerCriteriaTemplateController | GET templates, items |
-| LecturerAssignController | GET assign users, available |
+- Judge phải được assign đúng Track.
+- `isGraded` hiện filter theo global `Submission.Status`, không phải riêng score của judge.
+
+### `GET /api/v1/judge/events/{eventId}/myscope` — `GetMyScope`
+
+- Chỉ kiểm tra Judge assignment ở event.
+- **Caveat code hiện tại:** method fetch submissions theo filter request nhưng không loại submission ngoài các track được assign nếu `trackId` không được truyền; `myScore` chỉ dùng để map điểm.
+
+### `GET /api/v1/judge/submissions/{submissionId}/criteria` — `GetSubmissionCriteria`
+
+- RegisterTeam phải xác định được Track.
+- Judge phải được assign Track đó.
+- Không có active template thì trả response rỗng, không lỗi.
+
+### `GET /api/v1/judge/submissions/{submissionId}` và `/my-score`
+
+- Chỉ kiểm tra Judge assignment ở event của submission; không kiểm tra Track assignment trong hai method này.
+
+### `GET /api/v1/judge/events/{eventId}/scores/me` — `GetMyScores`
+
+- Judge phải được assign Judge trong event.
+- Chỉ xét các active AssignTracks của current judge.
+- Chỉ giữ submission thuộc Track mà judge được assign.
+- `isGraded` hiện filter theo global `Submission.Status`, không theo việc current judge đã có score.
+
+### `GET /api/v1/judge/register-teams/{registerTeamId}/submissions` — `GetRegisterTeamSubmissions`
+
+- Judge phải được assign Judge vào event của RegisterTeam.
+- Method lấy **submission mới nhất tuyệt đối qua tất cả round**, không phải last submission cho từng round như mô tả trong controller.
+- Method không kiểm tra Track assignment của Judge.
+
+### `GET /api/v1/judge/scores/{scoreId}/items` và `score-items/{scoreItemId}`
+
+- Score/ScoreItem phải thuộc current judge.
+
+### `GET /api/v1/judge/rounds/{roundId}/submissions` — `GetSubmissionsByRound`
+
+- Judge phải được assign event của round.
+- Nếu truyền `trackId`, Track phải nằm trong danh sách Track của judge.
+- Nếu không truyền, chỉ lấy các Track được assign.
+- `isGraded` filter theo việc current judge đã có score (`myScore`), không theo global status.
+
+## 2. Chấm điểm
+
+### `POST /api/v1/judge/submissions/{submissionId}/scores` — `SubmitScore`
+
+- RegisterTeam phải xác định được Track.
+- Judge phải được assign Track đó.
+- Round phải có CriteriaTemplate active.
+- Request phải chứa tất cả active CriteriaItems; thiếu trả tên các criteria còn thiếu.
+- Nếu judge đã có Score cho submission: thay toàn bộ old ScoreItems bằng items mới và tính lại TotalScore.
+- Nếu chưa có: tạo Score mới.
+- `TotalScore` là tổng item scores của một judge.
+- Thành công set `Submission.Status = Graded`.
+
+### `PATCH /api/v1/judge/submissions/{submissionId}/scores` — `UpdateScoreBySubmission`
+
+- Tìm Score của current judge trên submission; chưa chấm thì NotFound.
+- Gọi method nội bộ `UpdateScore(scoreId, ...)`.
+- Chỉ update CriteriaItems được gửi, giữ item không gửi.
+- Tính lại TotalScore bằng tổng toàn bộ ScoreItems và giữ Submission = Graded.
+
+### `PATCH /api/v1/judge/score-items/{scoreItemId}` — `UpdateScoreItem`
+
+- ScoreItem phải thuộc current judge.
+- Chỉ đổi Score/Comment nếu request có giá trị.
+- Tính lại TotalScore của parent Score.
+
+> `UpdateScore(Guid scoreId, ...)` là method service nội bộ, **không có route public** `/judge/scores/{scoreId}`.
+
+---
+
+# V. Lecturer
+
+> Lecturer chủ yếu read-only. Các assignment guards dưới đây vẫn là business rule của GET.
+
+## 1. Event và assignment
+
+- `GET /api/v1/lecturer/events`: service hiện trả event toàn hệ thống theo filter, không yêu cầu assignment.
+- `GET /api/v1/lecturer/events/my-lecturer`, recent và count: chỉ dựa trên lecturer assignments.
+- `GET /api/v1/lecturer/events/{eventId}`: cho xem event dù chưa assign; nếu có assignment thì bổ sung EventRole.
+- `GET /api/v1/lecturer/events/{eventId}/assign`: Lecturer phải được assign event; list loại assignment disabled.
+- `GET /api/v1/lecturer/events/{eventId}/my-assignment`: trả assignment + active tracks của chính lecturer.
+- Hai API available staff/lecturer không kiểm tra current lecturer đã assign event trong service hiện tại.
+
+## 2. Submission
+
+Các API sau yêu cầu Lecturer được assign vào event liên quan:
+
+- `GET /api/v1/lecturer/events/{eventId}/submissions` — `GetSubmissions`.
+- `GET /api/v1/lecturer/register-teams/{registerTeamId}/submissions` — `GetSubmissionsByRegisterTeam`.
+- `GET /api/v1/lecturer/tracks/{trackId}/submissions` — `GetSubmissionsByTrack`.
+- `GET /api/v1/lecturer/submissions/{submissionId}` — `GetSubmissionDetail`.
+
+## 3. RegisterTeam, Track, Score
+
+- RegisterTeam list/detail/by-team/by-track/user-events/competition-status hiện không có lecturer assignment guard trong service.
+- `GetCompetitionStatus` xác định current round bằng `StartTime <= now <= EndTime`, rồi `IsStillCompeting = MaxRoundNo >= CurrentRoundNo`.
+- Track list theo event không yêu cầu assignment; `my-tracks` chỉ trả active assign-tracks của current lecturer.
+- Score GET service hiện không có assignment/ownership guard đặc biệt ngoài role chung.
+
+## 4. Leaderboard
+
+- Event leaderboard chỉ trả khi leaderboard không disabled.
+- Chapter leaderboard chỉ dùng leaderboard Published và không disabled.
+- Không có lecturer assignment guard cho leaderboard.
+- Công thức điểm và DENSE_RANK giống phần Admin.
+
+## 5. Notification
+
+- List/count/recent/unread dùng repository scope Personal của current Lecturer + System, loại disabled.
+- `POST /api/v1/lecturer/notifications/{notificationId}/read`: chỉ Personal của chính Lecturer hoặc System.
+- `GET /api/v1/lecturer/notifications/{notificationId}` hiện **không kiểm tra ownership/access**; chỉ check tồn tại.
+- `ReadNotification`/`ReadAllNotifications` gọi repository update nhưng service không có `SaveChangesAsync`; đây là caveat persistence của implementation hiện tại.
+
+---
+
+# VI. Coverage toàn bộ controller API
+
+> Bảng này chứng minh các controller/API đã được rà. Những controller read-only không có rule riêng vẫn xuất hiện ở đây.
+
+| Role | Controller | Số endpoint | Nghiệp vụ/điều kiện chính |
+|---|---|---:|---|
+| Admin | `AdminAssignController` | 11 | Assign role/event/track, remove/restore |
+| Admin | `AdminAwardController` | 7 | Level tự tăng, swap, delete reindex |
+| Admin | `AdminCriteriaTemplateController` | 13 | Một active template/round |
+| Admin | `AdminEventController` | 9 | Time, setup, status transition |
+| Admin | `AdminInvitationController` | 1 | Read-only |
+| Admin | `AdminLeaderboardController` | 7 | Score/rank, publish/hide |
+| Admin | `AdminNotificationController` | 12 | Target routing, inbox ownership |
+| Admin | `AdminRegisterTeamController` | 14 | Approve/reject/ban/round/track |
+| Admin | `AdminReportController` | 4 | Update status/reason |
+| Admin | `AdminRoundController` | 9 | Time/order/swap/delete/restore/end |
+| Admin | `AdminScoreController` | 5 | Read-only score views |
+| Admin | `AdminSubmissionController` | 5 | Read-only submission views |
+| Admin | `AdminTeamController` | 11 | Leader, lock/unlock/delete |
+| Admin | `AdminTopicController` | 6 | Duplicate title/delete/restore |
+| Admin | `AdminTrackController` | 6 | Duplicate title, soft delete |
+| Admin | `AdminUserController` | 11 | Create/ban/unban/disable |
+| Staff | `StaffAssignController` | 11 | Chỉ Lecturer, assignment scope |
+| Staff | `StaffAwardController` | 2 | Assigned event, active only |
+| Staff | `StaffCriteriaTemplateController` | 4 | Read-only, assigned event |
+| Staff | `StaffEventController` | 6 | Global list vs assigned lists |
+| Staff | `StaffLeaderboardController` | 7 | Assigned event/year scope |
+| Staff | `StaffNotificationController` | 12 | Target routing/inbox ownership |
+| Staff | `StaffRegisterTeamController` | 14 | Admin-like mutations + assignment |
+| Staff | `StaffReportController` | 4 | Update report status |
+| Staff | `StaffRoundController` | 2 | Read-only, assigned event |
+| Staff | `StaffScoreController` | 5 | Read-only, assigned event |
+| Staff | `StaffSubmissionController` | 5 | Read-only, assigned event |
+| Staff | `StaffTeamController` | 5 | Read-only |
+| Staff | `StaffTopicController` | 2 | Assigned event, active only |
+| Staff | `StaffTrackController` | 2 | Assigned event, active only |
+| Staff | `StaffUserController` | 5 | Read-only |
+| Student | `StudentAssignController` | 1 | Read-only assigned-user list |
+| Student | `StudentAwardController` | 2 | Active only |
+| Student | `StudentCriteriaController` | 4 | Active template/items only |
+| Student | `StudentEventController` | 5 | Hide Draft/disabled |
+| Student | `StudentInvitationController` | 7 | Leader/invitee/status/expiry |
+| Student | `StudentLeaderboardController` | 5 | Published boards, my active teams |
+| Student | `StudentNotificationController` | 8 | Personal/team/system/mentor scope |
+| Student | `StudentReportController` | 4 | Own report, Pending cancel |
+| Student | `StudentRoundController` | 2 | Active only |
+| Student | `StudentSubmissionController` | 3 | Approved team, leader, round link |
+| Student | `StudentTeamController` | 11 | Team lifecycle/membership |
+| Student | `StudentTrackTopicRegisterTeamController` | 11 | Track/topic reads + registration |
+| Student | `StudentUserController` | 2 | Hide disabled user |
+| Judge | `JudgeController` | 14 | Assignment/ownership/scoring |
+| Lecturer | `LecturerAssignController` | 4 | Assigned-event access cho một số GET |
+| Lecturer | `LecturerAwardController` | 2 | Read-only |
+| Lecturer | `LecturerCriteriaTemplateController` | 4 | Read-only |
+| Lecturer | `LecturerEventController` | 7 | Global vs assigned event views |
+| Lecturer | `LecturerLeaderboardController` | 3 | Published/visible boards |
+| Lecturer | `LecturerNotificationController` | 7 | Inbox scope; detail caveat |
+| Lecturer | `LecturerRegisterTeamController` | 7 | Read-only; competition-status time |
+| Lecturer | `LecturerRoundController` | 3 | Read-only |
+| Lecturer | `LecturerScoreController` | 5 | Read-only |
+| Lecturer | `LecturerTeamController` | 5 | Read-only |
+| Lecturer | `LecturerTopicController` | 2 | Read-only |
+| Lecturer | `LecturerTrackController` | 4 | Global tracks vs my tracks |
+| Lecturer | `LecturerUserController` | 4 | Read-only |
+
+## Tổng coverage
+
+| Role | Controller files | Endpoint attributes |
+|---|---:|---:|
+| Admin | 16 | 131 |
+| Staff | 15 | 86 |
+| Student | 13 | 65 |
+| Judge | 1 | 14 |
+| Lecturer | 13 | 57 |
+| **Tổng** | **58** | **353** |
+
+> `StudentTrackTopicRegisterTeamController.cs` chứa ba controller class (Track, Topic, RegisterTeam), nhưng coverage file được tính một lần. Tổng endpoint được tính trực tiếp từ `[HttpGet]`, `[HttpPost]`, `[HttpPatch]`.
