@@ -102,10 +102,18 @@ public class Service : IEventService
         {
             if (!Enum.TryParse<EventStatusEnum>(request.Status, true, out var parsed))
                 throw new BadRequestException("Invalid Status. Must be: Draft, Published, Closed");
+            if (parsed == EventStatusEnum.Draft)
+                throw new BadRequestException("Invalid Status");
             status = parsed;
         }
 
-        var total = await _eventRepository.CountByStatusAsync(status);
+        // Student: only count non-disabled, non-Draft events
+        var (items, _) = await _eventRepository.SearchAsync(
+            null, status, null, null, false, 1, int.MaxValue);
+
+        var total = status.HasValue
+            ? items.Count
+            : items.Count(e => e.Status != EventStatusEnum.Draft);
 
         return new GetEventCountResponse
         {
