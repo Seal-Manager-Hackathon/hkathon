@@ -98,6 +98,47 @@ public class SubmissionRepository : ISubmissionRepository
         return (items, totalCount);
     }
 
+    public async Task<(List<RoundDetails> Items, int TotalCount)> GetRoundSubmissionsAsync(
+        Guid roundId, List<Guid>? trackIds, int pageIndex, int pageSize)
+    {
+        var query = _context.Set<RoundDetails>()
+            .Include(rd => rd.Round)
+            .Include(rd => rd.RegisterTeam)
+                .ThenInclude(rt => rt.Team)
+            .Include(rd => rd.RegisterTeam)
+                .ThenInclude(rt => rt.Event)
+            .Include(rd => rd.RegisterTeam)
+                .ThenInclude(rt => rt.Track)
+            .Include(rd => rd.RegisterTeam)
+                .ThenInclude(rt => rt.Topic)
+            .Include(rd => rd.Submissions)
+                .ThenInclude(s => s.Scores)
+                    .ThenInclude(sc => sc.AssignTrack)
+                        .ThenInclude(at => at.AssignEvent)
+                            .ThenInclude(ae => ae.EventRole)
+            .Include(rd => rd.RegisterTeam.Team.TeamDetails)
+                .ThenInclude(td => td.User)
+            .Where(rd => rd.RoundId == roundId && !rd.IsDisable)
+            .AsQueryable();
+
+        if (trackIds != null && trackIds.Count > 0)
+            query = query.Where(rd => rd.RegisterTeam.TrackId.HasValue && trackIds.Contains(rd.RegisterTeam.TrackId.Value));
+
+        // Only teams that have submitted
+        query = query.Where(rd => rd.Submissions.Count > 0);
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderByDescending(rd => rd.Submissions
+                .Max(s => (DateTimeOffset?)s.SubmittedAt))
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
+
     public async Task<(List<RoundSummaryItem> Items, int TotalCount)> GetRoundSummaryAsync(
         Guid roundId, int pageIndex, int pageSize)
     {

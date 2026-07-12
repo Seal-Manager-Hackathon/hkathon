@@ -19,6 +19,7 @@ public class Service : IJudgeService
     private readonly IScoreRepository _scoreRepository;
     private readonly ICriteriaTemplateRepository _criteriaTemplateRepository;
     private readonly IRegisterTeamRepository _registerTeamRepository;
+    private readonly IRoundRepository _roundRepository;
     private readonly ICurrentUserService _currentUserService;
     private readonly IAuthorizationService _authorizationService;
     private readonly IUnitOfWork _unitOfWork;
@@ -31,6 +32,7 @@ public class Service : IJudgeService
         IScoreRepository scoreRepository,
         ICriteriaTemplateRepository criteriaTemplateRepository,
         IRegisterTeamRepository registerTeamRepository,
+        IRoundRepository roundRepository,
         ICurrentUserService currentUserService,
         IAuthorizationService authorizationService,
         IUnitOfWork unitOfWork)
@@ -42,6 +44,7 @@ public class Service : IJudgeService
         _scoreRepository = scoreRepository;
         _criteriaTemplateRepository = criteriaTemplateRepository;
         _registerTeamRepository = registerTeamRepository;
+        _roundRepository = roundRepository;
         _currentUserService = currentUserService;
         _authorizationService = authorizationService;
         _unitOfWork = unitOfWork;
@@ -795,6 +798,116 @@ public class Service : IJudgeService
             ScoreId = myScore?.Id,
             TotalScore = myScore?.TotalScore
         };
+    }
+
+    public async Task<GetTrackSubmissionsResponse> GetSubmissionsByRound(Guid roundId, Guid? trackId, int pageIndex, int pageSize)
+    {
+        var currentUserId = GetCurrentUserId();
+        PaginationHelper.Validate(pageIndex, pageSize);
+
+        var round = await _roundRepository.GetDetailByIdAsync(roundId);
+        if (round == null || round.IsDisable)
+            throw new NotFoundException("Round Not Found");
+
+        // Validate judge is assigned to this event
+        await ValidateJudgeEventAssignment(currentUserId, round.EventId);
+
+        // Get judge's assigned track IDs for this event
+        var assignEvent = await _assignEventRepository.GetByEventIdAndUserIdWithTracksAsync(round.EventId, currentUserId);
+        if (assignEvent == null)
+            throw new NotFoundException("Event Not Found or You Are Not Assigned to This Event");
+
+        var myTrackIds = assignEvent.AssignTracks
+            .Where(at => !at.IsDisable && !at.Track.IsDisable)
+            .Select(at => at.TrackId)
+            .ToList();
+
+        if (myTrackIds.Count == 0)
+        {
+            return new GetTrackSubmissionsResponse
+            {
+                Items = new List<TrackSubmissionItem>(),
+                TotalCount = 0,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+        }
+
+        // If trackId provided, validate judge is assigned to that specific track
+        if (trackId.HasValue)
+        {
+            if (!myTrackIds.Contains(trackId.Value))
+                throw new ForbiddenException("You Are Not Assigned as Judge for This Track");
+
+            // Filter only to this one track
+            var (singleItems, singleTotal) = await _submissionRepository.GetRoundSubmissionsAsync(
+                roundId, new List<Guid> { trackId.Value }, pageIndex, pageSize);
+
+            var submissions = MapToTrackSubmissions(singleItems, assignEvent, round.EventId);
+            return new GetTrackSubmissionsResponse
+            {
+                Items = submissions,
+                TotalCount = singleTotal,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+        }
+
+        // No trackId: return submissions from ALL assigned tracks
+        var (items, totalCount) = await _submissionRepository.GetRoundSubmissionsAsync(
+            roundId, myTrackIds, pageIndex, pageSize);
+
+        var result = MapToTrackSubmissions(items, assignEvent, round.EventId);
+        return new GetTrackSubmissionsResponse
+        {
+            Items = result,
+            TotalCount = totalCount,
+            PageIndex = pageIndex,
+            PageSize = pageSize
+        };
+    }
+
+    private List<TrackSubmissionItem> MapToTrackSubmissions(List<RoundDetails> items, AssignEvents assignEvent, Guid eventId)
+    {
+        return items.Select(rd =>
+        {
+            var lastSubmission = SubmissionHelper.GetLastSubmission(rd);
+            var myAssignTrackIds = assignEvent.AssignTracks
+                .Where(at => !at.IsDisable)
+                .Select(at => at.Id)
+                .ToHashSet();
+            var myScore = lastSubmission?.Scores
+                .FirstOrDefault(s => myAssignTrackIds.Contains(s.AssignTrackId));
+            var rt = rd.RegisterTeam;
+            return new TrackSubmissionItem
+            {
+                RegisterTeamId = rt.Id,
+                TeamId = rt.TeamId,
+                TeamName = rt.Team.Name,
+                EventId = rt.EventId,
+                EventName = rt.Event?.Name ?? "",
+                RoundId = rd.RoundId,
+                RoundName = rd.Round.Name,
+                TrackId = rt.TrackId,
+                TrackTitle = rt.Track?.Title,
+                TopicId = rt.TopicId,
+                TopicTitle = rt.Topic?.Title,
+                SubmittedBy = GetTeamLeader(rt.Team.TeamDetails),
+                LastSubmission = lastSubmission != null
+                    ? new LastSubmissionInfo
+                    {
+                        Id = lastSubmission.Id,
+                        SubmittedAt = lastSubmission.SubmittedAt,
+                        Url = lastSubmission.Url,
+                        Description = lastSubmission.Description,
+                        Status = lastSubmission.Status?.ToString()
+                    }
+                    : null,
+                GradingStatus = myScore != null ? "Graded" : "Pending",
+                ScoreId = myScore?.Id,
+                TotalScore = myScore?.TotalScore
+            };
+        }).ToList();
     }
 
     private static SubmittedByInfo? GetTeamLeader(ICollection<TeamDetails>? teamDetails)
