@@ -1,10 +1,8 @@
 using Hackathon.Application.Common.Helpers;
-using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
 using Hackathon.Domain.Entities;
 using Hackathon.Domain.Enums.Event;
-using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
 
 namespace Hackathon.Application.Services.Student.Event;
@@ -12,14 +10,11 @@ namespace Hackathon.Application.Services.Student.Event;
 public class Service : IEventService
 {
     private readonly IEventRepository _eventRepository;
-    private readonly IAuthorizationService _authorizationService;
 
     public Service(
-        IEventRepository eventRepository,
-        IAuthorizationService authorizationService)
+        IEventRepository eventRepository)
     {
         _eventRepository = eventRepository;
-        _authorizationService = authorizationService;
     }
 
     public async Task<GetEventsResponse> GetEvents(GetEventsRequest request)
@@ -86,8 +81,6 @@ public class Service : IEventService
 
     public async Task<GetEventDetailResponse> GetEventDetail(Guid eventId)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         var ev = await _eventRepository.GetByIdAsync(eventId);
         if (ev == null || ev.IsDisable || ev.Status == EventStatusEnum.Draft)
             throw new NotFoundException("Event Not Found");
@@ -114,8 +107,6 @@ public class Service : IEventService
 
     public async Task<GetEventCountResponse> GetEventCount(GetEventCountRequest request)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         EventStatusEnum? status = null;
         if (!string.IsNullOrWhiteSpace(request.Status))
         {
@@ -142,8 +133,6 @@ public class Service : IEventService
 
     public async Task<GetRecentEventsResponse> GetRecentEvents()
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         var events = await _eventRepository.GetRecentAsync(10);
 
         var filtered = events.Where(e => e.Status != EventStatusEnum.Draft && !e.IsDisable).ToList();

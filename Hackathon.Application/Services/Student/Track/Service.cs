@@ -1,4 +1,3 @@
-using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
 using Hackathon.Domain.Enums.User;
@@ -11,24 +10,19 @@ public class Service : ITrackService
     private readonly ITrackRepository _trackRepository;
     private readonly IEventRepository _eventRepository;
     private readonly IRegisterTeamRepository _registerTeamRepository;
-    private readonly IAuthorizationService _authorizationService;
 
     public Service(
         ITrackRepository trackRepository,
         IEventRepository eventRepository,
-        IRegisterTeamRepository registerTeamRepository,
-        IAuthorizationService authorizationService)
+        IRegisterTeamRepository registerTeamRepository)
     {
         _trackRepository = trackRepository;
         _eventRepository = eventRepository;
         _registerTeamRepository = registerTeamRepository;
-        _authorizationService = authorizationService;
     }
 
     public async Task<GetTrackDetailResponse> GetTrackDetail(Guid trackId)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         var track = await _trackRepository.GetByIdAsync(trackId);
         if (track == null || track.IsDisable)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
@@ -51,8 +45,6 @@ public class Service : ITrackService
 
     public async Task<GetTracksByEventResponse> GetTracksByEvent(GetTracksByEventRequest request)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         var eventEntity = await _eventRepository.GetByIdAsync(request.EventId);
         if (eventEntity == null)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);

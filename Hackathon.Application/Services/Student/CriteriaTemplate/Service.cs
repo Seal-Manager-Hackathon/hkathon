@@ -11,24 +11,19 @@ public class Service : ICriteriaTemplateService
     private readonly ICriteriaTemplateRepository _criteriaTemplateRepository;
     private readonly ICriteriaItemRepository _criteriaItemRepository;
     private readonly IRoundRepository _roundRepository;
-    private readonly IAuthorizationService _authorizationService;
 
     public Service(
         ICriteriaTemplateRepository criteriaTemplateRepository,
         IRoundRepository roundRepository,
-        IAuthorizationService authorizationService,
         ICriteriaItemRepository criteriaItemRepository)
     {
         _criteriaTemplateRepository = criteriaTemplateRepository;
         _roundRepository = roundRepository;
-        _authorizationService = authorizationService;
         _criteriaItemRepository = criteriaItemRepository;
     }
 
     public async Task<GetCriteriaTemplatesByRoundResponse> GetCriteriaTemplatesByRound(GetCriteriaTemplatesByRoundRequest request)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         var round = await _roundRepository.GetByIdAsync(request.RoundId);
         if (round == null)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
@@ -76,8 +71,6 @@ public class Service : ICriteriaTemplateService
 
     public async Task<GetCriteriaItemsByTemplateResponse> GetCriteriaItemsByTemplate(GetCriteriaItemsByTemplateRequest request)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         var template = await _criteriaTemplateRepository.GetByIdAsync(request.TemplateId);
         if (template == null)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
@@ -123,8 +116,6 @@ public class Service : ICriteriaTemplateService
 
     public async Task<GetCriteriaTemplateDetailResponse> GetCriteriaTemplateDetail(Guid templateId)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         var template = await _criteriaTemplateRepository.GetByIdAsync(templateId);
         if (template == null || template.IsDisable)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
@@ -155,8 +146,6 @@ public class Service : ICriteriaTemplateService
 
     public async Task<GetCriteriaItemDetailResponse> GetCriteriaItemDetail(Guid itemId)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         var item = await _criteriaItemRepository.GetByIdAsync(itemId);
         if (item == null || item.IsDisable)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);

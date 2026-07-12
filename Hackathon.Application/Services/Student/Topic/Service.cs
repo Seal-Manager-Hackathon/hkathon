@@ -1,7 +1,5 @@
-using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
-using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
 
 namespace Hackathon.Application.Services.Student.Topic;
@@ -10,22 +8,17 @@ public class Service : ITopicService
 {
     private readonly ITopicRepository _topicRepository;
     private readonly ITrackRepository _trackRepository;
-    private readonly IAuthorizationService _authorizationService;
 
     public Service(
         ITopicRepository topicRepository,
-        ITrackRepository trackRepository,
-        IAuthorizationService authorizationService)
+        ITrackRepository trackRepository)
     {
         _topicRepository = topicRepository;
         _trackRepository = trackRepository;
-        _authorizationService = authorizationService;
     }
 
     public async Task<GetTopicDetailResponse> GetTopicDetail(Guid topicId)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         var topic = await _topicRepository.GetByIdAsync(topicId);
         if (topic == null || topic.IsDisable)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
@@ -45,8 +38,6 @@ public class Service : ITopicService
 
     public async Task<GetTopicsByTrackResponse> GetTopicsByTrack(GetTopicsByTrackRequest request)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         var track = await _trackRepository.GetByIdAsync(request.TrackId);
         if (track == null)
             throw new NotFoundException(ErrMsg.Common.ResourceNotFound);
