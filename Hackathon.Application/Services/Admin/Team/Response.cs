@@ -41,7 +41,17 @@ public class TeamMemberItem
     public string LastName { get; set; } = string.Empty;
     public string? AvatarUrl { get; set; }
     public bool IsLeader { get; set; }
+    public bool IsDisable { get; set; }
     public string? Status { get; set; }
+}
+
+public class GetTeamMembersResponse
+{
+    public int TotalCount { get; set; }
+    public int TotalDisable { get; set; }
+    public int PageIndex { get; set; }
+    public int PageSize { get; set; }
+    public List<TeamMemberItem> Members { get; set; } = new();
 }
 
 public class GetTeamsResponse

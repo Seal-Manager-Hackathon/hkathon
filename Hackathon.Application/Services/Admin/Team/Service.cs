@@ -207,6 +207,44 @@ public class Service : ITeamService
         };
     }
 
+    public async Task<GetTeamMembersResponse> GetTeamMembers(Guid teamId, int pageIndex, int pageSize)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        PaginationHelper.Validate(pageIndex, pageSize);
+
+        var team = await _teamRepository.GetByIdAsync(teamId);
+        if (team == null)
+            throw new NotFoundException("Team Not Found");
+
+        var (items, totalCount) = await _teamRepository.GetTeamMembersPagedAsync(teamId, pageIndex, pageSize);
+
+        var list = items.Select(m => new TeamMemberItem
+        {
+            UserId = m.UserId,
+            Email = m.User?.Email ?? "",
+            FirstName = m.User?.FirstName ?? "",
+            LastName = m.User?.LastName ?? "",
+            AvatarUrl = m.User?.AvatarUrl,
+            IsLeader = m.IsLeader,
+            IsDisable = m.IsDisable,
+            Status = m.Status?.ToString()
+        }).ToList();
+
+        // Tính totalDisable từ tổng số (cần query riêng)
+        var allMembers = await _teamRepository.GetTeamMembersAsync(teamId);
+        var totalDisable = allMembers.Count(m => m.IsDisable);
+
+        return new GetTeamMembersResponse
+        {
+            TotalCount = totalCount,
+            TotalDisable = totalDisable,
+            PageIndex = pageIndex,
+            PageSize = pageSize,
+            Members = list
+        };
+    }
+
     public async Task LockTeam(Guid teamId)
     {
         _authorizationService.Authorize(RoleEnum.Admin);

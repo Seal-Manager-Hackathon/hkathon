@@ -10,6 +10,7 @@ public interface ITeamRepository
     Task<List<Guid>> GetTeamMemberIdsAsync(Guid teamId);
     Task<Teams?> GetByIdAsync(Guid id);
     Task<List<TeamDetails>> GetTeamMembersAsync(Guid teamId);
+    Task<(List<TeamDetails> Items, int TotalCount)> GetTeamMembersPagedAsync(Guid teamId, int pageIndex, int pageSize);
     Task UpdateAsync(Teams team);
     Task<(List<TeamDetails> Items, int TotalCount)> GetUserTeamsAsync(Guid userId, string? keyword, Domain.Enums.TeamDetail.TeamDetailStatusEnum? status, bool? isDisable, int pageIndex, int pageSize);
     Task<(List<Teams> Items, int TotalCount)> SearchAsync(
