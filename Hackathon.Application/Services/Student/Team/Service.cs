@@ -162,6 +162,50 @@ public class Service : ITeamService
         await _unitOfWork.SaveChangesAsync();
     }
 
+    public async Task KickMember(Guid teamId, Guid memberId)
+    {
+        _authorizationService.Authorize(RoleEnum.Student);
+
+        var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
+
+        var team = await _teamRepository.GetByIdAsync(teamId);
+        if (team == null || team.IsDisable)
+            throw new NotFoundException("Team Not Found");
+
+        if (!team.CanEdit)
+            throw new BadRequestException("Team Cannot Be Edited");
+
+        // Check user is leader (active leader)
+        var members = await _teamRepository.GetTeamMembersAsync(teamId);
+        var leaderMember = members.FirstOrDefault(m => m.UserId == userId && m.IsLeader && !m.IsDisable);
+        if (leaderMember == null)
+            throw new BadRequestException("Only Team Leader Can Kick Members");
+
+        // Can't kick yourself
+        if (memberId == userId)
+            throw new BadRequestException("Cannot Kick Yourself from the Team");
+
+        // Find the member to kick
+        var targetMember = members.FirstOrDefault(m => m.UserId == memberId && m.TeamId == teamId);
+        if (targetMember == null)
+            throw new NotFoundException("Member Not Found in This Team");
+
+        if (targetMember.IsDisable || targetMember.Status == TeamDetailStatusEnum.Inactive)
+            throw new BadRequestException("Member Is Already Inactive or Disabled");
+
+        // Can't kick a leader
+        if (targetMember.IsLeader)
+            throw new BadRequestException("Cannot Kick the Team Leader");
+
+        var now = DateTimeOffset.UtcNow;
+        targetMember.IsDisable = true;
+        targetMember.Status = TeamDetailStatusEnum.Inactive;
+        targetMember.UpdatedAt = now;
+
+        await _teamRepository.UpdateTeamDetailAsync(targetMember);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
     public async Task<GetTeamMembersResponse> GetTeamMembers(Guid teamId, int pageIndex, int pageSize)
     {
         _authorizationService.Authorize(RoleEnum.Student);
@@ -249,6 +293,84 @@ public class Service : ITeamService
                     Status = m.Status?.ToString()
                 }).ToList()
         };
+    }
+
+    public async Task ChangeLeader(Guid teamId, Guid newLeaderUserId)
+    {
+        _authorizationService.Authorize(RoleEnum.Student);
+
+        var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
+
+        var team = await _teamRepository.GetByIdAsync(teamId);
+        if (team == null || team.IsDisable)
+            throw new NotFoundException("Team Not Found");
+
+        if (!team.CanEdit)
+            throw new BadRequestException("Team Cannot Be Edited");
+
+        // Can't transfer to yourself
+        if (newLeaderUserId == userId)
+            throw new BadRequestException("Cannot Transfer Leadership to Yourself");
+
+        var members = await _teamRepository.GetTeamMembersAsync(teamId);
+
+        // Check current user is the leader
+        var currentLeader = members.FirstOrDefault(m => m.UserId == userId && m.IsLeader && !m.IsDisable);
+        if (currentLeader == null)
+            throw new BadRequestException("Only Team Leader Can Change Leader");
+
+        // Check target user exists and is active
+        var newLeader = members.FirstOrDefault(m => m.UserId == newLeaderUserId && m.TeamId == teamId);
+        if (newLeader == null)
+            throw new NotFoundException("User Not Found in This Team");
+
+        if (newLeader.IsDisable || newLeader.Status == TeamDetailStatusEnum.Inactive)
+            throw new BadRequestException("Cannot Transfer Leadership to an Inactive or Disabled Member");
+
+        var now = DateTimeOffset.UtcNow;
+
+        // Remove leader from current leader
+        currentLeader.IsLeader = false;
+        currentLeader.UpdatedAt = now;
+
+        // Set new leader
+        newLeader.IsLeader = true;
+        newLeader.UpdatedAt = now;
+
+        await _teamRepository.UpdateTeamDetailAsync(currentLeader);
+        await _teamRepository.UpdateTeamDetailAsync(newLeader);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task LeaveTeam(Guid teamId)
+    {
+        _authorizationService.Authorize(RoleEnum.Student);
+
+        var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
+
+        var team = await _teamRepository.GetByIdAsync(teamId);
+        if (team == null || team.IsDisable)
+            throw new NotFoundException("Team Not Found");
+
+        var members = await _teamRepository.GetTeamMembersAsync(teamId);
+        var myMember = members.FirstOrDefault(m => m.UserId == userId && m.TeamId == teamId);
+        if (myMember == null)
+            throw new NotFoundException("You Are Not a Member of This Team");
+
+        if (myMember.IsDisable || myMember.Status == TeamDetailStatusEnum.Inactive)
+            throw new BadRequestException("You Are Already Inactive or Disabled in This Team");
+
+        // Leader cannot leave — must disband or change leader first
+        if (myMember.IsLeader)
+            throw new BadRequestException("Team Leader Cannot Leave the Team. Please Change Leader First or Disband the Team.");
+
+        var now = DateTimeOffset.UtcNow;
+        myMember.IsDisable = true;
+        myMember.Status = TeamDetailStatusEnum.Inactive;
+        myMember.UpdatedAt = now;
+
+        await _teamRepository.UpdateTeamDetailAsync(myMember);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task<GetTeamEventsResponse> GetTeamEvents(GetTeamEventsRequest request)
