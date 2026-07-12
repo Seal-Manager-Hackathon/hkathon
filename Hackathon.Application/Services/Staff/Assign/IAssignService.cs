@@ -12,4 +12,5 @@ public interface IAssignService
     Task AssignTrackToEvent(Guid assignEventId, Guid trackId);
     Task RemoveTrackFromEvent(Guid assignEventId, Guid trackId);
     Task RestoreTrackToEvent(Guid assignEventId, Guid trackId);
+    Task<Admin.Assign.GetUserAssignEventsResponse> GetUserAssignEvents(Guid userId, string? keyword, string? eventRole, int pageIndex, int pageSize);
 }
