@@ -5,6 +5,7 @@ using Hackathon.Application.Exceptions;
 using Hackathon.Application.Services.Admin.Score;
 using Hackathon.Domain.Entities;
 using Hackathon.Domain.Enums.EventRole;
+using Hackathon.Domain.Enums.Submission;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
 
@@ -145,19 +146,18 @@ public class Service : IJudgeService
                         Status = lastSubmission.Status?.ToString()
                     }
                     : null,
-                GradingStatus = myScore != null ? "Graded" : "Pending",
                 ScoreId = myScore?.Id,
                 TotalScore = myScore?.TotalScore
             };
         }).ToList();
 
-        // Filter by isGraded
+        // Filter by submission status
         if (isGraded.HasValue)
         {
             submissions = submissions
                 .Where(s => isGraded.Value
-                    ? s.GradingStatus == "Graded"
-                    : s.GradingStatus == "Pending")
+                    ? s.LastSubmission?.Status == "Graded"
+                    : s.LastSubmission?.Status != "Graded")
                 .ToList();
         }
 
@@ -187,7 +187,6 @@ public class Service : IJudgeService
             var lastSubmission = SubmissionHelper.GetLastSubmission(rd);
             if (lastSubmission == null) continue;
 
-            // Check if current judge has already graded this submission
             var myScore = lastSubmission.Scores.FirstOrDefault(s =>
             {
                 var track = s.AssignTrack;
@@ -197,12 +196,11 @@ public class Service : IJudgeService
                     && track.AssignEvent.EventRole.Name == EventRoleEnum.Judge;
             });
 
-            var gradingStatus = myScore != null ? "Graded" : "Pending";
-
-            // Filter by status
+            // Filter by submission status
+            var submissionStatus = lastSubmission.Status?.ToString();
             if (!string.IsNullOrWhiteSpace(status))
             {
-                if (!status.Equals(gradingStatus, StringComparison.OrdinalIgnoreCase))
+                if (!status.Equals(submissionStatus, StringComparison.OrdinalIgnoreCase))
                     continue;
             }
 
@@ -227,9 +225,8 @@ public class Service : IJudgeService
                     SubmittedAt = lastSubmission.SubmittedAt,
                     Url = lastSubmission.Url,
                     Description = lastSubmission.Description,
-                    Status = lastSubmission.Status?.ToString()
+                    Status = submissionStatus
                 },
-                GradingStatus = gradingStatus,
                 ScoreId = myScore?.Id,
                 TotalScore = myScore?.TotalScore
             });
@@ -389,6 +386,10 @@ public class Service : IJudgeService
         score.IsRetake = false;
 
         await _scoreRepository.AddAsync(score);
+
+        submission.Status = SubmissionStatusEnum.Graded;
+        submission.UpdatedAt = DateTimeOffset.UtcNow;
+
         await _unitOfWork.SaveChangesAsync();
 
         return MapToJudgeSubmissionScoreResponse(score);
@@ -436,6 +437,13 @@ public class Service : IJudgeService
         // Auto-calculate TotalScore as SUM of all ScoreItems
         score.TotalScore = score.ScoreItems.Sum(si => si.Score ?? 0);
         score.UpdatedAt = DateTimeOffset.UtcNow;
+
+        // Update submission status
+        if (score.Submission != null)
+        {
+            score.Submission.Status = SubmissionStatusEnum.Graded;
+            score.Submission.UpdatedAt = DateTimeOffset.UtcNow;
+        }
 
         await _unitOfWork.SaveChangesAsync();
 
@@ -587,19 +595,18 @@ public class Service : IJudgeService
                 SubmissionId = lastSubmission.Id,
                 Url = lastSubmission.Url,
                 SubmittedAt = lastSubmission.SubmittedAt,
-                GradingStatus = myScore != null ? "Graded" : "Pending",
                 ScoreId = myScore?.Id,
                 TotalScore = myScore?.TotalScore
             });
         }
 
-        // Filter isGraded
+        // Filter by submission status
         if (isGraded.HasValue)
         {
             result = result
                 .Where(s => isGraded.Value
-                    ? s.GradingStatus == "Graded"
-                    : s.GradingStatus == "Pending")
+                    ? s.Status == "Graded"
+                    : s.Status != "Graded")
                 .ToList();
         }
 
@@ -756,7 +763,6 @@ public class Service : IJudgeService
                 RoundName = "",
                 SubmittedBy = GetTeamLeader(registerTeam.Team.TeamDetails),
                 LastSubmission = null,
-                GradingStatus = "Pending",
                 ScoreId = null,
                 TotalScore = null
             };
@@ -794,7 +800,6 @@ public class Service : IJudgeService
                 Description = latest.Submission.Description,
                 Status = latest.Submission.Status?.ToString()
             },
-            GradingStatus = myScore != null ? "Graded" : "Pending",
             ScoreId = myScore?.Id,
             TotalScore = myScore?.TotalScore
         };
@@ -867,13 +872,14 @@ public class Service : IJudgeService
             var myScore = lastSubmission.Scores
                 .FirstOrDefault(s => myAssignTrackIds.Contains(s.AssignTrackId));
 
-            var gradingStatus = myScore != null ? "Graded" : "Pending";
+            var submissionStatus = lastSubmission.Status?.ToString();
+            var isGradedStatus = submissionStatus == "Graded";
 
             // Filter by isGraded
             if (isGraded.HasValue)
             {
-                if (isGraded.Value && gradingStatus != "Graded") continue;
-                if (!isGraded.Value && gradingStatus != "Pending") continue;
+                if (isGraded.Value && !isGradedStatus) continue;
+                if (!isGraded.Value && isGradedStatus) continue;
             }
 
             var rt = rd.RegisterTeam;
@@ -898,10 +904,9 @@ public class Service : IJudgeService
                         SubmittedAt = lastSubmission.SubmittedAt,
                         Url = lastSubmission.Url,
                         Description = lastSubmission.Description,
-                        Status = lastSubmission.Status?.ToString()
+                        Status = submissionStatus
                     }
                     : null,
-                GradingStatus = gradingStatus,
                 ScoreId = myScore?.Id,
                 TotalScore = myScore?.TotalScore
             });
@@ -940,12 +945,6 @@ public class Service : IJudgeService
             ? Math.Round(validScores.Sum(s => s.TotalScore!.Value), 2)
             : (decimal?)null;
 
-        // Check if current judge has graded this submission
-        var myScore = submission.Scores
-            .FirstOrDefault(s => s.AssignTrack != null
-                && s.AssignTrack.AssignEvent.UserId == currentUserId
-                && s.TotalScore.HasValue);
-
         return new JudgeSubmissionDetailResponse
         {
             Id = submission.Id,
@@ -976,7 +975,6 @@ public class Service : IJudgeService
                 .FirstOrDefault(),
             TotalScore = totalScore,
             JudgeCount = validScores.Count,
-            IsGraded = myScore != null,
             CreatedAt = submission.CreatedAt,
             UpdatedAt = submission.UpdatedAt
         };

@@ -10,7 +10,6 @@ public class JudgeTrackItem
     public Guid EventId { get; set; }
     public string EventName { get; set; } = string.Empty;
     public int SubmissionCount { get; set; }
-    public int GradedSubmissionCount { get; set; }
 }
 
 // Submissions
@@ -37,7 +36,6 @@ public class TrackSubmissionItem
     public string? TopicTitle { get; set; }
     public SubmittedByInfo? SubmittedBy { get; set; }
     public LastSubmissionInfo? LastSubmission { get; set; }
-    public string GradingStatus { get; set; } = "Pending";
     public Guid? ScoreId { get; set; }
     public decimal? TotalScore { get; set; }
 }
@@ -145,7 +143,6 @@ public class GetRegisterTeamSubmissionsResponse
     public string? TopicTitle { get; set; }
     public SubmittedByInfo? SubmittedBy { get; set; }
     public LastSubmissionInfo? LastSubmission { get; set; }
-    public string GradingStatus { get; set; } = "Pending";
     public Guid? ScoreId { get; set; }
     public decimal? TotalScore { get; set; }
 }
@@ -172,7 +169,6 @@ public class JudgeSubmissionDetailResponse
     public JudgeSubmittedByUser? SubmittedBy { get; set; }
     public decimal? TotalScore { get; set; }
     public int JudgeCount { get; set; }
-    public bool IsGraded { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
 }
@@ -218,7 +214,7 @@ public class JudgeMyScoreItem
     public Guid? SubmissionId { get; set; }
     public string? Url { get; set; }
     public DateTimeOffset? SubmittedAt { get; set; }
-    public string GradingStatus { get; set; } = "Pending";
+    public string? Status { get; set; }
     // Score info — null nếu chưa chấm
     public Guid? ScoreId { get; set; }
     public decimal? TotalScore { get; set; }
