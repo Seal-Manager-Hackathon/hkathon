@@ -66,7 +66,7 @@ public class Service : IEventService
             MinMember = request.MinMember,
             MaxMember = request.MaxMember,
             Status = EventStatusEnum.Draft,
-            IsDisable = false,
+            IsDisable = true,
             NumberRound = 0,
             Season = season,
             CreatedAt = now,
@@ -119,7 +119,61 @@ public class Service : IEventService
 
         var now = DateTimeOffset.UtcNow;
 
-        // Lấy giá trị để validate — ưu tiên request, nếu null lấy từ entity
+        // === Không cho update event đã Closed (chỉ cho phép sửa IsDisable) ===
+        if (ev.Status == EventStatusEnum.Closed)
+        {
+            var hasNonDisableField = request.Name != null
+                || request.Description != null
+                || request.StartTime.HasValue
+                || request.EndTime.HasValue
+                || request.RegisterLimitTime.HasValue
+                || request.LimitTeam.HasValue
+                || request.MinMember.HasValue
+                || request.MaxMember.HasValue
+                || request.Season != null
+                || request.Status != null;
+
+            if (hasNonDisableField)
+                throw new BadRequestException("Cannot Update A Closed Event");
+
+            if (request.IsDisable.HasValue)
+            {
+                ev.IsDisable = request.IsDisable.Value;
+                ev.UpdatedAt = now;
+                await _eventRepository.UpdateAsync(ev);
+                await _unitOfWork.SaveChangesAsync();
+            }
+
+            return;
+        }
+
+        // === Validate Status transitions ===
+        if (request.Status != null)
+        {
+            if (!Enum.TryParse<EventStatusEnum>(request.Status, true, out var status))
+                throw new BadRequestException("Invalid Status. Must be: Draft, Published, Closed");
+
+            // Ko cho hạ từ Published → Draft
+            if (status == EventStatusEnum.Draft && ev.Status == EventStatusEnum.Published)
+                throw new BadRequestException("Cannot Change Status From Published Back To Draft");
+
+            // Ko cho nhảy từ Draft → Closed
+            if (status == EventStatusEnum.Closed && ev.Status == EventStatusEnum.Draft)
+                throw new BadRequestException("Cannot Close A Draft Event Directly. Publish It First");
+
+            // Draft → Published: phải check setup complete
+            if (status == EventStatusEnum.Published && ev.Status == EventStatusEnum.Draft)
+            {
+                var setupCheck = await IsEventSetupComplete(request.EventId);
+                if (!setupCheck.IsComplete)
+                    throw new BadRequestException(
+                        $"Cannot Publish Event. Setup Not Complete. Missing: {string.Join(", ", setupCheck.MissingFields)}");
+            }
+
+            ev.Status = status;
+        }
+
+        // === Validate thời gian ===
         var startTime = request.StartTime ?? ev.StartTime;
         var endTime = request.EndTime ?? ev.EndTime;
         var registerLimitTime = request.RegisterLimitTime ?? ev.RegisterLimitTime;
@@ -139,7 +193,7 @@ public class Service : IEventService
                 throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeBeforeEndTime);
         }
 
-        // Update fields
+        // === Update fields ===
         if (request.Name != null)
             ev.Name = request.Name;
         if (request.Description != null)
@@ -174,25 +228,18 @@ public class Service : IEventService
             ev.Season = season;
         }
 
-        // IsDisable hoàn toàn độc lập, ko kéo theo bất kỳ logic nào khác
+        // IsDisable: Draft muốn show (IsDisable = false) → phải setup đủ
         if (request.IsDisable.HasValue)
-            ev.IsDisable = request.IsDisable.Value;
-
-        // Nếu chuyển từ Draft → Published, phải check setup complete
-        if (request.Status != null)
         {
-            if (!Enum.TryParse<EventStatusEnum>(request.Status, true, out var status))
-                throw new BadRequestException("Invalid Status. Must be: Draft, Published, Closed");
-
-            if (status == EventStatusEnum.Published && ev.Status == EventStatusEnum.Draft)
+            if (ev.Status == EventStatusEnum.Draft && request.IsDisable.Value == false)
             {
                 var setupCheck = await IsEventSetupComplete(request.EventId);
                 if (!setupCheck.IsComplete)
                     throw new BadRequestException(
-                        $"Cannot Publish Event. Setup Not Complete. Missing: {string.Join(", ", setupCheck.MissingFields)}");
+                        $"Cannot Enable Draft Event. Setup Not Complete. Missing: {string.Join(", ", setupCheck.MissingFields)}");
             }
 
-            ev.Status = status;
+            ev.IsDisable = request.IsDisable.Value;
         }
 
         ev.UpdatedAt = now;
