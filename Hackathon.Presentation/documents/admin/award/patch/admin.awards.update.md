@@ -1,4 +1,4 @@
-# PATCH /api/v1/admin/events/{eventId}/awards/{awardId}
+# PATCH /api/v1/admin/awards/{awardId}
 
 > Admin cập nhật thông tin phần thưởng.
 

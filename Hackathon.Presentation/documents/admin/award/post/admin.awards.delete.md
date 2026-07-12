@@ -1,4 +1,4 @@
-# POST /api/v1/admin/events/{eventId}/awards/{awardId}/delete
+# POST /api/v1/admin/awards/{awardId}/delete
 
 > Admin xóa mềm phần thưởng.
 
