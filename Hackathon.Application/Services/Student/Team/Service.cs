@@ -108,9 +108,6 @@ public class Service : ITeamService
             userId, request.Keyword, TeamDetailStatusEnum.Active, false,
             request.PageIndex, request.PageSize);
 
-        var teamIds = items.Select(td => td.TeamId).ToList();
-        var allMembers = await _teamRepository.GetTeamMembersAsync(teamIds.FirstOrDefault());
-
         return new GetMyTeamsResponse
         {
             Teams = items.Select(td => new MyTeamItem
@@ -152,6 +149,7 @@ public class Service : ITeamService
         foreach (var member in members.Where(m => !m.IsDisable))
         {
             member.IsDisable = true;
+            member.Status = TeamDetailStatusEnum.Inactive;
             member.UpdatedAt = now;
         }
 
@@ -162,6 +160,47 @@ public class Service : ITeamService
 
         await _teamRepository.UpdateAsync(team);
         await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task<GetTeamMembersResponse> GetTeamMembers(Guid teamId, int pageIndex, int pageSize)
+    {
+        _authorizationService.Authorize(RoleEnum.Student);
+
+        PaginationHelper.Validate(pageIndex, pageSize);
+
+        var team = await _teamRepository.GetByIdAsync(teamId);
+        if (team == null || team.IsDisable)
+            throw new NotFoundException("Team Not Found");
+
+        var (items, totalCount) = await _teamRepository.GetTeamMembersPagedAsync(teamId, pageIndex, pageSize);
+
+        // Student: chi lay member co Status = Active va IsDisable = false
+        var filteredItems = items
+            .Where(m => !m.IsDisable && m.Status == TeamDetailStatusEnum.Active)
+            .ToList();
+
+        // Tinh totalDisable tu tat ca member (ko chi trong page)
+        var allMembers = await _teamRepository.GetTeamMembersAsync(teamId);
+        var totalDisable = allMembers.Count(m => m.IsDisable || m.Status == TeamDetailStatusEnum.Inactive);
+
+        return new GetTeamMembersResponse
+        {
+            TotalCount = filteredItems.Count,
+            TotalDisable = totalDisable,
+            PageIndex = pageIndex,
+            PageSize = pageSize,
+            Members = filteredItems.Select(m => new TeamMemberItem
+            {
+                UserId = m.UserId,
+                Email = m.User?.Email ?? "",
+                FirstName = m.User?.FirstName ?? "",
+                LastName = m.User?.LastName ?? "",
+                AvatarUrl = m.User?.AvatarUrl,
+                IsLeader = m.IsLeader,
+                IsDisable = m.IsDisable,
+                Status = m.Status?.ToString()
+            }).ToList()
+        };
     }
 
     public async Task<GetTeamCountResponse> GetTeamCount(GetTeamCountRequest request)

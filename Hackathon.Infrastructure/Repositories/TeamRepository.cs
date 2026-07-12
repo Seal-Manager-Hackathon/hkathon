@@ -85,6 +85,7 @@ public class TeamRepository : ITeamRepository
     {
         var query = _context.Set<TeamDetails>()
             .Include(td => td.Team)
+                .ThenInclude(t => t.TeamDetails)
             .Include(td => td.User)
             .Where(td => td.UserId == userId)
             .AsQueryable();

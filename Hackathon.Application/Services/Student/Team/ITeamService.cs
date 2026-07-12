@@ -8,5 +8,6 @@ public interface ITeamService
     Task<CreateTeamResponse> CreateTeam(CreateTeamRequest request);
     Task UpdateTeam(UpdateTeamRequest request);
     Task<GetMyTeamsResponse> GetMyTeams(GetMyTeamsRequest request);
+    Task<GetTeamMembersResponse> GetTeamMembers(Guid teamId, int pageIndex, int pageSize);
     Task DisbandTeam(Guid teamId);
 }
