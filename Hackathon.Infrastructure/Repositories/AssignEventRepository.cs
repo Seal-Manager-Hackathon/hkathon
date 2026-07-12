@@ -90,6 +90,7 @@ public class AssignEventRepository : IAssignEventRepository
 
     public async Task<AssignEvents?> GetByEventIdAndUserIdAsync(Guid eventId, Guid userId)
         => await _context.AssignEvents
+            .Include(ae => ae.EventRole)
             .FirstOrDefaultAsync(ae => ae.EventId == eventId && ae.UserId == userId);
 
     public async Task<AssignEvents?> GetByIdAsync(Guid id)
