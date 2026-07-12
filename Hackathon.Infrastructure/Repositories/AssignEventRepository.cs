@@ -195,6 +195,7 @@ public class AssignEventRepository : IAssignEventRepository
             .Include(ae => ae.EventRole)
             .Where(ae => ae.UserId == userId
                 && !ae.IsDisable
+                && !ae.Event.IsDisable
                 && ae.EventRole != null
                 && ae.EventRole.Name == EventRoleEnum.Staff
                 && ae.Event.Status != EventStatusEnum.Draft);
@@ -234,6 +235,7 @@ public class AssignEventRepository : IAssignEventRepository
             .Include(ae => ae.EventRole)
             .Where(ae => ae.UserId == userId
                 && !ae.IsDisable
+                && !ae.Event.IsDisable
                 && ae.EventRole != null
                 && ae.EventRole.Name == EventRoleEnum.Staff
                 && ae.Event.Status != EventStatusEnum.Draft
@@ -254,6 +256,8 @@ public class AssignEventRepository : IAssignEventRepository
             .Include(ae => ae.Event)
             .Include(ae => ae.EventRole)
             .Where(ae => ae.UserId == userId
+                && !ae.IsDisable
+                && !ae.Event.IsDisable
                 && ae.EventRole != null
                 && (ae.EventRole.Name == EventRoleEnum.Judge || ae.EventRole.Name == EventRoleEnum.Mentor)
                 && ae.Event.Status != EventStatusEnum.Draft);

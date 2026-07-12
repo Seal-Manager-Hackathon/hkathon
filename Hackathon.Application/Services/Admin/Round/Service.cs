@@ -239,6 +239,10 @@ public class Service : IRoundService
         if (ev == null)
             throw new NotFoundException("Event Not Found");
 
+        // Ko cho swap sau khi event da start
+        if (ev.StartTime.HasValue && DateTimeOffset.UtcNow >= ev.StartTime.Value)
+            throw new BadRequestException("Cannot Swap Round After Event Has Started");
+
         if (request.TargetRoundNo < 1)
             throw new BadRequestException("Target Round No Must Be Greater Than 0");
 
