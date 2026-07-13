@@ -212,6 +212,11 @@ public class Service : IRegisterTeamService
 
         // Check round No1 của event
         var firstRound = await _roundRepository.GetFirstRoundByEventIdAsync(rt.EventId);
+
+        // Phải approve trước khi round 1 bắt đầu
+        if (firstRound != null && firstRound.StartTime.HasValue && DateTimeOffset.UtcNow >= firstRound.StartTime.Value)
+            throw new BadRequestException("Cannot Approve After Round 1 Has Started");
+
         if (firstRound != null && firstRound.LimitTeam.HasValue)
         {
             var currentTeamCount = await _roundRepository.CountTeamsInRoundAsync(firstRound.Id);
@@ -503,13 +508,13 @@ public class Service : IRegisterTeamService
         };
     }
 
-    public async Task BanRegisterTeam(Guid registerTeamId, string rejectionReason)
+    public async Task BanRegisterTeam(Guid eventId, Guid registerTeamId, string rejectionReason)
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
         var rt = await _registerTeamRepository.GetByIdAsync(registerTeamId);
-        if (rt == null)
-            throw new NotFoundException("Register Team Not Found");
+        if (rt == null || rt.EventId != eventId)
+            throw new NotFoundException("Register Team Not Found in This Event");
 
         if (rt.IsBanned)
             throw new BadRequestException("Register Team Is Already Banned");

@@ -9,7 +9,7 @@ public interface IRegisterTeamService
     Task RejectRegisterTeam(Guid registerTeamId, string? rejectionReason);
     Task<GetUserEventsResponse> GetUserEvents(GetUserEventsRequest request);
     Task<GetRegisterTeamsResponse> GetRegisterTeamsByTeam(GetRegisterTeamsByTeamRequest request);
-    Task BanRegisterTeam(Guid registerTeamId, string rejectionReason);
+    Task BanRegisterTeam(Guid eventId, Guid registerTeamId, string rejectionReason);
     Task UnbanRegisterTeam(Guid registerTeamId);
     Task<AssignToNextRoundResponse> AssignToNextRound(Guid registerTeamId);
     Task<AssignToNextRoundResponse> RevertToPreviousRound(Guid registerTeamId);
