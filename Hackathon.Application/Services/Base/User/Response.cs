@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+
 namespace Hackathon.Application.Services.Base.User;
 
 public class UpdateProfileRequest
@@ -12,6 +14,7 @@ public class UpdateProfileRequest
     public string? ImgUrl { get; set; }
     public string? LinkUrl { get; set; }
     public string? AvatarUrl { get; set; }
+    public IFormFile? AvatarFile { get; set; }
 }
 
 public class GetMyProfileResponse

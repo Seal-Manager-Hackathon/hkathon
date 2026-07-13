@@ -92,6 +92,11 @@ public class Service : IUserProfileService
             user.LinkUrl = request.LinkUrl;
         if (request.AvatarUrl != null)
             user.AvatarUrl = request.AvatarUrl;
+        if (request.AvatarFile != null)
+        {
+            var avatarUrl = await _mediaService.UploadImageAsync(request.AvatarFile, "avatars");
+            user.AvatarUrl = avatarUrl;
+        }
 
         await _userRepository.UpdateAsync(user);
         await _unitOfWork.SaveChangesAsync();

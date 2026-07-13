@@ -1,30 +1,15 @@
 # PATCH /api/v1/user/me
 
-> Cập nhật thông tin cá nhân của user đang đăng nhập.
-> Có thể cập nhật cả avatarUrl (URL ảnh). StudentId chỉ được set 1 lần nếu trước đó null.
+> Cập nhật thông tin cá nhân của user đang đăng nhập. Hỗ trợ gửi cả fields dạng text và file avatar trong 1 request (multipart/form-data). StudentId chỉ được set 1 lần nếu trước đó null.
 
 ## Phân quyền
 - ✅ Authenticated
 
 ## Request
 
-### Body
-```json
-{
-  "firstName": "Nguyen",
-  "lastName": "Van A",
-  "phoneNumber": "0123456789",
-  "bio": "Sinh viên năm 3",
-  "address": "Hà Nội",
-  "dateOfBirth": "2003-01-15T00:00:00+07:00",
-  "studentId": "SE123456",
-  "imgUrl": "https://example.com/img.jpg",
-  "linkUrl": "https://example.com/profile",
-  "avatarUrl": "https://res.cloudinary.com/.../avatar.jpg"
-}
-```
+**Content-Type:** `multipart/form-data`
 
-### Field rules
+### Fields
 | Field | Type | Ghi chú |
 |-------|------|---------|
 | firstName | string? | Bỏ qua nếu null |
@@ -37,6 +22,10 @@
 | imgUrl | string? | Bỏ qua nếu null |
 | linkUrl | string? | Bỏ qua nếu null |
 | avatarUrl | string? | URL ảnh đại diện. Bỏ qua nếu null |
+| avatarFile | file? | Upload file ảnh mới (sẽ upload lên Cloudinary và set avatarUrl). Được ưu tiên hơn avatarUrl nếu gửi cả 2 |
+
+> Gửi `avatarFile` (file) → tự động upload Cloudinary → lưu URL vào `user.AvatarUrl`.
+> Gửi `avatarUrl` (string) → set URL trực tiếp (dùng khi đã có sẵn URL từ lần upload trước).
 
 ## Response (200)
 ```json
@@ -58,5 +47,6 @@
 1. Authenticate — lấy userId từ token
 2. Load user từ userId
 3. Nếu request field != null → update field tương ứng
-4. StudentId: nếu request có StudentId → check user.StudentId đã có dữ liệu chưa → nếu rồi thì báo lỗi
-5. SaveChanges
+4. Nếu có `avatarFile` → upload lên Cloudinary (folder "avatars") → set `user.AvatarUrl` = URL từ Cloudinary
+5. StudentId: nếu request có StudentId → check user.StudentId đã có dữ liệu chưa → nếu rồi thì báo lỗi
+6. SaveChanges
