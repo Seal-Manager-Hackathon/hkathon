@@ -44,4 +44,5 @@ public interface IAssignEventRepository
         DateTimeOffset? fromDate, DateTimeOffset? toDate,
         int pageIndex, int pageSize);
     Task<AssignEvents?> GetByEventIdAndUserIdWithTracksAsync(Guid eventId, Guid userId);
+    Task<List<AssignTracks>> GetAssignTracksByTrackIdAsync(Guid eventId, Guid trackId);
 }
