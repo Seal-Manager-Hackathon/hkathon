@@ -87,8 +87,6 @@ public class Service : IInvitationService
 
     public async Task<GetInvitationsResponse> GetSentInvitations(Guid teamId, int pageIndex, int pageSize)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
 
         var team = await _teamRepository.GetByIdAsync(teamId);
@@ -130,8 +128,6 @@ public class Service : IInvitationService
 
     public async Task<GetInvitationsResponse> GetReceivedInvitations(string? keyword, string? status, int pageIndex, int pageSize)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
 
         PaginationHelper.Validate(pageIndex, pageSize);
@@ -200,8 +196,6 @@ public class Service : IInvitationService
 
     public async Task AcceptInvitation(Guid invitationId)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
 
         var invitation = await _invitationRepository.GetByIdAsync(invitationId);
@@ -257,8 +251,6 @@ public class Service : IInvitationService
 
     public async Task RejectInvitation(Guid invitationId)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
 
         var invitation = await _invitationRepository.GetByIdAsync(invitationId);

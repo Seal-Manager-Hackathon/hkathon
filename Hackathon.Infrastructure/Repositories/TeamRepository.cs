@@ -24,6 +24,10 @@ public class TeamRepository : ITeamRepository
         return await query.CountAsync();
     }
 
+    public async Task<Teams?> GetByNameAsync(string name)
+        => await _context.Set<Teams>()
+            .FirstOrDefaultAsync(t => t.Name.ToLower() == name.ToLower().Trim() && !t.IsDisable);
+
     public async Task AddAsync(Teams team)
     {
         await _context.Set<Teams>().AddAsync(team);
