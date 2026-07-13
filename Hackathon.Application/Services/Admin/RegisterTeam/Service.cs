@@ -393,12 +393,12 @@ public class Service : IRegisterTeamService
         if (rt == null)
             throw new NotFoundException("Register Team Not Found");
 
-        // Check event hasn't started
+        // Chỉ được up round khi event chưa kết thúc
         var ev = await _eventRepository.GetByIdAsync(rt.EventId);
-        if (ev != null && ev.StartTime.HasValue && DateTimeOffset.UtcNow >= ev.StartTime.Value)
-            throw new BadRequestException("Cannot Assign To Next Round After Event Has Started");
+        if (ev != null && ev.EndTime.HasValue && DateTimeOffset.UtcNow >= ev.EndTime.Value)
+            throw new BadRequestException("Cannot Assign To Next Round After Event Has Ended");
 
-        // Lấy round hiện tại (có RoundNo cao nhất)
+        // Lấy round hiện tại (có RoundNo cao nhất). Nếu chưa có → currentRoundNo = 0 → gán round No1
         var currentRoundDetail = rt.RoundDetails
             .OrderByDescending(rd => rd.Round?.RoundNo)
             .FirstOrDefault();
@@ -451,10 +451,10 @@ public class Service : IRegisterTeamService
         if (rt == null)
             throw new NotFoundException("Register Team Not Found");
 
-        // Check event hasn't started
+        // Chỉ được down round khi event chưa kết thúc
         var ev = await _eventRepository.GetByIdAsync(rt.EventId);
-        if (ev != null && ev.StartTime.HasValue && DateTimeOffset.UtcNow >= ev.StartTime.Value)
-            throw new BadRequestException("Cannot Revert To Previous Round After Event Has Started");
+        if (ev != null && ev.EndTime.HasValue && DateTimeOffset.UtcNow >= ev.EndTime.Value)
+            throw new BadRequestException("Cannot Revert To Previous Round After Event Has Ended");
 
         // Lấy các round detail đang active, sắp xếp giảm dần theo RoundNo
         var activeRounds = rt.RoundDetails

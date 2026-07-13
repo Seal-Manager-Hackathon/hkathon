@@ -152,9 +152,17 @@ public class Service : IAuthService
             throw new NotFoundException(ErrMsg.Auth.UserNotFound);
         }
 
+        if (user.IsDisable)
+        {
+            throw new ForbiddenException(ErrMsg.Auth.UserIsDisabled);
+        }
+
         if (user.Status == UserStatusEnum.Banned)
         {
-            throw new ForbiddenException(ErrMsg.Auth.UserIsBanned);
+            var reason = !string.IsNullOrEmpty(user.BanReason)
+                ? $"Account Is Banned. Reason: {user.BanReason}"
+                : ErrMsg.Auth.UserIsBanned;
+            throw new ForbiddenException(reason);
         }
 
         var isPasswordValid = _passwordService.VerifyPassword(request.Password, user.HashPassword);
