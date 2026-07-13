@@ -13,6 +13,7 @@
 - **`TotalScore` tự động tính = SUM Score items**, FE ko cần gửi.
 - Judge phải được assign vào track.
 - **Upsert logic**: Nếu judge đã chấm bài này rồi (có Score với cùng assignTrackId và submissionId), hệ thống sẽ **xóa scoreItems cũ và ghi đè điểm mới**. Không tạo thêm Score (scope) thứ hai — tránh cộng dồn điểm sai.
+- **Fix 500 khi chấm lại (12/07/2026)**: Trước đây gọi `UpdateAsync` trên entity đã tracking sau khi xóa ScoreItems → EF graph state conflict → 500. Giờ dùng `ReplaceScoreItemsAsync` — xóa cũ + add mới trong 1 phương thức, không gọi `UpdateAsync` vì entity đã được tracking sẵn.
 
 ## Phân quyền
 - ✅ Judge — phải được assign vào track

@@ -99,6 +99,15 @@ public class ScoreRepository : IScoreRepository
         _context.Set<ScoreItems>().RemoveRange(items);
     }
 
+    public async Task ReplaceScoreItemsAsync(Guid scoreId, List<ScoreItems> newItems)
+    {
+        var oldItems = await _context.Set<ScoreItems>()
+            .Where(si => si.ScoreId == scoreId)
+            .ToListAsync();
+        _context.Set<ScoreItems>().RemoveRange(oldItems);
+        await _context.Set<ScoreItems>().AddRangeAsync(newItems);
+    }
+
     public async Task<(List<Scores> Items, int TotalCount)> GetScoresBySubmissionIdAsync(Guid submissionId, int pageIndex, int pageSize)
     {
         var query = _context.Set<Scores>()

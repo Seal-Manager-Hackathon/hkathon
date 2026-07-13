@@ -13,4 +13,5 @@ public interface IScoreRepository
     Task AddAsync(Scores score);
     Task UpdateAsync(Scores score);
     Task DeleteScoreItemsByScoreIdAsync(Guid scoreId);
+    Task ReplaceScoreItemsAsync(Guid scoreId, List<ScoreItems> newItems);
 }

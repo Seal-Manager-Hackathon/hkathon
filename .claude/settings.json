@@ -90,7 +90,9 @@
       "Bash(git check-ignore *)",
       "mcp__plugin_gitnexus_gitnexus__impact",
       "mcp__plugin_gitnexus_gitnexus__cypher",
-      "mcp__plugin_gitnexus_gitnexus__detect_changes"
+      "mcp__plugin_gitnexus_gitnexus__detect_changes",
+      "Skill(run)",
+      "Skill(run:*)"
     ],
     "additionalDirectories": [
       "c:\\Users\\phamq\\.claude\\projects\\c--Users-phamq-OneDrive-Desktop-New-folder--4--BE-SEAL-HACKATHON\\memory",
