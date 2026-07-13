@@ -37,4 +37,15 @@ public class StudentSubmissionController : ControllerBase
         var result = await _submissionService.GetSubmissionDetail(submissionId);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    /// <summary>
+    /// POST /api/v1/student/submissions
+    /// Create a new submission (only team leader, in submission period)
+    /// </summary>
+    [HttpPost("submissions")]
+    public async Task<IActionResult> CreateSubmission([FromBody] CreateSubmissionRequest request)
+    {
+        var result = await _submissionService.CreateSubmission(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Submission.Created, status: 201, traceId: HttpContext.TraceIdentifier));
+    }
 }

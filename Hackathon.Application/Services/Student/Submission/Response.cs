@@ -1,5 +1,16 @@
 namespace Hackathon.Application.Services.Student.Submission;
 
+public class CreateSubmissionResponse
+{
+    public Guid Id { get; set; }
+    public Guid RegisterTeamId { get; set; }
+    public Guid RoundId { get; set; }
+    public string? Url { get; set; }
+    public string? Description { get; set; }
+    public string? Status { get; set; }
+    public DateTimeOffset? SubmittedAt { get; set; }
+}
+
 public class GetRegisterTeamSubmissionsResponse
 {
     public List<RegisterTeamSubmissionItem> Items { get; set; } = new();

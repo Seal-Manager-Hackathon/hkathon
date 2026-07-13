@@ -2,6 +2,7 @@ using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
 using Hackathon.Domain.Entities;
+using Hackathon.Domain.Enums.Submission;
 using Hackathon.Domain.Enums.TeamDetail;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
 
@@ -11,16 +12,25 @@ public class Service : ISubmissionService
 {
     private readonly ISubmissionRepository _submissionRepository;
     private readonly IRegisterTeamRepository _registerTeamRepository;
+    private readonly IRoundRepository _roundRepository;
+    private readonly ITeamRepository _teamRepository;
     private readonly ICurrentUserService _currentUserService;
+    private readonly IUnitOfWork _unitOfWork;
 
     public Service(
         ISubmissionRepository submissionRepository,
         IRegisterTeamRepository registerTeamRepository,
-        ICurrentUserService currentUserService)
+        IRoundRepository roundRepository,
+        ITeamRepository teamRepository,
+        ICurrentUserService currentUserService,
+        IUnitOfWork unitOfWork)
     {
         _submissionRepository = submissionRepository;
         _registerTeamRepository = registerTeamRepository;
+        _roundRepository = roundRepository;
+        _teamRepository = teamRepository;
         _currentUserService = currentUserService;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<GetRegisterTeamSubmissionsResponse> GetRegisterTeamSubmissions(Guid registerTeamId, Guid? roundId)
@@ -83,6 +93,87 @@ public class Service : ISubmissionService
             TotalCount = resultItems.Count,
             PageIndex = 1,
             PageSize = int.MaxValue
+        };
+    }
+
+    public async Task<CreateSubmissionResponse> CreateSubmission(CreateSubmissionRequest request)
+    {
+        var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
+
+        // Check register team exists
+        var registerTeam = await _registerTeamRepository.GetByIdAsync(request.RegisterTeamId);
+        if (registerTeam == null || registerTeam.IsDisable || registerTeam.IsBanned)
+            throw new NotFoundException("Register Team Not Found");
+
+        // Check register team is approved
+        if (registerTeam.Status != Domain.Enums.RegisterTeam.RegisterTeamStatusEnum.Approved)
+            throw new BadRequestException("Register Team Is Not Approved");
+
+        // Check event exists and is open
+        var ev = registerTeam.Event;
+        if (ev == null || ev.IsDisable)
+            throw new NotFoundException("Event Not Found");
+
+        if (ev.Status != Domain.Enums.Event.EventStatusEnum.Published)
+            throw new BadRequestException("Event Is Not Open for Submission");
+
+        // Check team exists and not disabled
+        var team = registerTeam.Team;
+        if (team == null || team.IsDisable)
+            throw new NotFoundException("Team Not Found");
+
+        // Check user is leader of the team (active leader)
+        var members = await _teamRepository.GetTeamMembersAsync(registerTeam.TeamId);
+        var leader = members.FirstOrDefault(m => m.UserId == userId && m.IsLeader && !m.IsDisable && m.Status == TeamDetailStatusEnum.Active);
+        if (leader == null)
+            throw new BadRequestException("Only Team Leader Can Submit");
+
+        // Check round exists and belongs to the same event
+        var round = await _roundRepository.GetByIdAsync(request.RoundId);
+        if (round == null || round.IsDisable)
+            throw new NotFoundException("Round Not Found");
+
+        if (round.EventId != registerTeam.EventId)
+            throw new BadRequestException("Round Does Not Belong to This Event");
+
+        // Check team is registered in this round (has RoundDetail, not disabled)
+        var roundDetail = await _roundRepository.GetRoundDetailAsync(request.RegisterTeamId, request.RoundId);
+        if (roundDetail == null || roundDetail.IsDisable)
+            throw new BadRequestException("Team Is Not Registered in This Round");
+
+        // Check submission time
+        var now = DateTimeOffset.UtcNow;
+        if (round.StartSubmission.HasValue && now < round.StartSubmission.Value)
+            throw new BadRequestException("Submission Period Has Not Started Yet");
+
+        if (round.EndSubmission.HasValue && now > round.EndSubmission.Value)
+            throw new BadRequestException("Submission Period Has Ended");
+
+        var submission = new Submissions
+        {
+            Id = Guid.NewGuid(),
+            RoundDetailId = roundDetail.Id,
+            Url = request.Url,
+            Description = request.Description,
+            Status = SubmissionStatusEnum.Submitted,
+            SubmittedAt = now,
+            IsRegrade = false,
+            CreatedAt = now,
+            UpdatedAt = now
+        };
+
+        await _submissionRepository.AddAsync(submission);
+        await _unitOfWork.SaveChangesAsync();
+
+        return new CreateSubmissionResponse
+        {
+            Id = submission.Id,
+            RegisterTeamId = registerTeam.Id,
+            RoundId = round.Id,
+            Url = submission.Url,
+            Description = submission.Description,
+            Status = submission.Status?.ToString(),
+            SubmittedAt = submission.SubmittedAt
         };
     }
 
