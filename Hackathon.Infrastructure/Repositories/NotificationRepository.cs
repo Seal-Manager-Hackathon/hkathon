@@ -17,6 +17,12 @@ public class NotificationRepository : INotificationRepository
     public async Task<Notifications?> GetByIdAsync(Guid id)
         => await _context.Notifications.FindAsync(id);
 
+    public async Task<Notifications?> GetDetailByIdAsync(Guid id)
+        => await _context.Notifications
+            .Include(n => n.User)
+            .Include(n => n.Team)
+            .FirstOrDefaultAsync(n => n.Id == id);
+
     public async Task AddAsync(Notifications notification)
         => await _context.Notifications.AddAsync(notification);
 
@@ -26,6 +32,12 @@ public class NotificationRepository : INotificationRepository
     public Task UpdateAsync(Notifications notification)
     {
         _context.Notifications.Update(notification);
+        return Task.CompletedTask;
+    }
+
+    public Task UpdateRangeAsync(List<Notifications> notifications)
+    {
+        _context.Notifications.UpdateRange(notifications);
         return Task.CompletedTask;
     }
 
@@ -72,6 +84,41 @@ public class NotificationRepository : INotificationRepository
             .ToListAsync();
 
         return (items, totalCount);
+    }
+
+    public async Task<int> CountStudentNotificationsAsync(
+        Guid userId, List<Guid> teamIds, string? keyword,
+        NotificationTargetTypeEnum? targetType,
+        NotificationStatusEnum? status,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate)
+    {
+        var query = _context.Notifications
+            .Where(n => !n.IsDisable
+                && (n.UserId == userId
+                    || n.TargetType == NotificationTargetTypeEnum.System
+                    || (n.TargetType == NotificationTargetTypeEnum.Team
+                        && n.TeamId.HasValue
+                        && teamIds.Contains(n.TeamId.Value))));
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var kw = keyword.Trim().ToLower();
+            query = query.Where(n => n.Title != null && n.Title.ToLower().Contains(kw));
+        }
+
+        if (targetType.HasValue)
+            query = query.Where(n => n.TargetType == targetType.Value);
+
+        if (status.HasValue)
+            query = query.Where(n => n.Status == status.Value);
+
+        if (fromDate.HasValue)
+            query = query.Where(n => n.CreatedAt >= fromDate.Value);
+
+        if (toDate.HasValue)
+            query = query.Where(n => n.CreatedAt <= toDate.Value);
+
+        return await query.CountAsync();
     }
 
     public async Task<(List<Notifications> Items, int TotalCount)> GetStudentNotificationsAsync(

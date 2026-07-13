@@ -159,45 +159,38 @@ public class Service : IRoundService
         var endTime = request.EndTime ?? round.EndTime;
         var limitTeam = request.LimitTeam ?? round.LimitTeam;
 
-        if (!startTime.HasValue || !endTime.HasValue)
-            throw new BadRequestException("Start Time And End Time Are Required");
-
-        // EndTime > StartTime
-        if (endTime.Value <= startTime.Value)
-            throw new BadRequestException(ErrMsg.Round.EndTimeMustBeAfterStartTime);
-
-        // LimitTeam >= 1
-        if (limitTeam.HasValue && limitTeam.Value < 1)
-            throw new BadRequestException(ErrMsg.Round.LimitTeamMustBeAtLeast1);
-
-        // Round time must be within event time
-        if (ev.StartTime.HasValue && startTime.Value < ev.StartTime.Value)
-            throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
-
-        if (ev.EndTime.HasValue && endTime.Value > ev.EndTime.Value)
-            throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
-
-        // StartTime >= RegisterLimitTime of event
-        if (ev.RegisterLimitTime.HasValue && startTime.Value < ev.RegisterLimitTime.Value)
-            throw new BadRequestException(ErrMsg.Round.StartTimeMustBeAfterRegisterLimitTime);
-
-        // Check previous round (RoundNo - 1): StartTime >= EndTime of previous round
-        if (round.RoundNo.HasValue && round.RoundNo.Value > 1)
-        {
-            var prevRound = await _roundRepository.GetByEventIdAndRoundNoAsync(round.EventId, round.RoundNo.Value - 1);
-            if (prevRound?.EndTime.HasValue == true && startTime.Value < prevRound.EndTime.Value)
-                throw new BadRequestException(ErrMsg.Round.RoundStartTimeMustBeAfterPreviousRoundEndTime);
-        }
-
-        // Check next round (RoundNo + 1): EndTime <= StartTime of next round
-        if (round.RoundNo.HasValue)
-        {
-            var nextRound = await _roundRepository.GetByEventIdAndRoundNoAsync(round.EventId, round.RoundNo.Value + 1);
-            if (nextRound?.StartTime.HasValue == true && endTime.Value > nextRound.StartTime.Value)
-                throw new BadRequestException(ErrMsg.Round.RoundEndTimeMustBeBeforeNextRoundStartTime);
-        }
-
         var now = DateTimeOffset.UtcNow;
+
+        // if (!startTime.HasValue || !endTime.HasValue)
+        //     throw new BadRequestException("Start Time And End Time Are Required");
+        // // EndTime > StartTime
+        // if (endTime.Value <= startTime.Value)
+        //     throw new BadRequestException(ErrMsg.Round.EndTimeMustBeAfterStartTime);
+        // // LimitTeam >= 1
+        // if (limitTeam.HasValue && limitTeam.Value < 1)
+        //     throw new BadRequestException(ErrMsg.Round.LimitTeamMustBeAtLeast1);
+        // // Round time must be within event time
+        // if (ev.StartTime.HasValue && startTime.Value < ev.StartTime.Value)
+        //     throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
+        // if (ev.EndTime.HasValue && endTime.Value > ev.EndTime.Value)
+        //     throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
+        // // StartTime >= RegisterLimitTime of event
+        // if (ev.RegisterLimitTime.HasValue && startTime.Value < ev.RegisterLimitTime.Value)
+        //     throw new BadRequestException(ErrMsg.Round.StartTimeMustBeAfterRegisterLimitTime);
+        // // Check previous round (RoundNo - 1): StartTime >= EndTime of previous round
+        // if (round.RoundNo.HasValue && round.RoundNo.Value > 1)
+        // {
+        //     var prevRound = await _roundRepository.GetByEventIdAndRoundNoAsync(round.EventId, round.RoundNo.Value - 1);
+        //     if (prevRound?.EndTime.HasValue == true && startTime.Value < prevRound.EndTime.Value)
+        //         throw new BadRequestException(ErrMsg.Round.RoundStartTimeMustBeAfterPreviousRoundEndTime);
+        // }
+        // // Check next round (RoundNo + 1): EndTime <= StartTime of next round
+        // if (round.RoundNo.HasValue)
+        // {
+        //     var nextRound = await _roundRepository.GetByEventIdAndRoundNoAsync(round.EventId, round.RoundNo.Value + 1);
+        //     if (nextRound?.StartTime.HasValue == true && endTime.Value > nextRound.StartTime.Value)
+        //         throw new BadRequestException(ErrMsg.Round.RoundEndTimeMustBeBeforeNextRoundStartTime);
+        // }
 
         // Update fields
         if (request.Name != null)
@@ -216,11 +209,10 @@ public class Service : IRoundService
             round.LimitTeam = request.LimitTeam;
 
         // Re-validate startSubmission / endSubmission after time changes
-        if (round.StartSubmission.HasValue && round.StartTime.HasValue && round.StartSubmission.Value < round.StartTime.Value)
-            throw new BadRequestException(ErrMsg.Round.StartSubmissionMustBeAfterStartTime);
-
-        if (round.EndSubmission.HasValue && round.EndTime.HasValue && round.EndSubmission.Value > round.EndTime.Value)
-            throw new BadRequestException(ErrMsg.Round.EndSubmissionMustBeBeforeEndTime);
+        // if (round.StartSubmission.HasValue && round.StartTime.HasValue && round.StartSubmission.Value < round.StartTime.Value)
+        //     throw new BadRequestException(ErrMsg.Round.StartSubmissionMustBeAfterStartTime);
+        // if (round.EndSubmission.HasValue && round.EndTime.HasValue && round.EndSubmission.Value > round.EndTime.Value)
+        //     throw new BadRequestException(ErrMsg.Round.EndSubmissionMustBeBeforeEndTime);
 
         round.UpdatedAt = now;
         await _roundRepository.UpdateAsync(round);

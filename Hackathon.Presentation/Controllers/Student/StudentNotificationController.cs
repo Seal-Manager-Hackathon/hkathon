@@ -40,6 +40,56 @@ public class StudentNotificationController : ControllerBase
     }
 
     /// <summary>
+    /// Đếm số notification của student, có filter theo status
+    /// </summary>
+    [HttpGet("notifications/count")]
+    public async Task<IActionResult> GetNotificationCount([FromQuery] string? status)
+    {
+        var result = await _notificationService.GetNotificationCount(status);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    /// <summary>
+    /// Đếm số notification chưa đọc
+    /// </summary>
+    [HttpGet("notifications/unread-count")]
+    public async Task<IActionResult> GetMyUnreadCount()
+    {
+        var result = await _notificationService.GetMyUnreadCount();
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    /// <summary>
+    /// Chi tiết 1 notification (personal, team, system)
+    /// </summary>
+    [HttpGet("notifications/{notificationId:guid}")]
+    public async Task<IActionResult> GetNotificationDetail(Guid notificationId)
+    {
+        var result = await _notificationService.GetNotificationDetail(notificationId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    /// <summary>
+    /// Đọc 1 notification — đổi status thành Read
+    /// </summary>
+    [HttpPost("notifications/{notificationId:guid}/read")]
+    public async Task<IActionResult> ReadNotification(Guid notificationId)
+    {
+        await _notificationService.ReadNotification(notificationId);
+        return Ok(ApiResponseFactory.Success<object>(null, message: SuccessMessage.Common.OperationSuccessful, traceId: HttpContext.TraceIdentifier));
+    }
+
+    /// <summary>
+    /// Đọc tất cả notification chưa đọc — đổi tất cả thành Read
+    /// </summary>
+    [HttpPost("notifications/read-all")]
+    public async Task<IActionResult> ReadAllNotifications()
+    {
+        await _notificationService.ReadAllNotifications();
+        return Ok(ApiResponseFactory.Success<object>(null, message: SuccessMessage.Common.OperationSuccessful, traceId: HttpContext.TraceIdentifier));
+    }
+
+    /// <summary>
     /// Chi tiết 1 mentor notification — event, track, mentor info
     /// </summary>
     [HttpGet("mentor-notifications/{mentorNotificationId:guid}")]

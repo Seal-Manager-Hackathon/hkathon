@@ -8,6 +8,7 @@ public interface INotificationRepository
     Task AddAsync(Notifications notification);
     Task AddRangeAsync(List<Notifications> notifications);
     Task UpdateAsync(Notifications notification);
+    Task UpdateRangeAsync(List<Notifications> notifications);
     Task<List<Notifications>> GetRecentAsync(int count);
     Task<(List<Notifications> Items, int TotalCount)> SearchAsync(
         string? title, Domain.Enums.Notification.NotificationTargetTypeEnum? targetType,
@@ -18,6 +19,12 @@ public interface INotificationRepository
         Domain.Enums.Notification.NotificationStatusEnum? status,
         DateTimeOffset? fromDate, DateTimeOffset? toDate,
         int pageIndex, int pageSize);
+    Task<Notifications?> GetDetailByIdAsync(Guid id);
+    Task<int> CountStudentNotificationsAsync(
+        Guid userId, List<Guid> teamIds, string? keyword,
+        Domain.Enums.Notification.NotificationTargetTypeEnum? targetType,
+        Domain.Enums.Notification.NotificationStatusEnum? status,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate);
     Task<(List<Notifications> Items, int TotalCount)> GetStudentNotificationsAsync(
         Guid userId, List<Guid> teamIds, string? keyword,
         Domain.Enums.Notification.NotificationTargetTypeEnum? targetType,
