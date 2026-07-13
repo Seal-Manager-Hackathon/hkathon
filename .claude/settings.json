@@ -86,7 +86,9 @@
       "Bash(dotnet run *)",
       "Bash(ECC_GATEGUARD=off dotnet build)",
       "Bash(export ECC_GATEGUARD=off)",
-      "Bash(Select-String -Pattern \"error\\\\\\(s\\\\\\)|Build succeeded|Warning\\\\\\(s\\\\\\)\")"
+      "Bash(Select-String -Pattern \"error\\\\\\(s\\\\\\)|Build succeeded|Warning\\\\\\(s\\\\\\)\")",
+      "Bash(git check-ignore *)",
+      "mcp__plugin_gitnexus_gitnexus__impact"
     ],
     "additionalDirectories": [
       "c:\\Users\\phamq\\.claude\\projects\\c--Users-phamq-OneDrive-Desktop-New-folder--4--BE-SEAL-HACKATHON\\memory",
