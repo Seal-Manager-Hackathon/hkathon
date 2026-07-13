@@ -42,7 +42,7 @@ public class Service : ISubmissionService
 
         var validScores = submission.Scores.Where(s => s.TotalScore.HasValue).ToList();
         var totalScore = validScores.Count > 0
-            ? Math.Round(validScores.Sum(s => s.TotalScore!.Value), 2)
+            ? Math.Round(validScores.Average(s => s.TotalScore!.Value), 2)
             : (decimal?)null;
 
         return new GetSubmissionDetailResponse

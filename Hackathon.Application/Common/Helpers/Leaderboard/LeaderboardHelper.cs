@@ -105,8 +105,7 @@ public class LeaderboardHelper
                     .ToList();
 
                 var eventScore = EventScoreHelper.Calculate(
-                    roundScores.Select(r => r.ScopeScore).ToList(),
-                    totalRounds > 0 ? totalRounds : roundScores.Count);
+                    roundScores.Select(r => r.ScopeScore).ToList());
 
                 return new EventLeaderboardItem
                 {
@@ -163,7 +162,7 @@ public class LeaderboardHelper
                     .Select(rd => CalculateScopeScore(rd))
                     .ToList();
 
-                var eventScore = EventScoreHelper.Calculate(roundScores, totalRounds);
+                var eventScore = EventScoreHelper.Calculate(roundScores);
 
                 if (!teamDict.ContainsKey(rt.TeamId))
                     teamDict[rt.TeamId] = (rt.Team?.Name ?? "", new());

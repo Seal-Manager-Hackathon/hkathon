@@ -79,28 +79,28 @@ public class Service : IRoundService
             throw new BadRequestException("Round Name Already Exists In This Event");
 
         // Validate thời gian round
-        if (request.EndTime <= request.StartTime)
-            throw new BadRequestException(ErrMsg.Round.EndTimeMustBeAfterStartTime);
+        // if (request.EndTime <= request.StartTime)
+        //     throw new BadRequestException(ErrMsg.Round.EndTimeMustBeAfterStartTime);
 
-        if (request.StartSubmission.HasValue && request.StartSubmission.Value < request.StartTime)
-            throw new BadRequestException(ErrMsg.Round.StartSubmissionMustBeAfterStartTime);
+        // if (request.StartSubmission.HasValue && request.StartSubmission.Value < request.StartTime)
+        //     throw new BadRequestException(ErrMsg.Round.StartSubmissionMustBeAfterStartTime);
 
-        if (request.EndSubmission.HasValue && request.EndSubmission.Value > request.EndTime)
-            throw new BadRequestException(ErrMsg.Round.EndSubmissionMustBeBeforeEndTime);
+        // if (request.EndSubmission.HasValue && request.EndSubmission.Value > request.EndTime)
+        //     throw new BadRequestException(ErrMsg.Round.EndSubmissionMustBeBeforeEndTime);
 
-        if (request.LimitTeam.HasValue && request.LimitTeam.Value < 1)
-            throw new BadRequestException(ErrMsg.Round.LimitTeamMustBeAtLeast1);
+        // if (request.LimitTeam.HasValue && request.LimitTeam.Value < 1)
+        //     throw new BadRequestException(ErrMsg.Round.LimitTeamMustBeAtLeast1);
 
-        // Check StartTime và EndTime của round phải nằm trong event time
-        if (ev.StartTime.HasValue && request.StartTime < ev.StartTime.Value)
-            throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
+        // // Check StartTime và EndTime của round phải nằm trong event time
+        // if (ev.StartTime.HasValue && request.StartTime < ev.StartTime.Value)
+        //     throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
 
-        if (ev.EndTime.HasValue && request.EndTime > ev.EndTime.Value)
-            throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
+        // if (ev.EndTime.HasValue && request.EndTime > ev.EndTime.Value)
+        //     throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
 
-        // StartTime của round phải >= RegisterLimitTime của event
-        if (ev.RegisterLimitTime.HasValue && request.StartTime < ev.RegisterLimitTime.Value)
-            throw new BadRequestException(ErrMsg.Round.StartTimeMustBeAfterRegisterLimitTime);
+        // // StartTime của round phải >= RegisterLimitTime của event
+        // if (ev.RegisterLimitTime.HasValue && request.StartTime < ev.RegisterLimitTime.Value)
+        //     throw new BadRequestException(ErrMsg.Round.StartTimeMustBeAfterRegisterLimitTime);
 
         // Auto-calculate RoundNo
         var maxRoundNo = await _roundRepository.GetMaxRoundNoAsync(request.EventId);

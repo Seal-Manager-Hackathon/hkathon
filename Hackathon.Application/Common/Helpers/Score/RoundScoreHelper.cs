@@ -7,15 +7,16 @@ namespace Hackathon.Application.Common.Helpers;
 ///
 /// Term:
 ///   Scores.TotalScore = tổng ScoreItems của 1 judge (đã tính khi chấm)
-///   scopeScore        = SUM(Scores.TotalScore) của tất cả judge
+///   scopeScore        = AVG(Scores.TotalScore) = trung bình cộng điểm các judge
 ///
 /// Count: chỉ tính judge đã chấm thực tế (TotalScore.HasValue = true),
 /// bỏ qua judge chưa chấm (ko có Scores). Điểm 0 vẫn được tính.
+/// Nếu ko có judge nào chấm → scopeScore = 0.
 /// </summary>
 public static class RoundScoreHelper
 {
     /// <summary>
-    /// Tính scopeScore = SUM(Scores.TotalScore) của submission.
+    /// Tính scopeScore = AVG(Scores.TotalScore) của submission.
     /// Trả về cả detail từng judge và tổng scopeScore.
     /// </summary>
     public static (Dictionary<Guid, decimal> JudgeScores, decimal Total) Calculate(Submissions submission)
@@ -28,7 +29,9 @@ public static class RoundScoreHelper
             judgeScores[score.Id] = score.TotalScore.Value;
         }
 
-        var total = Math.Round(judgeScores.Values.Sum(), 2);
+        var total = judgeScores.Count > 0
+            ? Math.Round(judgeScores.Values.Average(), 2)
+            : 0m;
         return (judgeScores, total);
     }
 }

@@ -163,7 +163,7 @@ public class SubmissionRepository : ISubmissionRepository
             .OrderByDescending(rd => rd.Submissions
                 .OrderByDescending(s => s.SubmittedAt)
                 .SelectMany(s => s.Scores)
-                .Sum(sc => (decimal?)sc.TotalScore ?? 0))
+                .Average(sc => (decimal?)sc.TotalScore ?? 0))
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -172,10 +172,14 @@ public class SubmissionRepository : ISubmissionRepository
         {
             var lastSubmission = SubmissionHelper.GetLastSubmission(rd);
 
-            // scopeScore = SUM(Scores.TotalScore)
-            var scopeScore = lastSubmission?.Scores
+            // scopeScore = AVG(Scores.TotalScore)
+            var scores = lastSubmission?.Scores
                 .Where(s => s.TotalScore.HasValue)
-                .Sum(s => s.TotalScore!.Value) ?? 0m;
+                .Select(s => s.TotalScore!.Value)
+                .ToList();
+            var scopeScore = scores != null && scores.Count > 0
+                ? scores.Average()
+                : 0m;
 
             return new RoundSummaryItem
             {
