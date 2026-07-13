@@ -408,6 +408,9 @@ public class Service : IRegisterTeamService
         if (rt.IsBanned)
             throw new BadRequestException("Register Team Is Already Banned");
 
+        if (rt.Status != RegisterTeamStatusEnum.Approved)
+            throw new BadRequestException("Only Approved Register Team Can Be Banned");
+
         rt.IsBanned = true;
         rt.Status = RegisterTeamStatusEnum.Banned;
         rt.RejectionReason = rejectionReason;
