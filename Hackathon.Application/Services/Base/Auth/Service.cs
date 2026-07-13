@@ -157,7 +157,7 @@ public class Service : IAuthService
             throw new ForbiddenException(ErrMsg.Auth.UserIsDisabled);
         }
 
-        if (user.Status == UserStatusEnum.Banned)
+        if (user.Status == UserStatusEnum.Banned || user.BannedAt != null || !string.IsNullOrEmpty(user.BanReason))
         {
             var reason = !string.IsNullOrEmpty(user.BanReason)
                 ? $"Account Is Banned. Reason: {user.BanReason}"

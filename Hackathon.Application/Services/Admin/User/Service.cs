@@ -236,6 +236,7 @@ public class Service : IUserService
 
         user.BanReason = request.BanReason;
         user.BannedAt = DateTimeOffset.UtcNow;
+        user.Status = UserStatusEnum.Banned;
         // IsDisable vẫn false — ban ko ẩn user
         user.UpdatedAt = DateTimeOffset.UtcNow;
 
@@ -252,6 +253,7 @@ public class Service : IUserService
 
         user.BanReason = null;
         user.BannedAt = null;
+        user.Status = UserStatusEnum.Active;
         user.UpdatedAt = DateTimeOffset.UtcNow;
 
         await _unitOfWork.SaveChangesAsync();

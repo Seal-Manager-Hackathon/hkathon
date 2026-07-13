@@ -211,12 +211,8 @@ public class Service : ITeamService
         if (targetMember.IsLeader)
             throw new BadRequestException("Cannot Kick the Team Leader");
 
-        var now = DateTimeOffset.UtcNow;
-        targetMember.IsDisable = true;
-        targetMember.Status = TeamDetailStatusEnum.Inactive;
-        targetMember.UpdatedAt = now;
-
-        await _teamRepository.UpdateTeamDetailAsync(targetMember);
+        // Xóa cứng TeamDetails — người bị kick không còn trong team nữa
+        await _teamRepository.DeleteTeamDetailAsync(targetMember);
         await _unitOfWork.SaveChangesAsync();
     }
 

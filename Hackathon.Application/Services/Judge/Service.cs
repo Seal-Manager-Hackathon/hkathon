@@ -938,15 +938,14 @@ public class Service : IJudgeService
             var myScore = lastSubmission.Scores
                 .FirstOrDefault(s => myAssignTrackIds.Contains(s.AssignTrackId));
 
-            var submissionStatus = lastSubmission.Status?.ToString();
-            var isGradedStatus = submissionStatus == "Graded";
-
-            // Filter by isGraded
+            // Filter by isGraded — dùng per-judge (myScore != null) thay vì global submission.Status
             if (isGraded.HasValue)
             {
-                if (isGraded.Value && !isGradedStatus) continue;
-                if (!isGraded.Value && isGradedStatus) continue;
+                if (isGraded.Value && myScore == null) continue;
+                if (!isGraded.Value && myScore != null) continue;
             }
+
+            var submissionStatus = lastSubmission.Status?.ToString();
 
             var rt = rd.RegisterTeam;
             submissions.Add(new TrackSubmissionItem
