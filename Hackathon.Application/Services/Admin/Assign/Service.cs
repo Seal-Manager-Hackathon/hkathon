@@ -82,13 +82,26 @@ public class Service : IAssignService
         if (user.Role == RoleEnum.Lecturer && eventRoleEnum == EventRoleEnum.Staff)
             throw new BadRequestException("Lecturer Cannot Be Assigned Staff Role");
 
-        var existing = await _assignEventRepository.GetByEventIdAndUserIdAsync(request.EventId, request.UserId);
-        if (existing != null)
-            throw new ConflictException("User Is Already Assigned To This Event");
-
         var eventRole = await _assignEventRepository.GetEventRoleByNameAsync(eventRoleEnum);
         if (eventRole == null)
             throw new NotFoundException($"Event Role {request.EventRole} Not Found");
+
+        var existing = await _assignEventRepository.GetByEventIdAndUserIdAsync(request.EventId, request.UserId);
+
+        if (existing != null)
+        {
+            if (existing.IsDisable)
+            {
+                // Re-enable + update role
+                existing.IsDisable = false;
+                existing.EventRoleId = eventRole.Id;
+                existing.UpdatedAt = DateTimeOffset.UtcNow;
+                await _unitOfWork.SaveChangesAsync();
+                return;
+            }
+
+            throw new ConflictException("User Is Already Assigned To This Event");
+        }
 
         var assignEvent = new AssignEvents
         {
