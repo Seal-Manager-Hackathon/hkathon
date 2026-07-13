@@ -3,8 +3,6 @@ using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
 using Hackathon.Domain.Enums.Notification;
-using Hackathon.Domain.Enums.TeamDetail;
-using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
 
 namespace Hackathon.Application.Services.Student.Notification;
@@ -14,24 +12,19 @@ public class Service : INotificationService
     private readonly INotificationRepository _notificationRepository;
     private readonly ITeamRepository _teamRepository;
     private readonly ICurrentUserService _currentUserService;
-    private readonly IAuthorizationService _authorizationService;
 
     public Service(
         INotificationRepository notificationRepository,
         ITeamRepository teamRepository,
-        ICurrentUserService currentUserService,
-        IAuthorizationService authorizationService)
+        ICurrentUserService currentUserService)
     {
         _notificationRepository = notificationRepository;
         _teamRepository = teamRepository;
         _currentUserService = currentUserService;
-        _authorizationService = authorizationService;
     }
 
     public async Task<GetStudentNotificationsResponse> GetNotifications(GetStudentNotificationsRequest request)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
 
         PaginationHelper.Validate(request.PageIndex, request.PageSize);

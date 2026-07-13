@@ -37,6 +37,11 @@ public class Service : ITeamService
 
         var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
 
+        // Check duplicate team name
+        var existingTeam = await _teamRepository.GetByNameAsync(request.Name);
+        if (existingTeam != null)
+            throw new BadRequestException("Team Name Already Exists");
+
         var now = DateTimeOffset.UtcNow;
         var team = new Teams
         {

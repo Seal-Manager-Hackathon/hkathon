@@ -1,8 +1,6 @@
 using Hackathon.Application.Common.Helpers;
-using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
-using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
 
 namespace Hackathon.Application.Services.Student.Assign;
@@ -10,20 +8,15 @@ namespace Hackathon.Application.Services.Student.Assign;
 public class Service : IAssignService
 {
     private readonly IAssignEventRepository _assignEventRepository;
-    private readonly IAuthorizationService _authorizationService;
 
     public Service(
-        IAssignEventRepository assignEventRepository,
-        IAuthorizationService authorizationService)
+        IAssignEventRepository assignEventRepository)
     {
         _assignEventRepository = assignEventRepository;
-        _authorizationService = authorizationService;
     }
 
     public async Task<GetAssignedUsersResponse> GetAssignedUsers(GetAssignedUsersRequest request)
     {
-        _authorizationService.Authorize(RoleEnum.Student);
-
         PaginationHelper.Validate(request.PageIndex, request.PageSize);
 
         Domain.Enums.EventRole.EventRoleEnum? eventRole = null;
