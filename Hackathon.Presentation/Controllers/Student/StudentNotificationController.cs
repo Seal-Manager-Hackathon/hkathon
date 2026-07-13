@@ -25,4 +25,27 @@ public class StudentNotificationController : ControllerBase
         var result = await _notificationService.GetNotifications(request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
+
+    /// <summary>
+    /// Mentor notifications cho register team — lọc theo track của register team đó
+    /// </summary>
+    [HttpGet("register-teams/{registerTeamId:guid}/mentor-notifications")]
+    public async Task<IActionResult> GetMentorNotificationsByRegisterTeam(
+        Guid registerTeamId,
+        [FromQuery] int pageIndex = 1,
+        [FromQuery] int pageSize = 10)
+    {
+        var result = await _notificationService.GetMentorNotificationsByRegisterTeam(registerTeamId, pageIndex, pageSize);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    /// <summary>
+    /// Chi tiết 1 mentor notification — event, track, mentor info
+    /// </summary>
+    [HttpGet("mentor-notifications/{mentorNotificationId:guid}")]
+    public async Task<IActionResult> GetMentorNotificationDetail(Guid mentorNotificationId)
+    {
+        var result = await _notificationService.GetMentorNotificationDetail(mentorNotificationId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
 }

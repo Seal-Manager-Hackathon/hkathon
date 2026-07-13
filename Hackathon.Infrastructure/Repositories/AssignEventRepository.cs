@@ -141,6 +141,17 @@ public class AssignEventRepository : IAssignEventRepository
     public void RemoveAssignTrack(AssignTracks assignTrack)
         => _context.AssignTracks.Update(assignTrack);
 
+    public async Task<List<AssignTracks>> GetAssignTracksByTrackIdAsync(Guid eventId, Guid trackId)
+        => await _context.AssignTracks
+            .Include(at => at.AssignEvent)
+                .ThenInclude(ae => ae.User)
+            .Include(at => at.Track)
+            .Where(at => at.TrackId == trackId
+                && !at.IsDisable
+                && at.AssignEvent.EventId == eventId
+                && !at.AssignEvent.IsDisable)
+            .ToListAsync();
+
     public void RestoreAssignTrack(AssignTracks assignTrack)
         => _context.AssignTracks.Update(assignTrack);
 
