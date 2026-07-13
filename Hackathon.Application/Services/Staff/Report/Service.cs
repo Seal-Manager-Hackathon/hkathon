@@ -52,7 +52,7 @@ public class Service : IReportService
         if (!string.IsNullOrWhiteSpace(request.Status))
         {
             if (!Enum.TryParse<ReportStatusEnum>(request.Status, true, out var parsed))
-                throw new BadRequestException("Invalid Status. Must be: Pending, Reject, Resolved");
+                throw new BadRequestException("Invalid Status. Must be: Pending, Reject, Resolved, Canceled");
             status = parsed;
         }
 
@@ -86,7 +86,7 @@ public class Service : IReportService
         _authorizationService.Authorize(RoleEnum.Staff);
 
         if (!Enum.TryParse<ReportStatusEnum>(request.Status, true, out var status))
-            throw new BadRequestException("Invalid Status. Must be: Pending, Reject, Resolved");
+            throw new BadRequestException("Invalid Status. Must be: Pending, Reject, Resolved, Canceled");
 
         var report = await _reportRepository.GetByIdAsync(reportId);
         if (report == null)

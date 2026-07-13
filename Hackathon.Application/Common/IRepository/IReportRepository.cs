@@ -10,4 +10,9 @@ public interface IReportRepository
     Task<(List<Reports> Items, int TotalCount)> SearchAsync(
         string? keyword, ReportStatusEnum? status,
         int pageIndex, int pageSize);
+    Task AddAsync(Reports report);
+    Task<(List<Reports> Items, int TotalCount)> GetByUserIdAsync(
+        Guid userId, string? keyword, ReportStatusEnum? status,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate,
+        int pageIndex, int pageSize);
 }

@@ -5,7 +5,7 @@
 ## Nghiệp vụ
 
 - Keyword search trên: email user, fullName (firstName + lastName), title
-- Lọc theo status enum: Pending, Reject, Resolved
+- Lọc theo status enum: Pending, Reject, Resolved, Canceled
 - Phân trang
 
 ## Phân quyền
@@ -17,7 +17,7 @@
 | Param     | Kiểu   | Bắt buộc | Mô tả                             |
 | --------- | ------ | -------- | --------------------------------- |
 | keyword   | string | ❌       | Search email, fullname, title     |
-| status    | string | ❌       | Enum: Pending, Reject, Resolved |
+| status    | string | ❌       | Enum: Pending, Reject, Resolved, Canceled |
 | pageIndex | int    | ❌       | Mặc định 1                        |
 | pageSize  | int    | ❌       | Mặc định 10, tối đa 100           |
 
