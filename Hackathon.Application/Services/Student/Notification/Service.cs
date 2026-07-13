@@ -16,6 +16,7 @@ public class Service : INotificationService
     private readonly IRegisterTeamRepository _registerTeamRepository;
     private readonly IMentorNotificationRepository _mentorNotificationRepository;
     private readonly IAssignEventRepository _assignEventRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     public Service(
         INotificationRepository notificationRepository,
@@ -23,7 +24,8 @@ public class Service : INotificationService
         ICurrentUserService currentUserService,
         IRegisterTeamRepository registerTeamRepository,
         IMentorNotificationRepository mentorNotificationRepository,
-        IAssignEventRepository assignEventRepository)
+        IAssignEventRepository assignEventRepository,
+        IUnitOfWork unitOfWork)
     {
         _notificationRepository = notificationRepository;
         _teamRepository = teamRepository;
@@ -31,6 +33,7 @@ public class Service : INotificationService
         _registerTeamRepository = registerTeamRepository;
         _mentorNotificationRepository = mentorNotificationRepository;
         _assignEventRepository = assignEventRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<GetStudentNotificationsResponse> GetNotifications(GetStudentNotificationsRequest request)
@@ -194,5 +197,129 @@ public class Service : INotificationService
             CreatedAt = notification.CreatedAt,
             UpdatedAt = notification.UpdatedAt
         };
+    }
+
+    public async Task<StudentNotificationDetailResponse> GetNotificationDetail(Guid notificationId)
+    {
+        var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
+
+        var notification = await _notificationRepository.GetDetailByIdAsync(notificationId);
+        if (notification == null || notification.IsDisable)
+            throw new NotFoundException("Notification Not Found");
+
+        // Verify access: only owner, team member (for Team notifications), or system notification
+        var hasAccess = notification.UserId == userId
+            || notification.TargetType == Domain.Enums.Notification.NotificationTargetTypeEnum.System;
+
+        if (!hasAccess && notification.TargetType == Domain.Enums.Notification.NotificationTargetTypeEnum.Team
+            && notification.TeamId.HasValue)
+        {
+            var teamIds = await _teamRepository.GetUserActiveTeamIdsAsync(userId);
+            hasAccess = teamIds.Contains(notification.TeamId.Value);
+        }
+
+        if (!hasAccess)
+            throw new ForbiddenException("You Do Not Have Access to This Notification");
+
+        return new StudentNotificationDetailResponse
+        {
+            Id = notification.Id,
+            UserId = notification.UserId,
+            TeamId = notification.TeamId,
+            Title = notification.Title,
+            Status = notification.Status?.ToString(),
+            Description = notification.Description,
+            TargetType = notification.TargetType.ToString(),
+            CreatedAt = notification.CreatedAt,
+            UpdatedAt = notification.UpdatedAt
+        };
+    }
+
+    public async Task<NotificationCountResponse> GetNotificationCount(string? status)
+    {
+        var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
+
+        // Parse status filter
+        NotificationStatusEnum? statusFilter = null;
+        if (!string.IsNullOrWhiteSpace(status))
+        {
+            if (!Enum.TryParse<NotificationStatusEnum>(status, true, out var parsed))
+                throw new BadRequestException("Invalid Status. Must be: Pending, Unread, Read");
+            statusFilter = parsed;
+        }
+
+        var teamIds = await _teamRepository.GetUserActiveTeamIdsAsync(userId);
+
+        var totalCount = await _notificationRepository.CountStudentNotificationsAsync(
+            userId, teamIds, null, null, statusFilter, null, null);
+
+        return new NotificationCountResponse { Total = totalCount };
+    }
+
+    public async Task<GetUnreadCountResponse> GetMyUnreadCount()
+    {
+        var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
+
+        var teamIds = await _teamRepository.GetUserActiveTeamIdsAsync(userId);
+
+        var count = await _notificationRepository.CountStudentNotificationsAsync(
+            userId, teamIds, null, null, NotificationStatusEnum.Unread, null, null);
+
+        return new GetUnreadCountResponse { Count = count };
+    }
+
+    public async Task ReadNotification(Guid notificationId)
+    {
+        var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
+
+        var notification = await _notificationRepository.GetDetailByIdAsync(notificationId);
+        if (notification == null || notification.IsDisable)
+            throw new NotFoundException("Notification Not Found");
+
+        // Check access
+        var hasAccess = notification.UserId == userId
+            || notification.TargetType == Domain.Enums.Notification.NotificationTargetTypeEnum.System;
+
+        if (!hasAccess && notification.TargetType == Domain.Enums.Notification.NotificationTargetTypeEnum.Team
+            && notification.TeamId.HasValue)
+        {
+            var teamIds = await _teamRepository.GetUserActiveTeamIdsAsync(userId);
+            hasAccess = teamIds.Contains(notification.TeamId.Value);
+        }
+
+        if (!hasAccess)
+            throw new ForbiddenException("You Do Not Have Access to This Notification");
+
+        if (notification.Status != NotificationStatusEnum.Read)
+        {
+            notification.Status = NotificationStatusEnum.Read;
+            notification.UpdatedAt = DateTimeOffset.UtcNow;
+            await _notificationRepository.UpdateAsync(notification);
+            await _unitOfWork.SaveChangesAsync();
+        }
+    }
+
+    public async Task ReadAllNotifications()
+    {
+        var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
+
+        var teamIds = await _teamRepository.GetUserActiveTeamIdsAsync(userId);
+
+        // Lấy tất cả notification chưa đọc (Unread hoặc Pending) của user
+        var (items, _) = await _notificationRepository.GetStudentNotificationsAsync(
+            userId, teamIds, null, null, NotificationStatusEnum.Unread, null, null, 1, int.MaxValue);
+
+        if (items.Count == 0)
+            return;
+
+        var now = DateTimeOffset.UtcNow;
+        foreach (var n in items)
+        {
+            n.Status = NotificationStatusEnum.Read;
+            n.UpdatedAt = now;
+        }
+
+        await _notificationRepository.UpdateRangeAsync(items);
+        await _unitOfWork.SaveChangesAsync();
     }
 }

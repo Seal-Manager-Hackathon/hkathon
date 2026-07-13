@@ -42,6 +42,29 @@ public class StudentMentorNotificationItem
     public DateTimeOffset CreatedAt { get; set; }
 }
 
+public class NotificationCountResponse
+{
+    public int Total { get; set; }
+}
+
+public class GetUnreadCountResponse
+{
+    public int Count { get; set; }
+}
+
+public class StudentNotificationDetailResponse
+{
+    public Guid Id { get; set; }
+    public Guid? UserId { get; set; }
+    public Guid? TeamId { get; set; }
+    public string? Title { get; set; }
+    public string? Status { get; set; }
+    public string? Description { get; set; }
+    public string? TargetType { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
+}
+
 public class StudentMentorNotificationDetailResponse
 {
     public Guid Id { get; set; }
