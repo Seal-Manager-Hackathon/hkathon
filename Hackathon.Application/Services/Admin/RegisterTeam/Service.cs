@@ -508,13 +508,13 @@ public class Service : IRegisterTeamService
         };
     }
 
-    public async Task BanRegisterTeam(Guid eventId, Guid registerTeamId, string rejectionReason)
+    public async Task BanRegisterTeam(Guid registerTeamId, string rejectionReason)
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
         var rt = await _registerTeamRepository.GetByIdAsync(registerTeamId);
-        if (rt == null || rt.EventId != eventId)
-            throw new NotFoundException("Register Team Not Found in This Event");
+        if (rt == null)
+            throw new NotFoundException("Register Team Not Found");
 
         if (rt.IsBanned)
             throw new BadRequestException("Register Team Is Already Banned");
