@@ -1,4 +1,4 @@
-# Tài liệu Thiết kế Database (PostgreSQL & .NET Mapping)
+﻿# Tài liệu Thiết kế Database (PostgreSQL & .NET Mapping)
 
 Tài liệu này mô tả chi tiết cấu trúc cơ sở dữ liệu PostgreSQL tương ứng với các Entity trong dự án Hackathon, bao gồm định nghĩa các trường thừa kế từ `BaseEntity<Guid>` và `IAuditableEntity`, kiểu dữ liệu ánh xạ giữa PostgreSQL và C# (.NET), cùng bản đồ quan hệ (không trùng lặp) giữa các bảng.
 
@@ -456,8 +456,8 @@ Dưới đây là sơ đồ chi tiết các mối quan hệ được khai báo t
 - **`Users` (1) ─── (N) `Invitations`**
   - Mối quan hệ: Một người dùng có thể nhận được nhiều lời mời gia nhập đội.
   - Ánh xạ: Khóa ngoại `user_id` trên bảng `invitations`.
-- **`Users` (1) ─── (0..1) `Notifications`**
-  - Mối quan hệ: Hệ thống lưu và phân phối thông báo cá nhân đến người dùng.
+- **`Users` (1) ─── (N) `Notifications`**
+  - Mối quan hệ: Hệ thống lưu và phân phối thông báo cá nhân đến người dùng. Một người dùng có thể nhận nhiều thông báo.
   - Ánh xạ: Khóa ngoại `user_id` (cho phép NULL) trên bảng `notifications`.
 - **`Users` (1) ─── (N) `AssignEvents`**
   - Mối quan hệ: Một người dùng có thể được phân công quản lý/chấm thi ở nhiều sự kiện.
@@ -476,8 +476,8 @@ Dưới đây là sơ đồ chi tiết các mối quan hệ được khai báo t
 - **`Teams` (1) ─── (N) `Invitations`**
   - Mối quan hệ: Trưởng nhóm có thể gửi lời mời gia nhập đội đến nhiều người dùng.
   - Ánh xạ: Khóa ngoại `team_id` trên bảng `invitations`.
-- **`Teams` (1) ─── (0..1) `Notifications`**
-  - Mối quan hệ: Hệ thống có thể gửi thông báo hướng tới một đội cụ thể.
+- **`Teams` (1) ─── (N) `Notifications`**
+  - Mối quan hệ: Hệ thống có thể gửi thông báo hướng tới một đội cụ thể. Một đội có thể nhận nhiều thông báo.
   - Ánh xạ: Khóa ngoại `team_id` (cho phép NULL) trên bảng `notifications`.
 - **`Teams` (1) ─── (N) `LeaderBoardDetails`**
   - Mối quan hệ: Một đội có thể có kết quả xếp hạng trong nhiều bảng xếp hạng sự kiện khác nhau.
@@ -504,8 +504,8 @@ Dưới đây là sơ đồ chi tiết các mối quan hệ được khai báo t
   - Ánh xạ: Khóa ngoại `event_id` trên bảng `register_teams`.
 
 ### 3.4. Thực thể `EventRoles` (Vai trò Sự kiện)
-- **`EventRoles` (1) ─── (0..1) `AssignEvents`**
-  - Mối quan hệ: Vai trò sự kiện (Judge, Mentor, Organizer...) được gắn vào các phân công công việc.
+- **`EventRoles` (1) ─── (N) `AssignEvents`**
+  - Mối quan hệ: Vai trò sự kiện (Judge, Mentor, Organizer...) được gắn vào nhiều phân công công việc khác nhau.
   - Ánh xạ: Khóa ngoại `event_role_id` (cho phép NULL) trên bảng `assign_events`.
 
 ### 3.5. Thực thể `Tracks` (Chủ đề thi)
@@ -515,13 +515,13 @@ Dưới đây là sơ đồ chi tiết các mối quan hệ được khai báo t
 - **`Tracks` (1) ─── (N) `AssignTracks`**
   - Mối quan hệ: Mỗi chuyên đề có thể phân công nhiều Mentor/Giám khảo phụ trách hướng dẫn và đánh giá.
   - Ánh xạ: Khóa ngoại `track_id` trên bảng `assign_tracks`.
-- **`Tracks` (1) ─── (0..1) `RegisterTeams`**
-  - Mối quan hệ: Các đội khi đăng ký tham gia sự kiện có thể chọn một Track cụ thể làm hướng đi chính.
+- **`Tracks` (1) ─── (N) `RegisterTeams`**
+  - Mối quan hệ: Các đội khi đăng ký tham gia sự kiện có thể chọn Track cụ thể làm hướng đi chính. Nhiều đội có thể chọn cùng một Track.
   - Ánh xạ: Khóa ngoại `track_id` (cho phép NULL) trên bảng `register_teams`.
 
 ### 3.6. Thực thể `Topics` (Đề tài thi)
-- **`Topics` (1) ─── (0..1) `RegisterTeams`**
-  - Mối quan hệ: Đội dự thi có thể đăng ký giải quyết một đề tài cụ thể.
+- **`Topics` (1) ─── (N) `RegisterTeams`**
+  - Mối quan hệ: Đội dự thi có thể đăng ký giải quyết một đề tài cụ thể. Nhiều đội có thể chọn cùng một Topic.
   - Ánh xạ: Khóa ngoại `topic_id` (cho phép NULL) trên bảng `register_teams`.
 
 ### 3.7. Thực thể `Rounds` (Vòng thi)
