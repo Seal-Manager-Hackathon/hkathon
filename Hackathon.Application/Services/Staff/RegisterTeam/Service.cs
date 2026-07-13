@@ -288,11 +288,12 @@ public class Service : IRegisterTeamService
         if (rejectionReason != null)
             rt.RejectionReason = rejectionReason;
 
-        var hasOtherApproved = await _registerTeamRepository.HasOtherApprovedAsync(rt.TeamId, registerTeamId);
+        // Mở khóa team — có thể chỉnh sửa lại
         var team = await _teamRepository.GetByIdAsync(rt.TeamId);
-        if (team != null && !hasOtherApproved)
+        if (team != null)
         {
             team.CanEdit = true;
+            team.UpdatedAt = DateTimeOffset.UtcNow;
             await _teamRepository.UpdateAsync(team);
         }
 

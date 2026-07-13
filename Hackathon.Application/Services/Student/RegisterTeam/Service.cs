@@ -364,6 +364,10 @@ public class Service : IRegisterTeamService
             UpdatedAt = now
         };
 
+        // Khóa team: không thể sửa thông tin hoặc kick member sau khi đã gửi đăng ký
+        team.CanEdit = false;
+        team.UpdatedAt = now;
+
         await _registerTeamRepository.AddAsync(registerTeam);
         await _unitOfWork.SaveChangesAsync();
 

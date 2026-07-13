@@ -95,6 +95,9 @@ public class Service : ITeamService
         if (team == null || team.IsDisable)
             throw new NotFoundException("Team Not Found");
 
+        if (!team.CanEdit)
+            throw new BadRequestException("Team Cannot Be Edited");
+
         // Check user is leader
         var members = await _teamRepository.GetTeamMembersAsync(request.TeamId);
         var isLeader = members.Any(m => m.UserId == userId && m.IsLeader && !m.IsDisable);
@@ -150,6 +153,9 @@ public class Service : ITeamService
         var team = await _teamRepository.GetByIdAsync(teamId);
         if (team == null || team.IsDisable)
             throw new NotFoundException("Team Not Found");
+
+        if (!team.CanEdit)
+            throw new BadRequestException("Team Cannot Be Edited");
 
         // Check user is leader
         var members = await _teamRepository.GetTeamMembersAsync(teamId);
@@ -361,6 +367,9 @@ public class Service : ITeamService
         var team = await _teamRepository.GetByIdAsync(teamId);
         if (team == null || team.IsDisable)
             throw new NotFoundException("Team Not Found");
+
+        if (!team.CanEdit)
+            throw new BadRequestException("Team Cannot Be Edited");
 
         var members = await _teamRepository.GetTeamMembersAsync(teamId);
         var myMember = members.FirstOrDefault(m => m.UserId == userId && m.TeamId == teamId);
