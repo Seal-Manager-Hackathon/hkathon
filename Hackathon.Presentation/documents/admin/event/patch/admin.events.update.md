@@ -8,6 +8,7 @@
 
 - Cập nhật thông tin event: tên, mô tả, thời gian, giới hạn team, trạng thái, ...
 - **Hỗ trợ partial update**: field nào null/ko gửi → giữ nguyên giá trị cũ.
+- **LeaderBoard Year auto-update**: Khi Admin thay đổi `startTime` của event, hệ thống tự động cập nhật lại `Year` của LeaderBoard tương ứng — FE không cần làm gì thêm.
 - **Event đã Closed**: CHỈ được sửa IsDisable. Các field khác đều bị từ chối.
 - **Status transitions hợp lệ**:
   - `Draft` → `Published` ✅ (tự động check setup complete)

@@ -6,6 +6,8 @@
 
 API này trả về danh sách các **Score** (lượt chấm) của 1 bài nộp. Mỗi score là 1 judge chấm bài đó.
 
+> **Lưu ý:** Nếu `submissionId` không tồn tại hoặc không có lượt chấm nào, API trả về danh sách rỗng (200 OK) — không phải lỗi 404.
+
 Khác với API tính tổng điểm (trả về tổng số), API này trả về **từng lượt chấm riêng lẻ** kèm thông tin track/topic của team nộp bài.
 
 Thông tin `trackId`, `topicId`, `topicTitle` được lấy từ `RegisterTeams` thông qua `Submission → RoundDetail → RegisterTeam`.

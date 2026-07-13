@@ -57,6 +57,7 @@
 - `chapterScore` = AVG(eventScore) của các event team đã tham gia trong năm
 - `eventScores[].eventScore` = eventScore của team trong từng event (weighted avg scopeScores)
 - Dùng Average để chuẩn hóa giữa event có số round khác nhau
+- Cách xếp hạng sử dụng **DENSE_RANK**: các đội có cùng tổng điểm sẽ xếp chung một hạng, và hạng tiếp theo là hạng liền kề (không nhảy hạng). Ví dụ: 2 đội cùng 250đ đều xếp hạng 1, đội 200đ xếp hạng 2.
 
 ## Lỗi
 | Status | message | Khi nào |

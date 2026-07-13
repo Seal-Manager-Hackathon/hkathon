@@ -1,6 +1,6 @@
 # GET /api/v1/admin/rounds/{roundId}/leaderboard
 
-> Admin xem bảng xếp hạng của 1 round. Tính toán và sắp xếp thứ hạng dựa trên tổng điểm của bài nộp cuối cùng của mỗi team trong round đó.
+> Admin xem bảng xếp hạng của 1 round. Endpoint này do **AdminLeaderboardController** xử lý. Tính toán và sắp xếp thứ hạng dựa trên tổng điểm của bài nộp cuối cùng của mỗi team trong round đó.
 
 ## Nghiệp vụ
 

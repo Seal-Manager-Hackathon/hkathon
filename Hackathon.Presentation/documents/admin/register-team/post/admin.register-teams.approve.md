@@ -4,6 +4,7 @@
 
 ## Nghiệp vụ
 - Chỉ approve được register team đang ở trạng thái `Pending`
+- Chỉ được approve trong thời gian diễn ra event — không thể approve trước khi event bắt đầu hoặc sau khi event đã kết thúc
 - Check event có round No1 không, nếu có check limit team còn slot không
 - Nếu còn slot: tự động thêm register team vào round detail
 - Set `CanEdit = false` cho team (khóa thành viên)
@@ -28,6 +29,8 @@
 | Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
 | 400 | Only Pending Register Team Can Be Approved | Status không phải Pending | Báo "Chỉ duyệt được đơn đang chờ" |
+| 400 | Cannot Approve Before Event Starts | Event chưa bắt đầu | Báo "Sự kiện chưa bắt đầu" |
+| 400 | Cannot Approve After Event Has Ended | Event đã kết thúc | Báo "Sự kiện đã kết thúc" |
 | 400 | Round 1 Is Full. Cannot Approve More Teams | Hết slot round 1 | Báo "Vòng 1 đã đầy" |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | Không phải Admin | Ẩn chức năng |

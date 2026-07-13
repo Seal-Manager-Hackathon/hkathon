@@ -1,6 +1,6 @@
 # POST /api/v1/admin/events/{eventId}/tracks
 
-> Admin tạo track mới cho event.
+> Admin tạo track mới cho event. Tên track phải duy nhất trong cùng event — không được trùng tên (không phân biệt hoa thường).
 
 ## Phân quyền
 - ✅ Admin
@@ -43,6 +43,7 @@
 | Status | message | Khi nào |
 |--------|---------|---------|
 | 400 | Invalid Request Data | Validation lỗi |
+| 400 | Track Title Already Exists In This Event | Tên track bị trùng |
 | 404 | Resource Not Found | EventId không tồn tại |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu |
 | 403 | You do not have permission to perform this action | Không phải Admin |

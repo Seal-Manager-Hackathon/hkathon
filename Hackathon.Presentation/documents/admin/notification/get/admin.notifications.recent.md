@@ -1,9 +1,9 @@
 # GET /api/v1/admin/notifications/recent
 
-> Lấy 5 thông báo được tạo gần đây nhất.
+> Lấy 10 thông báo được tạo gần đây nhất.
 
 ## Nghiệp vụ
-- Sắp xếp theo CreatedAt giảm dần, lấy 5 cái mới nhất
+- Sắp xếp theo CreatedAt giảm dần, lấy 10 thông báo mới nhất
 - Không filter gì thêm
 
 ## Phân quyền

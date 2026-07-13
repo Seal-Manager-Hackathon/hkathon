@@ -2,6 +2,9 @@
 
 > Admin gán 1 register team vào round tiếp theo (tự động tìm round kế).
 
+## Nghiệp vụ
+- Chỉ được assign next round trước khi event bắt đầu. Nếu event đã bắt đầu, không thể chuyển tiếp.
+
 ## Phân quyền
 - ✅ Admin
 
@@ -32,6 +35,7 @@
 | 404 | Register Team Not Found | registerTeamId ko tồn tại |
 | 400 | This Is The Last Round. Cannot Assign To Next Round | Đã là round cuối, ko có round kế |
 | 400 | Team Is Already Assigned To This Round | Team đã được gán vào round này rồi |
+| 400 | Cannot Assign To Next Round After Event Has Started | Event đã bắt đầu | Báo "Sự kiện đã bắt đầu" |
 | 401 | Invalid Or Expired Token | Chưa đăng nhập |
 | 403 | Forbidden | Ko phải admin |
 

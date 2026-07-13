@@ -9,6 +9,7 @@
   - Nếu đã có → level = max level hiện tại + 1
 - NumberOfAward, Prize phải > 0
 - Số lượng mặc định là 1
+- Tên giải thưởng phải **duy nhất trong cùng event** — không được trùng tên (không phân biệt hoa thường)
 
 ## Phân quyền
 - ✅ Admin
@@ -58,6 +59,7 @@
 | Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
 | 400 | Name Is Required | Thiếu name | Báo "Tên phần thưởng không được để trống" |
+| 400 | Award Name Already Exists In This Event | Tên giải thưởng bị trùng trong event | Validation form |
 | 400 | NumberOfAward Must Be Greater Than 0 | numberOfAward <= 0 | Báo "Số lượng phải lớn hơn 0" |
 | 400 | Prize Must Be Greater Than 0 | prize <= 0 | Báo "Giá trị giải thưởng phải lớn hơn 0" |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |

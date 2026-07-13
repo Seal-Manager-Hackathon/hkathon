@@ -7,6 +7,7 @@
 - User sẽ không còn được gán vào track đó nữa
 - Có thể gán lại sau (vì assign check chỉ kiểm tra `IsDisable == false`)
 - Hỗ trợ restore sau này nếu cần
+- **Chỉ remove được track đang active (IsDisable = false).** Nếu track đã bị remove trước đó, báo lỗi 404 (Assign Track Not Found).
 
 ## Phân quyền
 - ✅ Admin

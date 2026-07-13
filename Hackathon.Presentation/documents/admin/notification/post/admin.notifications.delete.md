@@ -4,7 +4,7 @@
 
 ## Nghiệp vụ
 - Xoá mềm: chỉ set `IsDisable = true`, không xoá khỏi DB
-- Admin soft delete: không check trạng thái trước đó
+- Admin soft delete: nếu thông báo đã bị disable rồi thì báo lỗi
 
 ## Phân quyền
 - ✅ Admin
@@ -30,6 +30,7 @@
 ## Lỗi
 | Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
+| 400 | Notification Is Already Disabled | Thông báo đã bị xóa trước đó | Báo "Thông báo đã bị xóa" |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | Không phải Admin | Ẩn chức năng |
 | 404 | Notification Not Found | notificationId không tồn tại | Báo "Không tìm thấy thông báo" |

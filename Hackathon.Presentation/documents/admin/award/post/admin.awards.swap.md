@@ -7,6 +7,8 @@
 - Không được swap với chính nó
 - Target level phải tồn tại trong event
 - Chỉ swap level, không ảnh hưởng các field khác
+- Không thể swap với giải đã bị xóa (IsDisable = true hoặc LevelAward = 0)
+- Giải đích cũng phải còn active (chưa bị xóa), nếu giải đích đã bị xóa → báo lỗi
 
 ## Phân quyền
 - ✅ Admin
@@ -36,9 +38,9 @@ Body (JSON):
 | Status | message | Khi nào |
 |--------|---------|---------|
 | 400 | Target Level Must Be Greater Than 0 | targetLevel < 1 |
-| 400 | Cannot Swap A Deleted Award | award đã bị disable |
+| 400 | Cannot Swap A Deleted Award | Giải hiện tại đã bị xóa | Chỉ swap giải đang active |
 | 400 | Cannot Swap Award With Itself | targetLevel == level hiện tại |
-| 400 | Target Level Not Found In This Event | ko có award nào có level đó |
+| 400 | Target Level Not Found In This Event | Giải đích không tồn tại hoặc đã bị xóa |
 | 404 | Resource Not Found | awardId ko tồn tại |
 | 401 | Unauthorized | Token hết hạn/thiếu |
 | 403 | Forbidden | Không phải Admin |

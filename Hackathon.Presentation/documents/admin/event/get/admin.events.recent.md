@@ -1,9 +1,9 @@
 # GET /api/v1/admin/events/recent
 
-> Lấy 5 events được tạo gần nhất.
+> Lấy 10 events được tạo gần nhất.
 
 ## Nghiệp vụ
-- Sắp xếp theo CreatedAt giảm dần, lấy 5 events mới nhất
+- Sắp xếp theo CreatedAt giảm dần, lấy 10 events mới nhất
 
 ## Phân quyền
 - ✅ Admin

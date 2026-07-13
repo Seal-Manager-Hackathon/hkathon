@@ -2,6 +2,9 @@
 
 > Admin xem danh sách criteria items của template, phân trang, search, lọc.
 
+## Nghiệp vụ
+- Sắp xếp theo thời gian tạo giảm dần (mới nhất lên trước)
+
 ## Phân quyền
 - ✅ Admin
 

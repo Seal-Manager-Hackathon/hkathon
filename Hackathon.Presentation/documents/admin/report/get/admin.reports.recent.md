@@ -1,9 +1,9 @@
 # GET /api/v1/admin/reports/recent
 
-> Lấy 5 reports được tạo gần nhất.
+> Lấy 10 reports được tạo gần nhất.
 
 ## Nghiệp vụ
-- Sắp xếp theo CreatedAt giảm dần, lấy 5 reports mới nhất
+- Sắp xếp theo CreatedAt giảm dần, lấy 10 reports mới nhất
 
 ## Phân quyền
 - ✅ Admin
@@ -19,7 +19,11 @@
         "description": "Chi tiết báo cáo",
         "status": "Pending",
         "typeReport": "Bug",
-        "createdAt": "2026-07-07T12:00:00Z"
+        "createdAt": "2026-07-07T12:00:00Z",
+        "userId": "guid",
+        "userEmail": "user@example.com",
+        "userFirstName": "Nguyen",
+        "userLastName": "Van A"
       }
     ]
   },

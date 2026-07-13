@@ -12,7 +12,7 @@
 ## Request
 | Param | Kiểu | Bắt buộc | Ví dụ | Ghi chú |
 |-------|------|----------|-------|---------|
-| Status | string | ❌ | `Approved` | ⚠️ Enum: Pending, Approved, Rejected |
+| Status | string | ❌ | `Approved` | ⚠️ Enum: Pending, Approved, Rejected, Banned |
 | IsDisable | bool | ❌ | `false` | Lọc theo trạng thái disable |
 | PageIndex | int | ❌ | `1` | Mặc định 1 |
 | PageSize | int | ❌ | `10` | Mặc định 10 |
@@ -58,6 +58,6 @@
 ## Lỗi
 | Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
-| 400 | Invalid Status. Must be: Pending, Approved, Rejected | Status sai | Báo "Trạng thái không hợp lệ" |
+| 400 | Invalid Status. Must be: Pending, Approved, Rejected, Banned | Status sai | Báo "Trạng thái không hợp lệ" |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | Không phải Admin | Ẩn chức năng |

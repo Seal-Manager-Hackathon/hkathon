@@ -12,6 +12,9 @@
 **Cập nhật NumberRound của event:**
 - Khi tạo round thành công → `NumberRound` của event tự động +1
 
+**Tên round phải duy nhất trong cùng event:**
+- Không được trùng tên với round khác trong cùng event (không phân biệt hoa thường).
+
 **Ràng buộc thời gian:**
 | Điều kiện | Mô tả |
 |-----------|-------|
@@ -77,6 +80,7 @@
 | 400 | Round Time Must Be Within Event Time Range | startTime < event.startTime hoặc endTime > event.endTime | Báo "Thời gian round phải nằm trong thời gian event" |
 | 400 | Round Start Time Must Be After Event Register Limit Time | startTime < event.registerLimitTime | Báo "Thời gian bắt đầu round phải sau hạn đăng ký" |
 | 400 | Round Start Time Must Be After Or Equal Previous Round End Time | startTime < endTime của round trước | Báo "Round mới phải bắt đầu sau khi round trước kết thúc" |
+| 400 | Round Name Already Exists In This Event | Tên round bị trùng trong event | Validation form |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | Không phải Admin | Ẩn chức năng |
 | 404 | Event Not Found | eventId không tồn tại | Báo "Không tìm thấy sự kiện" |

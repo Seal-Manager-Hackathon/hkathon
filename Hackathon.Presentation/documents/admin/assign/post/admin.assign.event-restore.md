@@ -4,7 +4,7 @@
 
 ## Nghiệp vụ
 
-Admin muốn khôi phục lại một phân công user đã bị xóa mềm (có `IsDisable = true`). Hệ thống sẽ đặt lại `IsDisable = false` cho bản ghi AssignEvents, đồng thời restore tất cả track mà user đó đã được phân công trong event này.
+Admin muốn khôi phục lại một phân công user đã bị xóa mềm (có `IsDisable = true`). Hệ thống sẽ đặt lại `IsDisable = false` cho bản ghi AssignEvents, đồng thời restore tất cả track mà user đó đã được phân công trong event này. Tất cả track liên quan cũng được restore và cập nhật thời gian sửa đổi.
 
 - Sau khi khôi phục, user và các track liên quan sẽ xuất hiện trở lại trong danh sách `GET /assigned`.
 - Chỉ khôi phục được nếu bản ghi đang ở trạng thái bị disable.
