@@ -4,6 +4,7 @@
 
 ## Nghiệp vụ
 - Chỉ reject được register team đang ở trạng thái `Pending`
+- Chỉ được reject trong thời gian diễn ra event — không thể reject trước khi event bắt đầu hoặc sau khi event đã kết thúc
 - Có thể nhập lý do từ chối (rejectionReason)
 - Nếu team còn register team khác đã approved → giữ nguyên CanEdit = false
 - Nếu team không còn register team nào approved → mở khóa: CanEdit = true
@@ -37,6 +38,8 @@
 ## Lỗi
 | Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
+| 400 | Cannot Reject Before Event Starts | Event chưa bắt đầu | Báo "Sự kiện chưa bắt đầu" |
+| 400 | Cannot Reject After Event Has Ended | Event đã kết thúc | Báo "Sự kiện đã kết thúc" |
 | 400 | Only Pending Register Team Can Be Rejected | Status không phải Pending | Báo "Chỉ từ chối được đơn đang chờ" |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | Không phải Admin | Ẩn chức năng |

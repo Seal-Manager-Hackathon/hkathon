@@ -1,6 +1,6 @@
 # POST /api/v1/admin/tracks/{trackId}/topics
 
-> Admin tạo topic mới trong track.
+> Admin tạo topic mới trong track. Tên topic phải duy nhất trong cùng track — không được trùng tên (không phân biệt hoa thường).
 
 ## Phân quyền
 - ✅ Admin
@@ -40,6 +40,7 @@
 | Status | message | Khi nào |
 |--------|---------|---------|
 | 400 | Invalid Request Data | Validation lỗi |
+| 400 | Topic Title Already Exists In This Track | Tên topic bị trùng |
 | 404 | Resource Not Found | TrackId không tồn tại |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu |
 | 403 | You do not have permission to perform this action | Không phải Admin |

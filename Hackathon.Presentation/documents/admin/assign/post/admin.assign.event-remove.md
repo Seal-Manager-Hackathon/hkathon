@@ -4,7 +4,7 @@
 
 ## Nghiệp vụ
 
-Admin muốn xóa một user đã được phân công khỏi event. Hệ thống sẽ xóa mềm: đặt IsDisable = true trên bản ghi AssignEvents, đồng thời disable tất cả track mà user đó đã được phân công trong event này.
+Admin muốn xóa một user đã được phân công khỏi event. Hệ thống sẽ xóa mềm: đặt IsDisable = true trên bản ghi AssignEvents, đồng thời disable tất cả track mà user đó đã được phân công trong event này. Tất cả track liên quan cũng bị disable và cập nhật thời gian sửa đổi.
 
 Sau khi xóa, user này và các track liên quan sẽ không còn xuất hiện trong danh sách GET /assigned. Dữ liệu vẫn tồn tại trong DB, có thể khôi phục lại bằng API restore.
 

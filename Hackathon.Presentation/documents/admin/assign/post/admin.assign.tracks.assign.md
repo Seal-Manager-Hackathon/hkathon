@@ -43,7 +43,8 @@
 ## Lỗi
 | Status | message | Khi nào |
 |--------|---------|---------|
-| 404 | Assign Event Not Found | assignEventId ko tồn tại |
+| 400 | Assign Event Is Disabled | Phân công này đã bị xóa mềm, không thể assign track | Khôi phục assign event trước |
+| 404 | Assign Event Not Found | assignEventId không tồn tại |
 | 404 | Track Not Found | trackId ko tồn tại |
 | 400 | Staff Cannot Be Assigned To Track | user có EventRole = Staff |
 | 400 | Track Does Not Belong To The Same Event | track thuộc event khác với assign event |

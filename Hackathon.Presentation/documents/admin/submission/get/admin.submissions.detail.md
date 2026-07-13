@@ -7,8 +7,8 @@
 Một **submission** là 1 lần team nộp bài trong 1 round. Mỗi team có thể nộp nhiều lần trong 1 round (nộp lại), lần cuối cùng mới là bài chính thức.
 
 Submission chi tiết chứa thông tin chung về bài nộp và 2 trường tính toán:
-- **totalScore** — tổng điểm của tất cả judge đã chấm bài nộp này (SUM của Scores.TotalScore).
-- **judgeCount** — số lượng judge thực tế đã chấm bài nộp này.
+- **totalScore** — tổng điểm của tất cả judge **đã chấm xong (có TotalScore khác null)**. Chỉ tính các Score có TotalScore != null; nếu chưa có judge nào chấm xong, totalScore = null.
+- **judgeCount** — số lượng judge **thực tế đã chấm xong (có TotalScore khác null)**. Các lượt chấm chưa có điểm (TotalScore = null) sẽ không được đếm.
 
 ```
 Submissions (bài nộp)
@@ -83,8 +83,8 @@ Submissions (bài nộp)
 | `submittedAt` | Thời gian nộp |
 | `isRegrade` | Đánh dấu bài được chấm lại |
 | `submittedBy` | Người nộp (leader của team) |
-| `totalScore` | **Tổng điểm** bài nộp của tất cả judge đã chấm (SUM). Null nếu chưa có ai chấm |
-| `judgeCount` | Số lượng judge đã chấm bài nộp này |
+| `totalScore` | **Tổng điểm** bài nộp — chỉ tính các judge **đã chấm xong** (Score có TotalScore != null). Null nếu chưa có ai chấm xong |
+| `judgeCount` | Số lượng judge **thực tế đã chấm xong** (có TotalScore khác null) |
 
 ## Lỗi
 

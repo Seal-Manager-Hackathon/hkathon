@@ -4,7 +4,7 @@
 
 ## Nghiệp vụ
 - Set `IsBanned = false`, `Status = Approved`, xóa `RejectionReason`
-- 400 nếu chưa bị ban
+- Chỉ unban được đội đã bị ban — nếu chưa bị ban thì báo lỗi
 
 ## Phân quyền
 - ✅ Admin
@@ -23,6 +23,9 @@
 ```
 
 ## Lỗi
-| Status | message | Khi nào | Token hết hạn | Redirect login |
+| Status | message | Khi nào | FE xử lý |
+|--------|---------|---------|----------|
+| 400 | Register Team Is Not Banned | Đội này chưa bị ban | Báo "Đội chưa bị ban" |
+| 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | Không phải Admin | Ẩn chức năng |
 | 404 | Register Team Not Found | registerTeamId ko tồn tại | Báo "Không tìm thấy" |

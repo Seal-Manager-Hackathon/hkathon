@@ -4,7 +4,7 @@
 
 ## Nghiệp vụ
 - Ngược lại với DELETE, set `IsDisable = false`
-- Báo lỗi nếu notification chưa bị disable
+- Không check trạng thái trước đó — restore luôn được
 
 ## Phân quyền
 - ✅ Admin

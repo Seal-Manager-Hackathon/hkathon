@@ -19,8 +19,9 @@
 ```
 
 ## Lỗi
-| Status | message | Khi nào |
-|--------|---------|---------|
-| 404 | Resource Not Found | TemplateId không tồn tại |
-| 401 | Invalid Or Expired Token | Token hết hạn/thiếu |
-| 403 | You do not have permission to perform this action | Không phải Admin |
+| Status | message | Khi nào | FE xử lý |
+|--------|---------|---------|----------|
+| 400 | Cannot Delete An Active Template. Please Deactivate It First | Template đang được active (làm template hiện tại của round) | Phải activate template khác trước rồi mới xóa template hiện tại |
+| 404 | Resource Not Found | TemplateId không tồn tại | |
+| 401 | Invalid Or Expired Token | Token hết hạn/thiếu | |
+| 403 | You do not have permission to perform this action | Không phải Admin | |

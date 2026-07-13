@@ -2,6 +2,9 @@
 
 > Admin lùi register team về round trước đó (xóa cứng round detail hiện tại).
 
+## Nghiệp vụ
+- Chỉ được revert trước khi event bắt đầu. Nếu event đã bắt đầu, không thể lùi về round trước.
+
 ## Phân quyền
 - ✅ Admin
 
@@ -39,6 +42,7 @@
 | 404 | Register Team Not Found | registerTeamId ko tồn tại |
 | 400 | Cannot Revert: Current Round Has Submission(s). Please Delete Submissions First | Round hiện tại đã có submission, ko thể quay lại |
 | 400 | Team Is Only In One Round. Cannot Revert To Previous Round | Team chỉ có 1 round, ko thể lùi |
+| 400 | Cannot Revert To Previous Round After Event Has Started | Event đã bắt đầu | Báo "Sự kiện đã bắt đầu" |
 | 401 | Invalid Or Expired Token | Chưa đăng nhập |
 | 403 | Forbidden | Ko phải admin |
 

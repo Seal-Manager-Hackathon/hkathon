@@ -2,12 +2,13 @@
 
 Swap thứ tự 2 round trong cùng event.
 
+> Chỉ được phép swap round nếu event chưa bắt đầu (thời điểm hiện tại < startTime của event). Nếu event đã bắt đầu rồi, không thể swap.
+
 ## Request
 
 ### Route Parameters
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| eventId | Guid | ID của event |
 | roundId | Guid | ID của round cần đổi |
 
 ### Body (JSON)
@@ -29,7 +30,7 @@ Swap thứ tự 2 round trong cùng event.
 
 - `401` — Unauthorized
 - `404` — Event Not Found / Round Not Found
-- `400` — Target Round No Must Be Greater Than 0 / RoundNo Not Found / Cannot Swap Round With Itself / Cannot Swap A Deleted Round
+- `400` — Target Round No Must Be Greater Than 0 / RoundNo Not Found / Cannot Swap Round With Itself / Cannot Swap A Deleted Round / Cannot Swap Round After Event Has Started / Cannot Swap With A Deleted Round
 
 ## Logic
 

@@ -3,7 +3,7 @@
 > Admin lấy danh sách rounds của event, phân trang, có thể lọc theo keyword (tên round) và roundNo.
 
 ## Nghiệp vụ
-- Trả về danh sách rounds của 1 event, sắp xếp theo thời gian tạo mới nhất
+- Trả về danh sách rounds của 1 event, sắp xếp theo số thứ tự Round (RoundNo) tăng dần
 - Có thể lọc:
   - `keyword`: tìm kiếm theo tên round (contains, không phân biệt hoa thường)
   - `roundNo`: lọc chính xác theo số thứ tự round

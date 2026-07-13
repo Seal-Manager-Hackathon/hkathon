@@ -4,7 +4,7 @@
 
 ## Nghiệp vụ
 
-**Chỉ cho phép restore round đã bị xóa** (RoundNo = 0). Nếu round chưa bị xóa → báo lỗi.
+**Chỉ cho phép restore round đã bị xóa** (IsDisable = true). Nếu round chưa bị xóa → báo lỗi.
 
 **Khi restore:**
 1. ✅ **RoundNo mới** = `maxRoundNo hiện tại + 1` — xếp cuối cùng
@@ -46,7 +46,7 @@
 ## Lỗi
 | Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
-| 400 | Round Is Not Deleted | round chưa bị xóa (RoundNo ≠ 0) | Báo "Round chưa bị xóa" |
+| 400 | Round Is Not Deleted | round chưa bị xóa (IsDisable = false) | Báo "Round chưa bị xóa" |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | Không phải Admin | Ẩn chức năng |
 | 404 | Round Not Found | roundId không tồn tại | Báo "Không tìm thấy round" |

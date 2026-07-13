@@ -70,7 +70,7 @@
 ## Lỗi
 | Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
-| 400 | Invalid Status. Must be: Pending, Approved, Rejected | Status sai | Báo "Trạng thái không hợp lệ" |
+| 400 | Invalid Status. Must be: Pending, Approved, Rejected, Banned | Status sai | Báo "Trạng thái không hợp lệ" |
 | 400 | Page Index Must Be Greater Than Zero | PageIndex < 1 | Fix pagination |
 | 400 | Page Size Must Be Between 1 And 100 | PageSize ngoài khoảng | Fix pagination |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |

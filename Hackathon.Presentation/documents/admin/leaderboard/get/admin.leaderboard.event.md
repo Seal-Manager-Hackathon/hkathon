@@ -63,9 +63,10 @@
 ```
 
 ### Scoring
-- `eventScore` = weighted average scopeScores (weight_i = 1, mẫu số = tổng số round event)
+- `eventScore` = weighted average scopeScores (weight_i = 1, mẫu số = số round không bị disable trong event)
 - `roundScores[].scopeScore` = từng round team đã tham gia
 - Team ko tham gia round = 0 điểm trong mẫu số
+- Cách xếp hạng sử dụng **DENSE_RANK**: các đội có cùng tổng điểm sẽ xếp chung một hạng, và hạng tiếp theo là hạng liền kề (không nhảy hạng). Ví dụ: 2 đội cùng 250đ đều xếp hạng 1, đội 200đ xếp hạng 2.
 
 ## Lỗi
 | Status | message | Khi nào |

@@ -6,6 +6,8 @@
 - Chỉ cần truyền email, firstName, lastName, role
 - Password mặc định là **"string"** — đã hash trước khi lưu
 - College mặc định "FPT University"
+- Tài khoản mới tạo mặc định ở trạng thái **Active**
+- Avatar được tạo tự động từ email qua dịch vụ RoboHash (`https://robohash.org/{email}`)
 - User tạo ra có IsVerified = true (không cần verify email)
 - Role FE truyền string, BE parse enum
 

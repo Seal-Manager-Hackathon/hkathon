@@ -1,9 +1,9 @@
 # GET /api/v1/admin/users/recent
 
-> Lấy 5 users được tạo gần nhất.
+> Lấy 10 users được tạo gần nhất.
 
 ## Nghiệp vụ
-- Sắp xếp theo `CreatedAt` giảm dần, lấy 5 users mới nhất
+- Sắp xếp theo `CreatedAt` giảm dần, lấy 10 users mới nhất
 
 ## Phân quyền
 - ✅ Admin

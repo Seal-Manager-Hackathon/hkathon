@@ -4,7 +4,7 @@
 
 ## Nghiệp vụ
 - Chỉ admin mới được đổi status report
-- Status hợp lệ: `Pending`, `Reject`, `Resolved`
+- Status hợp lệ: `Pending`, `Reject`, `Resolved`, `Canceled`
 - Có thể ghi lý do (reason) khi reject
 
 ## Phân quyền
@@ -19,7 +19,7 @@
 ```
 | Field | Bắt buộc | Ràng buộc |
 |-------|----------|-----------|
-| status | ✅ | `Pending`, `Reject`, `Resolved` |
+| status | ✅ | `Pending`, `Reject`, `Resolved`, `Canceled` |
 | reason | ❌ | - |
 
 ## Response (200)
@@ -35,7 +35,7 @@
 ## Lỗi
 | Status | message | Khi nào |
 |--------|---------|---------|
-| 400 | Invalid Status. Must be: Pending, Reject, Resolved | status không hợp lệ |
+| 400 | Invalid Status. Must be: Pending, Reject, Resolved, Canceled | status không hợp lệ |
 | 404 | Resource Not Found | reportId không tồn tại |
 | 401 | Unauthorized | Token hết hạn/thiếu |
 | 403 | Forbidden | Không phải Admin |

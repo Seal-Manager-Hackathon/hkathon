@@ -2,6 +2,9 @@
 
 > Admin xem danh sách criteria templates của round, phân trang, search, lọc.
 
+## Nghiệp vụ
+- Sắp xếp: template đang active (IsActive = true) lên trước, sau đó theo thời gian tạo giảm dần (mới nhất trước)
+
 ## Phân quyền
 - ✅ Admin
 

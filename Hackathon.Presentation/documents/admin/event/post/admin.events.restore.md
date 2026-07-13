@@ -5,6 +5,7 @@
 ## Nghiệp vụ
 - Chỉ set `IsDisable = false`
 - Chỉ restore được event đang disable
+- **LeaderBoard auto-creation**: Khi restore event, hệ thống tự động kiểm tra LeaderBoard của event đó. Nếu chưa có, hệ thống tạo một LeaderBoard mới với `Year` lấy từ `startTime` của event, `IsLocked = false` và `IsPublished = false`.
 
 ## Phân quyền
 - ✅ Admin

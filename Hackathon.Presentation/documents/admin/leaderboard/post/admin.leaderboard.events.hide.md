@@ -21,5 +21,6 @@ Hide (soft-delete) leader board của một event cụ thể: set IsDisable=true
 ## Lỗi
 | Status | message | Khi nào |
 |--------|---------|---------|
+| 404 | Resource Not Found | Event chưa có LeaderBoard (chưa khởi tạo) |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu |
 | 403 | You do not have permission to perform this action | User không có role Admin |

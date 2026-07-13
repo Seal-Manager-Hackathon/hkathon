@@ -5,7 +5,7 @@
 ## Nghiệp vụ
 
 - Trả về danh sách giải thưởng của 1 event
-- Sắp xếp theo LevelAward tăng dần: giải Nhất (level 1) lên trên cùng, giải thấp hơn ở dưới, giải bị disable (level 0) ở cuối cùng
+- Sắp xếp theo LevelAward tăng dần: giải bị xóa (LevelAward=0) xuống cuối, sau đó theo LevelAward tăng dần, và giữa các giải cùng level thì giải thưởng cao hơn (Prize) xếp trước
 - Có thể lọc:
   - `keyword`: tìm kiếm theo tên award (contains, không phân biệt hoa thường)
   - `isDisable`: lọc theo trạng thái disable

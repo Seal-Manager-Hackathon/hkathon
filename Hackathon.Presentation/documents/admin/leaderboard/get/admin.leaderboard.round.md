@@ -50,6 +50,7 @@
 - `totalScore` = **scopeScore** = SUM(AVG(judgeScore) GROUP BY CriteriaItemId)
 - Chỉ tính submission cuối cùng của team trong round
 - Chỉ tính judge đã chấm thực tế (Score.HasValue = true)
+- Cách xếp hạng sử dụng **DENSE_RANK**: các đội có cùng tổng điểm sẽ xếp chung một hạng, và hạng tiếp theo là hạng liền kề (không nhảy hạng). Ví dụ: 2 đội cùng 250đ đều xếp hạng 1, đội 200đ xếp hạng 2.
 
 ## Lỗi
 | Status | message | Khi nào |

@@ -1,6 +1,6 @@
 # GET /api/v1/admin/events/{eventId}/tracks
 
-> Admin xem danh sách track trong event, phân trang, search, lọc.
+> Admin xem danh sách track trong event, phân trang, search, lọc. Sắp xếp theo thời gian tạo giảm dần (mới nhất lên trước).
 
 ## Phân quyền
 
