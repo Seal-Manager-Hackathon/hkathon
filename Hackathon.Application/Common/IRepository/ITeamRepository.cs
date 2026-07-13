@@ -23,4 +23,5 @@ public interface ITeamRepository
     Task AddAsync(Teams team);
     Task AddTeamDetailAsync(TeamDetails teamDetail);
     Task UpdateTeamDetailAsync(TeamDetails teamDetail);
+    Task DeleteTeamDetailAsync(TeamDetails teamDetail);
 }

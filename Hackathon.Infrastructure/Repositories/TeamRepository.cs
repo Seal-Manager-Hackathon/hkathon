@@ -170,6 +170,12 @@ public class TeamRepository : ITeamRepository
         return Task.CompletedTask;
     }
 
+    public Task DeleteTeamDetailAsync(TeamDetails teamDetail)
+    {
+        _context.Set<TeamDetails>().Remove(teamDetail);
+        return Task.CompletedTask;
+    }
+
     public async Task<List<Teams>> GetRecentAsync(int count)
         => await _context.Set<Teams>()
             .OrderByDescending(t => t.CreatedAt)
