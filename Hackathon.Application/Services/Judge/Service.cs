@@ -384,8 +384,6 @@ public class Service : IJudgeService
         if (existingScore != null)
         {
             // UPDATE: judge đã chấm → xóa hết scoreItems cũ trong DB, tạo mới, tính lại TotalScore
-            await _scoreRepository.DeleteScoreItemsByScoreIdAsync(existingScore.Id);
-
             var total = 0m;
             var newScoreItems = new List<ScoreItems>();
             foreach (var templateItem in activeItems)
@@ -411,7 +409,9 @@ public class Service : IJudgeService
             existingScore.UpdatedAt = DateTimeOffset.UtcNow;
             existingScore.ScoreItems = newScoreItems;
 
-            await _scoreRepository.UpdateAsync(existingScore);
+            // ReplaceScoreItemsAsync deletes old items from DB + adds new ones via RemoveRange/AddRange
+            // Không gọi UpdateAsync — entity đã tracking sẵn, EF tự biết thay đổi
+            await _scoreRepository.ReplaceScoreItemsAsync(existingScore.Id, newScoreItems);
             resultScore = existingScore;
         }
         else
