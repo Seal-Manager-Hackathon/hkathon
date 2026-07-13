@@ -4,5 +4,6 @@ public enum ReportStatusEnum
 {
     Pending,
     Reject,
-    Resolved
+    Resolved,
+    Canceled
 }
