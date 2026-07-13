@@ -411,6 +411,7 @@ public class Service : IRoundService
             throw new BadRequestException("Round Has Already Ended");
 
         round.EndTime = DateTimeOffset.UtcNow;
+        round.EndSubmission = DateTimeOffset.UtcNow;
         round.UpdatedAt = DateTimeOffset.UtcNow;
 
         await _roundRepository.UpdateAsync(round);
