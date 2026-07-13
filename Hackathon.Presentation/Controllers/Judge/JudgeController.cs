@@ -88,16 +88,16 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Sửa toàn bộ điểm, trả về paginated score items với flag isUpdated
+    /// Sửa toàn bộ điểm cho submission — tự tìm score của judge hiện tại
     /// </summary>
-    [HttpPatch("scores/{scoreId:guid}")]
-    public async Task<IActionResult> UpdateScore(
-        Guid scoreId,
+    [HttpPatch("submissions/{submissionId:guid}/scores")]
+    public async Task<IActionResult> UpdateScoreBySubmission(
+        Guid submissionId,
         [FromBody] SubmitScoreRequest request,
         [FromQuery] int pageIndex = 1,
         [FromQuery] int pageSize = 10)
     {
-        var result = await _judgeService.UpdateScore(scoreId, request, pageIndex, pageSize);
+        var result = await _judgeService.UpdateScoreBySubmission(submissionId, request, pageIndex, pageSize);
         return Ok(ApiResponseFactory.Success(result, message: "Score Updated Successfully", traceId: HttpContext.TraceIdentifier));
     }
 

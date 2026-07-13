@@ -383,8 +383,8 @@ public class Service : IJudgeService
         Scores resultScore;
         if (existingScore != null)
         {
-            // UPDATE: judge đã chấm → xóa scoreItems cũ, tạo mới, tính lại TotalScore
-            existingScore.ScoreItems.Clear();
+            // UPDATE: judge đã chấm → xóa hết scoreItems cũ trong DB, tạo mới, tính lại TotalScore
+            await _scoreRepository.DeleteScoreItemsByScoreIdAsync(existingScore.Id);
 
             var total = 0m;
             var newScoreItems = new List<ScoreItems>();
@@ -520,6 +520,28 @@ public class Service : IJudgeService
             PageIndex = pageIndex,
             PageSize = pageSize
         };
+    }
+
+    public async Task<UpdateScoreResponse> UpdateScoreBySubmission(Guid submissionId, SubmitScoreRequest request, int pageIndex = 1, int pageSize = 10)
+    {
+        var currentUserId = GetCurrentUserId();
+        PaginationHelper.Validate(pageIndex, pageSize);
+
+        var submission = await _submissionRepository.GetByIdAsync(submissionId);
+        if (submission == null)
+            throw new NotFoundException("Submission Not Found");
+
+        // Tìm score của judge hiện tại cho submission này
+        var myScore = submission.Scores
+            .Where(s => s.AssignTrack != null && s.AssignTrack.AssignEvent.UserId == currentUserId)
+            .OrderByDescending(s => s.CreatedAt)
+            .FirstOrDefault();
+
+        if (myScore == null)
+            throw new NotFoundException("You Have Not Graded This Submission Yet");
+
+        // Delegate to the existing UpdateScore logic
+        return await UpdateScore(myScore.Id, request, pageIndex, pageSize);
     }
 
     public async Task<UpdatedScoreItemResponse> UpdateScoreItem(Guid scoreItemId, UpdateScoreItemRequest request)

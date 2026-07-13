@@ -91,6 +91,14 @@ public class ScoreRepository : IScoreRepository
         return Task.CompletedTask;
     }
 
+    public async Task DeleteScoreItemsByScoreIdAsync(Guid scoreId)
+    {
+        var items = await _context.Set<ScoreItems>()
+            .Where(si => si.ScoreId == scoreId)
+            .ToListAsync();
+        _context.Set<ScoreItems>().RemoveRange(items);
+    }
+
     public async Task<(List<Scores> Items, int TotalCount)> GetScoresBySubmissionIdAsync(Guid submissionId, int pageIndex, int pageSize)
     {
         var query = _context.Set<Scores>()
