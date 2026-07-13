@@ -85,6 +85,12 @@ public class ScoreRepository : IScoreRepository
     public async Task AddAsync(Scores score)
         => await _context.Set<Scores>().AddAsync(score);
 
+    public Task UpdateAsync(Scores score)
+    {
+        _context.Set<Scores>().Update(score);
+        return Task.CompletedTask;
+    }
+
     public async Task<(List<Scores> Items, int TotalCount)> GetScoresBySubmissionIdAsync(Guid submissionId, int pageIndex, int pageSize)
     {
         var query = _context.Set<Scores>()

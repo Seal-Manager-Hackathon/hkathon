@@ -376,23 +376,66 @@ public class Service : IJudgeService
                 s => s.CriteriaItemId,
                 s => ((decimal?)(s.Score), s.Comment));
 
-        var score = ScoreSubmissionHelper.CreateScore(
-            submissionId,
-            assignTrack.Id,
-            isMock: false,
-            activeItems,
-            submittedItems);
+        // Check if judge already graded this submission (upsert logic)
+        var existingScores = await _scoreRepository.GetBySubmissionIdAsync(submissionId);
+        var existingScore = existingScores.FirstOrDefault(s => s.AssignTrackId == assignTrack.Id);
 
-        score.IsRetake = false;
+        Scores resultScore;
+        if (existingScore != null)
+        {
+            // UPDATE: judge đã chấm → xóa scoreItems cũ, tạo mới, tính lại TotalScore
+            existingScore.ScoreItems.Clear();
 
-        await _scoreRepository.AddAsync(score);
+            var total = 0m;
+            var newScoreItems = new List<ScoreItems>();
+            foreach (var templateItem in activeItems)
+            {
+                var hasInput = submittedItems.TryGetValue(templateItem.Id, out var input);
+                var itemScore = hasInput && input.Item1.HasValue ? input.Item1.Value : 0m;
+
+                newScoreItems.Add(new ScoreItems
+                {
+                    Id = Guid.NewGuid(),
+                    ScoreId = existingScore.Id,
+                    CriteriaItemId = templateItem.Id,
+                    AssignTrackId = assignTrack.Id,
+                    Score = hasInput ? input.Item1 : 0m,
+                    Comment = hasInput ? input.Item2 : null,
+                    CreatedAt = DateTimeOffset.UtcNow,
+                    UpdatedAt = DateTimeOffset.UtcNow
+                });
+                total += itemScore;
+            }
+
+            existingScore.TotalScore = total;
+            existingScore.UpdatedAt = DateTimeOffset.UtcNow;
+            existingScore.ScoreItems = newScoreItems;
+
+            await _scoreRepository.UpdateAsync(existingScore);
+            resultScore = existingScore;
+        }
+        else
+        {
+            // CREATE: judge chưa chấm → tạo mới
+            var newScore = ScoreSubmissionHelper.CreateScore(
+                submissionId,
+                assignTrack.Id,
+                isMock: false,
+                activeItems,
+                submittedItems);
+
+            newScore.IsRetake = false;
+
+            await _scoreRepository.AddAsync(newScore);
+            resultScore = newScore;
+        }
 
         submission.Status = SubmissionStatusEnum.Graded;
         submission.UpdatedAt = DateTimeOffset.UtcNow;
 
         await _unitOfWork.SaveChangesAsync();
 
-        return MapToJudgeSubmissionScoreResponse(score);
+        return MapToJudgeSubmissionScoreResponse(resultScore);
     }
 
     public async Task<UpdateScoreResponse> UpdateScore(Guid scoreId, SubmitScoreRequest request, int pageIndex = 1, int pageSize = 10)

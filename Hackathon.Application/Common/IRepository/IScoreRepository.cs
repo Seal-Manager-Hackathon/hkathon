@@ -11,4 +11,5 @@ public interface IScoreRepository
     Task<ScoreItems?> GetScoreItemByIdAsync(Guid scoreItemId);
     Task<List<Scores>> GetByAssignTrackIdAsync(Guid assignTrackId);
     Task AddAsync(Scores score);
+    Task UpdateAsync(Scores score);
 }

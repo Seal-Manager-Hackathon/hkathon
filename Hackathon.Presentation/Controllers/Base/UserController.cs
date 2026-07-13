@@ -24,7 +24,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPatch("me")]
-    public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileRequest request)
+    public async Task<IActionResult> UpdateProfile([FromForm] UpdateProfileRequest request)
     {
         await _userProfileService.UpdateProfile(request);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.User.ProfileUpdated, traceId: HttpContext.TraceIdentifier));

@@ -1,6 +1,6 @@
 # POST /api/v1/judge/submissions/{submissionId}/scores
 
-> Judge chấm điểm 1 bài nộp. Chỉ chấm được khi round đã kết thúc thời gian nộp bài (EndSubmission) và event chưa kết thúc (EndTime). Tự động kiểm tra chấm đủ tất cả tiêu chí.
+> Judge chấm điểm 1 bài nộp. Nếu judge đã chấm bài này trước đó, điểm cũ sẽ **bị ghi đè** (update, ko tạo scope mới). Chỉ chấm được khi round đã kết thúc thời gian nộp bài (EndSubmission) và event chưa kết thúc (EndTime). Tự động kiểm tra chấm đủ tất cả tiêu chí.
 
 **Controller:** [JudgeController.cs](Controllers/Judge/JudgeController.cs)
 
@@ -12,6 +12,7 @@
 - **Bắt buộc chấm đủ tất cả tiêu chí** trong criteria template active của round. Nếu thiếu → lỗi 400 kèm tên tiêu chí thiếu.
 - **`TotalScore` tự động tính = SUM Score items**, FE ko cần gửi.
 - Judge phải được assign vào track.
+- **Upsert logic**: Nếu judge đã chấm bài này rồi (có Score với cùng assignTrackId và submissionId), hệ thống sẽ **xóa scoreItems cũ và ghi đè điểm mới**. Không tạo thêm Score (scope) thứ hai — tránh cộng dồn điểm sai.
 
 ## Phân quyền
 - ✅ Judge — phải được assign vào track
