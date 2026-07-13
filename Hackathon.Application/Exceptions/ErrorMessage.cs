@@ -64,6 +64,7 @@ public static class ErrorMessage
         public const string UnverifiedAccountPleaseLoginToVerify = "Unverified Account Please Login To Verify";
         public const string EmailUnverifiedOtpSent = "Email Unverified Otp Sent";
         public const string UserIsBanned = "User Is Banned";
+        public const string UserIsDisabled = "Account Has Been Disabled";
         public const string UserAlreadyLoggedOut = "User Already Logged Out";
         public const string InvalidRefreshToken = "Invalid Refresh Token";
         public const string UserAlreadyVerified = "User Already Verified";
