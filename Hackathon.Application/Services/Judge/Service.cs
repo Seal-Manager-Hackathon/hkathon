@@ -326,13 +326,12 @@ public class Service : IJudgeService
         if (round == null)
             throw new NotFoundException("Round Not Found");
 
-        // Validate round đã qua EndSubmission chưa
-        if (round.EndSubmission.HasValue && round.EndSubmission.Value > DateTimeOffset.UtcNow)
-            throw new BadRequestException("Submission Period Has Not Ended Yet. Cannot Grade Before EndSubmission.");
+        // Điều kiện chấm: round đã kết thúc (EndTime) ≤ now < Event.EndTime
+        if (round.EndTime.HasValue && DateTimeOffset.UtcNow < round.EndTime.Value)
+            throw new BadRequestException("Round Has Not Ended Yet. Cannot Grade Before Round End Time.");
 
-        // Validate event chưa kết thúc
         var ev = await _eventRepository.GetByIdAsync(registerTeam.EventId);
-        if (ev != null && ev.EndTime.HasValue && ev.EndTime.Value <= DateTimeOffset.UtcNow)
+        if (ev != null && ev.EndTime.HasValue && DateTimeOffset.UtcNow >= ev.EndTime.Value)
             throw new BadRequestException("Event Has Ended. Cannot Grade.");
 
         Guid? trackId = registerTeam.TrackId;

@@ -426,6 +426,14 @@ public class Service : IRegisterTeamService
         if (rt.RoundDetails.Any(rd => rd.RoundId == nextRound.Id))
             throw new BadRequestException("Team Is Already Assigned To This Round");
 
+        // Check limit team của round tiếp theo
+        if (nextRound.LimitTeam.HasValue)
+        {
+            var currentTeamCount = await _roundRepository.CountTeamsInRoundAsync(nextRound.Id);
+            if (currentTeamCount >= nextRound.LimitTeam.Value)
+                throw new BadRequestException("Next Round Is Full. Cannot Assign More Teams.");
+        }
+
         // Tạo round detail mới
         var roundDetail = new RoundDetails
         {
