@@ -110,5 +110,6 @@ public static class SuccessMessage
         public const string AwardUpdated = "Award Updated Successfully";
         public const string TeamLocked = "Team Locked Successfully";
         public const string TeamUnlocked = "Team Unlocked Successfully";
+        public const string TeamLeaderChanged = "Team Leader Changed Successfully";
     }
 }

@@ -13,4 +13,5 @@ public interface ITeamService
     Task<GetTeamMembersResponse> GetTeamMembers(Guid teamId, int pageIndex, int pageSize);
     Task LockTeam(Guid teamId);
     Task UnlockTeam(Guid teamId);
+    Task ChangeLeader(Guid teamId, Guid newLeaderUserId);
 }

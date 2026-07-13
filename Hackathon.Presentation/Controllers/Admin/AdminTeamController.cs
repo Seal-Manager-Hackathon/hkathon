@@ -73,6 +73,13 @@ public class AdminTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpPost("teams/{teamId:guid}/change-leader")]
+    public async Task<IActionResult> ChangeLeader(Guid teamId, [FromBody] ChangeLeaderRequest request)
+    {
+        await _teamService.ChangeLeader(teamId, request.UserId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Admin.TeamLeaderChanged, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpPost("teams/{teamId:guid}/lock")]
     public async Task<IActionResult> LockTeam(Guid teamId)
     {
