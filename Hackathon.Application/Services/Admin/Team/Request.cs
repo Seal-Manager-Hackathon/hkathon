@@ -46,3 +46,8 @@ public class GetTeamCountRequest
     /// </summary>
     public bool? IsDisable { get; set; }
 }
+
+public class ChangeLeaderRequest
+{
+    public Guid UserId { get; set; }
+}

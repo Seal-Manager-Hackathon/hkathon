@@ -227,6 +227,16 @@ public class Service : IRegisterTeamService
                 throw new BadRequestException("Round 1 Is Full. Cannot Approve More Teams");
         }
 
+        // Check xung đột: thành viên trong team này đã được duyệt ở team khác trong cùng event chưa?
+        var teamMembers = await _teamRepository.GetTeamMembersAsync(rt.TeamId);
+        var memberUserIds = teamMembers.Where(td => !td.IsDisable).Select(td => td.UserId).ToList();
+        if (memberUserIds.Count > 0)
+        {
+            var hasConflict = await _registerTeamRepository.HasAnyMemberApprovedInEventAsync(rt.EventId, memberUserIds);
+            if (hasConflict)
+                throw new BadRequestException("One Or More Team Members Are Already Approved In Another Team For This Event");
+        }
+
         rt.Status = RegisterTeamStatusEnum.Approved;
 
         var team = await _teamRepository.GetByIdAsync(rt.TeamId);

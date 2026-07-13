@@ -245,6 +245,46 @@ public class Service : ITeamService
         };
     }
 
+    public async Task ChangeLeader(Guid teamId, Guid newLeaderUserId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var team = await _teamRepository.GetByIdAsync(teamId);
+        if (team == null || team.IsDisable)
+            throw new NotFoundException("Team Not Found");
+
+        var members = await _teamRepository.GetTeamMembersAsync(teamId);
+
+        // Tìm member mới — phải là member active trong team
+        var newLeader = members.FirstOrDefault(m => m.UserId == newLeaderUserId && m.TeamId == teamId);
+        if (newLeader == null)
+            throw new NotFoundException("User Not Found in This Team");
+
+        if (newLeader.IsDisable || newLeader.Status == TeamDetailStatusEnum.Inactive)
+            throw new BadRequestException("Cannot Transfer Leadership to an Inactive or Disabled Member");
+
+        // Tìm leader cũ
+        var currentLeader = members.FirstOrDefault(m => m.IsLeader && !m.IsDisable);
+        if (currentLeader == null)
+            throw new BadRequestException("No Active Leader Found in This Team");
+
+        // Đã là leader rồi
+        if (newLeader.IsLeader)
+            throw new BadRequestException("This Member Is Already the Team Leader");
+
+        var now = DateTimeOffset.UtcNow;
+
+        currentLeader.IsLeader = false;
+        currentLeader.UpdatedAt = now;
+
+        newLeader.IsLeader = true;
+        newLeader.UpdatedAt = now;
+
+        await _teamRepository.UpdateTeamDetailAsync(currentLeader);
+        await _teamRepository.UpdateTeamDetailAsync(newLeader);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
     public async Task LockTeam(Guid teamId)
     {
         _authorizationService.Authorize(RoleEnum.Admin);
