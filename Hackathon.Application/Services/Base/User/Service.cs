@@ -46,12 +46,21 @@ public class Service : IUserProfileService
             Email = user.Email,
             FirstName = user.FirstName,
             LastName = user.LastName,
+            PhoneNumber = string.IsNullOrEmpty(user.PhoneNumber) ? null : user.PhoneNumber,
             AvatarUrl = string.IsNullOrEmpty(user.AvatarUrl) ? null : user.AvatarUrl,
             Bio = user.Bio,
+            Address = user.Address,
+            DateOfBirth = user.DateOfBirth == DateTimeOffset.MinValue ? null : user.DateOfBirth,
+            StudentId = string.IsNullOrEmpty(user.StudentId) ? null : user.StudentId,
+            College = string.IsNullOrEmpty(user.College) ? null : user.College,
+            ImgUrl = user.ImgUrl,
+            LinkUrl = user.LinkUrl,
             Role = user.Role.ToString(),
             Status = user.Status?.ToString(),
+            BanReason = user.BanReason,
+            BannedAt = user.BannedAt,
             IsVerified = user.IsVerified,
-            College = string.IsNullOrEmpty(user.College) ? null : user.College,
+            VerifyEmailAt = user.VerifyEmailAt,
             CreatedAt = user.CreatedAt
         };
     }

@@ -18,20 +18,26 @@
     "email": "user@example.com",
     "firstName": "Nguyễn",
     "lastName": "Văn A",
+    "phoneNumber": "0901234567",
     "avatarUrl": "https://res.cloudinary.com/xxx/image/upload/v123/avatars/abc.jpg",
     "bio": "Sinh viên năm 3 ngành CNTT",
+    "address": "Hà Nội",
+    "dateOfBirth": "2000-01-15T00:00:00Z",
+    "studentId": "SE123456",
+    "college": "Đại học Bách Khoa",
+    "imgUrl": "https://res.cloudinary.com/xxx/image/upload/v123/images/abc.jpg",
+    "linkUrl": "https://facebook.com/user",
     "role": "Student",
     "status": "Active",
+    "banReason": null,
+    "bannedAt": null,
     "isVerified": true,
-    "college": "Đại học Bách Khoa",
+    "verifyEmailAt": "2026-01-01T00:00:00Z",
     "createdAt": "2026-01-01T00:00:00Z"
   },
   "message": "Profile Fetched Successfully",
-  "error": null,
-  "isSuccess": true,
   "status": 200,
-  "traceId": "00-abc123...",
-  "timestampUtc": "2026-07-09T12:00:00Z"
+  "traceId": "00-abc123..."
 }
 ```
 
