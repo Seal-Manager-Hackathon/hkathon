@@ -380,17 +380,14 @@ public class Service : IRegisterTeamService
         if (rejectionReason != null)
             rt.RejectionReason = rejectionReason;
 
-        // Kiểm tra team có register team khác đã approved không
-        var hasOtherApproved = await _registerTeamRepository.HasOtherApprovedAsync(rt.TeamId, registerTeamId);
-
+        // Mở khóa team — có thể chỉnh sửa lại
         var team = await _teamRepository.GetByIdAsync(rt.TeamId);
-        if (team != null && !hasOtherApproved)
+        if (team != null)
         {
-            // Không còn register team nào approved → mở khóa team
             team.CanEdit = true;
+            team.UpdatedAt = DateTimeOffset.UtcNow;
             await _teamRepository.UpdateAsync(team);
         }
-        // Nếu còn register team khác approved → CanEdit vẫn false (đã khóa)
 
         await _unitOfWork.SaveChangesAsync();
     }
