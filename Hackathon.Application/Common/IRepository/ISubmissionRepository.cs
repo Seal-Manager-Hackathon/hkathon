@@ -12,6 +12,8 @@ public interface ISubmissionRepository
         Guid roundId, List<Guid>? trackIds, int pageIndex, int pageSize);
     Task<(List<RoundSummaryItem> Items, int TotalCount)> GetRoundSummaryAsync(
         Guid roundId, int pageIndex, int pageSize);
+    Task AddAsync(Submissions submission);
+    Task UpdateAsync(Submissions submission);
 }
 
 public class RoundSummaryItem

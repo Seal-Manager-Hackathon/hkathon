@@ -196,4 +196,13 @@ public class SubmissionRepository : ISubmissionRepository
 
         return (items, totalCount);
     }
+
+    public async Task AddAsync(Submissions submission)
+        => await _context.Set<Submissions>().AddAsync(submission);
+
+    public Task UpdateAsync(Submissions submission)
+    {
+        _context.Set<Submissions>().Update(submission);
+        return Task.CompletedTask;
+    }
 }
