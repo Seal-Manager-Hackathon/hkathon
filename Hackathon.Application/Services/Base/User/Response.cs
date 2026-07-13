@@ -11,6 +11,7 @@ public class UpdateProfileRequest
     public string? StudentId { get; set; }
     public string? ImgUrl { get; set; }
     public string? LinkUrl { get; set; }
+    public string? AvatarUrl { get; set; }
 }
 
 public class GetMyProfileResponse

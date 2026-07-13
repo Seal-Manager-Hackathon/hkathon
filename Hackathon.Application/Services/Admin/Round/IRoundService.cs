@@ -9,5 +9,6 @@ public interface IRoundService
     Task<int?> GetMaxRoundNo(Guid eventId);
     Task DeleteRound(Guid roundId);
     Task RestoreRound(Guid roundId);
+    Task EndRound(Guid roundId);
     Task<GetRoundDetailResponse> GetRoundDetail(Guid roundId);
 }

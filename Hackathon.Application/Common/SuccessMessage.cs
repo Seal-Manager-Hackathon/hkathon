@@ -104,6 +104,7 @@ public static class SuccessMessage
         public const string RoundsFetched = "Rounds Fetched Successfully";
         public const string RoundCreated = "Round Created Successfully";
         public const string RoundUpdated = "Round Updated Successfully";
+        public const string RoundEnded = "Round Ended Successfully";
         public const string AwardsFetched = "Awards Fetched Successfully";
         public const string AwardCreated = "Award Created Successfully";
         public const string AwardUpdated = "Award Updated Successfully";

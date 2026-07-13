@@ -1,7 +1,7 @@
 # PATCH /api/v1/user/me
 
 > Cập nhật thông tin cá nhân của user đang đăng nhập.
-> Không thể cập nhật AvatarUrl, College. StudentId chỉ được set 1 lần nếu trước đó null.
+> Có thể cập nhật cả avatarUrl (URL ảnh). StudentId chỉ được set 1 lần nếu trước đó null.
 
 ## Phân quyền
 - ✅ Authenticated
@@ -19,7 +19,8 @@
   "dateOfBirth": "2003-01-15T00:00:00+07:00",
   "studentId": "SE123456",
   "imgUrl": "https://example.com/img.jpg",
-  "linkUrl": "https://example.com/profile"
+  "linkUrl": "https://example.com/profile",
+  "avatarUrl": "https://res.cloudinary.com/.../avatar.jpg"
 }
 ```
 
@@ -35,6 +36,7 @@
 | studentId | string? | Chỉ set được khi chưa có dữ liệu. Từ chối nếu đã set trước đó |
 | imgUrl | string? | Bỏ qua nếu null |
 | linkUrl | string? | Bỏ qua nếu null |
+| avatarUrl | string? | URL ảnh đại diện. Bỏ qua nếu null |
 
 ## Response (200)
 ```json

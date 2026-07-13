@@ -76,4 +76,11 @@ public class AdminRoundController : ControllerBase
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.OperationSuccessful, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpPost("rounds/{roundId:guid}/end-round")]
+    public async Task<IActionResult> EndRound(Guid roundId)
+    {
+        await _roundService.EndRound(roundId);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Admin.RoundEnded, traceId: HttpContext.TraceIdentifier));
+    }
+
 }

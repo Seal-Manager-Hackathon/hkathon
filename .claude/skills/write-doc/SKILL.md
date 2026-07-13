@@ -108,6 +108,11 @@ Format: `{controller}.{router-path}.md`
 - [ ] Nếu có enum → ⚠️ ghi chú riêng bảng enum values
 - [ ] Response: JSON mẫu với status code
 - [ ] Lỗi: bảng đủ 4 cột (Status, message, Khi nào, FE xử lý)
+- [ ] **Check code để xác nhận nghiệp vụ** — trước khi viết/sửa doc, đọc file Service.cs tương ứng (hoặc Controller.cs) để check:
+  - Các validation/exception thực tế trong code có đúng như doc không
+  - Request/Response fields trong code có khớp với doc không
+  - Business logic ẩn (sort order, filter mặc định, exclude gì) có được ghi đủ không
+  - **Nếu sửa API**: đọc doc cũ trước → check diff code → sửa doc cho khớp
 
 ---
 

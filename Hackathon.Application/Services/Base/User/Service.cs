@@ -90,6 +90,8 @@ public class Service : IUserProfileService
             user.ImgUrl = request.ImgUrl;
         if (request.LinkUrl != null)
             user.LinkUrl = request.LinkUrl;
+        if (request.AvatarUrl != null)
+            user.AvatarUrl = request.AvatarUrl;
 
         await _userRepository.UpdateAsync(user);
         await _unitOfWork.SaveChangesAsync();
