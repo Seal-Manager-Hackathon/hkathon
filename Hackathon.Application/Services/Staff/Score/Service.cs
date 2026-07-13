@@ -205,7 +205,7 @@ public class Service : IScoreService
             ? Math.Round(
                 lastSubmission.Scores
                     .Where(s => s.TotalScore.HasValue)
-                    .Sum(s => s.TotalScore!.Value),
+                    .Average(s => s.TotalScore!.Value),
                 2)
             : 0m;
 
