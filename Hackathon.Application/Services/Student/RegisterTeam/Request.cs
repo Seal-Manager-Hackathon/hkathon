@@ -21,6 +21,26 @@ public class GetRegisterTeamsByTeamRequest
     public int PageSize { get; set; } = 10;
 }
 
+public class CreateRegisterTeamRequest
+{
+    [Required]
+    public Guid TeamId { get; set; }
+    [Required]
+    public Guid EventId { get; set; }
+    public Guid? TrackId { get; set; }
+    public Guid? TopicId { get; set; }
+    public string? Description { get; set; }
+}
+
+public class CreateRegisterTeamResponse
+{
+    public Guid Id { get; set; }
+    public Guid TeamId { get; set; }
+    public Guid EventId { get; set; }
+    public string? Status { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+}
+
 public class GetUserEventsRequest
 {
     public Guid UserId { get; set; }

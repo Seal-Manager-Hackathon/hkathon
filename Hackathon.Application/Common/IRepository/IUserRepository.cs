@@ -12,5 +12,6 @@ public interface IUserRepository
     Task<(List<Users> Items, int TotalCount)> GetAvailableUsersByRoleAsync(Guid eventId, Domain.Enums.User.RoleEnum role, string? keyword, int pageIndex, int pageSize);
     Task<List<Users>> GetAllAsync();
     Task AddAsync(Users user);
+    Task<(List<Users> Items, int TotalCount)> SearchByEmailAsync(string? keyword, bool? isDisable, int pageIndex, int pageSize);
     Task UpdateAsync(Users user);
 }

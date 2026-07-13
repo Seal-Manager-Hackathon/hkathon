@@ -1,3 +1,4 @@
+using Hackathon.Application.Common.Helpers;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
 using Hackathon.Domain.Enums.User;
@@ -50,6 +51,33 @@ public class Service : IUserService
             VerifyEmailAt = user.VerifyEmailAt,
             CreatedAt = user.CreatedAt,
             UpdatedAt = user.UpdatedAt
+        };
+    }
+
+    public async Task<SearchUsersResponse> SearchUsers(string? keyword, int pageIndex, int pageSize)
+    {
+        PaginationHelper.Validate(pageIndex, pageSize);
+
+        var (items, totalCount) = await _userRepository.SearchByEmailAsync(
+            keyword, false, pageIndex, pageSize);
+
+        return new SearchUsersResponse
+        {
+            Users = items.Select(u => new StudentUserItem
+            {
+                Id = u.Id,
+                Email = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                AvatarUrl = string.IsNullOrEmpty(u.AvatarUrl) ? null : u.AvatarUrl,
+                College = string.IsNullOrEmpty(u.College) ? null : u.College,
+                StudentId = string.IsNullOrEmpty(u.StudentId) ? null : u.StudentId,
+                IsVerified = u.IsVerified ?? false,
+                CreatedAt = u.CreatedAt
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = pageIndex,
+            PageSize = pageSize
         };
     }
 }

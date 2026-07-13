@@ -198,6 +198,12 @@ public class Service : IInvitationService
     {
         var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
 
+        // Check user has completed profile
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+            throw new NotFoundException(ErrMsg.Auth.UserNotFound);
+        StudentProfileHelper.ValidateProfile(user);
+
         var invitation = await _invitationRepository.GetByIdAsync(invitationId);
         if (invitation == null)
             throw new NotFoundException("Invitation Not Found");
