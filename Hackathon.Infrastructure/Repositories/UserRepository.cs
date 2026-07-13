@@ -109,7 +109,7 @@ public class UserRepository : IUserRepository
             .Where(u => u.Role == role)
             .Where(u => !u.IsDisable)
             .Where(u => u.BanReason == null)
-            .Where(u => !u.AssignEvents.Any(ae => ae.EventId == eventId));
+            .Where(u => !u.AssignEvents.Any(ae => ae.EventId == eventId && !ae.IsDisable));
 
         if (!string.IsNullOrWhiteSpace(keyword))
         {
