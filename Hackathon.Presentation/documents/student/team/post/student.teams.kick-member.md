@@ -8,11 +8,11 @@
 
 Leader co the kick thanh vien ra khoi team:
 - Chi leader moi co quyen kick (IsLeader = true, IsDisable = false).
-- Team phai co CanEdit = true (team chua bi khoa chinh sua).
+- Team phai co CanEdit = true (team chua bi khoa chinh sua) — neu CanEdit = false → loi "Team Cannot Be Edited".
 - Khong the kick chinh minh (leader khong the tu kick).
 - Khong the kick leader khac.
 - Khong the kick member da bi disable hoac inactive.
-- Khi kick: set IsDisable = true, Status = Inactive, UpdatedAt = now.
+- **Khi kick: xoa cung (hard delete) TeamDetails** — nguoi bi kick hoan toan bien mat khoi team, khong con ban ghi nao.
 - **Ref:** [Admin API tuong ung] — Khong co, day la API rieng cua Student.
 
 ## Phan quyen

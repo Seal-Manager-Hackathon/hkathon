@@ -6,6 +6,7 @@
 
 ## Nghiệp vụ
 - Chỉ leader của team mới được update thông tin team.
+- **Nếu team bị khóa (CanEdit = false) → 400 Bad Request "Team Cannot Be Edited".**
 - Hiện tại chỉ hỗ trợ đổi tên team.
 - Nếu team bị disable → 404 Not Found.
 - Nếu user ko phải leader → 400 Bad Request.
@@ -43,6 +44,7 @@
 ## Lỗi
 | Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
+| 400 | Team Cannot Be Edited | Team bị khóa (CanEdit = false) | Ẩn nút sửa |
 | 400 | Only Team Leader Can Update Team | User ko phải leader | Ẩn nút sửa |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | Ko phải Student | Ẩn chức năng |

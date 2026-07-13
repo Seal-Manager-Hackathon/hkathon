@@ -69,10 +69,10 @@ public class AdminRegisterTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RegisterTeamsFetched, traceId: HttpContext.TraceIdentifier));
     }
 
-    [HttpPost("register-teams/{registerTeamId:guid}/ban")]
-    public async Task<IActionResult> BanRegisterTeam(Guid registerTeamId, [FromBody] BanRegisterTeamRequest body)
+    [HttpPost("events/{eventId:guid}/register-teams/{registerTeamId:guid}/ban")]
+    public async Task<IActionResult> BanRegisterTeam(Guid eventId, Guid registerTeamId, [FromBody] BanRegisterTeamRequest body)
     {
-        await _registerTeamService.BanRegisterTeam(registerTeamId, body.RejectionReason);
+        await _registerTeamService.BanRegisterTeam(eventId, registerTeamId, body.RejectionReason);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
     }
 

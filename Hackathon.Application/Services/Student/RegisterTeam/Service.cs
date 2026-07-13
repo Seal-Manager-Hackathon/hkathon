@@ -330,11 +330,42 @@ public class Service : IRegisterTeamService
         if (ev.Status == Domain.Enums.Event.EventStatusEnum.Draft || ev.Status == Domain.Enums.Event.EventStatusEnum.Closed)
             throw new BadRequestException("Cannot Register to a Draft or Closed Event");
 
+        // Check registration is within the allowed time window: StartTime < now < RegisterLimitTime
+        if (ev.RegisterLimitTime.HasValue && DateTimeOffset.UtcNow >= ev.RegisterLimitTime.Value)
+            throw new BadRequestException("Registration Period Has Ended. Cannot Register At This Time.");
+        if (ev.StartTime.HasValue && DateTimeOffset.UtcNow < ev.StartTime.Value)
+            throw new BadRequestException("Registration Has Not Started Yet. Cannot Register Before Event Starts.");
+
         // Check team is not already registered to this event
         var existingRegister = await _registerTeamRepository.GetByEventIdAndTeamIdAsync(
             request.EventId, request.TeamId, null, 1, 1);
         if (existingRegister.Items.Count > 0)
+        {
+            var existing = existingRegister.Items.First();
+
+            if (existing.IsBanned || existing.Status == RegisterTeamStatusEnum.Banned)
+                throw new BadRequestException("You Have Been Banned From This Event");
+
+            if (existing.Status == RegisterTeamStatusEnum.Rejected)
+            {
+                // Reset rejected registration → Pending, clear rejection reason
+                existing.Status = RegisterTeamStatusEnum.Pending;
+                existing.RejectionReason = null;
+                existing.UpdatedAt = DateTimeOffset.UtcNow;
+                await _unitOfWork.SaveChangesAsync();
+
+                return new CreateRegisterTeamResponse
+                {
+                    Id = existing.Id,
+                    TeamId = existing.TeamId,
+                    EventId = existing.EventId,
+                    Status = existing.Status?.ToString(),
+                    CreatedAt = existing.CreatedAt
+                };
+            }
+
             throw new BadRequestException("Team Is Already Registered to This Event");
+        }
 
         // Check no member of this team has an approved register team in this event
         var activeMemberIds = members

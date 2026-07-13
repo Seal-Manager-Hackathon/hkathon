@@ -6,6 +6,7 @@
 
 ## Nghiệp vụ
 - Chỉ leader của team mới được disband.
+- **Nếu team bị khóa (CanEdit = false) → 400 Bad Request "Team Cannot Be Edited".**
 - Khi disband:
   - Tất cả member trong team bị set IsDisable = true và Status = Inactive.
 - Team bị set IsDisable = true và CanEdit = false.
@@ -34,6 +35,7 @@
 ## Lỗi
 | Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
+| 400 | Team Cannot Be Edited | Team bị khóa (CanEdit = false) | Ẩn nút giải thể |
 | 400 | Only Team Leader Can Disband Team | User ko phải leader | Ẩn nút giải thể |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | Ko phải Student | Ẩn chức năng |

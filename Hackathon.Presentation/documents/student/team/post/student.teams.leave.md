@@ -6,6 +6,7 @@
 
 Thành viên rời khỏi team:
 - Chỉ member thường mới được rời (không phải leader).
+- **Nếu team bị khóa (CanEdit = false) → 400 Bad Request "Team Cannot Be Edited".**
 - Nếu là leader: phải chuyển leader cho người khác trước hoặc giải thể team.
 - Team phải tồn tại (không bị disable).
 - Khi rời: set IsDisable = true, Status = Inactive.
@@ -34,6 +35,7 @@ Thành viên rời khỏi team:
 | Status | message | Khi nào |
 |--------|---------|---------|
 | 401 | Unauthorized | Token hết hạn/thiếu |
+| 400 | Team Cannot Be Edited | Team bị khóa (CanEdit = false) |
 | 400 | Team Leader Cannot Leave the Team. Please Change Leader First or Disband the Team. | Leader cố gắng rời team |
 | 400 | You Are Already Inactive or Disabled in This Team | User đã inactive/disable rồi |
 | 404 | Team Not Found | teamId không tồn tại hoặc đã disable |
