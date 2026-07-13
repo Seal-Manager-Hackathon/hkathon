@@ -12,8 +12,10 @@ public interface IRegisterTeamRepository
         Guid? roundId, Guid? trackId, Guid? topicId,
         int pageIndex, int pageSize);
     Task<RegisterTeams?> GetByIdAsync(Guid id);
+    Task AddAsync(RegisterTeams registerTeam);
     Task UpdateAsync(RegisterTeams registerTeam);
     Task<bool> HasOtherApprovedAsync(Guid teamId, Guid excludeRegisterTeamId);
+    Task<bool> HasAnyMemberApprovedInEventAsync(Guid eventId, List<Guid> userIds);
     Task<(List<RegisterTeams> Items, int TotalCount)> GetApprovedByUserIdAsync(Guid userId, string? keyword, int pageIndex, int pageSize);
     Task<(List<RegisterTeams> Items, int TotalCount)> GetByTeamIdAsync(Guid teamId, RegisterTeamStatusEnum? status, bool? isDisable, int pageIndex, int pageSize);
     Task<RegisterTeams?> GetByIdWithRoundDetailsAsync(Guid id);

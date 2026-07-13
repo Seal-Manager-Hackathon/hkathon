@@ -15,19 +15,22 @@ public class Service : IRegisterTeamService
     private readonly IEventRepository _eventRepository;
     private readonly ICurrentUserService _currentUserService;
     private readonly IAuthorizationService _authorizationService;
+    private readonly IUnitOfWork _unitOfWork;
 
     public Service(
         IRegisterTeamRepository registerTeamRepository,
         ITeamRepository teamRepository,
         IEventRepository eventRepository,
         ICurrentUserService currentUserService,
-        IAuthorizationService authorizationService)
+        IAuthorizationService authorizationService,
+        IUnitOfWork unitOfWork)
     {
         _registerTeamRepository = registerTeamRepository;
         _teamRepository = teamRepository;
         _eventRepository = eventRepository;
         _currentUserService = currentUserService;
         _authorizationService = authorizationService;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<GetRegisterTeamsResponse> GetRegisterTeams(GetRegisterTeamsRequest request)
@@ -300,6 +303,77 @@ public class Service : IRegisterTeamService
             TotalCount = totalCount,
             PageIndex = pageIndex,
             PageSize = pageSize
+        };
+    }
+
+    public async Task<CreateRegisterTeamResponse> CreateRegisterTeam(CreateRegisterTeamRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Student);
+
+        var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
+
+        // Check team exists
+        var team = await _teamRepository.GetByIdAsync(request.TeamId);
+        if (team == null || team.IsDisable)
+            throw new NotFoundException("Team Not Found");
+
+        // Check user is leader of this team
+        var members = await _teamRepository.GetTeamMembersAsync(request.TeamId);
+        var isLeader = members.Any(m => m.UserId == userId && m.IsLeader && !m.IsDisable);
+        if (!isLeader)
+            throw new BadRequestException("Only Team Leader Can Register Team to Event");
+
+        // Check event exists and is open for registration
+        var ev = await _eventRepository.GetByIdAsync(request.EventId);
+        if (ev == null || ev.IsDisable)
+            throw new NotFoundException("Event Not Found");
+        if (ev.Status == Domain.Enums.Event.EventStatusEnum.Draft || ev.Status == Domain.Enums.Event.EventStatusEnum.Closed)
+            throw new BadRequestException("Cannot Register to a Draft or Closed Event");
+
+        // Check team is not already registered to this event
+        var existingRegister = await _registerTeamRepository.GetByEventIdAndTeamIdAsync(
+            request.EventId, request.TeamId, null, 1, 1);
+        if (existingRegister.Items.Count > 0)
+            throw new BadRequestException("Team Is Already Registered to This Event");
+
+        // Check no member of this team has an approved register team in this event
+        var activeMemberIds = members
+            .Where(m => !m.IsDisable && m.Status == Domain.Enums.TeamDetail.TeamDetailStatusEnum.Active)
+            .Select(m => m.UserId)
+            .ToList();
+
+        if (activeMemberIds.Count > 0)
+        {
+            var hasMemberApproved = await _registerTeamRepository.HasAnyMemberApprovedInEventAsync(
+                request.EventId, activeMemberIds);
+            if (hasMemberApproved)
+                throw new BadRequestException("One or More Team Members Already Have an Approved Registration in This Event");
+        }
+
+        var now = DateTimeOffset.UtcNow;
+        var registerTeam = new Domain.Entities.RegisterTeams
+        {
+            Id = Guid.NewGuid(),
+            TeamId = request.TeamId,
+            EventId = request.EventId,
+            TrackId = request.TrackId,
+            TopicId = request.TopicId,
+            Description = request.Description,
+            Status = RegisterTeamStatusEnum.Pending,
+            CreatedAt = now,
+            UpdatedAt = now
+        };
+
+        await _registerTeamRepository.AddAsync(registerTeam);
+        await _unitOfWork.SaveChangesAsync();
+
+        return new CreateRegisterTeamResponse
+        {
+            Id = registerTeam.Id,
+            TeamId = registerTeam.TeamId,
+            EventId = registerTeam.EventId,
+            Status = registerTeam.Status?.ToString(),
+            CreatedAt = registerTeam.CreatedAt
         };
     }
 

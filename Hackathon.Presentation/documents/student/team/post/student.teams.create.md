@@ -9,6 +9,7 @@
 - Mặc định CanEdit = true (team có thể chỉnh sửa).
 - Tự động tạo TeamDetail cho user tạo với IsLeader = true, Status = Active.
 - User chỉ có thể tạo team cho chính mình (lấy UserId từ JWT token).
+- **Phải điền đủ profile trước khi tạo team:** Email, FirstName, LastName, College, StudentId, PhoneNumber.
 
 ## Phân quyền
 - ✅ Student
@@ -43,5 +44,7 @@
 | Status | message | Khi nào | FE xử lý |
 |--------|---------|---------|----------|
 | 400 | Name Is Required | Thiếu tên team | Validation form |
+| 400 | Please Complete Your Profile Before Proceeding. Missing Fields: ... | Thiếu thông tin profile | Vào trang edit profile |
+| 400 | Team Name Already Exists | Tên team đã tồn tại | Đặt tên khác |
 | 401 | Invalid Or Expired Token | Token hết hạn/thiếu | Redirect login |
 | 403 | You do not have permission to perform this action | Ko phải Student | Ẩn chức năng |

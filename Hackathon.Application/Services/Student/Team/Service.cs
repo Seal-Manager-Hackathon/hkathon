@@ -13,6 +13,7 @@ public class Service : ITeamService
 {
     private readonly ITeamRepository _teamRepository;
     private readonly IRegisterTeamRepository _registerTeamRepository;
+    private readonly IUserRepository _userRepository;
     private readonly IAuthorizationService _authorizationService;
     private readonly ICurrentUserService _currentUserService;
     private readonly IUnitOfWork _unitOfWork;
@@ -20,12 +21,14 @@ public class Service : ITeamService
     public Service(
         ITeamRepository teamRepository,
         IRegisterTeamRepository registerTeamRepository,
+        IUserRepository userRepository,
         IAuthorizationService authorizationService,
         ICurrentUserService currentUserService,
         IUnitOfWork unitOfWork)
     {
         _teamRepository = teamRepository;
         _registerTeamRepository = registerTeamRepository;
+        _userRepository = userRepository;
         _authorizationService = authorizationService;
         _currentUserService = currentUserService;
         _unitOfWork = unitOfWork;
@@ -36,6 +39,12 @@ public class Service : ITeamService
         _authorizationService.Authorize(RoleEnum.Student);
 
         var userId = _currentUserService.UserId ?? throw new UnauthorizedException(ErrMsg.Auth.UserNotFound);
+
+        // Check user has completed profile
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+            throw new NotFoundException(ErrMsg.Auth.UserNotFound);
+        StudentProfileHelper.ValidateProfile(user);
 
         // Check duplicate team name
         var existingTeam = await _teamRepository.GetByNameAsync(request.Name);

@@ -72,6 +72,13 @@ public class StudentRegisterTeamController : ControllerBase
         _registerTeamService = registerTeamService;
     }
 
+    [HttpPost("register-teams")]
+    public async Task<IActionResult> CreateRegisterTeam([FromBody] CreateRegisterTeamRequest request)
+    {
+        var result = await _registerTeamService.CreateRegisterTeam(request);
+        return Ok(ApiResponseFactory.Success(result, message: "Register Team Created Successfully", status: 201, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("events/{eventId:guid}/register-teams")]
     public async Task<IActionResult> GetRegisterTeams(Guid eventId, [FromQuery] GetRegisterTeamsRequest request)
     {

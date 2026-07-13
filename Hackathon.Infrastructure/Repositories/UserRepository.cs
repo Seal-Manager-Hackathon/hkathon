@@ -27,6 +27,31 @@ public class UserRepository : IUserRepository
         return await query.CountAsync();
     }
 
+    public async Task<(List<Users> Items, int TotalCount)> SearchByEmailAsync(
+        string? keyword, bool? isDisable, int pageIndex, int pageSize)
+    {
+        var query = _context.Users.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var kw = keyword.Trim().ToLower();
+            query = query.Where(u => u.Email.ToLower().Contains(kw));
+        }
+
+        if (isDisable.HasValue)
+            query = query.Where(u => u.IsDisable == isDisable.Value);
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderByDescending(u => u.CreatedAt)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
+
     public async Task<(List<Users> Items, int TotalCount)> SearchAsync(
         string? keyword, Domain.Enums.User.RoleEnum? role, bool? isDisable, bool? isVerified, bool? isBanned,
         DateTimeOffset? fromDate, DateTimeOffset? toDate,

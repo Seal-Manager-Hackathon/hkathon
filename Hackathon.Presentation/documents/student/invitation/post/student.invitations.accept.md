@@ -10,6 +10,7 @@ User chap nhan loi moi vao team:
 - User duoc them vao team voi vai tro member (IsLeader = false, Status = Active).
 - Team phai con ton tai (khong bi disable).
 - Neu het han, tu dong set Expired va bao loi.
+- **Phải điền đủ profile trước khi chấp nhận:** Email, FirstName, LastName, College, StudentId, PhoneNumber.
 
 ## Phan quyen
 - Student (RoleEnum = Student)
@@ -34,6 +35,7 @@ User chap nhan loi moi vao team:
 ## Loi
 | Status | message | Khi nao |
 |--------|---------|---------|
+| 400 | Please Complete Your Profile Before Proceeding. Missing Fields: ... | Thieu thong tin profile | Vao trang edit profile |
 | 400 | Invitation Is Not in Pending Status | Loi moi da duoc xu ly |
 | 400 | Invitation Has Expired | Loi moi het han |
 | 400 | You Are Already a Member of This Team | User da la member |

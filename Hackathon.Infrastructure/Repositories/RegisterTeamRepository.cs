@@ -24,6 +24,15 @@ public class RegisterTeamRepository : IRegisterTeamRepository
                 .ThenInclude(rd => rd.Round)
             .FirstOrDefaultAsync(rt => rt.Id == id);
 
+    public async Task AddAsync(RegisterTeams registerTeam)
+        => await _context.Set<RegisterTeams>().AddAsync(registerTeam);
+
+    public async Task<bool> HasAnyMemberApprovedInEventAsync(Guid eventId, List<Guid> userIds)
+        => await _context.Set<RegisterTeams>()
+            .AnyAsync(rt => rt.EventId == eventId
+                && rt.Status == RegisterTeamStatusEnum.Approved
+                && rt.Team.TeamDetails.Any(td => userIds.Contains(td.UserId) && !td.IsDisable));
+
     public Task UpdateAsync(RegisterTeams registerTeam)
     {
         _context.Set<RegisterTeams>().Update(registerTeam);

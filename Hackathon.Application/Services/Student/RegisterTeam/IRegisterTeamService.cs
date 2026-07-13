@@ -7,5 +7,6 @@ public interface IRegisterTeamService
     Task<GetRegisterTeamsResponse> GetRegisterTeamsByTeam(GetRegisterTeamsByTeamRequest request);
     Task<GetRegisterTeamsResponse> GetTeamRegisterTeams(Guid teamId, string? status, int pageIndex, int pageSize);
     Task<GetRegisterTeamsResponse> GetTeamRegisterTeamsByEvent(Guid eventId, Guid teamId, string? status, int pageIndex, int pageSize);
+    Task<CreateRegisterTeamResponse> CreateRegisterTeam(CreateRegisterTeamRequest request);
     Task<GetUserEventsResponse> GetUserEvents(GetUserEventsRequest request);
 }
