@@ -31,8 +31,8 @@ public class Service : IEventService
         var now = DateTimeOffset.UtcNow;
 
         // Validate thời gian
-        if (request.StartTime <= now)
-            throw new BadRequestException(ErrMsg.Event.StartTimeMustBeAfterNow);
+        // if (request.StartTime <= now)
+        //     throw new BadRequestException(ErrMsg.Event.StartTimeMustBeAfterNow);
 
         if (request.EndTime <= request.StartTime)
             throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterStartTime);
