@@ -25,6 +25,7 @@
 | studentId | string | Không | `20210001` | Mã sinh viên |
 | imgUrl | string | Không | `https://example.com/img.jpg` | Ảnh đại diện (URL) |
 | linkUrl | string | Không | `https://github.com/user` | Link cá nhân |
+| avatarUrl | string | Không | `https://res.cloudinary.com/.../avatar.jpg` | Avatar (URL) |
 
 ## Response (200)
 

@@ -392,4 +392,28 @@ public class Service : IRoundService
         await _eventRepository.UpdateAsync(ev);
         await _unitOfWork.SaveChangesAsync();
     }
+
+    public async Task EndRound(Guid roundId)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        var round = await _roundRepository.GetByIdAsync(roundId);
+        if (round == null)
+            throw new NotFoundException("Round Not Found");
+
+        if (round.IsDisable)
+            throw new BadRequestException("Cannot End A Disabled Round");
+
+        if (!round.StartTime.HasValue || round.StartTime.Value > DateTimeOffset.UtcNow)
+            throw new BadRequestException("Round Cannot Be Ended Before It Starts");
+
+        if (round.EndTime.HasValue && round.EndTime.Value <= DateTimeOffset.UtcNow)
+            throw new BadRequestException("Round Has Already Ended");
+
+        round.EndTime = DateTimeOffset.UtcNow;
+        round.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _roundRepository.UpdateAsync(round);
+        await _unitOfWork.SaveChangesAsync();
+    }
 }

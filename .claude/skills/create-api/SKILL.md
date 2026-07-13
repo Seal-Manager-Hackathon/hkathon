@@ -18,6 +18,10 @@ Base: c:\Users\phamq\OneDrive\Desktop\New folder (4)\Hackathon
   - ✅ `awards/{awardId}` (ko cần `events/{eventId}/awards/{awardId}`)
   - ✅ `criteria-templates/{templateId}`
   - ❌ Không thêm parentId vào route detail nếu có thể lấy từ entity
+- [ ] **Step 0.8: Check doc file đã tồn tại chưa** — trước khi tạo/sửa API, kiểm tra `documents/{role}/{entity}/{method}/` xem đã có file doc tương ứng chưa:
+  - **Nếu chưa có**: tạo file mới theo format trong Step 10
+  - **Nếu đã có**: đọc file và cập nhật request/response/business logic cho khớp với code mới. Không để doc cũ ≠ code mới.
+  - Nếu sửa controller/service hiện tại (không tạo mới): **bắt buộc đọc file doc cũ, sửa lại cho đúng** trước khi kết thúc.
 - [ ] Step 1: Determine role and controller
 - [ ] Step 2: Check/create controller
 - [ ] Step 3: Check/create Repository
