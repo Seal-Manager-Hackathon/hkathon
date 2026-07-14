@@ -1,6 +1,6 @@
 # PATCH /api/v1/user/me
 
-> Cập nhật thông tin cá nhân của user đang đăng nhập. Hỗ trợ gửi cả fields dạng text và file avatar trong 1 request (multipart/form-data). StudentId chỉ được set 1 lần nếu trước đó null.
+> Cập nhật thông tin cá nhân của user đang đăng nhập. Hỗ trợ gửi cả fields dạng text và file avatar trong 1 request (multipart/form-data). StudentId chỉ set được 1 lần — nếu đã có rồi thì silently bỏ qua, không throw lỗi.
 
 ## Phân quyền
 - ✅ Authenticated
@@ -18,7 +18,7 @@
 | bio | string? | Bỏ qua nếu null |
 | address | string? | Bỏ qua nếu null |
 | dateOfBirth | datetime? | Bỏ qua nếu null |
-| studentId | string? | Chỉ set được khi chưa có dữ liệu. Từ chối nếu đã set trước đó |
+| studentId | string? | Chỉ set được khi chưa có dữ liệu. Nếu đã có rồi thì silently bỏ qua, không throw lỗi |
 | imgUrl | string? | Bỏ qua nếu null |
 | linkUrl | string? | Bỏ qua nếu null |
 | avatarUrl | string? | URL ảnh đại diện. Bỏ qua nếu null |
@@ -41,12 +41,11 @@
 |--------|---------|---------|
 | 401 | Invalid Or Expired Token | Chưa đăng nhập |
 | 404 | User Not Found | User ko tồn tại |
-| 400 | Student Id Cannot Be Changed Once Set | StudentId đã được set trước đó |
 
 ## Logic
 1. Authenticate — lấy userId từ token
 2. Load user từ userId
 3. Nếu request field != null → update field tương ứng
 4. Nếu có `avatarFile` → upload lên Cloudinary (folder "avatars") → set `user.AvatarUrl` = URL từ Cloudinary
-5. StudentId: nếu request có StudentId → check user.StudentId đã có dữ liệu chưa → nếu rồi thì báo lỗi
+5. StudentId: nếu request có StudentId VÀ user.StudentId hiện tại null → set studentId mới. Nếu user.StudentId đã có rồi → silently bỏ qua, ko throw lỗi
 6. SaveChanges
