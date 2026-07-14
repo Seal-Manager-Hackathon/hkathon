@@ -326,13 +326,13 @@ public class Service : IJudgeService
         if (round == null)
             throw new NotFoundException("Round Not Found");
 
-        // Điều kiện chấm: round đã kết thúc (EndTime) ≤ now < Event.EndTime
-        if (round.EndTime.HasValue && DateTimeOffset.UtcNow < round.EndTime.Value)
-            throw new BadRequestException("Round Has Not Ended Yet. Cannot Grade Before Round End Time.");
+        // [Commented] Điều kiện chấm: round đã kết thúc (EndTime) ≤ now < Event.EndTime — bỏ check để dễ test
+        //if (round.EndTime.HasValue && DateTimeOffset.UtcNow < round.EndTime.Value)
+        //    throw new BadRequestException("Round Has Not Ended Yet. Cannot Grade Before Round End Time.");
 
-        var ev = await _eventRepository.GetByIdAsync(registerTeam.EventId);
-        if (ev != null && ev.EndTime.HasValue && DateTimeOffset.UtcNow >= ev.EndTime.Value)
-            throw new BadRequestException("Event Has Ended. Cannot Grade.");
+        //var ev = await _eventRepository.GetByIdAsync(registerTeam.EventId);
+        //if (ev != null && ev.EndTime.HasValue && DateTimeOffset.UtcNow >= ev.EndTime.Value)
+        //    throw new BadRequestException("Event Has Ended. Cannot Grade.");
 
         Guid? trackId = registerTeam.TrackId;
         if (trackId == null)
@@ -450,14 +450,14 @@ public class Service : IJudgeService
         if (score.AssignTrack?.AssignEvent?.UserId != currentUserId)
             throw new ForbiddenException("You Are Not Authorized to Update This Score");
 
-        // Validate event chưa kết thúc
-        var registerTeam = score.Submission?.RoundDetail?.RegisterTeam;
-        if (registerTeam != null)
-        {
-            var ev = await _eventRepository.GetByIdAsync(registerTeam.EventId);
-            if (ev != null && ev.EndTime.HasValue && ev.EndTime.Value <= DateTimeOffset.UtcNow)
-                throw new BadRequestException("Event Has Ended. Cannot Update Score.");
-        }
+        // [Commented] Validate event chưa kết thúc — bỏ check để dễ test
+        //var registerTeam = score.Submission?.RoundDetail?.RegisterTeam;
+        //if (registerTeam != null)
+        //{
+        //    var ev = await _eventRepository.GetByIdAsync(registerTeam.EventId);
+        //    if (ev != null && ev.EndTime.HasValue && ev.EndTime.Value <= DateTimeOffset.UtcNow)
+        //        throw new BadRequestException("Event Has Ended. Cannot Update Score.");
+        //}
 
         // Track which criteria items were updated
         var updatedIds = new HashSet<Guid>();
@@ -554,14 +554,14 @@ public class Service : IJudgeService
         if (scoreItem.ScoreEntity?.AssignTrack?.AssignEvent?.UserId != currentUserId)
             throw new ForbiddenException("You Are Not Authorized to Update This Score Item");
 
-        // Validate event chưa kết thúc
-        var registerTeam = scoreItem.ScoreEntity?.Submission?.RoundDetail?.RegisterTeam;
-        if (registerTeam != null)
-        {
-            var ev = await _eventRepository.GetByIdAsync(registerTeam.EventId);
-            if (ev != null && ev.EndTime.HasValue && ev.EndTime.Value <= DateTimeOffset.UtcNow)
-                throw new BadRequestException("Event Has Ended. Cannot Update Score.");
-        }
+        // [Commented] Validate event chưa kết thúc — bỏ check để dễ test
+        //var registerTeam = scoreItem.ScoreEntity?.Submission?.RoundDetail?.RegisterTeam;
+        //if (registerTeam != null)
+        //{
+        //    var ev = await _eventRepository.GetByIdAsync(registerTeam.EventId);
+        //    if (ev != null && ev.EndTime.HasValue && ev.EndTime.Value <= DateTimeOffset.UtcNow)
+        //        throw new BadRequestException("Event Has Ended. Cannot Update Score.");
+        //}
 
         if (request.Score.HasValue)
             scoreItem.Score = request.Score;

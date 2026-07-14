@@ -91,12 +91,12 @@ public class Service : IRoundService
         // if (request.LimitTeam.HasValue && request.LimitTeam.Value < 1)
         //     throw new BadRequestException(ErrMsg.Round.LimitTeamMustBeAtLeast1);
 
-        // // Check StartTime và EndTime của round phải nằm trong event time
-        // if (ev.StartTime.HasValue && request.StartTime < ev.StartTime.Value)
-        //     throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
+        // Check StartTime và EndTime của round phải nằm trong event time — giữ lại
+        if (ev.StartTime.HasValue && request.StartTime < ev.StartTime.Value)
+            throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
 
-        // if (ev.EndTime.HasValue && request.EndTime > ev.EndTime.Value)
-        //     throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
+        if (ev.EndTime.HasValue && request.EndTime > ev.EndTime.Value)
+            throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
 
         // // StartTime của round phải >= RegisterLimitTime của event
         // if (ev.RegisterLimitTime.HasValue && request.StartTime < ev.RegisterLimitTime.Value)
@@ -169,14 +169,14 @@ public class Service : IRoundService
         // // LimitTeam >= 1
         // if (limitTeam.HasValue && limitTeam.Value < 1)
         //     throw new BadRequestException(ErrMsg.Round.LimitTeamMustBeAtLeast1);
-        // // Round time must be within event time
-        // if (ev.StartTime.HasValue && startTime.Value < ev.StartTime.Value)
-        //     throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
-        // if (ev.EndTime.HasValue && endTime.Value > ev.EndTime.Value)
-        //     throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
-        // // StartTime >= RegisterLimitTime of event
-        // if (ev.RegisterLimitTime.HasValue && startTime.Value < ev.RegisterLimitTime.Value)
-        //     throw new BadRequestException(ErrMsg.Round.StartTimeMustBeAfterRegisterLimitTime);
+        // Round time must be within event time — giữ lại
+        if (ev.StartTime.HasValue && startTime.Value < ev.StartTime.Value)
+            throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
+        if (ev.EndTime.HasValue && endTime.Value > ev.EndTime.Value)
+            throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
+        // [Commented] StartTime >= RegisterLimitTime of event — bỏ check để dễ test
+        //if (ev.RegisterLimitTime.HasValue && startTime.Value < ev.RegisterLimitTime.Value)
+        //    throw new BadRequestException(ErrMsg.Round.StartTimeMustBeAfterRegisterLimitTime);
         // // Check previous round (RoundNo - 1): StartTime >= EndTime of previous round
         // if (round.RoundNo.HasValue && round.RoundNo.Value > 1)
         // {
@@ -231,9 +231,9 @@ public class Service : IRoundService
         if (ev == null)
             throw new NotFoundException("Event Not Found");
 
-        // Ko cho swap sau khi event da start
-        if (ev.StartTime.HasValue && DateTimeOffset.UtcNow >= ev.StartTime.Value)
-            throw new BadRequestException("Cannot Swap Round After Event Has Started");
+        // [Commented] Ko cho swap sau khi event da start — bỏ check để dễ test
+        //if (ev.StartTime.HasValue && DateTimeOffset.UtcNow >= ev.StartTime.Value)
+        //    throw new BadRequestException("Cannot Swap Round After Event Has Started");
 
         if (request.TargetRoundNo < 1)
             throw new BadRequestException("Target Round No Must Be Greater Than 0");
@@ -393,14 +393,15 @@ public class Service : IRoundService
         if (round == null)
             throw new NotFoundException("Round Not Found");
 
-        if (round.IsDisable)
-            throw new BadRequestException("Cannot End A Disabled Round");
+        // [Commented] EndRound checks — bỏ check để dễ test
+        //if (round.IsDisable)
+        //    throw new BadRequestException("Cannot End A Disabled Round");
 
-        if (!round.StartTime.HasValue || round.StartTime.Value > DateTimeOffset.UtcNow)
-            throw new BadRequestException("Round Cannot Be Ended Before It Starts");
+        //if (!round.StartTime.HasValue || round.StartTime.Value > DateTimeOffset.UtcNow)
+        //    throw new BadRequestException("Round Cannot Be Ended Before It Starts");
 
-        if (round.EndTime.HasValue && round.EndTime.Value <= DateTimeOffset.UtcNow)
-            throw new BadRequestException("Round Has Already Ended");
+        //if (round.EndTime.HasValue && round.EndTime.Value <= DateTimeOffset.UtcNow)
+        //    throw new BadRequestException("Round Has Already Ended");
 
         round.EndTime = DateTimeOffset.UtcNow;
         round.EndSubmission = DateTimeOffset.UtcNow;

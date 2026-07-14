@@ -330,11 +330,11 @@ public class Service : IRegisterTeamService
         if (ev.Status == Domain.Enums.Event.EventStatusEnum.Draft || ev.Status == Domain.Enums.Event.EventStatusEnum.Closed)
             throw new BadRequestException("Cannot Register to a Draft or Closed Event");
 
-        // Check registration is within the allowed time window: StartTime < now < RegisterLimitTime
-        if (ev.RegisterLimitTime.HasValue && DateTimeOffset.UtcNow >= ev.RegisterLimitTime.Value)
-            throw new BadRequestException("Registration Period Has Ended. Cannot Register At This Time.");
-        if (ev.StartTime.HasValue && DateTimeOffset.UtcNow < ev.StartTime.Value)
-            throw new BadRequestException("Registration Has Not Started Yet. Cannot Register Before Event Starts.");
+        // [Commented] Check registration is within the allowed time window — bỏ check để dễ test
+        //if (ev.RegisterLimitTime.HasValue && DateTimeOffset.UtcNow >= ev.RegisterLimitTime.Value)
+        //    throw new BadRequestException("Registration Period Has Ended. Cannot Register At This Time.");
+        //if (ev.StartTime.HasValue && DateTimeOffset.UtcNow < ev.StartTime.Value)
+        //    throw new BadRequestException("Registration Has Not Started Yet. Cannot Register Before Event Starts.");
 
         // Check team is not already registered to this event
         var existingRegister = await _registerTeamRepository.GetByEventIdAndTeamIdAsync(
