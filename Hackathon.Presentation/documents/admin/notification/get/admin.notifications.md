@@ -8,6 +8,8 @@
 - TargetType filter enum: Personal, Team, System
 - FromDate / ToDate lọc theo CreatedAt
 
+> **Ref:** Admin có API riêng cho my-notifications (Personal + System): [GET /api/v1/admin/notifications/my](admin.notifications.my.md)
+
 ## Phân quyền
 - ✅ Admin
 
@@ -28,7 +30,6 @@ GET /api/v1/admin/notifications                                     → Tất c�
 GET /api/v1/admin/notifications?Title=hackathon                     → Search title
 GET /api/v1/admin/notifications?TargetType=System                   → Lọc target type
 GET /api/v1/admin/notifications?IsDisable=false                     → Lọc chưa xóa
-GET /api/v1/admin/notifications?FromDate=2026-07-01T00:00:00Z&ToDate=2026-07-07T23:59:59Z  → Lọc thời gian
 ```
 
 ## Response (200)

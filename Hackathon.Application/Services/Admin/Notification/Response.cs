@@ -1,5 +1,29 @@
 namespace Hackathon.Application.Services.Admin.Notification;
 
+public class GetUnreadCountResponse
+{
+    public int Count { get; set; }
+}
+
+public class GetMyNotificationsResponse
+{
+    public List<NotificationCard> Notifications { get; set; } = new();
+    public int TotalCount { get; set; }
+    public int PageIndex { get; set; }
+    public int PageSize { get; set; }
+}
+
+public class GetMyNotificationsRequest
+{
+    public string? Keyword { get; set; }
+    public string? TargetType { get; set; }
+    public string? Status { get; set; }
+    public DateTimeOffset? FromDate { get; set; }
+    public DateTimeOffset? ToDate { get; set; }
+    public int PageIndex { get; set; } = 1;
+    public int PageSize { get; set; } = 10;
+}
+
 public class GetRecentNotificationsResponse
 {
     public List<NotificationCard> Notifications { get; set; } = new();
