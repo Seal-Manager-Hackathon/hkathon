@@ -250,7 +250,7 @@ public class Service : IEventService
                 EventId = request.EventId,
                 Year = ev.StartTime.Value.Year,
                 IsDisable = false,
-                IsPublished = false,
+                IsPublished = true,
                 CreatedAt = now,
                 UpdatedAt = now
             };
@@ -419,7 +419,7 @@ public class Service : IEventService
                 EventId = eventId,
                 Year = ev.StartTime.HasValue ? ev.StartTime.Value.Year : null,
                 IsLocked = false,
-                IsPublished = false,
+                IsPublished = true,
                 CreatedAt = DateTimeOffset.UtcNow,
                 UpdatedAt = DateTimeOffset.UtcNow
             };
