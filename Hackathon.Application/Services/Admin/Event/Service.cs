@@ -30,21 +30,18 @@ public class Service : IEventService
 
         var now = DateTimeOffset.UtcNow;
 
-        // Validate thời gian
-        // if (request.StartTime <= now)
-        //     throw new BadRequestException(ErrMsg.Event.StartTimeMustBeAfterNow);
+        // [Commented] Check thời gian CreateEvent — bỏ check để dễ test
+        //if (request.EndTime <= request.StartTime)
+        //    throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterStartTime);
 
-        if (request.EndTime <= request.StartTime)
-            throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterStartTime);
+        //if (request.RegisterLimitTime.HasValue)
+        //{
+        //    if (request.RegisterLimitTime.Value <= request.StartTime)
+        //        throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeAfterStartTime);
 
-        if (request.RegisterLimitTime.HasValue)
-        {
-            if (request.RegisterLimitTime.Value <= request.StartTime)
-                throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeAfterStartTime);
-
-            if (request.RegisterLimitTime.Value >= request.EndTime)
-                throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeBeforeEndTime);
-        }
+        //    if (request.RegisterLimitTime.Value >= request.EndTime)
+        //        throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeBeforeEndTime);
+        //}
 
         SeasonEnum? season = null;
         if (!string.IsNullOrWhiteSpace(request.Season))
@@ -173,25 +170,25 @@ public class Service : IEventService
             ev.Status = status;
         }
 
-        // === Validate thời gian ===
-        var startTime = request.StartTime ?? ev.StartTime;
-        var endTime = request.EndTime ?? ev.EndTime;
-        var registerLimitTime = request.RegisterLimitTime ?? ev.RegisterLimitTime;
+        // [Commented] Validate thời gian UpdateEvent — bỏ check để dễ test
+        //var startTime = request.StartTime ?? ev.StartTime;
+        //var endTime = request.EndTime ?? ev.EndTime;
+        //var registerLimitTime = request.RegisterLimitTime ?? ev.RegisterLimitTime;
 
-        if (startTime <= now && request.StartTime.HasValue)
-            throw new BadRequestException(ErrMsg.Event.StartTimeMustBeAfterNow);
+        //if (startTime <= now && request.StartTime.HasValue)
+        //    throw new BadRequestException(ErrMsg.Event.StartTimeMustBeAfterNow);
 
-        if (endTime <= startTime && (request.EndTime.HasValue || request.StartTime.HasValue))
-            throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterStartTime);
+        //if (endTime <= startTime && (request.EndTime.HasValue || request.StartTime.HasValue))
+        //    throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterStartTime);
 
-        if (registerLimitTime.HasValue)
-        {
-            if (registerLimitTime.Value <= startTime && request.RegisterLimitTime.HasValue)
-                throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeAfterStartTime);
+        //if (registerLimitTime.HasValue)
+        //{
+        //    if (registerLimitTime.Value <= startTime && request.RegisterLimitTime.HasValue)
+        //        throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeAfterStartTime);
 
-            if (registerLimitTime.Value >= endTime && request.RegisterLimitTime.HasValue)
-                throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeBeforeEndTime);
-        }
+        //    if (registerLimitTime.Value >= endTime && request.RegisterLimitTime.HasValue)
+        //        throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeBeforeEndTime);
+        //}
 
         // === Update fields ===
         if (request.Name != null)

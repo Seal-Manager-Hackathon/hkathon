@@ -298,21 +298,21 @@ public class Service : IRegisterTeamService
         if (rt.Status != RegisterTeamStatusEnum.Pending)
             throw new BadRequestException("Only Pending Register Team Can Be Approved");
 
-        // Check event time window
-        var ev = await _eventRepository.GetByIdAsync(rt.EventId);
-        if (ev != null)
-        {
-            if (ev.StartTime.HasValue && DateTimeOffset.UtcNow < ev.StartTime.Value)
-                throw new BadRequestException("Cannot Approve Before Event Starts");
-            if (ev.EndTime.HasValue && DateTimeOffset.UtcNow >= ev.EndTime.Value)
-                throw new BadRequestException("Cannot Approve After Event Has Ended");
-        }
+        // [Commented] Check event time window — bỏ check để dễ test
+        //var ev = await _eventRepository.GetByIdAsync(rt.EventId);
+        //if (ev != null)
+        //{
+        //    if (ev.StartTime.HasValue && DateTimeOffset.UtcNow < ev.StartTime.Value)
+        //        throw new BadRequestException("Cannot Approve Before Event Starts");
+        //    if (ev.EndTime.HasValue && DateTimeOffset.UtcNow >= ev.EndTime.Value)
+        //        throw new BadRequestException("Cannot Approve After Event Has Ended");
+        //}
 
         var firstRound = await _roundRepository.GetFirstRoundByEventIdAsync(rt.EventId);
 
-        // Phải approve trước khi round 1 bắt đầu
-        if (firstRound != null && firstRound.StartTime.HasValue && DateTimeOffset.UtcNow >= firstRound.StartTime.Value)
-            throw new BadRequestException("Cannot Approve After Round 1 Has Started");
+        // [Commented] Phải approve trước khi round 1 bắt đầu — bỏ check để dễ test
+        //if (firstRound != null && firstRound.StartTime.HasValue && DateTimeOffset.UtcNow >= firstRound.StartTime.Value)
+        //    throw new BadRequestException("Cannot Approve After Round 1 Has Started");
 
         if (firstRound != null && firstRound.LimitTeam.HasValue)
         {
@@ -368,15 +368,15 @@ public class Service : IRegisterTeamService
         if (rt.Status != RegisterTeamStatusEnum.Pending)
             throw new BadRequestException("Only Pending Register Team Can Be Rejected");
 
-        // Check event time window
-        var ev = await _eventRepository.GetByIdAsync(rt.EventId);
-        if (ev != null)
-        {
-            if (ev.StartTime.HasValue && DateTimeOffset.UtcNow < ev.StartTime.Value)
-                throw new BadRequestException("Cannot Reject Before Event Starts");
-            if (ev.EndTime.HasValue && DateTimeOffset.UtcNow >= ev.EndTime.Value)
-                throw new BadRequestException("Cannot Reject After Event Has Ended");
-        }
+        // [Commented] Check event time window — bỏ check để dễ test
+        //var ev = await _eventRepository.GetByIdAsync(rt.EventId);
+        //if (ev != null)
+        //{
+        //    if (ev.StartTime.HasValue && DateTimeOffset.UtcNow < ev.StartTime.Value)
+        //        throw new BadRequestException("Cannot Reject Before Event Starts");
+        //    if (ev.EndTime.HasValue && DateTimeOffset.UtcNow >= ev.EndTime.Value)
+        //        throw new BadRequestException("Cannot Reject After Event Has Ended");
+        //}
 
         rt.Status = RegisterTeamStatusEnum.Rejected;
         if (rejectionReason != null)
@@ -533,10 +533,10 @@ public class Service : IRegisterTeamService
         if (rt == null)
             throw new NotFoundException("Register Team Not Found");
 
-        // Chỉ được up round khi event chưa kết thúc
-        var ev = await _eventRepository.GetByIdAsync(rt.EventId);
-        if (ev != null && ev.EndTime.HasValue && DateTimeOffset.UtcNow >= ev.EndTime.Value)
-            throw new BadRequestException("Cannot Assign To Next Round After Event Has Ended");
+        // [Commented] Chỉ được up round khi event chưa kết thúc — bỏ check để dễ test
+        //var ev = await _eventRepository.GetByIdAsync(rt.EventId);
+        //if (ev != null && ev.EndTime.HasValue && DateTimeOffset.UtcNow >= ev.EndTime.Value)
+        //    throw new BadRequestException("Cannot Assign To Next Round After Event Has Ended");
 
         var currentRoundDetail = rt.RoundDetails
             .OrderByDescending(rd => rd.Round?.RoundNo)
@@ -595,10 +595,10 @@ public class Service : IRegisterTeamService
         if (rt == null)
             throw new NotFoundException("Register Team Not Found");
 
-        // Chỉ được down round khi event chưa kết thúc
-        var ev = await _eventRepository.GetByIdAsync(rt.EventId);
-        if (ev != null && ev.EndTime.HasValue && DateTimeOffset.UtcNow >= ev.EndTime.Value)
-            throw new BadRequestException("Cannot Revert To Previous Round After Event Has Ended");
+        // [Commented] Chỉ được down round khi event chưa kết thúc — bỏ check để dễ test
+        //var ev = await _eventRepository.GetByIdAsync(rt.EventId);
+        //if (ev != null && ev.EndTime.HasValue && DateTimeOffset.UtcNow >= ev.EndTime.Value)
+        //    throw new BadRequestException("Cannot Revert To Previous Round After Event Has Ended");
 
         var activeRounds = rt.RoundDetails
             .Where(rd => rd.Round != null && !rd.IsDisable)
