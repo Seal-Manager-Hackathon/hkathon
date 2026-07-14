@@ -11,6 +11,12 @@ public interface IRegisterTeamRepository
         DateTimeOffset? fromDate, DateTimeOffset? toDate,
         Guid? roundId, Guid? trackId, Guid? topicId,
         int pageIndex, int pageSize);
+    Task<(List<RegisterTeams> Items, int TotalCount)> SearchWithScoresAsync(
+        Guid eventId, string? keyword, RegisterTeamStatusEnum? status,
+        bool? isBanned, bool? isDisable,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate,
+        Guid? roundId, Guid? trackId, Guid? topicId,
+        int pageIndex, int pageSize);
     Task<RegisterTeams?> GetByIdAsync(Guid id);
     Task AddAsync(RegisterTeams registerTeam);
     Task UpdateAsync(RegisterTeams registerTeam);

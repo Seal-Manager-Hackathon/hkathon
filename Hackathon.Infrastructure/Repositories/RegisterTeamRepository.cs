@@ -272,4 +272,65 @@ public class RegisterTeamRepository : IRegisterTeamRepository
 
         return (items, totalCount);
     }
+
+    public async Task<(List<RegisterTeams> Items, int TotalCount)> SearchWithScoresAsync(
+        Guid eventId, string? keyword, RegisterTeamStatusEnum? status,
+        bool? isBanned, bool? isDisable,
+        DateTimeOffset? fromDate, DateTimeOffset? toDate,
+        Guid? roundId, Guid? trackId, Guid? topicId,
+        int pageIndex, int pageSize)
+    {
+        var query = _context.Set<RegisterTeams>()
+            .Include(rt => rt.Team)
+            .Include(rt => rt.Event)
+            .Include(rt => rt.Track)
+            .Include(rt => rt.Topic)
+            .Include(rt => rt.RoundDetails)
+                .ThenInclude(rd => rd.Round)
+            .Include(rt => rt.RoundDetails)
+                .ThenInclude(rd => rd.Submissions)
+                    .ThenInclude(s => s.Scores)
+            .Where(rt => rt.EventId == eventId)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var kw = keyword.Trim().ToLower();
+            query = query.Where(rt => rt.Team.Name.ToLower().Contains(kw));
+        }
+
+        if (status.HasValue)
+            query = query.Where(rt => rt.Status == status.Value);
+
+        if (isBanned.HasValue)
+            query = query.Where(rt => rt.IsBanned == isBanned.Value);
+
+        if (isDisable.HasValue)
+            query = query.Where(rt => rt.IsDisable == isDisable.Value);
+
+        if (fromDate.HasValue)
+            query = query.Where(rt => rt.CreatedAt >= fromDate.Value);
+
+        if (toDate.HasValue)
+            query = query.Where(rt => rt.CreatedAt <= toDate.Value);
+
+        if (trackId.HasValue)
+            query = query.Where(rt => rt.TrackId == trackId.Value);
+
+        if (topicId.HasValue)
+            query = query.Where(rt => rt.TopicId == topicId.Value);
+
+        if (roundId.HasValue)
+            query = query.Where(rt => rt.RoundDetails.Any(rd => rd.RoundId == roundId.Value && !rd.IsDisable));
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderByDescending(rt => rt.CreatedAt)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
 }

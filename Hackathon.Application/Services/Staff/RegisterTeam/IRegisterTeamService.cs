@@ -3,6 +3,7 @@ namespace Hackathon.Application.Services.Staff.RegisterTeam;
 public interface IRegisterTeamService
 {
     Task<GetRegisterTeamsResponse> GetRegisterTeams(Guid eventId, GetRegisterTeamsRequest request);
+    Task<GetRegisterTeamsWithScoresResponse> GetRegisterTeamsWithScores(Guid eventId, GetRegisterTeamsRequest request);
     Task<RegisterTeamDetailResponse> GetRegisterTeamDetail(Guid registerTeamId);
     Task UpdateRegisterTeam(Guid registerTeamId, UpdateRegisterTeamRequest request);
     Task ApproveRegisterTeam(Guid registerTeamId);
