@@ -1,5 +1,6 @@
 using Hackathon.Application.Common.Helpers.Leaderboard;
 using Hackathon.Application.Common.Interfaces;
+using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Common.Models.Leaderboard;
 using Hackathon.Domain.Enums.User;
 
@@ -8,13 +9,16 @@ namespace Hackathon.Application.Services.Admin.Leaderboard;
 public class Service : ILeaderboardService
 {
     private readonly IAuthorizationService _authorizationService;
+    private readonly IEventRepository _eventRepository;
     private readonly LeaderboardHelper _leaderboardHelper;
 
     public Service(
         IAuthorizationService authorizationService,
+        IEventRepository eventRepository,
         LeaderboardHelper leaderboardHelper)
     {
         _authorizationService = authorizationService;
+        _eventRepository = eventRepository;
         _leaderboardHelper = leaderboardHelper;
     }
 
@@ -36,7 +40,12 @@ public class Service : ILeaderboardService
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
-        return await _leaderboardHelper.GetChapterLeaderboardAsync(year, pageIndex, pageSize);
+        var allLeaderBoards = await _eventRepository.GetLeaderBoardByYearAsync(year);
+        var publishedLeaderBoards = allLeaderBoards
+            .Where(lb => lb.IsPublished && !lb.IsDisable)
+            .ToList();
+
+        return await _leaderboardHelper.GetChapterLeaderboardAsync(year, pageIndex, pageSize, publishedLeaderBoards);
     }
 
     public async Task PublishChapter(int year)
