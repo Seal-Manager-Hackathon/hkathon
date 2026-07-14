@@ -47,7 +47,7 @@ public class Service : ILeaderboardService
     public async Task<GetEventLeaderboardResponse> GetEventLeaderboard(Guid eventId, int pageIndex, int pageSize)
     {
         var leaderBoard = await _eventRepository.GetLeaderBoardByEventIdAsync(eventId);
-        if (leaderBoard == null || leaderBoard.IsDisable)
+        if (leaderBoard == null || leaderBoard.IsDisable || !leaderBoard.IsPublished)
             return null!;
 
         return await _leaderboardHelper.GetEventLeaderboardAsync(eventId, pageIndex, pageSize);
