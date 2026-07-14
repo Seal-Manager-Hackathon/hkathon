@@ -71,20 +71,6 @@ public class Service : IEventService
         };
 
         await _eventRepository.AddAsync(ev);
-
-        // Tạo leader board cho event
-        var leaderBoard = new Domain.Entities.LeaderBoards
-        {
-            Id = Guid.NewGuid(),
-            EventId = ev.Id,
-            Year = request.StartTime.Year,
-            IsDisable = false,
-            IsPublished = false,
-            CreatedAt = now,
-            UpdatedAt = now
-        };
-        await _eventRepository.AddLeaderBoardAsync(leaderBoard);
-
         await _unitOfWork.SaveChangesAsync();
     }
 
@@ -214,27 +200,13 @@ public class Service : IEventService
         {
             ev.StartTime = request.StartTime.Value;
 
-            // Upsert LeaderBoard: có rồi thì update Year, chưa có thì tạo mới
+            // Cập nhật Year của leader board nếu đã có
             var leaderBoard = await _eventRepository.GetLeaderBoardByEventIdAsync(request.EventId);
             if (leaderBoard != null)
             {
                 leaderBoard.Year = request.StartTime.Value.Year;
                 leaderBoard.UpdatedAt = DateTimeOffset.UtcNow;
                 await _eventRepository.UpdateLeaderBoardAsync(leaderBoard);
-            }
-            else
-            {
-                leaderBoard = new Domain.Entities.LeaderBoards
-                {
-                    Id = Guid.NewGuid(),
-                    EventId = request.EventId,
-                    Year = request.StartTime.Value.Year,
-                    IsDisable = false,
-                    IsPublished = false,
-                    CreatedAt = DateTimeOffset.UtcNow,
-                    UpdatedAt = DateTimeOffset.UtcNow
-                };
-                await _eventRepository.AddLeaderBoardAsync(leaderBoard);
             }
         }
         if (request.EndTime.HasValue)
@@ -263,6 +235,26 @@ public class Service : IEventService
                 if (!setupCheck.IsComplete)
                     throw new BadRequestException(
                         $"Cannot Enable Draft Event. Setup Not Complete. Missing: {string.Join(", ", setupCheck.MissingFields)}");
+            }
+
+            // Khi enable event (IsDisable=false), tạo leader board nếu chưa có
+            if (request.IsDisable.Value == false)
+            {
+                var existingLB = await _eventRepository.GetLeaderBoardByEventIdAsync(request.EventId);
+                if (existingLB == null && ev.StartTime.HasValue)
+                {
+                    existingLB = new Domain.Entities.LeaderBoards
+                    {
+                        Id = Guid.NewGuid(),
+                        EventId = request.EventId,
+                        Year = ev.StartTime.Value.Year,
+                        IsDisable = false,
+                        IsPublished = false,
+                        CreatedAt = now,
+                        UpdatedAt = now
+                    };
+                    await _eventRepository.AddLeaderBoardAsync(existingLB);
+                }
             }
 
             ev.IsDisable = request.IsDisable.Value;
