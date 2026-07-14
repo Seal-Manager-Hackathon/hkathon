@@ -237,27 +237,24 @@ public class Service : IEventService
                         $"Cannot Enable Draft Event. Setup Not Complete. Missing: {string.Join(", ", setupCheck.MissingFields)}");
             }
 
-            // Khi enable event (IsDisable=false), tạo leader board nếu chưa có
-            if (request.IsDisable.Value == false)
-            {
-                var existingLB = await _eventRepository.GetLeaderBoardByEventIdAsync(request.EventId);
-                if (existingLB == null && ev.StartTime.HasValue)
-                {
-                    existingLB = new Domain.Entities.LeaderBoards
-                    {
-                        Id = Guid.NewGuid(),
-                        EventId = request.EventId,
-                        Year = ev.StartTime.Value.Year,
-                        IsDisable = false,
-                        IsPublished = false,
-                        CreatedAt = now,
-                        UpdatedAt = now
-                    };
-                    await _eventRepository.AddLeaderBoardAsync(existingLB);
-                }
-            }
-
             ev.IsDisable = request.IsDisable.Value;
+        }
+
+        // Tạo leader board nếu chưa có — chạy bất kể update field gì
+        var lb = await _eventRepository.GetLeaderBoardByEventIdAsync(request.EventId);
+        if (lb == null && ev.StartTime.HasValue)
+        {
+            lb = new Domain.Entities.LeaderBoards
+            {
+                Id = Guid.NewGuid(),
+                EventId = request.EventId,
+                Year = ev.StartTime.Value.Year,
+                IsDisable = false,
+                IsPublished = false,
+                CreatedAt = now,
+                UpdatedAt = now
+            };
+            await _eventRepository.AddLeaderBoardAsync(lb);
         }
 
         ev.UpdatedAt = now;
