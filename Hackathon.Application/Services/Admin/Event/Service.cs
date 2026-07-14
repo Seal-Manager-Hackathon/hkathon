@@ -82,12 +82,13 @@ public class Service : IEventService
         if (ev == null)
             throw new NotFoundException("Event Not Found");
 
-        var now = DateTimeOffset.UtcNow;
+        //var now = DateTimeOffset.UtcNow;
         var missingFields = new List<string>();
 
         // Check basic fields
         if (string.IsNullOrWhiteSpace(ev.Name)) missingFields.Add("Name");
-        if (!ev.StartTime.HasValue || ev.StartTime <= now) missingFields.Add("StartTime");
+        // [Commented] Check StartTime phải > now — bỏ để cho phép set StartTime quá khứ
+        //if (!ev.StartTime.HasValue || ev.StartTime <= now) missingFields.Add("StartTime");
         if (!ev.EndTime.HasValue || ev.EndTime <= ev.StartTime) missingFields.Add("EndTime");
         if (!ev.Season.HasValue) missingFields.Add("Season");
         if (string.IsNullOrWhiteSpace(ev.Description)) missingFields.Add("Description");
