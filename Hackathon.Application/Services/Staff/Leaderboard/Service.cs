@@ -68,7 +68,14 @@ public class Service : ILeaderboardService
 
     public async Task<GetChapterLeaderboardResponse> GetChapterLeaderboard(int year, int pageIndex, int pageSize)
     {
-        return await _leaderboardHelper.GetChapterLeaderboardAsync(year, pageIndex, pageSize);
+        _authorizationService.Authorize(RoleEnum.Staff);
+
+        var allLeaderBoards = await _eventRepository.GetLeaderBoardByYearAsync(year);
+        var publishedLeaderBoards = allLeaderBoards
+            .Where(lb => lb.IsPublished && !lb.IsDisable)
+            .ToList();
+
+        return await _leaderboardHelper.GetChapterLeaderboardAsync(year, pageIndex, pageSize, publishedLeaderBoards);
     }
 
     public async Task PublishChapter(int year)
