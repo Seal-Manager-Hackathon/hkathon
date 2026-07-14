@@ -28,7 +28,7 @@ public static class DemoSeed
     private static readonly Guid User11Id = Guid.Parse("10000000-0000-0000-0000-000000000040");
     private static readonly Guid User12Id = Guid.Parse("10000000-0000-0000-0000-000000000041");
 
-    // BCrypt EnhancedHash (SHA256) của password "string" + Pepper từ SecurityOptions
+    // BCrypt EnhancedHash (SHA256) of password "string" + Pepper from SecurityOptions
     private static string DemoPasswordHash => SeedHelper.HashDefaultPassword();
 
     public static void SeedDemoData(this ModelBuilder modelBuilder)
@@ -114,7 +114,7 @@ public static class DemoSeed
             DateOfBirth = new DateTimeOffset(2000, 1, 1, 0, 0, 0, TimeSpan.Zero),
             StudentId = studentId,
             Role = RoleEnum.Student,
-            College = "SEAL University",
+            College = "FPT University",
             ImgUrl = "https://robohash.org/" + email,
             LinkUrl = "",
             VerifyEmailAt = SeedConstants.CreatedAt,

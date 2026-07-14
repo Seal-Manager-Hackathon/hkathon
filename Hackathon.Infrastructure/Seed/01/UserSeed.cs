@@ -61,7 +61,7 @@ public static class UserSeed
             DateOfBirth = new DateTimeOffset(2000, 1, 1, 0, 0, 0, TimeSpan.Zero),
             StudentId = studentId,
             Role = role,
-            College = "Seed University",
+            College = "FPT University",
             ImgUrl = "https://seed.local/profile.png",
             LinkUrl = "https://seed.local/users",
             VerifyEmailAt = SeedConstants.CreatedAt,

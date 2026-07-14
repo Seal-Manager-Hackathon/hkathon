@@ -4,15 +4,15 @@ namespace Hackathon.Infrastructure.Seed;
 
 public static class SeedHelper
 {
-    // Phải khớp với SecurityOptions.Pepper trong appsettings.json
+    // Must match SecurityOptions.Pepper in appsettings.json
     private const string SeedPepper = "Matkhaubimat123";
 
     private static string? _cachedHash;
 
     /// <summary>
-    /// BCrypt EnhancedHash (SHA256) của password "string" + Pepper,
-    /// dùng chung cho tất cả seed user — giống cơ chế hash của IPasswordService khi login/register.
-    /// Hash được cache sau lần gọi đầu tiên.
+    /// BCrypt EnhancedHash (SHA256) of password "string" + Pepper,
+    /// shared by all seed users — same hash mechanism as IPasswordService during login/register.
+    /// Hash is cached after the first call.
     /// </summary>
     public static string HashDefaultPassword()
     {
