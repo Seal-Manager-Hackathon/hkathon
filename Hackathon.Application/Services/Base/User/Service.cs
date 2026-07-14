@@ -89,10 +89,8 @@ public class Service : IUserProfileService
             user.Address = request.Address;
         if (request.DateOfBirth.HasValue)
             user.DateOfBirth = request.DateOfBirth.Value;
-        if (request.StudentId != null)
+        if (request.StudentId != null && string.IsNullOrEmpty(user.StudentId))
         {
-            if (!string.IsNullOrEmpty(user.StudentId))
-                throw new BadRequestException("Student Id Cannot Be Changed Once Set");
             user.StudentId = request.StudentId;
         }
         if (request.ImgUrl != null)
