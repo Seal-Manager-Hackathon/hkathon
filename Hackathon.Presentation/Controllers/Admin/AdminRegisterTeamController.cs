@@ -24,6 +24,14 @@ public class AdminRegisterTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RegisterTeamsFetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    [HttpGet("events/{eventId:guid}/register-teams/with-scores")]
+    public async Task<IActionResult> GetRegisterTeamsWithScores(Guid eventId, [FromQuery] GetRegisterTeamsRequest request)
+    {
+        request.EventId = eventId;
+        var result = await _registerTeamService.GetRegisterTeamsWithScores(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RegisterTeamsFetched, traceId: HttpContext.TraceIdentifier));
+    }
+
     [HttpGet("register-teams/{registerTeamId:guid}")]
     public async Task<IActionResult> GetRegisterTeamDetail(Guid registerTeamId)
     {

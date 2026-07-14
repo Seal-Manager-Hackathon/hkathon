@@ -117,6 +117,95 @@ public class Service : IRegisterTeamService
         };
     }
 
+    public async Task<GetRegisterTeamsWithScoresResponse> GetRegisterTeamsWithScores(Guid eventId, GetRegisterTeamsRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Staff);
+        await EnsureStaffAssignedToEvent(eventId);
+
+        request.EventId = eventId;
+        RegisterTeamStatusEnum? status = null;
+        if (!string.IsNullOrWhiteSpace(request.Status))
+        {
+            if (!Enum.TryParse<RegisterTeamStatusEnum>(request.Status, true, out var parsed))
+                throw new BadRequestException("Invalid Status. Must be: Pending, Approved, Rejected, Banned");
+            status = parsed;
+        }
+
+        var (allItems, totalCount) = await _registerTeamRepository.SearchWithScoresAsync(
+            request.EventId, request.Keyword, status,
+            request.IsBanned, request.IsDisable,
+            request.FromDate, request.ToDate,
+            request.RoundId, request.TrackId, request.TopicId,
+            1, int.MaxValue);
+
+        var scored = allItems.Select(rt =>
+        {
+            var maxRound = rt.RoundDetails
+                .Where(rd => rd.Round != null && !rd.IsDisable)
+                .OrderByDescending(rd => rd.Round!.RoundNo)
+                .FirstOrDefault();
+
+            decimal? totalScopeScore = null;
+            if (maxRound != null)
+            {
+                var lastSubmission = maxRound.Submissions
+                    .OrderByDescending(s => s.SubmittedAt)
+                    .FirstOrDefault();
+
+                if (lastSubmission != null)
+                {
+                    var validScores = lastSubmission.Scores
+                        .Where(s => s.TotalScore.HasValue)
+                        .ToList();
+
+                    if (validScores.Count > 0)
+                        totalScopeScore = Math.Round(validScores.Average(s => s.TotalScore!.Value), 2);
+                }
+            }
+
+            return new { Rt = rt, MaxRound = maxRound, TotalScopeScore = totalScopeScore };
+        })
+        .OrderByDescending(x => x.TotalScopeScore)
+        .ToList();
+
+        totalCount = scored.Count;
+
+        var paged = scored
+            .Skip((request.PageIndex - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToList();
+
+        return new GetRegisterTeamsWithScoresResponse
+        {
+            RegisterTeams = paged.Select(x => new RegisterTeamWithScoreCard
+            {
+                Id = x.Rt.Id,
+                TeamId = x.Rt.TeamId,
+                TeamName = x.Rt.Team?.Name,
+                EventId = x.Rt.EventId,
+                EventName = x.Rt.Event?.Name,
+                TrackId = x.Rt.TrackId,
+                TrackName = x.Rt.Track?.Title,
+                TopicId = x.Rt.TopicId,
+                TopicName = x.Rt.Topic?.Title,
+                Description = x.Rt.Description,
+                RejectionReason = x.Rt.RejectionReason,
+                Status = x.Rt.Status?.ToString(),
+                IsBanned = x.Rt.IsBanned,
+                IsDisable = x.Rt.IsDisable,
+                RoundId = x.MaxRound?.RoundId,
+                RoundName = x.MaxRound?.Round?.Name,
+                RoundNo = x.MaxRound?.Round?.RoundNo,
+                TotalScopeScore = x.TotalScopeScore,
+                CreatedAt = x.Rt.CreatedAt,
+                UpdatedAt = x.Rt.UpdatedAt
+            }).ToList(),
+            TotalCount = totalCount,
+            PageIndex = request.PageIndex,
+            PageSize = request.PageSize
+        };
+    }
+
     public async Task<RegisterTeamDetailResponse> GetRegisterTeamDetail(Guid registerTeamId)
     {
         _authorizationService.Authorize(RoleEnum.Staff);
