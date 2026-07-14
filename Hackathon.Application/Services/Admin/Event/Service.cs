@@ -71,6 +71,20 @@ public class Service : IEventService
         };
 
         await _eventRepository.AddAsync(ev);
+
+        // Tạo leader board cho event
+        var leaderBoard = new Domain.Entities.LeaderBoards
+        {
+            Id = Guid.NewGuid(),
+            EventId = ev.Id,
+            Year = request.StartTime.Year,
+            IsDisable = false,
+            IsPublished = false,
+            CreatedAt = now,
+            UpdatedAt = now
+        };
+        await _eventRepository.AddLeaderBoardAsync(leaderBoard);
+
         await _unitOfWork.SaveChangesAsync();
     }
 
@@ -200,13 +214,27 @@ public class Service : IEventService
         {
             ev.StartTime = request.StartTime.Value;
 
-            // Update Year của leaderboard khi startTime thay đổi
+            // Upsert LeaderBoard: có rồi thì update Year, chưa có thì tạo mới
             var leaderBoard = await _eventRepository.GetLeaderBoardByEventIdAsync(request.EventId);
             if (leaderBoard != null)
             {
                 leaderBoard.Year = request.StartTime.Value.Year;
                 leaderBoard.UpdatedAt = DateTimeOffset.UtcNow;
                 await _eventRepository.UpdateLeaderBoardAsync(leaderBoard);
+            }
+            else
+            {
+                leaderBoard = new Domain.Entities.LeaderBoards
+                {
+                    Id = Guid.NewGuid(),
+                    EventId = request.EventId,
+                    Year = request.StartTime.Value.Year,
+                    IsDisable = false,
+                    IsPublished = false,
+                    CreatedAt = DateTimeOffset.UtcNow,
+                    UpdatedAt = DateTimeOffset.UtcNow
+                };
+                await _eventRepository.AddLeaderBoardAsync(leaderBoard);
             }
         }
         if (request.EndTime.HasValue)
