@@ -33,6 +33,10 @@ public class Service : ILeaderboardService
     {
         _authorizationService.Authorize(RoleEnum.Admin);
 
+        var leaderBoard = await _eventRepository.GetLeaderBoardByEventIdAsync(eventId);
+        if (leaderBoard == null || leaderBoard.IsDisable || !leaderBoard.IsPublished)
+            return null!;
+
         return await _leaderboardHelper.GetEventLeaderboardAsync(eventId, pageIndex, pageSize);
     }
 
