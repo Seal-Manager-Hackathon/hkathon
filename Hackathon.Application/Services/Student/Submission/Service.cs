@@ -109,6 +109,12 @@ public class Service : ISubmissionService
         if (registerTeam.Status != Domain.Enums.RegisterTeam.RegisterTeamStatusEnum.Approved)
             throw new BadRequestException("Register Team Is Not Approved");
 
+        // Check register team has track and topic assigned
+        if (!registerTeam.TrackId.HasValue)
+            throw new BadRequestException("Register Team Has No Track Assigned. Cannot Submit.");
+        if (!registerTeam.TopicId.HasValue)
+            throw new BadRequestException("Register Team Has No Topic Assigned. Cannot Submit.");
+
         // Check event exists and is open
         var ev = registerTeam.Event;
         if (ev == null || ev.IsDisable)
