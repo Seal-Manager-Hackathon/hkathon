@@ -46,6 +46,11 @@ public class Service : ILeaderboardService
     {
         _authorizationService.Authorize(RoleEnum.Lecturer);
 
-        return await _leaderboardHelper.GetChapterLeaderboardAsync(year, pageIndex, pageSize);
+        var allLeaderBoards = await _eventRepository.GetLeaderBoardByYearAsync(year);
+        var publishedLeaderBoards = allLeaderBoards
+            .Where(lb => lb.IsPublished && !lb.IsDisable)
+            .ToList();
+
+        return await _leaderboardHelper.GetChapterLeaderboardAsync(year, pageIndex, pageSize, publishedLeaderBoards);
     }
 }
