@@ -4,7 +4,7 @@ public static class MailTemplate
 {
     public static string EmailContainToken(string token, string baseUrl)
     {
-        var verificationLink = $"{baseUrl}/auth/verify-email?token={token}";
+        var verificationLink = $"{baseUrl}/verify-email?token={token}";
 
         var htmlBody = """
         <!DOCTYPE html>
@@ -125,7 +125,7 @@ public static class MailTemplate
 
     public static string ForgotPasswordContainToken(string token, string baseUrl)
     {
-        var resetPasswordLink = $"{baseUrl}/auth/reset-password?token={token}";
+        var resetPasswordLink = $"{baseUrl}/reset-password?token={token}";
 
         var htmlBody = """
         <!DOCTYPE html>

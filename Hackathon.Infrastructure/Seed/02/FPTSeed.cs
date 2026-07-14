@@ -12,18 +12,18 @@ namespace Hackathon.Infrastructure.Seed;
 
 public static class FPTSeed
 {
-    // BCrypt EnhancedHash (SHA256) của password "string" + Pepper từ SecurityOptions
+    // BCrypt EnhancedHash (SHA256) of password "string" + Pepper from SecurityOptions
     private static string PasswordHash => SeedHelper.HashDefaultPassword();
 
     private static readonly DateTimeOffset Now = new(2026, 7, 3, 0, 0, 0, TimeSpan.Zero);
 
-    // ── Constants: Event 1 (Spring 2026 — đang diễn ra, Round 1) ──
+    // ── Constants: Event 1 (Spring 2026 — ongoing, Round 1) ──
     private static readonly Guid Event1Id = Guid.Parse("20000000-0000-0000-0000-000000000100");
     private static readonly Guid Event1Round1Id = Guid.Parse("21000000-0000-0000-0000-000000000100");
     private static readonly Guid Event1Round2Id = Guid.Parse("21000000-0000-0000-0000-000000000101");
     private static readonly Guid Event1LeaderBoardId = Guid.Parse("60000000-0000-0000-0000-000000000100");
 
-    // ── Constants: Event 2 (Summer 2026 — đang đăng kí) ──
+    // ── Constants: Event 2 (Summer 2026 — open for registration) ──
     private static readonly Guid Event2Id = Guid.Parse("20000000-0000-0000-0000-000000000200");
     private static readonly Guid Event2Round1Id = Guid.Parse("21000000-0000-0000-0000-000000000200");
     private static readonly Guid Event2Round2Id = Guid.Parse("21000000-0000-0000-0000-000000000201");
@@ -129,16 +129,16 @@ public static class FPTSeed
         // 30 students for Event 1 (SE101–SE130)
         var e1Names = new (string first, string last)[]
         {
-            ("Nguyễn Văn", "An"), ("Trần Thị", "Bích"), ("Lê Hoàng", "Cường"),
-            ("Phạm Minh", "Dũng"), ("Võ Thị", "Em"), ("Đặng Văn", "Phước"),
-            ("Bùi Thị", "Giang"), ("Đỗ Quốc", "Huy"), ("Hồ Văn", "Hưng"),
-            ("Ngô Thị", "Hồng"), ("Dương Văn", "Kiên"), ("Lý Thị", "Lan"),
-            ("Mai Thanh", "Long"), ("Lương Thị", "Mai"), ("Chu Văn", "Mạnh"),
-            ("Cao Thị", "Ngọc"), ("Phan Văn", "Nhân"), ("Tạ Thị", "Oanh"),
-            ("Quách Văn", "Phát"), ("La Thị", "Quỳnh"), ("Sử Văn", "Sơn"),
-            ("Lâm Thị", "Thanh"), ("Kiều Văn", "Tiến"), ("Đinh Thị", "Tuyết"),
-            ("Vương Văn", "Trọng"), ("Hà Thị", "Vân"), ("Khúc Văn", "Xuyên"),
-            ("Đào Thị", "Yến"), ("Vũ Văn", "Bình"), ("Lục Thị", "Nhung")
+            ("Nguyen Van", "An"), ("Tran Thi", "Bich"), ("Le Hoang", "Cuong"),
+            ("Pham Minh", "Dung"), ("Vo Thi", "Em"), ("Dang Van", "Phuoc"),
+            ("Bui Thi", "Giang"), ("Do Quoc", "Huy"), ("Ho Van", "Hung"),
+            ("Ngo Thi", "Hong"), ("Duong Van", "Kien"), ("Ly Thi", "Lan"),
+            ("Mai Thanh", "Long"), ("Luong Thi", "Mai"), ("Chu Van", "Manh"),
+            ("Cao Thi", "Ngoc"), ("Phan Van", "Nhan"), ("Ta Thi", "Oanh"),
+            ("Quach Van", "Phat"), ("La Thi", "Quynh"), ("Su Van", "Son"),
+            ("Lam Thi", "Thanh"), ("Kieu Van", "Tien"), ("Dinh Thi", "Tuyet"),
+            ("Vuong Van", "Trong"), ("Ha Thi", "Van"), ("Khuc Van", "Xuyen"),
+            ("Dao Thi", "Yen"), ("Vu Van", "Binh"), ("Luc Thi", "Nhung")
         };
         for (int i = 0; i < 30; i++)
         {
@@ -150,16 +150,16 @@ public static class FPTSeed
         // 30 students for Event 2 (SE131–SE160)
         var e2Names = new (string first, string last)[]
         {
-            ("Nguyễn Thị", "Ánh"), ("Trần Văn", "Bảo"), ("Lê Thị", "Chi"),
-            ("Phạm Văn", "Đạt"), ("Võ Thị", "Dung"), ("Đặng Văn", "Duy"),
-            ("Bùi Thị", "Hà"), ("Đỗ Văn", "Hiếu"), ("Hồ Thị", "Huệ"),
-            ("Ngô Văn", "Khoa"), ("Dương Thị", "Lài"), ("Lý Văn", "Lộc"),
-            ("Mai Thị", "My"), ("Lương Văn", "Nam"), ("Chu Thị", "Ngà"),
-            ("Cao Văn", "Phong"), ("Phan Thị", "Phương"), ("Tạ Văn", "Quân"),
-            ("Quách Thị", "Thảo"), ("La Văn", "Thắng"), ("Sử Thị", "Thúy"),
-            ("Lâm Văn", "Tùng"), ("Kiều Thị", "Tươi"), ("Đinh Văn", "Vinh"),
-            ("Vương Thị", "Xuân"), ("Hà Văn", "Ý"), ("Khúc Thị", "Hạnh"),
-            ("Đào Văn", "Lợi"), ("Vũ Thị", "Liên"), ("Lục Văn", "Hải")
+            ("Nguyen Thi", "Anh"), ("Tran Van", "Bao"), ("Le Thi", "Chi"),
+            ("Pham Van", "Dat"), ("Vo Thi", "Dung"), ("Dang Van", "Duy"),
+            ("Bui Thi", "Ha"), ("Do Van", "Hieu"), ("Ho Thi", "Hue"),
+            ("Ngo Van", "Khoa"), ("Duong Thi", "Lai"), ("Ly Van", "Loc"),
+            ("Mai Thi", "My"), ("Luong Van", "Nam"), ("Chu Thi", "Nga"),
+            ("Cao Van", "Phong"), ("Phan Thi", "Phuong"), ("Ta Van", "Quan"),
+            ("Quach Thi", "Thao"), ("La Van", "Thang"), ("Su Thi", "Thuy"),
+            ("Lam Van", "Tung"), ("Kieu Thi", "Tuoi"), ("Dinh Van", "Vinh"),
+            ("Vuong Thi", "Xuan"), ("Ha Van", "Y"), ("Khuc Thi", "Hanh"),
+            ("Dao Van", "Loi"), ("Vu Thi", "Lien"), ("Luc Van", "Hai")
         };
         for (int i = 0; i < 30; i++)
         {
@@ -171,26 +171,26 @@ public static class FPTSeed
         // 10 Lecturers (5 Judge + 5 Mentor)
         var lecturers = new List<Users>
         {
-            CreateFptUser(Judge1Id, "nguyen.thanh.tung@fpt.edu.vn", "Nguyễn Thanh", "Tùng", "GV001", RoleEnum.Lecturer),
-            CreateFptUser(Judge2Id, "tran.le.hong@fpt.edu.vn", "Trần Lê", "Hồng", "GV002", RoleEnum.Lecturer),
-            CreateFptUser(Judge3Id, "le.quoc.bao@fpt.edu.vn", "Lê Quốc", "Bảo", "GV003", RoleEnum.Lecturer),
-            CreateFptUser(Judge4Id, "pham.duc.minh@fpt.edu.vn", "Phạm Đức", "Minh", "GV004", RoleEnum.Lecturer),
-            CreateFptUser(Judge5Id, "hoang.ngoc.son@fpt.edu.vn", "Hoàng Ngọc", "Sơn", "GV005", RoleEnum.Lecturer),
-            CreateFptUser(Mentor1Id, "vo.tuan.kiet@fpt.edu.vn", "Võ Tuấn", "Kiệt", "GV006", RoleEnum.Lecturer),
-            CreateFptUser(Mentor2Id, "dang.thuy.linh@fpt.edu.vn", "Đặng Thùy", "Linh", "GV007", RoleEnum.Lecturer),
-            CreateFptUser(Mentor3Id, "bui.cong.thanh@fpt.edu.vn", "Bùi Công", "Thành", "GV008", RoleEnum.Lecturer),
-            CreateFptUser(Mentor4Id, "do.hoang.yen@fpt.edu.vn", "Đỗ Hoàng", "Yến", "GV009", RoleEnum.Lecturer),
-            CreateFptUser(Mentor5Id, "ngo.quang.trung@fpt.edu.vn", "Ngô Quang", "Trung", "GV010", RoleEnum.Lecturer),
+            CreateFptUser(Judge1Id, "nguyen.thanh.tung@fpt.edu.vn", "Nguyen Thanh", "Tung", "GV001", RoleEnum.Lecturer),
+            CreateFptUser(Judge2Id, "tran.le.hong@fpt.edu.vn", "Tran Le", "Hong", "GV002", RoleEnum.Lecturer),
+            CreateFptUser(Judge3Id, "le.quoc.bao@fpt.edu.vn", "Le Quoc", "Bao", "GV003", RoleEnum.Lecturer),
+            CreateFptUser(Judge4Id, "pham.duc.minh@fpt.edu.vn", "Pham Duc", "Minh", "GV004", RoleEnum.Lecturer),
+            CreateFptUser(Judge5Id, "hoang.ngoc.son@fpt.edu.vn", "Hoang Ngoc", "Son", "GV005", RoleEnum.Lecturer),
+            CreateFptUser(Mentor1Id, "vo.tuan.kiet@fpt.edu.vn", "Vo Tuan", "Kiet", "GV006", RoleEnum.Lecturer),
+            CreateFptUser(Mentor2Id, "dang.thuy.linh@fpt.edu.vn", "Dang Thuy", "Linh", "GV007", RoleEnum.Lecturer),
+            CreateFptUser(Mentor3Id, "bui.cong.thanh@fpt.edu.vn", "Bui Cong", "Thanh", "GV008", RoleEnum.Lecturer),
+            CreateFptUser(Mentor4Id, "do.hoang.yen@fpt.edu.vn", "Do Hoang", "Yen", "GV009", RoleEnum.Lecturer),
+            CreateFptUser(Mentor5Id, "ngo.quang.trung@fpt.edu.vn", "Ngo Quang", "Trung", "GV010", RoleEnum.Lecturer),
         };
 
         // 5 Staff
         var staff = new List<Users>
         {
-            CreateFptUser(Staff1Id, "hoang.mai.anh@fpt.edu.vn", "Hoàng Mai", "Anh", "STF006", RoleEnum.Staff),
-            CreateFptUser(Staff2Id, "tran.minh.duc@fpt.edu.vn", "Trần Minh", "Đức", "STF007", RoleEnum.Staff),
-            CreateFptUser(Staff3Id, "le.phuong.tha@fpt.edu.vn", "Lê Phương", "Thảo", "STF008", RoleEnum.Staff),
-            CreateFptUser(Staff4Id, "pham.quoc.huy@fpt.edu.vn", "Phạm Quốc", "Huy", "STF009", RoleEnum.Staff),
-            CreateFptUser(Staff5Id, "dang.thi.thu@fpt.edu.vn", "Đặng Thị", "Thu", "STF010", RoleEnum.Staff),
+            CreateFptUser(Staff1Id, "hoang.mai.anh@fpt.edu.vn", "Hoang Mai", "Anh", "STF006", RoleEnum.Staff),
+            CreateFptUser(Staff2Id, "tran.minh.duc@fpt.edu.vn", "Tran Minh", "Duc", "STF007", RoleEnum.Staff),
+            CreateFptUser(Staff3Id, "le.phuong.tha@fpt.edu.vn", "Le Phuong", "Thao", "STF008", RoleEnum.Staff),
+            CreateFptUser(Staff4Id, "pham.quoc.huy@fpt.edu.vn", "Pham Quoc", "Huy", "STF009", RoleEnum.Staff),
+            CreateFptUser(Staff5Id, "dang.thi.thu@fpt.edu.vn", "Dang Thi", "Thu", "STF010", RoleEnum.Staff),
         };
 
         modelBuilder.Entity<Users>().HasData(fptStudents.Concat(lecturers).Concat(staff));
@@ -203,7 +203,7 @@ public static class FPTSeed
             {
                 Id = Event1Id,
                 Name = "SEAL Hackathon 2026 - Spring",
-                Description = "Cuộc thi Hackathon mùa Xuân dành cho sinh viên FPT, với các giải pháp công nghệ sáng tạo.",
+                Description = "Spring Hackathon for FPT students with creative technology solutions.",
                 StartTime = new DateTimeOffset(2026, 6, 15, 8, 0, 0, TimeSpan.FromHours(7)),
                 EndTime = new DateTimeOffset(2026, 7, 30, 17, 0, 0, TimeSpan.FromHours(7)),
                 RegisterLimitTime = new DateTimeOffset(2026, 6, 25, 23, 59, 0, TimeSpan.FromHours(7)),
@@ -221,7 +221,7 @@ public static class FPTSeed
             {
                 Id = Event2Id,
                 Name = "SEAL Hackathon 2026 - Summer",
-                Description = "Cuộc thi Hackathon mùa Hè dành cho sinh viên FPT, mở đăng kí tham gia.",
+                Description = "Summer Hackathon for FPT students, now open for registration.",
                 StartTime = new DateTimeOffset(2026, 8, 1, 8, 0, 0, TimeSpan.FromHours(7)),
                 EndTime = new DateTimeOffset(2026, 9, 15, 17, 0, 0, TimeSpan.FromHours(7)),
                 RegisterLimitTime = new DateTimeOffset(2026, 7, 25, 23, 59, 0, TimeSpan.FromHours(7)),
@@ -241,13 +241,13 @@ public static class FPTSeed
         //  ROUNDS
         // ──────────────────────────────────────────────────────────
         modelBuilder.Entity<Rounds>().HasData(
-            // Event 1 — Round 1 (đang diễn ra)
+            // Event 1 — Round 1 (ongoing)
             new Rounds
             {
                 Id = Event1Round1Id,
                 EventId = Event1Id,
-                Name = "Vòng 1 - Ý tưởng",
-                Description = "Trình bày ý tưởng và kế hoạch thực hiện",
+                Name = "Round 1 - Idea",
+                Description = "Present ideas and execution plans",
                 RoundNo = 1,
                 StartTime = new DateTimeOffset(2026, 6, 29, 8, 0, 0, TimeSpan.FromHours(7)),
                 EndTime = new DateTimeOffset(2026, 7, 13, 17, 0, 0, TimeSpan.FromHours(7)),
@@ -258,13 +258,13 @@ public static class FPTSeed
                 CreatedAt = Now,
                 UpdatedAt = Now
             },
-            // Event 1 — Round 2 (cuối tháng)
+            // Event 1 — Round 2 (end of month)
             new Rounds
             {
                 Id = Event1Round2Id,
                 EventId = Event1Id,
-                Name = "Vòng 2 - Chung kết",
-                Description = "Trình bày sản phẩm hoàn chỉnh",
+                Name = "Round 2 - Final",
+                Description = "Present the complete product",
                 RoundNo = 2,
                 StartTime = new DateTimeOffset(2026, 7, 21, 8, 0, 0, TimeSpan.FromHours(7)),
                 EndTime = new DateTimeOffset(2026, 7, 30, 17, 0, 0, TimeSpan.FromHours(7)),
@@ -275,13 +275,13 @@ public static class FPTSeed
                 CreatedAt = Now,
                 UpdatedAt = Now
             },
-            // Event 2 — Round 1 (chưa bắt đầu)
+            // Event 2 — Round 1 (not yet started)
             new Rounds
             {
                 Id = Event2Round1Id,
                 EventId = Event2Id,
-                Name = "Vòng 1 - Ý tưởng",
-                Description = "Trình bày ý tưởng và kế hoạch thực hiện",
+                Name = "Round 1 - Idea",
+                Description = "Present ideas and execution plans",
                 RoundNo = 1,
                 StartTime = new DateTimeOffset(2026, 8, 4, 8, 0, 0, TimeSpan.FromHours(7)),
                 EndTime = new DateTimeOffset(2026, 8, 18, 17, 0, 0, TimeSpan.FromHours(7)),
@@ -292,13 +292,13 @@ public static class FPTSeed
                 CreatedAt = Now,
                 UpdatedAt = Now
             },
-            // Event 2 — Round 2 (chưa bắt đầu)
+            // Event 2 — Round 2 (not yet started)
             new Rounds
             {
                 Id = Event2Round2Id,
                 EventId = Event2Id,
-                Name = "Vòng 2 - Chung kết",
-                Description = "Trình bày sản phẩm hoàn chỉnh",
+                Name = "Round 2 - Final",
+                Description = "Present the complete product",
                 RoundNo = 2,
                 StartTime = new DateTimeOffset(2026, 8, 25, 8, 0, 0, TimeSpan.FromHours(7)),
                 EndTime = new DateTimeOffset(2026, 9, 15, 17, 0, 0, TimeSpan.FromHours(7)),
@@ -315,10 +315,10 @@ public static class FPTSeed
         //  AWARDS (2 per event)
         // ──────────────────────────────────────────────────────────
         modelBuilder.Entity<Awards>().HasData(
-            new Awards { Id = Guid.Parse("26000000-0000-0000-0000-000000000100"), EventId = Event1Id, Name = "Vô địch", Description = "Giải nhất chung cuộc", LevelAward = 1, NumberOfAward = 1, Prize = 5000000m, IsDisable = false, CreatedAt = Now, UpdatedAt = Now },
-            new Awards { Id = Guid.Parse("26000000-0000-0000-0000-000000000101"), EventId = Event1Id, Name = "Á quân", Description = "Giải nhì chung cuộc", LevelAward = 2, NumberOfAward = 1, Prize = 3000000m, IsDisable = false, CreatedAt = Now, UpdatedAt = Now },
-            new Awards { Id = Guid.Parse("26000000-0000-0000-0000-000000000200"), EventId = Event2Id, Name = "Vô địch", Description = "Giải nhất chung cuộc", LevelAward = 1, NumberOfAward = 1, Prize = 5000000m, IsDisable = false, CreatedAt = Now, UpdatedAt = Now },
-            new Awards { Id = Guid.Parse("26000000-0000-0000-0000-000000000201"), EventId = Event2Id, Name = "Á quân", Description = "Giải nhì chung cuộc", LevelAward = 2, NumberOfAward = 1, Prize = 3000000m, IsDisable = false, CreatedAt = Now, UpdatedAt = Now }
+            new Awards { Id = Guid.Parse("26000000-0000-0000-0000-000000000100"), EventId = Event1Id, Name = "Champion", Description = "First place overall", LevelAward = 1, NumberOfAward = 1, Prize = 5000000m, IsDisable = false, CreatedAt = Now, UpdatedAt = Now },
+            new Awards { Id = Guid.Parse("26000000-0000-0000-0000-000000000101"), EventId = Event1Id, Name = "Runner-up", Description = "Second place overall", LevelAward = 2, NumberOfAward = 1, Prize = 3000000m, IsDisable = false, CreatedAt = Now, UpdatedAt = Now },
+            new Awards { Id = Guid.Parse("26000000-0000-0000-0000-000000000200"), EventId = Event2Id, Name = "Champion", Description = "First place overall", LevelAward = 1, NumberOfAward = 1, Prize = 5000000m, IsDisable = false, CreatedAt = Now, UpdatedAt = Now },
+            new Awards { Id = Guid.Parse("26000000-0000-0000-0000-000000000201"), EventId = Event2Id, Name = "Runner-up", Description = "Second place overall", LevelAward = 2, NumberOfAward = 1, Prize = 3000000m, IsDisable = false, CreatedAt = Now, UpdatedAt = Now }
         );
 
         // ──────────────────────────────────────────────────────────
@@ -330,22 +330,22 @@ public static class FPTSeed
         // Event 1 tracks
         var ev1TrackData = new (Guid id, string title, string desc)[]
         {
-            (Ev1TrackAiId, "AI - Trí tuệ nhân tạo", "Các giải pháp ứng dụng AI vào đời sống"),
-            (Ev1TrackMobileId, "Mobile - Ứng dụng di động", "Phát triển ứng dụng trên nền tảng di động"),
-            (Ev1TrackWebId, "Web - Công nghệ Web", "Xây dựng ứng dụng web hiện đại"),
-            (Ev1TrackDataId, "Data - Khoa học dữ liệu", "Phân tích và khai thác dữ liệu"),
-            (Ev1TrackCloudId, "Cloud - Điện toán đám mây", "Giải pháp triển khai trên nền tảng Cloud"),
+            (Ev1TrackAiId, "AI - Artificial Intelligence", "AI-powered solutions for everyday life"),
+            (Ev1TrackMobileId, "Mobile - Mobile Applications", "Developing applications on mobile platforms"),
+            (Ev1TrackWebId, "Web - Web Technology", "Building modern web applications"),
+            (Ev1TrackDataId, "Data - Data Science", "Data analysis and exploitation"),
+            (Ev1TrackCloudId, "Cloud - Cloud Computing", "Deployment solutions on Cloud platforms"),
         };
         foreach (var (id, title, desc) in ev1TrackData)
             tracks.Add(new Tracks { Id = id, EventId = Event1Id, Title = title, Description = desc, MaxTeam = 2, IsDisable = false, CreatedAt = Now, UpdatedAt = Now });
 
         var ev1TopicData = new (Guid id, Guid trackId, string title, string desc)[]
         {
-            (Ev1TopicAiId, Ev1TrackAiId, "Chatbot hỗ trợ học tập", "Xây dựng chatbot AI hỗ trợ sinh viên học tập"),
-            (Ev1TopicMobileId, Ev1TrackMobileId, "App quản lý tài chính cá nhân", "Ứng dụng mobile quản lý chi tiêu"),
-            (Ev1TopicWebId, Ev1TrackWebId, "Nền tảng kết nối tình nguyện", "Mạng xã hội kết nối hoạt động tình nguyện"),
-            (Ev1TopicDataId, Ev1TrackDataId, "Hệ thống dự báo thời tiết", "Ứng dụng phân tích dữ liệu dự báo thời tiết"),
-            (Ev1TopicCloudId, Ev1TrackCloudId, "Hệ thống CI/CD tự động", "Triển khai pipeline CI/CD trên Cloud"),
+            (Ev1TopicAiId, Ev1TrackAiId, "Learning Support Chatbot", "Build an AI chatbot to assist student learning"),
+            (Ev1TopicMobileId, Ev1TrackMobileId, "Personal Finance Manager App", "Mobile app for expense management"),
+            (Ev1TopicWebId, Ev1TrackWebId, "Volunteer Connection Platform", "Social network connecting volunteer activities"),
+            (Ev1TopicDataId, Ev1TrackDataId, "Weather Forecasting System", "Data analysis application for weather prediction"),
+            (Ev1TopicCloudId, Ev1TrackCloudId, "Automated CI/CD System", "Deploy CI/CD pipeline on Cloud"),
         };
         foreach (var (id, trackId, title, desc) in ev1TopicData)
             topics.Add(new Topics { Id = id, TrackId = trackId, Title = title, Description = desc, IsDisable = false, CreatedAt = Now, UpdatedAt = Now });
@@ -353,22 +353,22 @@ public static class FPTSeed
         // Event 2 tracks
         var ev2TrackData = new (Guid id, string title, string desc)[]
         {
-            (Ev2TrackAiId, "AI - Xử lý ảnh", "Các giải pháp xử lý ảnh thông minh"),
-            (Ev2TrackMobileId, "Mobile - Game", "Phát triển game trên nền tảng di động"),
-            (Ev2TrackWebId, "Web - Thương mại điện tử", "Xây dựng nền tảng thương mại điện tử"),
-            (Ev2TrackDataId, "Data - Học máy", "Các mô hình Machine Learning ứng dụng"),
-            (Ev2TrackCloudId, "Cloud - DevOps", "Tự động hóa hạ tầng và triển khai"),
+            (Ev2TrackAiId, "AI - Image Processing", "Intelligent image processing solutions"),
+            (Ev2TrackMobileId, "Mobile - Gaming", "Developing games on mobile platforms"),
+            (Ev2TrackWebId, "Web - E-Commerce", "Building e-commerce platforms"),
+            (Ev2TrackDataId, "Data - Machine Learning", "Applied Machine Learning models"),
+            (Ev2TrackCloudId, "Cloud - DevOps", "Infrastructure automation and deployment"),
         };
         foreach (var (id, title, desc) in ev2TrackData)
             tracks.Add(new Tracks { Id = id, EventId = Event2Id, Title = title, Description = desc, MaxTeam = 2, IsDisable = false, CreatedAt = Now, UpdatedAt = Now });
 
         var ev2TopicData = new (Guid id, Guid trackId, string title, string desc)[]
         {
-            (Ev2TopicAiId, Ev2TrackAiId, "Nhận diện cảm xúc khuôn mặt", "AI nhận diện cảm xúc qua camera"),
-            (Ev2TopicMobileId, Ev2TrackMobileId, "Game giáo dục tương tác", "Game học tập dành cho trẻ em"),
-            (Ev2TopicWebId, Ev2TrackWebId, "Chợ nông sản online", "Nền tảng kết nối nông dân và người mua"),
-            (Ev2TopicDataId, Ev2TrackDataId, "Hệ thống gợi ý sản phẩm", "Recommendation engine cho sàn thương mại"),
-            (Ev2TopicCloudId, Ev2TrackCloudId, "Hệ thống monitoring", "Giám sát hạ tầng Cloud tự động"),
+            (Ev2TopicAiId, Ev2TrackAiId, "Facial Emotion Recognition", "AI recognizes emotions via camera"),
+            (Ev2TopicMobileId, Ev2TrackMobileId, "Interactive Educational Game", "Learning games for children"),
+            (Ev2TopicWebId, Ev2TrackWebId, "Online Agricultural Marketplace", "Platform connecting farmers and buyers"),
+            (Ev2TopicDataId, Ev2TrackDataId, "Product Recommendation System", "Recommendation engine for e-commerce"),
+            (Ev2TopicCloudId, Ev2TrackCloudId, "System Monitoring Platform", "Automated Cloud infrastructure monitoring"),
         };
         foreach (var (id, trackId, title, desc) in ev2TopicData)
             topics.Add(new Topics { Id = id, TrackId = trackId, Title = title, Description = desc, IsDisable = false, CreatedAt = Now, UpdatedAt = Now });
@@ -385,18 +385,18 @@ public static class FPTSeed
         // Event 1 Round 1 — 3 templates, template 1 active (!IsDisable)
         criteriaTemplates.AddRange(new[]
         {
-            new CriteriaTemplates { Id = Ev1R1Tpl1Id, RoundId = Event1Round1Id, Title = "Đánh giá ý tưởng", Description = "Tiêu chí đánh giá ý tưởng vòng 1", IsDisable = false, IsActive = true, CreatedAt = Now, UpdatedAt = Now },
-            new CriteriaTemplates { Id = Ev1R1Tpl2Id, RoundId = Event1Round1Id, Title = "Đánh giá kỹ thuật", Description = "Tiêu chí đánh giá kỹ thuật dự phòng", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now },
-            new CriteriaTemplates { Id = Ev1R1Tpl3Id, RoundId = Event1Round1Id, Title = "Đánh giá thuyết trình", Description = "Tiêu chí đánh giá kỹ năng thuyết trình dự phòng", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now },
+            new CriteriaTemplates { Id = Ev1R1Tpl1Id, RoundId = Event1Round1Id, Title = "Idea Evaluation", Description = "Criteria for evaluating ideas in round 1", IsDisable = false, IsActive = true, CreatedAt = Now, UpdatedAt = Now },
+            new CriteriaTemplates { Id = Ev1R1Tpl2Id, RoundId = Event1Round1Id, Title = "Technical Evaluation", Description = "Criteria for evaluating technical aspects (backup)", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now },
+            new CriteriaTemplates { Id = Ev1R1Tpl3Id, RoundId = Event1Round1Id, Title = "Presentation Evaluation", Description = "Criteria for evaluating presentation skills (backup)", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now },
         });
         // Items for template 1 (active)
         var e1r1Items = new (Guid id, string name, string desc, decimal score)[]
         {
-            (Guid.Parse("23000000-0000-0000-0000-000000000100"), "Tính sáng tạo", "Mức độ mới lạ và sáng tạo của ý tưởng", 25m),
-            (Guid.Parse("23000000-0000-0000-0000-000000000101"), "Tính khả thi", "Khả năng triển khai thực tế", 25m),
-            (Guid.Parse("23000000-0000-0000-0000-000000000102"), "Tác động xã hội", "Giá trị đem lại cho cộng đồng", 20m),
-            (Guid.Parse("23000000-0000-0000-0000-000000000103"), "Công nghệ sử dụng", "Ứng dụng công nghệ phù hợp", 20m),
-            (Guid.Parse("23000000-0000-0000-0000-000000000104"), "Kế hoạch thực hiện", "Chi tiết và rõ ràng của lộ trình", 10m),
+            (Guid.Parse("23000000-0000-0000-0000-000000000100"), "Creativity", "Level of novelty and creativity of the idea", 25m),
+            (Guid.Parse("23000000-0000-0000-0000-000000000101"), "Feasibility", "Ability to implement in practice", 25m),
+            (Guid.Parse("23000000-0000-0000-0000-000000000102"), "Social Impact", "Value brought to the community", 20m),
+            (Guid.Parse("23000000-0000-0000-0000-000000000103"), "Technology Usage", "Appropriate technology application", 20m),
+            (Guid.Parse("23000000-0000-0000-0000-000000000104"), "Execution Plan", "Clarity and detail of the roadmap", 10m),
         };
         foreach (var (id, name, desc, score) in e1r1Items)
             criteriaItems.Add(new CriteriaItems { Id = id, CriteriaTemplateId = Ev1R1Tpl1Id, Name = name, Description = desc, Score = score, IsDisable = false, CreatedAt = Now, UpdatedAt = Now });
@@ -410,16 +410,16 @@ public static class FPTSeed
         // Event 1 Round 2 — 3 templates, template 1 active
         var e1r2items = new (Guid id, string name, string desc, decimal score)[]
         {
-            (Guid.Parse("23000000-0000-0000-0000-000000000105"), "Chất lượng sản phẩm", "Sản phẩm hoàn thiện và ổn định", 30m),
-            (Guid.Parse("23000000-0000-0000-0000-000000000106"), "Tính sáng tạo", "Mức độ đổi mới của giải pháp", 25m),
-            (Guid.Parse("23000000-0000-0000-0000-000000000107"), "Kỹ thuật", "Chất lượng code và kiến trúc", 20m),
-            (Guid.Parse("23000000-0000-0000-0000-000000000108"), "Thuyết trình", "Kỹ năng trình bày và demo", 15m),
-            (Guid.Parse("23000000-0000-0000-0000-000000000109"), "Tác động", "Giá trị thực tế và khả năng mở rộng", 10m),
+            (Guid.Parse("23000000-0000-0000-0000-000000000105"), "Product Quality", "Complete and stable product", 30m),
+            (Guid.Parse("23000000-0000-0000-0000-000000000106"), "Creativity", "Level of innovation in the solution", 25m),
+            (Guid.Parse("23000000-0000-0000-0000-000000000107"), "Technical Quality", "Code quality and architecture", 20m),
+            (Guid.Parse("23000000-0000-0000-0000-000000000108"), "Presentation", "Presentation and demo skills", 15m),
+            (Guid.Parse("23000000-0000-0000-0000-000000000109"), "Impact", "Practical value and scalability", 10m),
         };
         modelBuilder.Entity<CriteriaTemplates>().HasData(
-            new CriteriaTemplates { Id = Ev1R2Tpl1Id, RoundId = Event1Round2Id, Title = "Đánh giá chung kết", Description = "Tiêu chí đánh giá vòng chung kết", IsDisable = false, IsActive = true, CreatedAt = Now, UpdatedAt = Now },
-            new CriteriaTemplates { Id = Ev1R2Tpl2Id, RoundId = Event1Round2Id, Title = "Đánh giá dự phòng 1", Description = "Template dự phòng", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now },
-            new CriteriaTemplates { Id = Ev1R2Tpl3Id, RoundId = Event1Round2Id, Title = "Đánh giá dự phòng 2", Description = "Template dự phòng", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now }
+            new CriteriaTemplates { Id = Ev1R2Tpl1Id, RoundId = Event1Round2Id, Title = "Final Evaluation", Description = "Criteria for evaluating the final round", IsDisable = false, IsActive = true, CreatedAt = Now, UpdatedAt = Now },
+            new CriteriaTemplates { Id = Ev1R2Tpl2Id, RoundId = Event1Round2Id, Title = "Backup Evaluation 1", Description = "Backup template", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now },
+            new CriteriaTemplates { Id = Ev1R2Tpl3Id, RoundId = Event1Round2Id, Title = "Backup Evaluation 2", Description = "Backup template", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now }
         );
         modelBuilder.Entity<CriteriaItems>().HasData(
             e1r2items.Select((x, idx) => new CriteriaItems { Id = x.id, CriteriaTemplateId = Ev1R2Tpl1Id, Name = x.name, Description = x.desc, Score = x.score, IsDisable = false, CreatedAt = Now, UpdatedAt = Now }).Concat(
@@ -428,9 +428,9 @@ public static class FPTSeed
 
         // Event 2 Round 1 — 3 templates, template 1 active
         modelBuilder.Entity<CriteriaTemplates>().HasData(
-            new CriteriaTemplates { Id = Ev2R1Tpl1Id, RoundId = Event2Round1Id, Title = "Đánh giá ý tưởng", Description = "Tiêu chí đánh giá ý tưởng", IsDisable = false, IsActive = true, CreatedAt = Now, UpdatedAt = Now },
-            new CriteriaTemplates { Id = Ev2R1Tpl2Id, RoundId = Event2Round1Id, Title = "Đánh giá dự phòng 1", Description = "Template dự phòng", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now },
-            new CriteriaTemplates { Id = Ev2R1Tpl3Id, RoundId = Event2Round1Id, Title = "Đánh giá dự phòng 2", Description = "Template dự phòng", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now }
+            new CriteriaTemplates { Id = Ev2R1Tpl1Id, RoundId = Event2Round1Id, Title = "Idea Evaluation", Description = "Criteria for evaluating ideas", IsDisable = false, IsActive = true, CreatedAt = Now, UpdatedAt = Now },
+            new CriteriaTemplates { Id = Ev2R1Tpl2Id, RoundId = Event2Round1Id, Title = "Backup Evaluation 1", Description = "Backup template", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now },
+            new CriteriaTemplates { Id = Ev2R1Tpl3Id, RoundId = Event2Round1Id, Title = "Backup Evaluation 2", Description = "Backup template", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now }
         );
         modelBuilder.Entity<CriteriaItems>().HasData(
             e1r1Items.Select((x, idx) => new CriteriaItems { Id = Guid.Parse($"23000000-0000-0000-0000-00000000013{idx:X1}"), CriteriaTemplateId = Ev2R1Tpl1Id, Name = x.name, Description = x.desc, Score = x.score, IsDisable = false, CreatedAt = Now, UpdatedAt = Now }).Concat(
@@ -439,9 +439,9 @@ public static class FPTSeed
 
         // Event 2 Round 2 — 3 templates, template 1 active
         modelBuilder.Entity<CriteriaTemplates>().HasData(
-            new CriteriaTemplates { Id = Ev2R2Tpl1Id, RoundId = Event2Round2Id, Title = "Đánh giá chung kết", Description = "Tiêu chí đánh giá vòng chung kết", IsDisable = false, IsActive = true, CreatedAt = Now, UpdatedAt = Now },
-            new CriteriaTemplates { Id = Ev2R2Tpl2Id, RoundId = Event2Round2Id, Title = "Đánh giá dự phòng 1", Description = "Template dự phòng", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now },
-            new CriteriaTemplates { Id = Ev2R2Tpl3Id, RoundId = Event2Round2Id, Title = "Đánh giá dự phòng 2", Description = "Template dự phòng", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now }
+            new CriteriaTemplates { Id = Ev2R2Tpl1Id, RoundId = Event2Round2Id, Title = "Final Evaluation", Description = "Criteria for evaluating the final round", IsDisable = false, IsActive = true, CreatedAt = Now, UpdatedAt = Now },
+            new CriteriaTemplates { Id = Ev2R2Tpl2Id, RoundId = Event2Round2Id, Title = "Backup Evaluation 1", Description = "Backup template", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now },
+            new CriteriaTemplates { Id = Ev2R2Tpl3Id, RoundId = Event2Round2Id, Title = "Backup Evaluation 2", Description = "Backup template", IsDisable = true, IsActive = false, CreatedAt = Now, UpdatedAt = Now }
         );
         modelBuilder.Entity<CriteriaItems>().HasData(
             e1r2items.Select((x, idx) => new CriteriaItems { Id = Guid.Parse($"23000000-0000-0000-0000-00000000016{idx:X1}"), CriteriaTemplateId = Ev2R2Tpl1Id, Name = x.name, Description = x.desc, Score = x.score, IsDisable = false, CreatedAt = Now, UpdatedAt = Now }).Concat(
@@ -491,7 +491,7 @@ public static class FPTSeed
                 EventId = Event1Id,
                 TrackId = e1TeamToTrack[i],
                 TopicId = e1TeamToTopic[i],
-                Description = $"Đăng kí tham gia - Team {e1TeamNames[i]}",
+                Description = $"Registration - Team {e1TeamNames[i]}",
                 Status = RegisterTeamStatusEnum.Approved,
                 IsBanned = false,
                 IsDisable = false,
@@ -518,7 +518,7 @@ public static class FPTSeed
         };
         var e2RejectionReasons = new string?[]
         {
-            null, null, null, null, null, null, null, null, "Thiếu thông tin thành viên", "Hồ sơ không đạt yêu cầu"
+            null, null, null, null, null, null, null, null, "Missing member information", "Application does not meet requirements"
         };
 
         var e2Teams = new List<Teams>();
@@ -547,7 +547,7 @@ public static class FPTSeed
                 EventId = Event2Id,
                 TrackId = e2TeamToTrack[i],
                 TopicId = e2TeamToTopic[i],
-                Description = $"Đăng kí tham gia - Team {e2TeamNames[i]}",
+                Description = $"Registration - Team {e2TeamNames[i]}",
                 Status = e2Statuses[i],
                 RejectionReason = e2RejectionReasons[i],
                 IsBanned = false,
@@ -588,7 +588,7 @@ public static class FPTSeed
                 Id = Guid.Parse($"33000000-0000-0000-0000-0000000001{i:X1}0"),
                 RoundDetailId = rdId,
                 Url = $"https://github.com/fpt-hackathon-2026/team-{i + 1}-submission",
-                Description = $"Bài dự thi vòng 1 - {e1TeamNames[i]}",
+                Description = $"Round 1 submission - {e1TeamNames[i]}",
                 Status = SubmissionStatusEnum.Submitted,
                 SubmittedAt = new DateTimeOffset(2026, 7, 1, 9 + i, 0, 0, TimeSpan.FromHours(7)),
                 IsDisable = false,
@@ -800,9 +800,9 @@ public static class FPTSeed
                             CriteriaItemId = e1r1ActiveItems[si].id,
                             AssignTrackId = judgeTrackId,
                             Score = itemScores[si],
-                            Comment = itemScores[si] >= e1r1ActiveItems[si].score * 0.8m ? "Xuất sắc"
-                                : itemScores[si] >= e1r1ActiveItems[si].score * 0.6m ? "Tốt"
-                                : itemScores[si] >= e1r1ActiveItems[si].score * 0.4m ? "Trung bình" : "Cần cải thiện",
+                            Comment = itemScores[si] >= e1r1ActiveItems[si].score * 0.8m ? "Excellent"
+                                : itemScores[si] >= e1r1ActiveItems[si].score * 0.6m ? "Good"
+                                : itemScores[si] >= e1r1ActiveItems[si].score * 0.4m ? "Average" : "Needs Improvement",
                             IsDisable = false,
                             CreatedAt = Now,
                             UpdatedAt = Now
@@ -857,9 +857,9 @@ public static class FPTSeed
                 Id = Guid.Parse($"71000000-0000-0000-0000-0000000001{i:X1}0"),
                 UserId = leaderUserId,
                 TeamId = teamId,
-                Title = "Đăng ký được duyệt",
+                Title = "Registration Approved",
                 Status = NotificationStatusEnum.Read,
-                Description = $"Team {e1TeamNames[i]} đã được duyệt tham gia SEAL Hackathon 2026 - Spring.",
+                Description = $"Team {e1TeamNames[i]} has been approved to participate in SEAL Hackathon 2026 - Spring.",
                 TargetType = NotificationTargetTypeEnum.Personal,
                 IsDisable = false,
                 CreatedAt = Now,
@@ -876,9 +876,9 @@ public static class FPTSeed
                 Id = Guid.Parse($"71000000-0000-0000-0000-0000000002{i:X1}0"),
                 UserId = leaderUserId,
                 TeamId = teamId,
-                Title = "Đăng ký được duyệt",
+                Title = "Registration Approved",
                 Status = NotificationStatusEnum.Unread,
-                Description = $"Team {e2TeamNames[i]} đã được duyệt tham gia SEAL Hackathon 2026 - Summer.",
+                Description = $"Team {e2TeamNames[i]} has been approved to participate in SEAL Hackathon 2026 - Summer.",
                 TargetType = NotificationTargetTypeEnum.Personal,
                 IsDisable = false,
                 CreatedAt = Now,
@@ -903,12 +903,12 @@ public static class FPTSeed
             LastName = lastName,
             PhoneNumber = "0900000000",
             AvatarUrl = $"https://robohash.org/{email}",
-            Bio = $"Sinh viên / Giảng viên trường Đại học FPT",
-            Address = "Khu Công nghệ Cao, Quận 9, TP. Hồ Chí Minh",
+            Bio = $"Student / Lecturer at FPT University",
+            Address = "Saigon Hi-Tech Park, District 9, Ho Chi Minh City",
             DateOfBirth = role == RoleEnum.Student ? new DateTimeOffset(2002, 1, 1, 0, 0, 0, TimeSpan.Zero) : new DateTimeOffset(1990, 1, 1, 0, 0, 0, TimeSpan.Zero),
             StudentId = studentId,
             Role = role,
-            College = "Đại học FPT",
+            College = "FPT University",
             ImgUrl = $"https://robohash.org/{email}",
             LinkUrl = $"https://fpt.edu.vn/users/{studentId}",
             VerifyEmailAt = Now,
