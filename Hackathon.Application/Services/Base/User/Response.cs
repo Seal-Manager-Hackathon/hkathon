@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 
 namespace Hackathon.Application.Services.Base.User;
@@ -10,6 +11,8 @@ public class UpdateProfileRequest
     public string? Bio { get; set; }
     public string? Address { get; set; }
     public DateTimeOffset? DateOfBirth { get; set; }
+
+    [RegularExpression(@"^[A-Za-z]{2}\d{6}$", ErrorMessage = "StudentId Must Start With 2 Letters And End With 6 Digits")]
     public string? StudentId { get; set; }
     public string? ImgUrl { get; set; }
     public string? LinkUrl { get; set; }
