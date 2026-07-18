@@ -53,3 +53,19 @@ public class ResetPasswordRequest
     [StringLength(100, MinimumLength = 6, ErrorMessage = "Password Must Be Between 6 And 100 Characters")]
     public string NewPassword { get; set; } = null!;
 }
+
+public class ChangePasswordRequest
+{
+    [Required(ErrorMessage = "Current Password Is Required")]
+    public string CurrentPassword { get; set; } = null!;
+
+    [Required(ErrorMessage = "New Password Is Required")]
+    [StringLength(100, MinimumLength = 6, ErrorMessage = "Password Must Be Between 6 And 100 Characters")]
+    public string NewPassword { get; set; } = null!;
+}
+
+public class RefreshTokenRequest
+{
+    [Required(ErrorMessage = "Refresh Token Is Required")]
+    public string RefreshToken { get; set; } = null!;
+}

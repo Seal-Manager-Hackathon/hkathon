@@ -1,6 +1,7 @@
 using Hackathon.Application.Common;
 using Hackathon.Application.Common.Models;
 using Hackathon.Application.Services.Student.Event;
+using Hackathon.Application.Services.Student.PopularEvent;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hackathon.Presentation.Controllers.Student;
@@ -10,10 +11,12 @@ namespace Hackathon.Presentation.Controllers.Student;
 public class StudentEventController : ControllerBase
 {
     private readonly IEventService _eventService;
+    private readonly IPopularEventService _popularEventService;
 
-    public StudentEventController(IEventService eventService)
+    public StudentEventController(IEventService eventService, IPopularEventService popularEventService)
     {
         _eventService = eventService;
+        _popularEventService = popularEventService;
     }
 
     [HttpGet("events")]
@@ -41,6 +44,13 @@ public class StudentEventController : ControllerBase
     public async Task<IActionResult> GetRecentEvents()
     {
         var result = await _eventService.GetRecentEvents();
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpGet("events/popular")]
+    public async Task<IActionResult> GetPopularEvents([FromQuery] GetPopularEventsRequest request)
+    {
+        var result = await _popularEventService.GetPopularEvents(request);
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 }

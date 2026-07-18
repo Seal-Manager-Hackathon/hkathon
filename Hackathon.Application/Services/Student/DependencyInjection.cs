@@ -5,6 +5,7 @@ using Hackathon.Application.Services.Student.Event;
 using Hackathon.Application.Services.Student.Invitation;
 using Hackathon.Application.Services.Student.Leaderboard;
 using Hackathon.Application.Services.Student.Notification;
+using Hackathon.Application.Services.Student.PopularEvent;
 using Hackathon.Application.Services.Student.RegisterTeam;
 using Hackathon.Application.Services.Student.Report;
 using Hackathon.Application.Services.Student.Round;
@@ -36,6 +37,7 @@ public static class DependencyInjection
         services.AddScoped<IReportService, Report.Service>();
         services.AddScoped<ISubmissionService, Submission.Service>();
         services.AddScoped<INotificationService, Notification.Service>();
+        services.AddScoped<IPopularEventService, PopularEvent.Service>();
         return services;
     }
 }
