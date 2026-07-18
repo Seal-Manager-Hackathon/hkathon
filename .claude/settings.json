@@ -92,7 +92,12 @@
       "mcp__plugin_gitnexus_gitnexus__cypher",
       "mcp__plugin_gitnexus_gitnexus__detect_changes",
       "Skill(run)",
-      "Skill(run:*)"
+      "Skill(run:*)",
+      "Bash(npx -y @anthropic-ai/claude-code /mcp reconnect all)",
+      "Bash(node -e ' *)",
+      "Read(//c/Users/phamq/.claude/**)",
+      "mcp__plugin_gitnexus_gitnexus__list_repos",
+      "Bash(node .gitnexus/run.cjs analyze --repair-fts)"
     ],
     "additionalDirectories": [
       "c:\\Users\\phamq\\.claude\\projects\\c--Users-phamq-OneDrive-Desktop-New-folder--4--BE-SEAL-HACKATHON\\memory",
