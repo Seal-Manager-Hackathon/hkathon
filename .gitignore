@@ -478,6 +478,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/aspnetcore,dotnetcore,windows,rider,intellij
-Hackathon.Api/appsettings.json
-Hackathon.Api/appsettings.Development.json
+Hackathon.Presentation/appsettings.json
+Hackathon.Presentation/appsettings.Development.json
 swagger-local.json
