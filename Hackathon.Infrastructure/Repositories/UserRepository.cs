@@ -139,6 +139,9 @@ public class UserRepository : IUserRepository
     public async Task<Users?> GetByIdAsync(Guid id)
         => await _context.Users.FindAsync(id);
 
+    public async Task<Users?> GetByStudentIdAsync(string studentId)
+        => await _context.Users.FirstOrDefaultAsync(x => x.StudentId.ToUpper() == studentId.ToUpper());
+
     public async Task AddAsync(Users user)
         => await _context.Users.AddAsync(user);
 

@@ -91,7 +91,13 @@ public class Service : IUserProfileService
             user.DateOfBirth = request.DateOfBirth.Value;
         if (request.StudentId != null && string.IsNullOrEmpty(user.StudentId))
         {
-            user.StudentId = request.StudentId;
+            var normalizedId = request.StudentId.Trim().ToUpper();
+
+            var existingUser = await _userRepository.GetByStudentIdAsync(normalizedId);
+            if (existingUser != null && existingUser.Id != user.Id)
+                throw new BadRequestException("StudentId Already Exists");
+
+            user.StudentId = normalizedId;
         }
         if (request.ImgUrl != null)
             user.ImgUrl = request.ImgUrl;
