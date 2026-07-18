@@ -355,4 +355,72 @@ public class Service : IAuthService
         await _resetPasswordRepository.UpdateAsync(resetPassword);
         await _unitOfWork.SaveChangesAsync();
     }
+
+    public async Task ChangePassword(ChangePasswordRequest request)
+    {
+        var userId = _currentUserService.UserId;
+        if (userId == null)
+            throw new UnauthorizedException(ErrMsg.Auth.InvalidOrExpiredToken);
+
+        var user = await _userRepository.GetByIdAsync(userId.Value);
+        if (user == null)
+            throw new NotFoundException(ErrMsg.Auth.UserNotFound);
+
+        var isCurrentPasswordValid = _passwordService.VerifyPassword(request.CurrentPassword, user.HashPassword);
+        if (!isCurrentPasswordValid)
+            throw new BadRequestException(ErrMsg.Auth.CurrentPasswordInvalid);
+
+        user.HashPassword = _passwordService.HashPassword(request.NewPassword);
+        user.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await _userRepository.UpdateAsync(user);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task<AuthResponse> RefreshToken(RefreshTokenRequest request)
+    {
+        var storedToken = await _refreshTokenRepository.GetByHashAsync(request.RefreshToken);
+        if (storedToken == null)
+            throw new UnauthorizedException(ErrMsg.Auth.InvalidRefreshToken);
+
+        bool isActive = storedToken.RevokedAt == null && storedToken.ExpiredAt > DateTimeOffset.UtcNow;
+        if (!isActive)
+            throw new UnauthorizedException(ErrMsg.Auth.InvalidRefreshToken);
+
+        // Revoke old token
+        storedToken.RevokedAt = DateTimeOffset.UtcNow;
+        storedToken.UpdatedAt = DateTimeOffset.UtcNow;
+        await _refreshTokenRepository.UpdateAsync(storedToken);
+
+        // Create new refresh token
+        var newRawRefreshToken = _jwtService.GenerateRefreshToken();
+        var newRefreshTokenEntity = new RefreshTokens
+        {
+            Id = Guid.NewGuid(),
+            RefreshTokenHash = newRawRefreshToken,
+            UserId = storedToken.UserId,
+            IpAddress = storedToken.IpAddress,
+            UserAgent = storedToken.UserAgent,
+            DeviceLabel = storedToken.DeviceLabel,
+            ExpiredAt = DateTimeOffset.UtcNow.AddDays(7),
+            CreatedAt = DateTimeOffset.UtcNow,
+            UpdatedAt = DateTimeOffset.UtcNow
+        };
+        await _refreshTokenRepository.AddAsync(newRefreshTokenEntity);
+
+        // Generate new access token
+        var claims = new List<Claim>
+        {
+            new("UserId", storedToken.User.Id.ToString())
+        };
+        var newAccessToken = _jwtService.GenerateAccessToken(claims);
+
+        await _unitOfWork.SaveChangesAsync();
+
+        return new AuthResponse
+        {
+            AccessToken = newAccessToken,
+            RefreshToken = newRawRefreshToken
+        };
+    }
 }

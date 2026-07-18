@@ -8,4 +8,6 @@ public interface IAuthService
     Task<CurrentUserResponse> GetCurrentUser();
     Task ForgotPassword(ForgotPasswordRequest request);
     Task ResetPassword(ResetPasswordRequest request);
+    Task ChangePassword(ChangePasswordRequest request);
+    Task<AuthResponse> RefreshToken(RefreshTokenRequest request);
 }

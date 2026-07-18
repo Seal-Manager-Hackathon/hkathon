@@ -1,6 +1,7 @@
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Domain.Entities;
 using Hackathon.Domain.Enums.Event;
+using Hackathon.Domain.Enums.RegisterTeam;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hackathon.Infrastructure.Repositories;
@@ -135,6 +136,25 @@ public class EventRepository : IEventRepository
 
         var items = await query
             .OrderByDescending(e => e.CreatedAt)
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
+
+    public async Task<(List<Events> Items, int TotalCount)> GetPublicEventsAsync(int pageIndex, int pageSize)
+    {
+        var query = _context.Events
+            .Include(e => e.RegisterTeams)
+            .Where(e => e.Status == EventStatusEnum.Published && !e.IsDisable)
+            .AsQueryable();
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderByDescending(e => e.RegisterTeams.Count(rt => rt.Status == RegisterTeamStatusEnum.Approved && !rt.IsDisable))
+            .ThenByDescending(e => e.RegisterTeams.Count)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();

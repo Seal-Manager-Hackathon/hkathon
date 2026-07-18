@@ -57,4 +57,18 @@ public class AuthController : ControllerBase
         await _authService.ResetPassword(request);
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Auth.PasswordReset, traceId: HttpContext.TraceIdentifier));
     }
+
+    [HttpPost("change-password")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
+    {
+        await _authService.ChangePassword(request);
+        return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Auth.PasswordChanged, traceId: HttpContext.TraceIdentifier));
+    }
+
+    [HttpPost("refresh-token")]
+    public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+    {
+        var result = await _authService.RefreshToken(request);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Auth.TokenRefreshed, traceId: HttpContext.TraceIdentifier));
+    }
 }

@@ -20,4 +20,5 @@ public interface IEventRepository
         string? keyword, EventStatusEnum? status,
         DateTimeOffset? fromDate, DateTimeOffset? toDate, bool? isDisable,
         int pageIndex, int pageSize);
+    Task<(List<Events> Items, int TotalCount)> GetPublicEventsAsync(int pageIndex, int pageSize);
 }
