@@ -1,9 +1,12 @@
+using Hackathon.Application.Common;
 using Hackathon.Application.Common.Helpers;
+using Hackathon.Application.Common.Helpers.Notification;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
 using Hackathon.Domain.Entities;
 using Hackathon.Domain.Enums.Invitation;
+using Hackathon.Domain.Enums.Notification;
 using Hackathon.Domain.Enums.TeamDetail;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
@@ -15,6 +18,7 @@ public class Service : IInvitationService
     private readonly IInvitationRepository _invitationRepository;
     private readonly IUserRepository _userRepository;
     private readonly ITeamRepository _teamRepository;
+    private readonly INotificationRepository _notificationRepository;
     private readonly IAuthorizationService _authorizationService;
     private readonly ICurrentUserService _currentUserService;
     private readonly IUnitOfWork _unitOfWork;
@@ -23,6 +27,7 @@ public class Service : IInvitationService
         IInvitationRepository invitationRepository,
         IUserRepository userRepository,
         ITeamRepository teamRepository,
+        INotificationRepository notificationRepository,
         IAuthorizationService authorizationService,
         ICurrentUserService currentUserService,
         IUnitOfWork unitOfWork)
@@ -30,6 +35,7 @@ public class Service : IInvitationService
         _invitationRepository = invitationRepository;
         _userRepository = userRepository;
         _teamRepository = teamRepository;
+        _notificationRepository = notificationRepository;
         _authorizationService = authorizationService;
         _currentUserService = currentUserService;
         _unitOfWork = unitOfWork;
@@ -82,6 +88,17 @@ public class Service : IInvitationService
         };
 
         await _invitationRepository.AddAsync(invitation);
+
+        // Gửi notification cho người được mời
+        var sender = members.FirstOrDefault(m => m.IsLeader && !m.IsDisable);
+        var notification = NotificationHelper.Create(
+            NotificationTargetTypeEnum.Personal,
+            "Invitation Received",
+            string.Format(NotificationMessage.Invitation.InvitationReceived,
+                $"{sender?.User?.FirstName} {sender?.User?.LastName}", team.Name),
+            userId: invitedUser.Id);
+        await _notificationRepository.AddAsync(notification);
+
         await _unitOfWork.SaveChangesAsync();
     }
 
@@ -252,6 +269,16 @@ public class Service : IInvitationService
         };
 
         await _teamRepository.AddTeamDetailAsync(teamDetail);
+
+        // Gửi notification cho team (gắn teamId — mọi member đều thấy)
+        var memberJoinedNotification = NotificationHelper.Create(
+            NotificationTargetTypeEnum.Team,
+            "Member Joined",
+            string.Format(NotificationMessage.Invitation.MemberJoined,
+                user.FirstName, user.LastName, team.Name),
+            teamId: team.Id);
+        await _notificationRepository.AddAsync(memberJoinedNotification);
+
         await _unitOfWork.SaveChangesAsync();
     }
 
@@ -271,6 +298,21 @@ public class Service : IInvitationService
 
         invitation.Status = InvitationStatusEnum.Rejected;
         invitation.UpdatedAt = DateTimeOffset.UtcNow;
+
+        // Gửi notification cho team leader
+        var team = invitation.Team;
+        var inviter = team?.TeamDetails?.FirstOrDefault(td => td.IsLeader && !td.IsDisable);
+        if (inviter != null)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            var notification = NotificationHelper.Create(
+                NotificationTargetTypeEnum.Personal,
+                "Invitation Declined",
+                string.Format(NotificationMessage.Invitation.InvitationDeclined,
+                    user?.FirstName ?? "User", user?.LastName ?? "", team?.Name),
+                userId: inviter.UserId);
+            await _notificationRepository.AddAsync(notification);
+        }
 
         await _unitOfWork.SaveChangesAsync();
     }

@@ -1,8 +1,11 @@
+using Hackathon.Application.Common;
 using Hackathon.Application.Common.Helpers;
+using Hackathon.Application.Common.Helpers.Notification;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
 using Hackathon.Domain.Entities;
+using Hackathon.Domain.Enums.Notification;
 using Hackathon.Domain.Enums.TeamDetail;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
@@ -14,6 +17,7 @@ public class Service : ITeamService
     private readonly ITeamRepository _teamRepository;
     private readonly IRegisterTeamRepository _registerTeamRepository;
     private readonly IUserRepository _userRepository;
+    private readonly INotificationRepository _notificationRepository;
     private readonly IAuthorizationService _authorizationService;
     private readonly ICurrentUserService _currentUserService;
     private readonly IUnitOfWork _unitOfWork;
@@ -22,6 +26,7 @@ public class Service : ITeamService
         ITeamRepository teamRepository,
         IRegisterTeamRepository registerTeamRepository,
         IUserRepository userRepository,
+        INotificationRepository notificationRepository,
         IAuthorizationService authorizationService,
         ICurrentUserService currentUserService,
         IUnitOfWork unitOfWork)
@@ -29,6 +34,7 @@ public class Service : ITeamService
         _teamRepository = teamRepository;
         _registerTeamRepository = registerTeamRepository;
         _userRepository = userRepository;
+        _notificationRepository = notificationRepository;
         _authorizationService = authorizationService;
         _currentUserService = currentUserService;
         _unitOfWork = unitOfWork;
@@ -180,6 +186,15 @@ public class Service : ITeamService
 
         await _teamRepository.UpdateAsync(team);
         await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho team
+        var teamDisbandNotification = NotificationHelper.Create(
+            NotificationTargetTypeEnum.Team,
+            "Team Disbanded",
+            string.Format(NotificationMessage.Team.TeamDisbanded, team.Name),
+            teamId: teamId);
+        await _notificationRepository.AddAsync(teamDisbandNotification);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task KickMember(Guid teamId, Guid memberId)
@@ -219,6 +234,15 @@ public class Service : ITeamService
 
         // Xóa cứng TeamDetails — người bị kick không còn trong team nữa
         await _teamRepository.DeleteTeamDetailAsync(targetMember);
+        await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho member bị kick
+        var kickNotification = NotificationHelper.Create(
+            NotificationTargetTypeEnum.Personal,
+            "Member Removed",
+            string.Format(NotificationMessage.Team.MemberRemoved, team.Name),
+            userId: memberId);
+        await _notificationRepository.AddAsync(kickNotification);
         await _unitOfWork.SaveChangesAsync();
     }
 
@@ -356,6 +380,15 @@ public class Service : ITeamService
         await _teamRepository.UpdateTeamDetailAsync(currentLeader);
         await _teamRepository.UpdateTeamDetailAsync(newLeader);
         await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho new leader
+        var leaderNotification = NotificationHelper.Create(
+            NotificationTargetTypeEnum.Personal,
+            "New Leader",
+            string.Format(NotificationMessage.Team.NewLeader, team.Name),
+            userId: newLeaderUserId);
+        await _notificationRepository.AddAsync(leaderNotification);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task LeaveTeam(Guid teamId)
@@ -389,6 +422,17 @@ public class Service : ITeamService
         myMember.UpdatedAt = now;
 
         await _teamRepository.UpdateTeamDetailAsync(myMember);
+        await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho team
+        var leavingUser = await _userRepository.GetByIdAsync(userId);
+        var leaveNotification = NotificationHelper.Create(
+            NotificationTargetTypeEnum.Team,
+            "Member Left",
+            string.Format(NotificationMessage.Team.MemberLeft,
+                leavingUser?.FirstName ?? "User", leavingUser?.LastName ?? "", team.Name),
+            teamId: teamId);
+        await _notificationRepository.AddAsync(leaveNotification);
         await _unitOfWork.SaveChangesAsync();
     }
 

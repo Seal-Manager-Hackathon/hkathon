@@ -1,7 +1,10 @@
+using Hackathon.Application.Common;
+using Hackathon.Application.Common.Helpers.Notification;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
 using Hackathon.Domain.Entities;
+using Hackathon.Domain.Enums.Notification;
 using Hackathon.Domain.Enums.Submission;
 using Hackathon.Domain.Enums.TeamDetail;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
@@ -14,6 +17,7 @@ public class Service : ISubmissionService
     private readonly IRegisterTeamRepository _registerTeamRepository;
     private readonly IRoundRepository _roundRepository;
     private readonly ITeamRepository _teamRepository;
+    private readonly INotificationRepository _notificationRepository;
     private readonly ICurrentUserService _currentUserService;
     private readonly IUnitOfWork _unitOfWork;
 
@@ -22,6 +26,7 @@ public class Service : ISubmissionService
         IRegisterTeamRepository registerTeamRepository,
         IRoundRepository roundRepository,
         ITeamRepository teamRepository,
+        INotificationRepository notificationRepository,
         ICurrentUserService currentUserService,
         IUnitOfWork unitOfWork)
     {
@@ -29,6 +34,7 @@ public class Service : ISubmissionService
         _registerTeamRepository = registerTeamRepository;
         _roundRepository = roundRepository;
         _teamRepository = teamRepository;
+        _notificationRepository = notificationRepository;
         _currentUserService = currentUserService;
         _unitOfWork = unitOfWork;
     }
@@ -169,6 +175,15 @@ public class Service : ISubmissionService
         };
 
         await _submissionRepository.AddAsync(submission);
+        await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho team
+        var teamNotification = NotificationHelper.Create(
+            NotificationTargetTypeEnum.Team,
+            "Submission Submitted",
+            string.Format(NotificationMessage.Submission.Submitted, team.Name, round.RoundNo ?? 0),
+            teamId: registerTeam.TeamId);
+        await _notificationRepository.AddAsync(teamNotification);
         await _unitOfWork.SaveChangesAsync();
 
         return new CreateSubmissionResponse
