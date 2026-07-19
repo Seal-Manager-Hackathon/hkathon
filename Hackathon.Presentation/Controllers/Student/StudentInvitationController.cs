@@ -47,6 +47,16 @@ public class StudentInvitationController : ControllerBase
     }
 
     /// <summary>
+    /// Chi tiet loi moi (cho nguoi nhan hoac leader team gui)
+    /// </summary>
+    [HttpGet("invitations/{invitationId:guid}")]
+    public async Task<IActionResult> GetInvitationDetail(Guid invitationId)
+    {
+        var result = await _invitationService.GetInvitationDetail(invitationId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    /// <summary>
     /// Chap nhan loi moi vao team
     /// </summary>
     [HttpPost("invitations/{invitationId:guid}/accept")]

@@ -76,12 +76,14 @@ public class Service : IInvitationService
             throw new BadRequestException("An Invitation Has Already Been Sent to This User");
 
         var now = DateTimeOffset.UtcNow;
+        var description = $"{leader.User.Email} invited {invitedUser.Email} to join {team.Name}";
         var invitation = new Invitations
         {
             Id = Guid.NewGuid(),
             TeamId = teamId,
             UserId = invitedUser.Id,
             Status = InvitationStatusEnum.Pending,
+            Description = description,
             LimitTime = now.AddDays(15),
             CreatedAt = now,
             UpdatedAt = now
@@ -90,12 +92,11 @@ public class Service : IInvitationService
         await _invitationRepository.AddAsync(invitation);
 
         // Gửi notification cho người được mời
-        var sender = members.FirstOrDefault(m => m.IsLeader && !m.IsDisable);
         var notification = NotificationHelper.Create(
             NotificationTargetTypeEnum.Personal,
             "Invitation Received",
             string.Format(NotificationMessage.Invitation.InvitationReceived,
-                $"{sender?.User?.FirstName} {sender?.User?.LastName}", team.Name),
+                $"{leader.User?.Email}", team.Name),
             userId: invitedUser.Id);
         await _notificationRepository.AddAsync(notification);
 
@@ -208,6 +209,46 @@ public class Service : IInvitationService
             TotalCount = totalCount,
             PageIndex = pageIndex,
             PageSize = pageSize
+        };
+    }
+
+    public async Task<InvitationDetailResponse> GetInvitationDetail(Guid invitationId)
+    {
+        var invitation = await _invitationRepository.GetByIdAsync(invitationId);
+        if (invitation == null)
+            throw new NotFoundException("Invitation Not Found");
+
+        var team = invitation.Team;
+
+        // Lấy team leader info
+        var leader = team?.TeamDetails?
+            .FirstOrDefault(td => td.IsLeader && !td.IsDisable);
+
+        return new InvitationDetailResponse
+        {
+            Id = invitation.Id,
+            TeamId = invitation.TeamId,
+            TeamName = team?.Name ?? "",
+            TeamMemberCount = team?.TeamDetails?.Count(td => !td.IsDisable) ?? 0,
+            TeamCanEdit = team?.CanEdit ?? false,
+
+            InvitedUserId = invitation.UserId,
+            InvitedUserEmail = invitation.User?.Email,
+            InvitedUserFirstName = invitation.User?.FirstName,
+            InvitedUserLastName = invitation.User?.LastName,
+            InvitedUserAvatarUrl = invitation.User?.AvatarUrl,
+
+            SentByUserId = leader?.UserId,
+            SentByEmail = leader?.User?.Email,
+            SentByFirstName = leader?.User?.FirstName,
+            SentByLastName = leader?.User?.LastName,
+            SentByAvatarUrl = leader?.User?.AvatarUrl,
+
+            Status = invitation.Status?.ToString(),
+            Description = invitation.Description,
+            LimitTime = invitation.LimitTime,
+            CreatedAt = invitation.CreatedAt,
+            UpdatedAt = invitation.UpdatedAt
         };
     }
 
