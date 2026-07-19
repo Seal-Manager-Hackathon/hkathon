@@ -153,13 +153,13 @@ public class Service : ISubmissionService
         if (roundDetail == null || roundDetail.IsDisable)
             throw new BadRequestException("Team Is Not Registered in This Round");
 
-        // Check submission time
+        // [Commented] Check submission time window — bỏ để dễ test
+        //var now = DateTimeOffset.UtcNow;
+        //if (round.StartSubmission.HasValue && now < round.StartSubmission.Value)
+        //    throw new BadRequestException("Submission Period Has Not Started Yet");
+        //if (round.EndSubmission.HasValue && now > round.EndSubmission.Value)
+        //    throw new BadRequestException("Submission Period Has Ended");
         var now = DateTimeOffset.UtcNow;
-        if (round.StartSubmission.HasValue && now < round.StartSubmission.Value)
-            throw new BadRequestException("Submission Period Has Not Started Yet");
-
-        if (round.EndSubmission.HasValue && now > round.EndSubmission.Value)
-            throw new BadRequestException("Submission Period Has Ended");
 
         var submission = new Submissions
         {

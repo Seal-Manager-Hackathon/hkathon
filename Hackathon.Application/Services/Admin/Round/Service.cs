@@ -78,10 +78,12 @@ public class Service : IRoundService
         if (existingItems.Any(r => r.Name.Equals(request.Name, StringComparison.OrdinalIgnoreCase)))
             throw new BadRequestException("Round Name Already Exists In This Event");
 
-        // Validate thời gian round
-        // if (request.EndTime <= request.StartTime)
-        //     throw new BadRequestException(ErrMsg.Round.EndTimeMustBeAfterStartTime);
+        // ===== Ràng buộc thời gian cơ bản =====
+        // EndTime > StartTime (round có thời gian kết thúc sau khi bắt đầu)
+        if (request.EndTime <= request.StartTime)
+            throw new BadRequestException(ErrMsg.Round.EndTimeMustBeAfterStartTime);
 
+        // [Commented] StartSubmission/EndSubmission check — bỏ để dễ test
         // if (request.StartSubmission.HasValue && request.StartSubmission.Value < request.StartTime)
         //     throw new BadRequestException(ErrMsg.Round.StartSubmissionMustBeAfterStartTime);
 
@@ -161,30 +163,36 @@ public class Service : IRoundService
 
         var now = DateTimeOffset.UtcNow;
 
-        // if (!startTime.HasValue || !endTime.HasValue)
-        //     throw new BadRequestException("Start Time And End Time Are Required");
-        // // EndTime > StartTime
-        // if (endTime.Value <= startTime.Value)
-        //     throw new BadRequestException(ErrMsg.Round.EndTimeMustBeAfterStartTime);
-        // // LimitTeam >= 1
+        // ===== Ràng buộc thời gian cơ bản =====
+        // EndTime > StartTime (round có thời gian kết thúc sau khi bắt đầu)
+        if (!startTime.HasValue || !endTime.HasValue)
+            throw new BadRequestException("Start Time And End Time Are Required");
+        if (endTime.Value <= startTime.Value)
+            throw new BadRequestException(ErrMsg.Round.EndTimeMustBeAfterStartTime);
+
+        // [Commented] LimitTeam >= 1 — bỏ check để dễ test
         // if (limitTeam.HasValue && limitTeam.Value < 1)
         //     throw new BadRequestException(ErrMsg.Round.LimitTeamMustBeAtLeast1);
+
         // Round time must be within event time — giữ lại
         if (ev.StartTime.HasValue && startTime.Value < ev.StartTime.Value)
             throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
         if (ev.EndTime.HasValue && endTime.Value > ev.EndTime.Value)
             throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
+
         // [Commented] StartTime >= RegisterLimitTime of event — bỏ check để dễ test
         //if (ev.RegisterLimitTime.HasValue && startTime.Value < ev.RegisterLimitTime.Value)
         //    throw new BadRequestException(ErrMsg.Round.StartTimeMustBeAfterRegisterLimitTime);
-        // // Check previous round (RoundNo - 1): StartTime >= EndTime of previous round
-        // if (round.RoundNo.HasValue && round.RoundNo.Value > 1)
-        // {
-        //     var prevRound = await _roundRepository.GetByEventIdAndRoundNoAsync(round.EventId, round.RoundNo.Value - 1);
-        //     if (prevRound?.EndTime.HasValue == true && startTime.Value < prevRound.EndTime.Value)
-        //         throw new BadRequestException(ErrMsg.Round.RoundStartTimeMustBeAfterPreviousRoundEndTime);
-        // }
-        // // Check next round (RoundNo + 1): EndTime <= StartTime of next round
+
+        // Check previous round (RoundNo - 1): StartTime >= EndTime of previous round — giữ lại
+        if (round.RoundNo.HasValue && round.RoundNo.Value > 1)
+        {
+            var prevRound = await _roundRepository.GetByEventIdAndRoundNoAsync(round.EventId, round.RoundNo.Value - 1);
+            if (prevRound?.EndTime.HasValue == true && startTime.Value < prevRound.EndTime.Value)
+                throw new BadRequestException(ErrMsg.Round.RoundStartTimeMustBeAfterPreviousRoundEndTime);
+        }
+
+        // [Commented] Check next round (RoundNo + 1): EndTime <= StartTime of next round — bỏ để dễ test
         // if (round.RoundNo.HasValue)
         // {
         //     var nextRound = await _roundRepository.GetByEventIdAndRoundNoAsync(round.EventId, round.RoundNo.Value + 1);

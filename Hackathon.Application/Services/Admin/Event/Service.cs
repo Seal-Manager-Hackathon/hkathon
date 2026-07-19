@@ -30,10 +30,12 @@ public class Service : IEventService
 
         var now = DateTimeOffset.UtcNow;
 
-        // [Commented] Check thời gian CreateEvent — bỏ check để dễ test
-        //if (request.EndTime <= request.StartTime)
-        //    throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterStartTime);
+        // ===== Ràng buộc thời gian cơ bản =====
+        // EndTime phải > StartTime (event có thời gian kết thúc sau thời gian bắt đầu)
+        if (request.EndTime <= request.StartTime)
+            throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterStartTime);
 
+        // [Commented] RegisterLimitTime check — bỏ để dễ test
         //if (request.RegisterLimitTime.HasValue)
         //{
         //    if (request.RegisterLimitTime.Value <= request.StartTime)
@@ -171,22 +173,24 @@ public class Service : IEventService
             ev.Status = status;
         }
 
-        // [Commented] Validate thời gian UpdateEvent — bỏ check để dễ test
-        //var startTime = request.StartTime ?? ev.StartTime;
-        //var endTime = request.EndTime ?? ev.EndTime;
-        //var registerLimitTime = request.RegisterLimitTime ?? ev.RegisterLimitTime;
+        // ===== Ràng buộc thời gian cơ bản =====
+        // EndTime phải > StartTime (chỉ check nếu có cập nhật thời gian)
+        var startTime = request.StartTime ?? ev.StartTime;
+        var endTime = request.EndTime ?? ev.EndTime;
 
+        // [Commented] StartTime phải > hiện tại — bỏ để dễ test
         //if (startTime <= now && request.StartTime.HasValue)
         //    throw new BadRequestException(ErrMsg.Event.StartTimeMustBeAfterNow);
 
-        //if (endTime <= startTime && (request.EndTime.HasValue || request.StartTime.HasValue))
-        //    throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterStartTime);
+        if (endTime <= startTime && (request.EndTime.HasValue || request.StartTime.HasValue))
+            throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterStartTime);
 
+        // [Commented] RegisterLimitTime check — bỏ để dễ test
+        //var registerLimitTime = request.RegisterLimitTime ?? ev.RegisterLimitTime;
         //if (registerLimitTime.HasValue)
         //{
         //    if (registerLimitTime.Value <= startTime && request.RegisterLimitTime.HasValue)
         //        throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeAfterStartTime);
-
         //    if (registerLimitTime.Value >= endTime && request.RegisterLimitTime.HasValue)
         //        throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeBeforeEndTime);
         //}
