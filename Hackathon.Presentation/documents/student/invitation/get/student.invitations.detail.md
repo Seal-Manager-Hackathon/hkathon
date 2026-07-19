@@ -47,12 +47,6 @@ Student muốn xem chi tiết 1 lời mời: team nào mời, ai gửi, trạng 
       }
     ],
 
-    "invitedUserId": "guid",
-    "invitedUserEmail": "user@email.com",
-    "invitedUserFirstName": "Nguyen",
-    "invitedUserLastName": "Van A",
-    "invitedUserAvatarUrl": "https://robohash.org/user@email.com",
-
     "sentByUserId": "guid",
     "sentByEmail": "leader@email.com",
     "sentByFirstName": "Leader",
@@ -77,7 +71,6 @@ Student muốn xem chi tiết 1 lời mời: team nào mời, ai gửi, trạng 
 | teamMemberCount | Số member đang active của team |
 | teamCanEdit | Team còn có thể chỉnh sửa member không |
 | teamMembers[] | Danh sách thành viên active của team (mỗi item có userId, email, firstName, lastName, avatarUrl, isLeader) |
-| invitedUserId... | Thông tin user được mời |
 | sentByUserId... | Thông tin leader đã gửi lời mời (null nếu leader ko còn active) |
 | status | Trạng thái: `Pending` / `Accepted` / `Rejected` / `Expired` |
 | description | Nội dung lời mời (auto-generated: "{email leader} invited {email invitee} to join {team name}") |

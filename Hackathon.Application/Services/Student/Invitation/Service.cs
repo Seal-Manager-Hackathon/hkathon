@@ -243,12 +243,6 @@ public class Service : IInvitationService
                     IsLeader = td.IsLeader
                 }).ToList() ?? new(),
 
-            InvitedUserId = invitation.UserId,
-            InvitedUserEmail = invitation.User?.Email,
-            InvitedUserFirstName = invitation.User?.FirstName,
-            InvitedUserLastName = invitation.User?.LastName,
-            InvitedUserAvatarUrl = invitation.User?.AvatarUrl,
-
             SentByUserId = leader?.UserId,
             SentByEmail = leader?.User?.Email,
             SentByFirstName = leader?.User?.FirstName,

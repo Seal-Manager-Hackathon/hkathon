@@ -14,141 +14,39 @@ public static class MailTemplate
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Verify Your Account — SEAL Hackathon</title>
             <style>
-                body {
-                    margin: 0;
-                    padding: 0;
-                    background: #f4f6fb;
-                    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
-                    color: #1a1a2e;
-                }
-                .wrapper {
-                    width: 100%;
-                    padding: 40px 16px;
-                    box-sizing: border-box;
-                }
-                .container {
-                    max-width: 560px;
-                    margin: 0 auto;
-                    background: #ffffff;
-                    border-radius: 16px;
-                    overflow: hidden;
-                    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-                }
-                .hero {
-                    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-                    padding: 48px 40px 36px;
-                    text-align: center;
-                }
-                .logo {
-                    width: 56px;
-                    height: 56px;
-                    margin: 0 auto 20px;
-                    background: linear-gradient(135deg, #0f3460, #533483);
-                    border-radius: 14px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 24px;
-                    font-weight: 800;
-                    color: #ffffff;
-                }
-                .hero h1 {
-                    margin: 0 0 6px;
-                    font-size: 26px;
-                    font-weight: 700;
-                    color: #ffffff;
-                    letter-spacing: -0.3px;
-                }
-                .hero p {
-                    margin: 0;
-                    color: #a8b2d1;
-                    font-size: 15px;
-                }
-                .body-content {
-                    padding: 40px;
-                }
-                .body-content p {
-                    margin: 0 0 16px;
-                    font-size: 15px;
-                    line-height: 1.7;
-                    color: #334155;
-                }
-                .button-wrap {
-                    text-align: center;
-                    margin: 32px 0;
-                }
-                .btn {
-                    display: inline-block;
-                    padding: 14px 40px;
-                    border-radius: 10px;
-                    background: linear-gradient(135deg, #0f3460, #533483);
-                    color: #ffffff !important;
-                    text-decoration: none;
-                    font-weight: 600;
-                    font-size: 15px;
-                    letter-spacing: 0.3px;
-                    box-shadow: 0 4px 14px rgba(83, 52, 131, 0.3);
-                }
-                .divider {
-                    height: 1px;
-                    background: #e2e8f0;
-                    margin: 28px 0;
-                }
-                .note {
-                    background: #f8fafc;
-                    border: 1px solid #e2e8f0;
-                    border-radius: 10px;
-                    padding: 16px 20px;
-                    font-size: 13px;
-                    color: #64748b;
-                    line-height: 1.6;
-                }
-                .note strong {
-                    color: #334155;
-                }
-                .footer {
-                    padding: 24px 40px;
-                    background: #f8fafc;
-                    border-top: 1px solid #e2e8f0;
-                    text-align: center;
-                }
-                .footer p {
-                    margin: 0;
-                    color: #94a3b8;
-                    font-size: 12px;
-                    line-height: 1.8;
-                }
-                .footer a {
-                    color: #533483;
-                    text-decoration: none;
-                }
+                body { margin: 0; padding: 0; background-color: #f4f7f6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
             </style>
         </head>
-        <body>
-            <div class="wrapper">
-                <div class="container">
-                    <div class="hero">
-                        <div class="logo">SH</div>
-                        <h1>Activate Your Account</h1>
-                        <p>You're almost there!</p>
-                    </div>
-                    <div class="body-content">
-                        <p>Hi there,</p>
-                        <p>Thanks for signing up for <strong>SEAL Hackathon</strong>. We're excited to have you on board! Please verify your email address by clicking the button below to unlock all features.</p>
-                        <div class="button-wrap">
-                            <a href="{{verification_link}}" class="btn">Verify Email</a>
+        <body style="margin: 0; padding: 0; background-color: #f4f7f6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; color: #1e293b; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
+            <div class="wrapper" style="width: 100%; padding: 48px 16px; box-sizing: border-box; background-color: #f4f7f6;">
+                <div class="container" style="max-width: 540px; margin: 0 auto; background: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08); border: 1px solid #e2e8f0;">
+
+                    <div class="hero" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxTgNHvpfGYUZWhyjWfYZANyWy1aFpf8bvDMHsIJnrRU1M5o0iCAqs-uU&s=10'); background-repeat: no-repeat; background-position: top center; background-size: cover; height: 220px; width: 100%;"></div>
+                    <div class="body-content" style="padding: 40px 48px;">
+                        <h1 style="margin: 0 0 8px; font-size: 28px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; line-height: 1.2;">Activate Your Account</h1>
+                        <p class="subtitle" style="margin: 0 0 32px; color: #64748b; font-size: 16px; font-weight: 500;">You're almost there!</p>
+
+                        <p style="margin: 0 0 18px; font-size: 15px; line-height: 1.7; color: #334155;">Hi there,</p>
+                        <p style="margin: 0 0 18px; font-size: 15px; line-height: 1.7; color: #334155;">Thanks for signing up for <strong style="color: #0f172a;">SEAL Hackathon</strong>. We're excited to have you on board! Please verify your email address by clicking the button below to unlock all features.</p>
+
+                        <div class="button-wrap" style="text-align: center; margin: 36px 0;">
+                            <a href="{{verification_link}}" class="btn" style="display: inline-block; padding: 15px 44px; border-radius: 12px; background-color: #16a34a; background: linear-gradient(135deg, #22c55e 0%, #15803d 100%); color: #ffffff !important; text-decoration: none; font-weight: 600; font-size: 15px; letter-spacing: 0.2px; box-shadow: 0 4px 14px rgba(22, 163, 74, 0.35);">Verify Email</a>
                         </div>
-                        <div class="note">
-                            🔒 This link expires in <strong>24 hours</strong>. If you didn't create this account, feel free to ignore this email.
+
+                        <div class="note" style="background-color: #f0fdf4; border-radius: 12px; padding: 16px 20px; font-size: 13.5px; color: #166534; line-height: 1.6; border-left: 4px solid #16a34a;">
+                            this link expires in <strong style="color: #14532d;">24 hours</strong>. if you didn't create this account, feel free to ignore this email.
                         </div>
-                        <div class="divider"></div>
-                        <p style="font-size: 14px; margin: 0;">
+
+                        <div class="divider" style="height: 1px; background-color: #e2e8f0; margin: 32px 0;"></div>
+
+                        <p style="font-size: 14px; margin: 0; color: #64748b; text-align: center;">
                             Once you're verified, you can form a team, register for events, and start your hacking journey.
                         </p>
                     </div>
-                    <div class="footer">
-                        <p>SEAL Hackathon &mdash; Innovate. Build. Compete.</p>
-                        <p>&copy; 2026 SEAL Hackathon. All rights reserved.</p>
+
+                    <div class="footer" style="padding: 32px 48px; background-color: #f8fafc; border-top: 1px solid #f1f5f9; text-align: center;">
+                        <p style="margin: 0 0 6px; font-weight: 600; color: #64748b; font-size: 12px; letter-spacing: 0.1px;">SEAL Hackathon &mdash; Innovate. Build. Compete.</p>
+                        <p style="margin: 0; color: #cbd5e1; font-size: 12px;">&copy; 2026 SEAL Hackathon. All rights reserved.</p>
                     </div>
                 </div>
             </div>
@@ -171,141 +69,39 @@ public static class MailTemplate
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Reset Your Password — SEAL Hackathon</title>
             <style>
-                body {
-                    margin: 0;
-                    padding: 0;
-                    background: #f4f6fb;
-                    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
-                    color: #1a1a2e;
-                }
-                .wrapper {
-                    width: 100%;
-                    padding: 40px 16px;
-                    box-sizing: border-box;
-                }
-                .container {
-                    max-width: 560px;
-                    margin: 0 auto;
-                    background: #ffffff;
-                    border-radius: 16px;
-                    overflow: hidden;
-                    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-                }
-                .hero {
-                    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-                    padding: 48px 40px 36px;
-                    text-align: center;
-                }
-                .logo {
-                    width: 56px;
-                    height: 56px;
-                    margin: 0 auto 20px;
-                    background: linear-gradient(135deg, #e94560, #533483);
-                    border-radius: 14px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 24px;
-                    font-weight: 800;
-                    color: #ffffff;
-                }
-                .hero h1 {
-                    margin: 0 0 6px;
-                    font-size: 26px;
-                    font-weight: 700;
-                    color: #ffffff;
-                    letter-spacing: -0.3px;
-                }
-                .hero p {
-                    margin: 0;
-                    color: #a8b2d1;
-                    font-size: 15px;
-                }
-                .body-content {
-                    padding: 40px;
-                }
-                .body-content p {
-                    margin: 0 0 16px;
-                    font-size: 15px;
-                    line-height: 1.7;
-                    color: #334155;
-                }
-                .button-wrap {
-                    text-align: center;
-                    margin: 32px 0;
-                }
-                .btn {
-                    display: inline-block;
-                    padding: 14px 40px;
-                    border-radius: 10px;
-                    background: linear-gradient(135deg, #e94560, #533483);
-                    color: #ffffff !important;
-                    text-decoration: none;
-                    font-weight: 600;
-                    font-size: 15px;
-                    letter-spacing: 0.3px;
-                    box-shadow: 0 4px 14px rgba(233, 69, 96, 0.3);
-                }
-                .divider {
-                    height: 1px;
-                    background: #e2e8f0;
-                    margin: 28px 0;
-                }
-                .warning {
-                    background: #fff5f5;
-                    border: 1px solid #fecaca;
-                    border-radius: 10px;
-                    padding: 16px 20px;
-                    font-size: 13px;
-                    color: #b91c1c;
-                    line-height: 1.6;
-                }
-                .warning strong {
-                    color: #991b1b;
-                }
-                .footer {
-                    padding: 24px 40px;
-                    background: #f8fafc;
-                    border-top: 1px solid #e2e8f0;
-                    text-align: center;
-                }
-                .footer p {
-                    margin: 0;
-                    color: #94a3b8;
-                    font-size: 12px;
-                    line-height: 1.8;
-                }
-                .footer a {
-                    color: #533483;
-                    text-decoration: none;
-                }
+                body { margin: 0; padding: 0; background-color: #f4f7f6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
             </style>
         </head>
-        <body>
-            <div class="wrapper">
-                <div class="container">
-                    <div class="hero">
-                        <div class="logo">SH</div>
-                        <h1>Reset Your Password</h1>
-                        <p>No worries, we've got you covered</p>
-                    </div>
-                    <div class="body-content">
-                        <p>Hi there,</p>
-                        <p>We received a request to reset the password for your <strong>SEAL Hackathon</strong> account. If this was you, click the button below to create a new password.</p>
-                        <div class="button-wrap">
-                            <a href="{{reset_password_link}}" class="btn">Reset Password</a>
+        <body style="margin: 0; padding: 0; background-color: #f4f7f6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; color: #1e293b; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
+            <div class="wrapper" style="width: 100%; padding: 48px 16px; box-sizing: border-box; background-color: #f4f7f6;">
+                <div class="container" style="max-width: 540px; margin: 0 auto; background: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08); border: 1px solid #e2e8f0;">
+
+                    <div class="hero" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxTgNHvpfGYUZWhyjWfYZANyWy1aFpf8bvDMHsIJnrRU1M5o0iCAqs-uU&s=10'); background-repeat: no-repeat; background-position: top center; background-size: cover; height: 220px; width: 100%;"></div>
+                    <div class="body-content" style="padding: 40px 48px;">
+                        <h1 style="margin: 0 0 8px; font-size: 28px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; line-height: 1.2;">Reset Your Password</h1>
+                        <p class="subtitle" style="margin: 0 0 32px; color: #64748b; font-size: 16px; font-weight: 500;">No worries, we've got you covered</p>
+
+                        <p style="margin: 0 0 18px; font-size: 15px; line-height: 1.7; color: #334155;">Hi there,</p>
+                        <p style="margin: 0 0 18px; font-size: 15px; line-height: 1.7; color: #334155;">We received a request to reset the password for your <strong style="color: #0f172a;">SEAL Hackathon</strong> account. If this was you, click the button below to create a new password.</p>
+
+                        <div class="button-wrap" style="text-align: center; margin: 36px 0;">
+                            <a href="{{reset_password_link}}" class="btn" style="display: inline-block; padding: 15px 44px; border-radius: 12px; background-color: #16a34a; background: linear-gradient(135deg, #22c55e 0%, #15803d 100%); color: #ffffff !important; text-decoration: none; font-weight: 600; font-size: 15px; letter-spacing: 0.2px; box-shadow: 0 4px 14px rgba(22, 163, 74, 0.35);">Reset Password</a>
                         </div>
-                        <div class="warning">
-                            ⚠️ This link expires in <strong>24 hours</strong>. If you didn't request this, please ignore this email — your account is safe and secure.
+
+                        <div class="note" style="background-color: #fef2f2; border-radius: 12px; padding: 16px 20px; font-size: 13.5px; color: #991b1b; line-height: 1.6; border-left: 4px solid #ef4444;">
+                            this link expires in <strong style="color: #7f1d1d;">24 hours</strong>. if you didn't request this, please ignore this email — your account is safe and secure.
                         </div>
-                        <div class="divider"></div>
-                        <p style="font-size: 14px; margin: 0;">
+
+                        <div class="divider" style="height: 1px; background-color: #e2e8f0; margin: 32px 0;"></div>
+
+                        <p style="font-size: 14px; margin: 0; color: #64748b; text-align: center;">
                             For security reasons, never share this link with anyone. The SEAL Hackathon team will never ask for your password.
                         </p>
                     </div>
-                    <div class="footer">
-                        <p>SEAL Hackathon &mdash; Innovate. Build. Compete.</p>
-                        <p>&copy; 2026 SEAL Hackathon. All rights reserved.</p>
+
+                    <div class="footer" style="padding: 32px 48px; background-color: #f8fafc; border-top: 1px solid #f1f5f9; text-align: center;">
+                        <p style="margin: 0 0 6px; font-weight: 600; color: #64748b; font-size: 12px; letter-spacing: 0.1px;">SEAL Hackathon &mdash; Innovate. Build. Compete.</p>
+                        <p style="margin: 0; color: #cbd5e1; font-size: 12px;">&copy; 2026 SEAL Hackathon. All rights reserved.</p>
                     </div>
                 </div>
             </div>

@@ -45,13 +45,6 @@ public class InvitationDetailResponse
     public bool TeamCanEdit { get; set; }
     public List<InvitationTeamMemberItem> TeamMembers { get; set; } = new();
 
-    // Invited user info
-    public Guid InvitedUserId { get; set; }
-    public string? InvitedUserEmail { get; set; }
-    public string? InvitedUserFirstName { get; set; }
-    public string? InvitedUserLastName { get; set; }
-    public string? InvitedUserAvatarUrl { get; set; }
-
     // Sender (leader) info
     public Guid? SentByUserId { get; set; }
     public string? SentByEmail { get; set; }
