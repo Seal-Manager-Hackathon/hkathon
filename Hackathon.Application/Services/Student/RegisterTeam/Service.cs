@@ -336,6 +336,13 @@ public class Service : IRegisterTeamService
         if (ev.Status == Domain.Enums.Event.EventStatusEnum.Draft || ev.Status == Domain.Enums.Event.EventStatusEnum.Closed)
             throw new BadRequestException("Cannot Register to a Draft or Closed Event");
 
+        // Check số lượng member active trong team nằm trong khoảng event yêu cầu
+        var activeMembers = members.Where(m => !m.IsDisable && m.Status == Domain.Enums.TeamDetail.TeamDetailStatusEnum.Active).ToList();
+        if (ev.MinMember.HasValue && activeMembers.Count < ev.MinMember.Value)
+            throw new BadRequestException($"Team Must Have At Least {ev.MinMember.Value} Active Members To Register For This Event");
+        if (ev.MaxMember.HasValue && activeMembers.Count > ev.MaxMember.Value)
+            throw new BadRequestException($"Team Cannot Have More Than {ev.MaxMember.Value} Active Members To Register For This Event");
+
         // [Commented] Check registration is within the allowed time window — bỏ check để dễ test
         //if (ev.RegisterLimitTime.HasValue && DateTimeOffset.UtcNow >= ev.RegisterLimitTime.Value)
         //    throw new BadRequestException("Registration Period Has Ended. Cannot Register At This Time.");

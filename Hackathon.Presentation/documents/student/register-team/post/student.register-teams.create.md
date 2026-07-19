@@ -6,6 +6,7 @@
 
 Team leader muốn đăng ký team của mình tham gia một event cụ thể:
 - Chỉ leader mới có quyền đăng ký.
+- **Số lượng thành viên active trong team phải nằm trong khoảng `[MinMember, MaxMember]` của event** — nếu thiếu/vượt quá sẽ báo lỗi.
 - **Khi submit đăng ký, team bị khóa (CanEdit = false)** — không thể sửa thông tin team hoặc kick member sau khi đã gửi đăng ký.
 - **Kiểm tra thời hạn đăng ký (RegisterLimitTime):** nếu đã quá hạn → lỗi "Registration Period Has Ended. Cannot Register At This Time."
 - Nếu team đã có register team trong event này:
@@ -62,6 +63,8 @@ Team leader muốn đăng ký team của mình tham gia một event cụ thể:
 |--------|---------|---------|
 | 401 | Unauthorized | Token hết hạn/thiếu |
 | 400 | Only Team Leader Can Register Team to Event | User không phải leader |
+| 400 | Team Must Have At Least {n} Active Members To Register For This Event | Số member active < MinMember của event |
+| 400 | Team Cannot Have More Than {n} Active Members To Register For This Event | Số member active > MaxMember của event |
 | 400 | Registration Period Has Ended. Cannot Register At This Time. | Đã quá thời hạn đăng ký (RegisterLimitTime) |
 | 400 | You Have Been Banned From This Event | Team đã bị ban khỏi event này |
 | 400 | Cannot Register to a Draft or Closed Event | Event đang Draft/Closed |
