@@ -6,6 +6,7 @@ public interface IInvitationService
     Task<GetInvitationsResponse> GetSentInvitations(Guid teamId, int pageIndex, int pageSize);
     Task<GetInvitationsResponse> GetReceivedInvitations(string? keyword, string? status, int pageIndex, int pageSize);
     Task<InvitationDetailResponse> GetInvitationDetail(Guid invitationId);
+    Task<InvitationTeamDetailResponse> GetInvitationTeamDetail(Guid invitationId);
     Task AcceptInvitation(Guid invitationId);
     Task RejectInvitation(Guid invitationId);
 }

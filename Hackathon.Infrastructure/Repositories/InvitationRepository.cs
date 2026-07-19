@@ -52,6 +52,8 @@ public class InvitationRepository : IInvitationRepository
         => await _context.Set<Invitations>()
             .Include(i => i.User)
             .Include(i => i.Team)
+                .ThenInclude(t => t!.TeamDetails)
+                .ThenInclude(td => td.User)
             .FirstOrDefaultAsync(i => i.Id == id);
 
     public async Task<(List<Invitations> Items, int TotalCount)> GetByUserIdAsync(

@@ -57,6 +57,16 @@ public class StudentInvitationController : ControllerBase
     }
 
     /// <summary>
+    /// Chi tiet team tu loi moi (public, ko can auth — ai co invitationId cung xem duoc)
+    /// </summary>
+    [HttpGet("invitations/{invitationId:guid}/team")]
+    public async Task<IActionResult> GetInvitationTeamDetail(Guid invitationId)
+    {
+        var result = await _invitationService.GetInvitationTeamDetail(invitationId);
+        return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
+    }
+
+    /// <summary>
     /// Chap nhan loi moi vao team
     /// </summary>
     [HttpPost("invitations/{invitationId:guid}/accept")]

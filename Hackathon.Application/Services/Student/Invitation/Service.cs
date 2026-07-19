@@ -231,6 +231,17 @@ public class Service : IInvitationService
             TeamName = team?.Name ?? "",
             TeamMemberCount = team?.TeamDetails?.Count(td => !td.IsDisable) ?? 0,
             TeamCanEdit = team?.CanEdit ?? false,
+            TeamMembers = team?.TeamDetails?
+                .Where(td => !td.IsDisable)
+                .Select(td => new InvitationTeamMemberItem
+                {
+                    UserId = td.UserId,
+                    Email = td.User?.Email ?? "",
+                    FirstName = td.User?.FirstName ?? "",
+                    LastName = td.User?.LastName ?? "",
+                    AvatarUrl = td.User?.AvatarUrl,
+                    IsLeader = td.IsLeader
+                }).ToList() ?? new(),
 
             InvitedUserId = invitation.UserId,
             InvitedUserEmail = invitation.User?.Email,
@@ -249,6 +260,38 @@ public class Service : IInvitationService
             LimitTime = invitation.LimitTime,
             CreatedAt = invitation.CreatedAt,
             UpdatedAt = invitation.UpdatedAt
+        };
+    }
+
+    public async Task<InvitationTeamDetailResponse> GetInvitationTeamDetail(Guid invitationId)
+    {
+        var invitation = await _invitationRepository.GetByIdAsync(invitationId);
+        if (invitation == null)
+            throw new NotFoundException("Invitation Not Found");
+
+        var team = invitation.Team;
+        if (team == null)
+            throw new NotFoundException("Team Not Found");
+
+        var members = team.TeamDetails?
+            .Where(td => !td.IsDisable && td.Status == TeamDetailStatusEnum.Active)
+            .Select(td => new InvitationTeamMemberItem
+            {
+                UserId = td.UserId,
+                Email = td.User?.Email ?? "",
+                FirstName = td.User?.FirstName ?? "",
+                LastName = td.User?.LastName ?? "",
+                AvatarUrl = td.User?.AvatarUrl,
+                IsLeader = td.IsLeader
+            }).ToList() ?? [];
+
+        return new InvitationTeamDetailResponse
+        {
+            TeamId = team.Id,
+            TeamName = team.Name,
+            MemberCount = members.Count,
+            CanEdit = team.CanEdit,
+            Members = members
         };
     }
 

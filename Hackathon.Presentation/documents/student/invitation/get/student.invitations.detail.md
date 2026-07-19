@@ -28,6 +28,24 @@ Student muốn xem chi tiết 1 lời mời: team nào mời, ai gửi, trạng 
     "teamName": "Demo Team 01",
     "teamMemberCount": 3,
     "teamCanEdit": true,
+    "teamMembers": [
+      {
+        "userId": "guid",
+        "email": "leader@email.com",
+        "firstName": "Leader",
+        "lastName": "User",
+        "avatarUrl": "https://robohash.org/leader@email.com",
+        "isLeader": true
+      },
+      {
+        "userId": "guid",
+        "email": "member@email.com",
+        "firstName": "Member",
+        "lastName": "User",
+        "avatarUrl": null,
+        "isLeader": false
+      }
+    ],
 
     "invitedUserId": "guid",
     "invitedUserEmail": "user@email.com",
@@ -42,7 +60,7 @@ Student muốn xem chi tiết 1 lời mời: team nào mời, ai gửi, trạng 
     "sentByAvatarUrl": "https://robohash.org/leader@email.com",
 
     "status": "Pending",
-    "description": null,
+    "description": "leader@email.com invited user@email.com to join Demo Team 01",
     "limitTime": "2026-08-03T14:30:00Z",
     "createdAt": "2026-07-19T14:30:00Z",
     "updatedAt": "2026-07-19T14:30:00Z"
@@ -58,9 +76,11 @@ Student muốn xem chi tiết 1 lời mời: team nào mời, ai gửi, trạng 
 | teamId, teamName | Team đã gửi lời mời |
 | teamMemberCount | Số member đang active của team |
 | teamCanEdit | Team còn có thể chỉnh sửa member không |
+| teamMembers[] | Danh sách thành viên active của team (mỗi item có userId, email, firstName, lastName, avatarUrl, isLeader) |
 | invitedUserId... | Thông tin user được mời |
 | sentByUserId... | Thông tin leader đã gửi lời mời (null nếu leader ko còn active) |
 | status | Trạng thái: `Pending` / `Accepted` / `Rejected` / `Expired` |
+| description | Nội dung lời mời (auto-generated: "{email leader} invited {email invitee} to join {team name}") |
 | limitTime | Hạn chấp nhận lời mời (mặc định now + 15 ngày) |
 
 ## Lỗi
