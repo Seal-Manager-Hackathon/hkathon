@@ -16,7 +16,6 @@ public class Service : IRegisterTeamService
     private readonly IRegisterTeamRepository _registerTeamRepository;
     private readonly ITeamRepository _teamRepository;
     private readonly IEventRepository _eventRepository;
-    private readonly IUserRepository _userRepository;
     private readonly INotificationRepository _notificationRepository;
     private readonly ICurrentUserService _currentUserService;
     private readonly IAuthorizationService _authorizationService;
@@ -26,7 +25,6 @@ public class Service : IRegisterTeamService
         IRegisterTeamRepository registerTeamRepository,
         ITeamRepository teamRepository,
         IEventRepository eventRepository,
-        IUserRepository userRepository,
         INotificationRepository notificationRepository,
         ICurrentUserService currentUserService,
         IAuthorizationService authorizationService,
@@ -35,7 +33,6 @@ public class Service : IRegisterTeamService
         _registerTeamRepository = registerTeamRepository;
         _teamRepository = teamRepository;
         _eventRepository = eventRepository;
-        _userRepository = userRepository;
         _notificationRepository = notificationRepository;
         _currentUserService = currentUserService;
         _authorizationService = authorizationService;
@@ -419,24 +416,6 @@ public class Service : IRegisterTeamService
             teamId: request.TeamId);
         await _notificationRepository.AddAsync(teamNotification);
 
-        // Gửi notification cho Admin và Staff
-        var allAdminsAndStaff = await _userRepository.GetAllAsync();
-        var adminStaffIds = allAdminsAndStaff
-            .Where(u => !u.IsDisable && u.BanReason == null
-                && (u.Role == RoleEnum.Admin || u.Role == RoleEnum.Staff))
-            .Select(u => u.Id)
-            .ToList();
-
-        var adminNotifications = adminStaffIds.Select(adminId =>
-            NotificationHelper.Create(
-                NotificationTargetTypeEnum.Personal,
-                "New Registration",
-                string.Format(NotificationMessage.RegisterEvent.Registered, team.Name, ev.Name),
-                userId: adminId))
-            .ToList();
-
-        foreach (var n in adminNotifications)
-            await _notificationRepository.AddAsync(n);
         await _unitOfWork.SaveChangesAsync();
 
         return new CreateRegisterTeamResponse

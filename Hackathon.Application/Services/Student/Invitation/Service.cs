@@ -270,14 +270,18 @@ public class Service : IInvitationService
 
         await _teamRepository.AddTeamDetailAsync(teamDetail);
 
-        // Gửi notification cho team (gắn teamId — mọi member đều thấy)
-        var memberJoinedNotification = NotificationHelper.Create(
-            NotificationTargetTypeEnum.Team,
-            "Member Joined",
-            string.Format(NotificationMessage.Invitation.MemberJoined,
-                user.FirstName, user.LastName, team.Name),
-            teamId: team.Id);
-        await _notificationRepository.AddAsync(memberJoinedNotification);
+        // Gửi notification cho team leader
+        var teamLeader = members.FirstOrDefault(m => m.IsLeader && !m.IsDisable);
+        if (teamLeader != null)
+        {
+            var memberJoinedNotification = NotificationHelper.Create(
+                NotificationTargetTypeEnum.Personal,
+                "Member Joined",
+                string.Format(NotificationMessage.Invitation.MemberJoined,
+                    user.FirstName, user.LastName, team.Name),
+                userId: teamLeader.UserId);
+            await _notificationRepository.AddAsync(memberJoinedNotification);
+        }
 
         await _unitOfWork.SaveChangesAsync();
     }

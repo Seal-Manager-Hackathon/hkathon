@@ -97,7 +97,12 @@
       "Bash(node -e ' *)",
       "Read(//c/Users/phamq/.claude/**)",
       "mcp__plugin_gitnexus_gitnexus__list_repos",
-      "Bash(node .gitnexus/run.cjs analyze --repair-fts)"
+      "Bash(node .gitnexus/run.cjs analyze --repair-fts)",
+      "Bash(git -C \"/c/Users/phamq/OneDrive/Desktop/New folder \\(4\\)/cainua/hkathon/.claude/worktrees/agent-a6a7e4cc28b253b2d\" diff -- '*.cs')",
+      "Bash(git -C \"/c/Users/phamq/OneDrive/Desktop/New folder \\(4\\)/cainua/hkathon/.claude/worktrees/agent-a6a7e4cc28b253b2d\" status --short -- \"Hackathon.Application/Services/Student/Invitation/Service.cs\" \"Hackathon.Application/Services/Student/Team/Service.cs\" \"Hackathon.Application/Services/Student/RegisterTeam/Service.cs\" \"Hackathon.Application/Services/Student/Submission/Service.cs\" \"Hackathon.Presentation/documents/thongbao/student.md\")",
+      "Bash(git -C \"/c/Users/phamq/OneDrive/Desktop/New folder \\(4\\)/cainua/hkathon/.claude/worktrees/agent-a6a7e4cc28b253b2d\" diff --cached -- \"*.cs\")",
+      "Bash(git -C \"/c/Users/phamq/OneDrive/Desktop/New folder \\(4\\)/cainua/hkathon\" status --short -- \"Hackathon.Application/Services/Student/Invitation/Service.cs\" \"Hackathon.Application/Services/Student/Team/Service.cs\" \"Hackathon.Application/Services/Student/RegisterTeam/Service.cs\" \"Hackathon.Application/Services/Student/Submission/Service.cs\" \"Hackathon.Presentation/documents/thongbao/student.md\")",
+      "Bash(git -C \"/c/Users/phamq/OneDrive/Desktop/New folder \\(4\\)/cainua/hkathon\" diff -- \"Hackathon.Application/Services/Student/Invitation/Service.cs\" \"Hackathon.Application/Services/Student/Team/Service.cs\" \"Hackathon.Application/Services/Student/RegisterTeam/Service.cs\" \"Hackathon.Application/Services/Student/Submission/Service.cs\" \"Hackathon.Presentation/documents/thongbao/student.md\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\phamq\\.claude\\projects\\c--Users-phamq-OneDrive-Desktop-New-folder--4--BE-SEAL-HACKATHON\\memory",

@@ -177,12 +177,12 @@ public class Service : ISubmissionService
         await _submissionRepository.AddAsync(submission);
         await _unitOfWork.SaveChangesAsync();
 
-        // Gửi notification cho team
+        // Gửi notification cho team leader
         var teamNotification = NotificationHelper.Create(
-            NotificationTargetTypeEnum.Team,
+            NotificationTargetTypeEnum.Personal,
             "Submission Submitted",
             string.Format(NotificationMessage.Submission.Submitted, team.Name, round.RoundNo ?? 0),
-            teamId: registerTeam.TeamId);
+            userId: leader.UserId);
         await _notificationRepository.AddAsync(teamNotification);
         await _unitOfWork.SaveChangesAsync();
 
