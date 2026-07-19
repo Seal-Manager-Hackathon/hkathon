@@ -374,6 +374,7 @@ public class Service : INotificationService
         notification.Status = NotificationStatusEnum.Read;
         notification.UpdatedAt = DateTimeOffset.UtcNow;
         await _notificationRepository.UpdateAsync(notification);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task ReadAllNotifications()
@@ -395,5 +396,7 @@ public class Service : INotificationService
             notification.UpdatedAt = now;
             await _notificationRepository.UpdateAsync(notification);
         }
+
+        await _unitOfWork.SaveChangesAsync();
     }
 }

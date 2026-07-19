@@ -1,6 +1,9 @@
+using Hackathon.Application.Common;
+using Hackathon.Application.Common.Helpers.Notification;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
+using Hackathon.Domain.Enums.Notification;
 using Hackathon.Domain.Enums.Report;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
@@ -10,12 +13,14 @@ namespace Hackathon.Application.Services.Admin.Report;
 public class Service : IReportService
 {
     private readonly IReportRepository _reportRepository;
+    private readonly INotificationRepository _notificationRepository;
     private readonly IAuthorizationService _authorizationService;
     private readonly IUnitOfWork _unitOfWork;
 
-    public Service(IReportRepository reportRepository, IAuthorizationService authorizationService, IUnitOfWork unitOfWork)
+    public Service(IReportRepository reportRepository, INotificationRepository notificationRepository, IAuthorizationService authorizationService, IUnitOfWork unitOfWork)
     {
         _reportRepository = reportRepository;
+        _notificationRepository = notificationRepository;
         _authorizationService = authorizationService;
         _unitOfWork = unitOfWork;
     }
@@ -95,6 +100,15 @@ public class Service : IReportService
         report.Status = status;
         report.Reason = request.Reason;
         report.UpdatedAt = DateTimeOffset.UtcNow;
+        await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho người gửi report — ghi rõ tiêu đề + status
+        var notif = NotificationHelper.Create(
+            NotificationTargetTypeEnum.Personal,
+            "Report Status Updated",
+            string.Format(NotificationMessage.Report.StatusUpdated, report.Title ?? "Report", request.Status),
+            userId: report.UserId);
+        await _notificationRepository.AddAsync(notif);
         await _unitOfWork.SaveChangesAsync();
     }
 

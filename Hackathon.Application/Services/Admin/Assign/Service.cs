@@ -1,9 +1,12 @@
+using Hackathon.Application.Common;
 using Hackathon.Application.Common.Helpers;
+using Hackathon.Application.Common.Helpers.Notification;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
 using Hackathon.Domain.Entities;
 using Hackathon.Domain.Enums.EventRole;
+using Hackathon.Domain.Enums.Notification;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
 
@@ -14,6 +17,8 @@ public class Service : IAssignService
     private readonly IUserRepository _userRepository;
     private readonly IAssignEventRepository _assignEventRepository;
     private readonly ITrackRepository _trackRepository;
+    private readonly IEventRepository _eventRepository;
+    private readonly INotificationRepository _notificationRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IAuthorizationService _authorizationService;
 
@@ -21,12 +26,16 @@ public class Service : IAssignService
         IUserRepository userRepository,
         IAssignEventRepository assignEventRepository,
         ITrackRepository trackRepository,
+        IEventRepository eventRepository,
+        INotificationRepository notificationRepository,
         IUnitOfWork unitOfWork,
         IAuthorizationService authorizationService)
     {
         _userRepository = userRepository;
         _assignEventRepository = assignEventRepository;
         _trackRepository = trackRepository;
+        _eventRepository = eventRepository;
+        _notificationRepository = notificationRepository;
         _unitOfWork = unitOfWork;
         _authorizationService = authorizationService;
     }
@@ -97,6 +106,16 @@ public class Service : IAssignService
                 existing.EventRoleId = eventRole.Id;
                 existing.UpdatedAt = DateTimeOffset.UtcNow;
                 await _unitOfWork.SaveChangesAsync();
+
+                // Gửi notification cho user được tái kích hoạt — ghi rõ event
+                var existingEventName = existing.Event?.Name ?? "Event";
+                var reenableNotif = NotificationHelper.Create(
+                    NotificationTargetTypeEnum.Personal,
+                    "Event Assignment Reactivated",
+                    string.Format(NotificationMessage.Assignment.ReEnabled, existingEventName),
+                    userId: request.UserId);
+                await _notificationRepository.AddAsync(reenableNotif);
+                await _unitOfWork.SaveChangesAsync();
                 return;
             }
 
@@ -114,6 +133,17 @@ public class Service : IAssignService
         };
 
         _assignEventRepository.Add(assignEvent);
+        await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho user được assign — ghi rõ event + role
+        var ev = await _eventRepository.GetByIdAsync(request.EventId);
+        var eventName = ev?.Name ?? "Event";
+        var newAssignNotif = NotificationHelper.Create(
+            NotificationTargetTypeEnum.Personal,
+            "Event Assignment",
+            string.Format(NotificationMessage.Assignment.AssignedAsRole, request.EventRole, eventName),
+            userId: request.UserId);
+        await _notificationRepository.AddAsync(newAssignNotif);
         await _unitOfWork.SaveChangesAsync();
     }
 
@@ -142,6 +172,16 @@ public class Service : IAssignService
         assignEvent.UpdatedAt = DateTimeOffset.UtcNow;
 
         _assignEventRepository.Update(assignEvent);
+        await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho lecturer — ghi rõ old role → new role
+        var oldRoleName = assignEvent.EventRole?.Name.ToString() ?? "Unknown";
+        var roleNotif = NotificationHelper.Create(
+            NotificationTargetTypeEnum.Personal,
+            "Event Role Changed",
+            string.Format(NotificationMessage.Assignment.RoleChanged, assignEvent.Event?.Name ?? "Event", oldRoleName, request.EventRole),
+            userId: assignEvent.UserId);
+        await _notificationRepository.AddAsync(roleNotif);
         await _unitOfWork.SaveChangesAsync();
     }
 
@@ -221,6 +261,15 @@ public class Service : IAssignService
 
         _assignEventRepository.AddAssignTrack(assignTrack);
         await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho user
+        var trackNotif = NotificationHelper.Create(
+            NotificationTargetTypeEnum.Personal,
+            "Track Assigned",
+            string.Format(NotificationMessage.Assignment.AssignedToTrack, track.Title, assignEvent.Event?.Name ?? "Event"),
+            userId: assignEvent.UserId);
+        await _notificationRepository.AddAsync(trackNotif);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task RemoveTrackFromEvent(Guid assignEventId, Guid trackId)
@@ -235,6 +284,15 @@ public class Service : IAssignService
         assignTrack.UpdatedAt = DateTimeOffset.UtcNow;
 
         _assignEventRepository.RemoveAssignTrack(assignTrack);
+        await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho user
+        var removeTrackNotif = NotificationHelper.Create(
+            NotificationTargetTypeEnum.Personal,
+            "Track Removed",
+            string.Format(NotificationMessage.Assignment.RemovedFromTrack, assignTrack.Track?.Title ?? "", assignTrack.AssignEvent?.Event?.Name ?? "Event"),
+            userId: assignTrack.AssignEvent?.UserId);
+        await _notificationRepository.AddAsync(removeTrackNotif);
         await _unitOfWork.SaveChangesAsync();
     }
 
@@ -253,6 +311,15 @@ public class Service : IAssignService
         assignTrack.UpdatedAt = DateTimeOffset.UtcNow;
 
         _assignEventRepository.RestoreAssignTrack(assignTrack);
+        await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho user
+        var restoreTrackNotif = NotificationHelper.Create(
+            NotificationTargetTypeEnum.Personal,
+            "Track Restored",
+            string.Format(NotificationMessage.Assignment.RestoredToTrack, assignTrack.Track?.Title ?? "", assignTrack.AssignEvent?.Event?.Name ?? "Event"),
+            userId: assignTrack.AssignEvent?.UserId);
+        await _notificationRepository.AddAsync(restoreTrackNotif);
         await _unitOfWork.SaveChangesAsync();
     }
 
@@ -279,6 +346,16 @@ public class Service : IAssignService
 
         _assignEventRepository.Update(assignEvent);
         await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho user — ghi rõ event
+        var removedEventName = assignEvent.Event?.Name ?? "Event";
+        var removeAssignNotif = NotificationHelper.Create(
+            NotificationTargetTypeEnum.Personal,
+            "Event Assignment Removed",
+            string.Format(NotificationMessage.Assignment.RemovedFromEvent, removedEventName),
+            userId: assignEvent.UserId);
+        await _notificationRepository.AddAsync(removeAssignNotif);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task RestoreAssignEvent(Guid assignEventId)
@@ -303,6 +380,16 @@ public class Service : IAssignService
         }
 
         _assignEventRepository.Update(assignEvent);
+        await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho user — ghi rõ event
+        var restoredEventName = assignEvent.Event?.Name ?? "Event";
+        var restoreAssignNotif = NotificationHelper.Create(
+            NotificationTargetTypeEnum.Personal,
+            "Event Assignment Restored",
+            string.Format(NotificationMessage.Assignment.RestoredToEvent, restoredEventName),
+            userId: assignEvent.UserId);
+        await _notificationRepository.AddAsync(restoreAssignNotif);
         await _unitOfWork.SaveChangesAsync();
     }
 

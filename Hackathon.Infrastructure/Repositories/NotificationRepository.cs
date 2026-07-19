@@ -43,6 +43,7 @@ public class NotificationRepository : INotificationRepository
 
     public async Task<List<Notifications>> GetRecentAsync(int count)
         => await _context.Notifications
+            .Where(n => !n.IsDisable)
             .OrderByDescending(n => n.CreatedAt)
             .Take(count)
             .ToListAsync();

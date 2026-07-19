@@ -1,8 +1,11 @@
+using Hackathon.Application.Common;
 using Hackathon.Application.Common.Helpers;
+using Hackathon.Application.Common.Helpers.Notification;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
 using Hackathon.Domain.Entities;
+using Hackathon.Domain.Enums.Notification;
 using Hackathon.Domain.Enums.RegisterTeam;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
@@ -17,6 +20,7 @@ public class Service : IRegisterTeamService
     private readonly IRoundRepository _roundRepository;
     private readonly ITrackRepository _trackRepository;
     private readonly ITopicRepository _topicRepository;
+    private readonly INotificationRepository _notificationRepository;
     private readonly IAuthorizationService _authorizationService;
     private readonly IUnitOfWork _unitOfWork;
 
@@ -27,6 +31,7 @@ public class Service : IRegisterTeamService
         IRoundRepository roundRepository,
         ITrackRepository trackRepository,
         ITopicRepository topicRepository,
+        INotificationRepository notificationRepository,
         IAuthorizationService authorizationService,
         IUnitOfWork unitOfWork)
     {
@@ -36,6 +41,7 @@ public class Service : IRegisterTeamService
         _roundRepository = roundRepository;
         _trackRepository = trackRepository;
         _topicRepository = topicRepository;
+        _notificationRepository = notificationRepository;
         _authorizationService = authorizationService;
         _unitOfWork = unitOfWork;
     }
@@ -351,6 +357,18 @@ public class Service : IRegisterTeamService
         }
 
         await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho team
+        if (team != null && rt.Event != null)
+        {
+            var notification = NotificationHelper.Create(
+                NotificationTargetTypeEnum.Team,
+                "Registration Approved",
+                string.Format(NotificationMessage.RegisterEvent.Approved, team.Name, rt.Event.Name),
+                teamId: rt.TeamId);
+            await _notificationRepository.AddAsync(notification);
+            await _unitOfWork.SaveChangesAsync();
+        }
     }
 
     public async Task<GetRegisterTeamsResponse> GetRegisterTeamsByTeam(GetRegisterTeamsByTeamRequest request)
@@ -487,6 +505,18 @@ public class Service : IRegisterTeamService
         }
 
         await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho team
+        if (team != null && rt.Event != null)
+        {
+            var notification = NotificationHelper.Create(
+                NotificationTargetTypeEnum.Team,
+                "Registration Rejected",
+                string.Format(NotificationMessage.RegisterEvent.Rejected, team.Name, rejectionReason ?? ""),
+                teamId: rt.TeamId);
+            await _notificationRepository.AddAsync(notification);
+            await _unitOfWork.SaveChangesAsync();
+        }
     }
 
     public async Task<AssignToNextRoundResponse> AssignToNextRound(Guid registerTeamId)
@@ -538,6 +568,18 @@ public class Service : IRegisterTeamService
         await _roundRepository.AddRoundDetailAsync(roundDetail);
 
         await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho team
+        if (rt.Team != null && rt.Event != null)
+        {
+            var notification = NotificationHelper.Create(
+                NotificationTargetTypeEnum.Team,
+                "Advanced To Next Round",
+                string.Format(NotificationMessage.RegisterEvent.AdvancedToNextRound, rt.Team.Name, nextRound.RoundNo ?? 0),
+                teamId: rt.TeamId);
+            await _notificationRepository.AddAsync(notification);
+            await _unitOfWork.SaveChangesAsync();
+        }
 
         return new AssignToNextRoundResponse
         {
@@ -592,6 +634,18 @@ public class Service : IRegisterTeamService
 
         await _unitOfWork.SaveChangesAsync();
 
+        // Gửi notification cho team
+        if (rt.Team != null && rt.Event != null)
+        {
+            var notification = NotificationHelper.Create(
+                NotificationTargetTypeEnum.Team,
+                "Moved Back To Previous Round",
+                string.Format(NotificationMessage.RegisterEvent.MovedBackToPreviousRound, rt.Team.Name, previousRound.RoundNo ?? 0),
+                teamId: rt.TeamId);
+            await _notificationRepository.AddAsync(notification);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
         return new AssignToNextRoundResponse
         {
             RegisterTeamId = registerTeamId,
@@ -626,6 +680,18 @@ public class Service : IRegisterTeamService
         rt.Status = RegisterTeamStatusEnum.Banned;
         rt.RejectionReason = rejectionReason;
         await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho team
+        if (rt.Team != null && rt.Event != null)
+        {
+            var notification = NotificationHelper.Create(
+                NotificationTargetTypeEnum.Team,
+                "Team Banned",
+                string.Format(NotificationMessage.RegisterEvent.Banned, rt.Team.Name, rejectionReason),
+                teamId: rt.TeamId);
+            await _notificationRepository.AddAsync(notification);
+            await _unitOfWork.SaveChangesAsync();
+        }
     }
 
     public async Task UnbanRegisterTeam(Guid registerTeamId)
@@ -643,6 +709,18 @@ public class Service : IRegisterTeamService
         rt.Status = RegisterTeamStatusEnum.Approved;
         rt.RejectionReason = null;
         await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho team
+        if (rt.Team != null && rt.Event != null)
+        {
+            var notification = NotificationHelper.Create(
+                NotificationTargetTypeEnum.Team,
+                "Team Unbanned",
+                string.Format(NotificationMessage.RegisterEvent.Unbanned, rt.Team.Name),
+                teamId: rt.TeamId);
+            await _notificationRepository.AddAsync(notification);
+            await _unitOfWork.SaveChangesAsync();
+        }
     }
 
     public async Task AssignTrackTopic(Guid registerTeamId, AssignTrackTopicRequest request)
@@ -675,6 +753,31 @@ public class Service : IRegisterTeamService
         rt.UpdatedAt = DateTimeOffset.UtcNow;
 
         await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho team — ghi rõ track name và topic name
+        var trackTitle = track.Title;
+        var topicTitle = request.TopicId.HasValue ? (await _topicRepository.GetByIdAsync(request.TopicId.Value))?.Title : null;
+        if (rt.Team != null && rt.Event != null)
+        {
+            var notif = NotificationHelper.Create(
+                NotificationTargetTypeEnum.Team,
+                "Track Assigned",
+                string.Format(NotificationMessage.RegisterEvent.TrackAssigned, rt.Team.Name, trackTitle, rt.Event.Name),
+                teamId: rt.TeamId);
+            await _notificationRepository.AddAsync(notif);
+
+            if (!string.IsNullOrEmpty(topicTitle))
+            {
+                var topicNotif = NotificationHelper.Create(
+                    NotificationTargetTypeEnum.Team,
+                    "Topic Assigned",
+                    string.Format(NotificationMessage.RegisterEvent.TopicAssigned, rt.Team.Name, topicTitle, rt.Event.Name),
+                    teamId: rt.TeamId);
+                await _notificationRepository.AddAsync(topicNotif);
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+        }
     }
 
     public async Task RemoveTrackTopic(Guid registerTeamId)
@@ -685,10 +788,26 @@ public class Service : IRegisterTeamService
         if (rt == null)
             throw new NotFoundException("Register Team Not Found");
 
+        // Lưu track/topic name trước khi xoá FK để ghi notification
+        var removedTrackName = rt.Track?.Title ?? "";
+        var removedTopicName = rt.Topic?.Title ?? "";
+
         rt.TrackId = null;
         rt.TopicId = null;
         rt.UpdatedAt = DateTimeOffset.UtcNow;
 
         await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho team — ghi rõ track và topic đã bị remove
+        if (rt.Team != null && rt.Event != null)
+        {
+            var notification = NotificationHelper.Create(
+                NotificationTargetTypeEnum.Team,
+                "Track/Topic Removed",
+                string.Format(NotificationMessage.RegisterEvent.TrackTopicRemoved, rt.Team.Name, removedTrackName, removedTopicName, rt.Event.Name),
+                teamId: rt.TeamId);
+            await _notificationRepository.AddAsync(notification);
+            await _unitOfWork.SaveChangesAsync();
+        }
     }
 }

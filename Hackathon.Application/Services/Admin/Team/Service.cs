@@ -1,8 +1,11 @@
+using Hackathon.Application.Common;
 using Hackathon.Application.Common.Helpers;
+using Hackathon.Application.Common.Helpers.Notification;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
 using Hackathon.Domain.Entities;
+using Hackathon.Domain.Enums.Notification;
 using Hackathon.Domain.Enums.TeamDetail;
 using Hackathon.Domain.Enums.User;
 
@@ -12,13 +15,15 @@ public class Service : ITeamService
 {
     private readonly ITeamRepository _teamRepository;
     private readonly IRegisterTeamRepository _registerTeamRepository;
+    private readonly INotificationRepository _notificationRepository;
     private readonly IAuthorizationService _authorizationService;
     private readonly IUnitOfWork _unitOfWork;
 
-    public Service(ITeamRepository teamRepository, IRegisterTeamRepository registerTeamRepository, IAuthorizationService authorizationService, IUnitOfWork unitOfWork)
+    public Service(ITeamRepository teamRepository, IRegisterTeamRepository registerTeamRepository, INotificationRepository notificationRepository, IAuthorizationService authorizationService, IUnitOfWork unitOfWork)
     {
         _teamRepository = teamRepository;
         _registerTeamRepository = registerTeamRepository;
+        _notificationRepository = notificationRepository;
         _authorizationService = authorizationService;
         _unitOfWork = unitOfWork;
     }
@@ -282,6 +287,15 @@ public class Service : ITeamService
 
         await _teamRepository.UpdateTeamDetailAsync(currentLeader);
         await _teamRepository.UpdateTeamDetailAsync(newLeader);
+        await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification cho leader mới
+        var notif = NotificationHelper.Create(
+            NotificationTargetTypeEnum.Personal,
+            "New Team Leader",
+            string.Format(NotificationMessage.Team.NewLeader, team.Name),
+            userId: newLeaderUserId);
+        await _notificationRepository.AddAsync(notif);
         await _unitOfWork.SaveChangesAsync();
     }
 

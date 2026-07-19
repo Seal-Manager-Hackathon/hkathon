@@ -95,7 +95,9 @@ public class AssignEventRepository : IAssignEventRepository
 
     public async Task<AssignEvents?> GetByIdAsync(Guid id)
         => await _context.AssignEvents
+            .Include(ae => ae.Event)
             .Include(ae => ae.User)
+            .Include(ae => ae.EventRole)
             .FirstOrDefaultAsync(ae => ae.Id == id);
 
     public void Add(AssignEvents assignEvent)
@@ -106,6 +108,7 @@ public class AssignEventRepository : IAssignEventRepository
 
     public async Task<AssignEvents?> GetByIdWithTracksAsync(Guid id)
         => await _context.AssignEvents
+            .Include(ae => ae.Event)
             .Include(ae => ae.User)
             .Include(ae => ae.EventRole)
             .Include(ae => ae.AssignTracks)
@@ -121,10 +124,16 @@ public class AssignEventRepository : IAssignEventRepository
 
     public async Task<AssignTracks?> GetAssignTrackAsync(Guid assignEventId, Guid trackId)
         => await _context.AssignTracks
+            .Include(at => at.Track)
+            .Include(at => at.AssignEvent)
+                .ThenInclude(ae => ae.Event)
             .FirstOrDefaultAsync(at => at.AssignEventId == assignEventId && at.TrackId == trackId && !at.IsDisable);
 
     public async Task<AssignTracks?> GetAssignTrackAnyAsync(Guid assignEventId, Guid trackId)
         => await _context.AssignTracks
+            .Include(at => at.Track)
+            .Include(at => at.AssignEvent)
+                .ThenInclude(ae => ae.Event)
             .FirstOrDefaultAsync(at => at.AssignEventId == assignEventId && at.TrackId == trackId);
 
     public async Task<AssignTracks?> GetGraderAssignTrackAsync(Guid userId, Guid eventId, Guid trackId)
