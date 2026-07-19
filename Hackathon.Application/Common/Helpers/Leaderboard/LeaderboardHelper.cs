@@ -34,6 +34,7 @@ public class LeaderboardHelper
 
     /// <summary>
     /// Tính round leaderboard — xếp hạng theo TotalScore DESC (DENSE_RANK).
+    /// Load ALL items → tính rank → phân trang.
     /// </summary>
     public async Task<GetRoundLeaderboardResponse> GetRoundLeaderboardAsync(Guid roundId, int pageIndex, int pageSize)
     {
@@ -41,9 +42,10 @@ public class LeaderboardHelper
         if (round == null)
             return null!;
 
-        var (items, totalCount) = await _submissionRepository.GetRoundSummaryAsync(roundId, pageIndex, pageSize);
+        // Load tất cả items để tính rank chính xác
+        var (allItems, totalCount) = await _submissionRepository.GetRoundSummaryAsync(roundId, 1, int.MaxValue);
 
-        var rankedItems = items.Select(item => new RoundLeaderboardItem
+        var rankedItems = allItems.Select(item => new RoundLeaderboardItem
         {
             RegisterTeamId = item.RegisterTeamId,
             TeamId = item.TeamId,
@@ -56,7 +58,14 @@ public class LeaderboardHelper
             TotalScore = item.TotalScore
         }).ToList();
 
+        // Rank trên toàn bộ danh sách đã sort DESC
         AssignDenseRank(rankedItems, i => i.TotalScore);
+
+        // Phân trang sau khi rank
+        var pagedItems = rankedItems
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
 
         return new GetRoundLeaderboardResponse
         {
@@ -64,7 +73,7 @@ public class LeaderboardHelper
             RoundName = round.Name,
             EventId = round.EventId,
             EventName = round.Event?.Name ?? "",
-            Items = rankedItems,
+            Items = pagedItems,
             TotalCount = totalCount,
             PageIndex = pageIndex,
             PageSize = pageSize
@@ -73,10 +82,11 @@ public class LeaderboardHelper
 
     /// <summary>
     /// Tính event leaderboard — tính scopeScore từng round → eventScore → xếp hạng (DENSE_RANK).
+    /// Load ALL teams → tính score + rank → phân trang.
     /// </summary>
     public async Task<GetEventLeaderboardResponse> GetEventLeaderboardAsync(Guid eventId, int pageIndex, int pageSize)
     {
-        var (teams, totalCount) = await _registerTeamRepository.GetApprovedByEventIdWithScoresAsync(eventId, pageIndex, pageSize);
+        var (teams, totalCount) = await _registerTeamRepository.GetApprovedByEventIdWithScoresAsync(eventId, 1, int.MaxValue);
 
         var leaderBoard = await _eventRepository.GetLeaderBoardByEventIdAsync(eventId);
 
@@ -86,7 +96,7 @@ public class LeaderboardHelper
             .Distinct()
             .Count() ?? 0;
 
-        var items = teams
+        var allItems = teams
             .Select(rt =>
             {
                 var roundScores = rt.RoundDetails
@@ -123,7 +133,13 @@ public class LeaderboardHelper
             .OrderByDescending(x => x.EventScore)
             .ToList();
 
-        AssignDenseRank(items, i => i.EventScore);
+        AssignDenseRank(allItems, i => i.EventScore);
+
+        // Phân trang sau khi rank
+        var pagedItems = allItems
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
 
         return new GetEventLeaderboardResponse
         {
@@ -131,7 +147,7 @@ public class LeaderboardHelper
             EventName = teams.FirstOrDefault()?.Event?.Name ?? "",
             TotalRounds = totalRounds,
             IsDisable = leaderBoard?.IsDisable ?? false,
-            Items = items,
+            Items = pagedItems,
             TotalCount = totalCount,
             PageIndex = pageIndex,
             PageSize = pageSize
