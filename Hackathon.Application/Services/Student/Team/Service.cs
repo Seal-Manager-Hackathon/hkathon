@@ -159,10 +159,6 @@ public class Service : ITeamService
         var team = await _teamRepository.GetByIdAsync(teamId);
         if (team == null || team.IsDisable)
             throw new NotFoundException("Team Not Found");
-
-        if (!team.CanEdit)
-            throw new BadRequestException("Team Cannot Be Edited");
-
         // Check user is leader
         var members = await _teamRepository.GetTeamMembersAsync(teamId);
         var leaderMember = members.FirstOrDefault(m => m.UserId == userId && m.IsLeader && !m.IsDisable);
@@ -170,6 +166,17 @@ public class Service : ITeamService
             throw new BadRequestException("Only Team Leader Can Disband Team");
 
         var now = DateTimeOffset.UtcNow;
+
+        // Kiểm tra team có đang tham gia event nào đang hoạt động không
+        var (activeRegistrations, _) = await _registerTeamRepository.GetByTeamIdAsync(
+            teamId, Domain.Enums.RegisterTeam.RegisterTeamStatusEnum.Approved, false, 1, int.MaxValue);
+        var hasActiveEvent = activeRegistrations.Any(rt =>
+            rt.Event != null
+            && !rt.Event.IsDisable
+            && (!rt.Event.StartTime.HasValue || rt.Event.StartTime.Value <= now)
+            && (!rt.Event.EndTime.HasValue || rt.Event.EndTime.Value >= now));
+        if (hasActiveEvent)
+            throw new BadRequestException("Cannot Disband Team While It Is Participating in an Active Event");
 
         // Disable all active members
         foreach (var member in members.Where(m => !m.IsDisable))
@@ -344,9 +351,6 @@ public class Service : ITeamService
         var team = await _teamRepository.GetByIdAsync(teamId);
         if (team == null || team.IsDisable)
             throw new NotFoundException("Team Not Found");
-
-        if (!team.CanEdit)
-            throw new BadRequestException("Team Cannot Be Edited");
 
         // Can't transfer to yourself
         if (newLeaderUserId == userId)

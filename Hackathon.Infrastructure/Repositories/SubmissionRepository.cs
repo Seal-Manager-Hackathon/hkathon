@@ -157,6 +157,11 @@ public class SubmissionRepository : ISubmissionRepository
             .Where(rd => rd.RoundId == roundId)
             .AsQueryable();
 
+        // Chỉ lấy register team Approved, ko disable, ko banned
+        query = query.Where(rd => rd.RegisterTeam.Status == Domain.Enums.RegisterTeam.RegisterTeamStatusEnum.Approved
+            && !rd.RegisterTeam.IsDisable
+            && !rd.RegisterTeam.IsBanned);
+
         var totalCount = await query.CountAsync();
 
         var roundDetails = await query

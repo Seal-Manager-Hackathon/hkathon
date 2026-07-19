@@ -285,6 +285,9 @@ public class Service : IInvitationService
         if (team == null || team.IsDisable)
             throw new NotFoundException("Team Not Found");
 
+        if (!team.CanEdit)
+            throw new BadRequestException("Team Cannot Be Edited");
+
         // Check user is not already a member
         var members = await _teamRepository.GetTeamMembersAsync(invitation.TeamId);
         var existingMember = members.FirstOrDefault(m => m.UserId == userId && !m.IsDisable && m.Status == TeamDetailStatusEnum.Active);

@@ -140,7 +140,8 @@ public class RegisterTeamRepository : IRegisterTeamRepository
                         .ThenInclude(sc => sc.ScoreItems)
             .Where(rt => rt.EventId == eventId
                 && rt.Status == RegisterTeamStatusEnum.Approved
-                && !rt.IsDisable);
+                && !rt.IsDisable
+                && !rt.IsBanned);
 
         var totalCount = await query.CountAsync();
 

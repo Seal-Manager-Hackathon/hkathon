@@ -152,7 +152,7 @@ public class LeaderboardHelper
         foreach (var ev in events)
         {
             var approvedTeams = ev.RegisterTeams
-                .Where(rt => rt.Status == RegisterTeamStatusEnum.Approved && !rt.IsDisable);
+                .Where(rt => rt.Status == RegisterTeamStatusEnum.Approved && !rt.IsDisable && !rt.IsBanned);
 
             foreach (var rt in approvedTeams)
             {
