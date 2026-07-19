@@ -8,89 +8,156 @@ public static class MailTemplate
 
         var htmlBody = """
         <!DOCTYPE html>
-        <html lang="vi">
+        <html lang="en">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Xác thực tài khoản - SEAL Hackathon</title>
+            <title>Verify Your Account — SEAL Hackathon</title>
             <style>
                 body {
                     margin: 0;
                     padding: 0;
-                    background: #eef4ff;
-                    font-family: Arial, Helvetica, sans-serif;
-                    color: #172033;
+                    background: #0b1120;
+                    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+                    color: #e2e8f0;
                 }
                 .wrapper {
                     width: 100%;
-                    padding: 40px 16px;
+                    padding: 48px 16px;
                     box-sizing: border-box;
                 }
                 .container {
-                    max-width: 620px;
+                    max-width: 580px;
                     margin: 0 auto;
-                    background: #ffffff;
-                    border-radius: 18px;
+                    background: linear-gradient(180deg, #151d32 0%, #0f172a 100%);
+                    border: 1px solid #1e293b;
+                    border-radius: 24px;
                     overflow: hidden;
-                    box-shadow: 0 18px 45px rgba(28, 67, 140, 0.16);
+                    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
                 }
                 .hero {
-                    padding: 34px 32px;
-                    background: linear-gradient(135deg, #1247d9 0%, #19a7ce 100%);
-                    color: #ffffff;
+                    padding: 40px 36px 32px;
                     text-align: center;
+                    position: relative;
                 }
-                .badge {
-                    display: inline-block;
-                    padding: 7px 13px;
-                    border-radius: 999px;
-                    background: rgba(255, 255, 255, 0.18);
-                    font-size: 12px;
-                    letter-spacing: 1px;
-                    text-transform: uppercase;
-                    margin-bottom: 14px;
+                .hero::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    height: 4px;
+                    background: linear-gradient(90deg, #6366f1, #06b6d4, #6366f1);
+                    background-size: 200% 100%;
+                }
+                .logo {
+                    width: 64px;
+                    height: 64px;
+                    margin: 0 auto 20px;
+                    background: linear-gradient(135deg, #6366f1, #06b6d4);
+                    border-radius: 18px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 28px;
+                    font-weight: 800;
+                    color: #fff;
+                    box-shadow: 0 12px 32px rgba(99, 102, 241, 0.3);
                 }
                 .hero h1 {
-                    margin: 0;
+                    margin: 0 0 8px;
                     font-size: 28px;
-                    line-height: 1.25;
+                    font-weight: 700;
+                    background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                }
+                .hero p {
+                    margin: 0;
+                    color: #64748b;
+                    font-size: 15px;
                 }
                 .content {
-                    padding: 34px 36px 28px;
-                    line-height: 1.7;
+                    padding: 0 36px 32px;
+                    line-height: 1.8;
                     font-size: 15px;
                 }
                 .content p {
-                    margin: 0 0 16px;
+                    margin: 0 0 18px;
                 }
                 .button-wrap {
                     text-align: center;
-                    margin: 30px 0;
+                    margin: 32px 0 28px;
                 }
                 .btn {
                     display: inline-block;
-                    padding: 14px 28px;
-                    border-radius: 12px;
-                    background: #1247d9;
+                    padding: 15px 36px;
+                    border-radius: 14px;
+                    background: linear-gradient(135deg, #6366f1, #06b6d4);
                     color: #ffffff !important;
                     text-decoration: none;
                     font-weight: 700;
-                    box-shadow: 0 10px 22px rgba(18, 71, 217, 0.26);
+                    font-size: 16px;
+                    letter-spacing: 0.3px;
+                    box-shadow: 0 8px 28px rgba(99, 102, 241, 0.35);
+                    transition: transform 0.2s, box-shadow 0.2s;
+                }
+                .btn:hover {
+                    transform: translateY(-1px);
+                    box-shadow: 0 12px 36px rgba(99, 102, 241, 0.45);
+                }
+                .divider {
+                    height: 1px;
+                    background: linear-gradient(90deg, transparent, #1e293b, transparent);
+                    margin: 24px 0;
                 }
                 .note {
-                    padding: 14px 16px;
-                    border-left: 4px solid #19a7ce;
-                    background: #f4fbff;
-                    border-radius: 10px;
-                    color: #43516a;
-                    font-size: 14px;
+                    padding: 16px 20px;
+                    border: 1px solid #1e293b;
+                    border-radius: 14px;
+                    background: rgba(30, 41, 59, 0.5);
+                    color: #64748b;
+                    font-size: 13px;
+                    line-height: 1.6;
+                }
+                .note strong {
+                    color: #94a3b8;
                 }
                 .footer {
-                    padding: 22px 30px;
-                    background: #f7f9fd;
+                    padding: 24px 36px;
+                    border-top: 1px solid #1e293b;
                     text-align: center;
-                    color: #7b879d;
+                    color: #475569;
                     font-size: 12px;
+                    line-height: 1.8;
+                }
+                .footer a {
+                    color: #6366f1;
+                    text-decoration: none;
+                }
+                .social {
+                    display: flex;
+                    justify-content: center;
+                    gap: 16px;
+                    margin-bottom: 16px;
+                }
+                .social a {
+                    display: inline-block;
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 50%;
+                    background: #1e293b;
+                    color: #64748b;
+                    text-align: center;
+                    line-height: 36px;
+                    font-size: 14px;
+                    text-decoration: none;
+                    transition: background 0.2s;
+                }
+                .social a:hover {
+                    background: #334155;
+                    color: #e2e8f0;
                 }
             </style>
         </head>
@@ -98,21 +165,27 @@ public static class MailTemplate
             <div class="wrapper">
                 <div class="container">
                     <div class="hero">
-                        <div class="badge">SEAL Hackathon 2026</div>
-                        <h1>Kích hoạt tài khoản của bạn</h1>
+                        <div class="logo">SH</div>
+                        <h1>Activate Your Account</h1>
+                        <p>Just one more step to join the competition</p>
                     </div>
                     <div class="content">
-                        <p>Chào bạn,</p>
-                        <p>Cảm ơn bạn đã đăng ký tham gia <strong>SEAL Hackathon</strong>. Chỉ còn một bước nữa để hoàn tất tài khoản.</p>
+                        <p>Hey there,</p>
+                        <p>Thanks for signing up for <strong>SEAL Hackathon</strong>! We're thrilled to have you on board. To get started, please verify your email address by clicking the button below.</p>
                         <div class="button-wrap">
-                            <a href="{{verification_link}}" class="btn">Xác Thực Tài Khoản</a>
+                            <a href="{{verification_link}}" class="btn">Verify Email Address</a>
                         </div>
                         <div class="note">
-                            Liên kết xác thực chỉ có hiệu lực trong thời gian ngắn. Vui lòng không chia sẻ email này cho bất kỳ ai.
+                            ⚡ This link expires in <strong>24 hours</strong>. If you didn't create this account, you can safely ignore this email.
                         </div>
+                        <div class="divider"></div>
+                        <p style="color: #64748b; font-size: 14px; margin: 0;">
+                            Once verified, you'll be able to form a team, register for events, and start hacking. See you there!
+                        </p>
                     </div>
                     <div class="footer">
-                        <p>&copy; 2026 SEAL Hackathon. All rights reserved.</p>
+                        <p>SEAL Hackathon &mdash; Innovate. Build. Compete.</p>
+                        <p style="margin: 4px 0 0;">&copy; 2026 SEAL Hackathon. All rights reserved.</p>
                     </div>
                 </div>
             </div>
@@ -129,89 +202,133 @@ public static class MailTemplate
 
         var htmlBody = """
         <!DOCTYPE html>
-        <html lang="vi">
+        <html lang="en">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Đặt lại mật khẩu - SEAL Hackathon</title>
+            <title>Reset Your Password — SEAL Hackathon</title>
             <style>
                 body {
                     margin: 0;
                     padding: 0;
-                    background: #fff5f0;
-                    font-family: Arial, Helvetica, sans-serif;
-                    color: #201b18;
+                    background: #0b1120;
+                    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+                    color: #e2e8f0;
                 }
                 .wrapper {
                     width: 100%;
-                    padding: 40px 16px;
+                    padding: 48px 16px;
                     box-sizing: border-box;
                 }
                 .container {
-                    max-width: 620px;
+                    max-width: 580px;
                     margin: 0 auto;
-                    background: #ffffff;
-                    border-radius: 18px;
+                    background: linear-gradient(180deg, #151d32 0%, #0f172a 100%);
+                    border: 1px solid #1e293b;
+                    border-radius: 24px;
                     overflow: hidden;
-                    box-shadow: 0 18px 45px rgba(186, 74, 27, 0.16);
+                    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
                 }
                 .hero {
-                    padding: 34px 32px;
-                    background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
-                    color: #ffffff;
+                    padding: 40px 36px 32px;
                     text-align: center;
+                    position: relative;
                 }
-                .badge {
-                    display: inline-block;
-                    padding: 7px 13px;
-                    border-radius: 999px;
-                    background: rgba(255, 255, 255, 0.18);
-                    font-size: 12px;
-                    letter-spacing: 1px;
-                    text-transform: uppercase;
-                    margin-bottom: 14px;
+                .hero::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    height: 4px;
+                    background: linear-gradient(90deg, #f59e0b, #ef4444, #f59e0b);
+                    background-size: 200% 100%;
+                }
+                .logo {
+                    width: 64px;
+                    height: 64px;
+                    margin: 0 auto 20px;
+                    background: linear-gradient(135deg, #f59e0b, #ef4444);
+                    border-radius: 18px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 28px;
+                    font-weight: 800;
+                    color: #fff;
+                    box-shadow: 0 12px 32px rgba(245, 158, 11, 0.3);
                 }
                 .hero h1 {
-                    margin: 0;
+                    margin: 0 0 8px;
                     font-size: 28px;
-                    line-height: 1.25;
+                    font-weight: 700;
+                    background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                }
+                .hero p {
+                    margin: 0;
+                    color: #64748b;
+                    font-size: 15px;
                 }
                 .content {
-                    padding: 34px 36px 28px;
-                    line-height: 1.7;
+                    padding: 0 36px 32px;
+                    line-height: 1.8;
                     font-size: 15px;
                 }
                 .content p {
-                    margin: 0 0 16px;
+                    margin: 0 0 18px;
                 }
                 .button-wrap {
                     text-align: center;
-                    margin: 30px 0;
+                    margin: 32px 0 28px;
                 }
                 .btn {
                     display: inline-block;
-                    padding: 14px 28px;
-                    border-radius: 12px;
-                    background: #ef4444;
+                    padding: 15px 36px;
+                    border-radius: 14px;
+                    background: linear-gradient(135deg, #f59e0b, #ef4444);
                     color: #ffffff !important;
                     text-decoration: none;
                     font-weight: 700;
-                    box-shadow: 0 10px 22px rgba(239, 68, 68, 0.24);
+                    font-size: 16px;
+                    letter-spacing: 0.3px;
+                    box-shadow: 0 8px 28px rgba(245, 158, 11, 0.35);
+                    transition: transform 0.2s, box-shadow 0.2s;
+                }
+                .btn:hover {
+                    transform: translateY(-1px);
+                    box-shadow: 0 12px 36px rgba(245, 158, 11, 0.45);
+                }
+                .divider {
+                    height: 1px;
+                    background: linear-gradient(90deg, transparent, #1e293b, transparent);
+                    margin: 24px 0;
                 }
                 .warning {
-                    padding: 14px 16px;
-                    border-left: 4px solid #f97316;
-                    background: #fff7ed;
-                    border-radius: 10px;
-                    color: #60402a;
-                    font-size: 14px;
+                    padding: 16px 20px;
+                    border: 1px solid rgba(239, 68, 68, 0.2);
+                    border-radius: 14px;
+                    background: rgba(239, 68, 68, 0.08);
+                    color: #fca5a5;
+                    font-size: 13px;
+                    line-height: 1.6;
+                }
+                .warning strong {
+                    color: #f87171;
                 }
                 .footer {
-                    padding: 22px 30px;
-                    background: #fff8f4;
+                    padding: 24px 36px;
+                    border-top: 1px solid #1e293b;
                     text-align: center;
-                    color: #9a8173;
+                    color: #475569;
                     font-size: 12px;
+                    line-height: 1.8;
+                }
+                .footer a {
+                    color: #6366f1;
+                    text-decoration: none;
                 }
             </style>
         </head>
@@ -219,21 +336,27 @@ public static class MailTemplate
             <div class="wrapper">
                 <div class="container">
                     <div class="hero">
-                        <div class="badge">Bảo mật tài khoản</div>
-                        <h1>Đặt lại mật khẩu</h1>
+                        <div class="logo">SH</div>
+                        <h1>Reset Your Password</h1>
+                        <p>We've got you covered</p>
                     </div>
                     <div class="content">
-                        <p>Chào bạn,</p>
-                        <p>Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản <strong>SEAL Hackathon</strong> của bạn.</p>
+                        <p>Hey there,</p>
+                        <p>We received a request to reset the password for your <strong>SEAL Hackathon</strong> account. If you made this request, click the button below to set a new password.</p>
                         <div class="button-wrap">
-                            <a href="{{reset_password_link}}" class="btn">Đặt Lại Mật Khẩu</a>
+                            <a href="{{reset_password_link}}" class="btn">Reset Password</a>
                         </div>
                         <div class="warning">
-                            Nếu bạn không yêu cầu đặt lại mật khẩu, hãy bỏ qua email này. Không chia sẻ liên kết này cho bất kỳ ai.
+                            ⚠️ This link expires in <strong>24 hours</strong>. If you didn't request this, please ignore this email — your account is safe.
                         </div>
+                        <div class="divider"></div>
+                        <p style="color: #64748b; font-size: 14px; margin: 0;">
+                            For security reasons, never share this link with anyone. The SEAL Hackathon team will never ask for your password.
+                        </p>
                     </div>
                     <div class="footer">
-                        <p>&copy; 2026 SEAL Hackathon. All rights reserved.</p>
+                        <p>SEAL Hackathon &mdash; Innovate. Build. Compete.</p>
+                        <p style="margin: 4px 0 0;">&copy; 2026 SEAL Hackathon. All rights reserved.</p>
                     </div>
                 </div>
             </div>

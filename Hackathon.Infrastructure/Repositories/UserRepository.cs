@@ -34,8 +34,10 @@ public class UserRepository : IUserRepository
 
         if (!string.IsNullOrWhiteSpace(keyword))
         {
-            var kw = keyword.Trim().ToLower();
-            query = query.Where(u => u.Email.ToLower().Contains(kw));
+            var kw = $"%{keyword.Trim()}%";
+            query = query.Where(u =>
+                EF.Functions.ILike(u.Email, kw) ||
+                EF.Functions.ILike(u.FirstName + " " + u.LastName, kw));
         }
 
         if (isDisable.HasValue)
@@ -43,8 +45,22 @@ public class UserRepository : IUserRepository
 
         var totalCount = await query.CountAsync();
 
+        // Ưu tiên email match trước, full name match sau
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var kw = $"%{keyword.Trim()}%";
+            query = query.OrderByDescending(u =>
+                EF.Functions.ILike(u.Email, kw) ? 1 : 0)
+                .ThenByDescending(u =>
+                    EF.Functions.ILike(u.FirstName + " " + u.LastName, kw) ? 1 : 0)
+                .ThenByDescending(u => u.CreatedAt);
+        }
+        else
+        {
+            query = query.OrderByDescending(u => u.CreatedAt);
+        }
+
         var items = await query
-            .OrderByDescending(u => u.CreatedAt)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -61,12 +77,12 @@ public class UserRepository : IUserRepository
 
         if (!string.IsNullOrWhiteSpace(keyword))
         {
-            var kw = keyword.Trim().ToLower();
+            var kw = $"%{keyword.Trim()}%";
             query = query.Where(u =>
-                u.Email.ToLower().Contains(kw) ||
-                u.FirstName.ToLower().Contains(kw) ||
-                u.LastName.ToLower().Contains(kw) ||
-                (u.FirstName.ToLower() + " " + u.LastName.ToLower()).Contains(kw));
+                EF.Functions.ILike(u.Email, kw) ||
+                EF.Functions.ILike(u.FirstName, kw) ||
+                EF.Functions.ILike(u.LastName, kw) ||
+                EF.Functions.ILike(u.FirstName + " " + u.LastName, kw));
         }
 
         if (role.HasValue)
@@ -94,8 +110,22 @@ public class UserRepository : IUserRepository
 
         var totalCount = await query.CountAsync();
 
+        // Ưu tiên: email match trước, full name match sau
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var kw = $"%{keyword.Trim()}%";
+            query = query.OrderByDescending(u =>
+                EF.Functions.ILike(u.Email, kw) ? 1 : 0)
+                .ThenByDescending(u =>
+                    EF.Functions.ILike(u.FirstName + " " + u.LastName, kw) ? 1 : 0)
+                .ThenByDescending(u => u.CreatedAt);
+        }
+        else
+        {
+            query = query.OrderByDescending(u => u.CreatedAt);
+        }
+
         var items = await query
-            .OrderByDescending(u => u.CreatedAt)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -113,16 +143,30 @@ public class UserRepository : IUserRepository
 
         if (!string.IsNullOrWhiteSpace(keyword))
         {
-            var kw = keyword.Trim().ToLower();
+            var kw = $"%{keyword.Trim()}%";
             query = query.Where(u =>
-                u.Email.ToLower().Contains(kw) ||
-                (u.FirstName.ToLower() + " " + u.LastName.ToLower()).Contains(kw));
+                EF.Functions.ILike(u.Email, kw) ||
+                EF.Functions.ILike(u.FirstName + " " + u.LastName, kw));
         }
 
         var totalCount = await query.CountAsync();
 
+        // Ưu tiên email match trước
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            var kw = $"%{keyword.Trim()}%";
+            query = query.OrderByDescending(u =>
+                EF.Functions.ILike(u.Email, kw) ? 1 : 0)
+                .ThenByDescending(u =>
+                    EF.Functions.ILike(u.FirstName + " " + u.LastName, kw) ? 1 : 0)
+                .ThenBy(u => u.Email);
+        }
+        else
+        {
+            query = query.OrderBy(u => u.Email);
+        }
+
         var items = await query
-            .OrderBy(u => u.Email)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
