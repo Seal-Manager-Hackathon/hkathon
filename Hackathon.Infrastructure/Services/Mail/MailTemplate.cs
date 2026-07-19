@@ -34,7 +34,7 @@ public static class MailTemplate
                         </div>
 
                         <div class="note" style="background-color: #f0fdf4; border-radius: 12px; padding: 16px 20px; font-size: 13.5px; color: #166534; line-height: 1.6; border-left: 4px solid #16a34a;">
-                            this link expires in <strong style="color: #14532d;">24 hours</strong>. if you didn't create this account, feel free to ignore this email.
+                            this link expires in <strong style="color: #14532d;">10 minutes</strong>. if you didn't create this account, please ignore this email.
                         </div>
 
                         <div class="divider" style="height: 1px; background-color: #e2e8f0; margin: 32px 0;"></div>
@@ -88,8 +88,8 @@ public static class MailTemplate
                             <a href="{{reset_password_link}}" class="btn" style="display: inline-block; padding: 15px 44px; border-radius: 12px; background-color: #16a34a; background: linear-gradient(135deg, #22c55e 0%, #15803d 100%); color: #ffffff !important; text-decoration: none; font-weight: 600; font-size: 15px; letter-spacing: 0.2px; box-shadow: 0 4px 14px rgba(22, 163, 74, 0.35);">Reset Password</a>
                         </div>
 
-                        <div class="note" style="background-color: #fef2f2; border-radius: 12px; padding: 16px 20px; font-size: 13.5px; color: #991b1b; line-height: 1.6; border-left: 4px solid #ef4444;">
-                            this link expires in <strong style="color: #7f1d1d;">24 hours</strong>. if you didn't request this, please ignore this email — your account is safe and secure.
+                        <div class="note" style="background-color: #f0fdf4; border-radius: 12px; padding: 16px 20px; font-size: 13.5px; color: #166534; line-height: 1.6; border-left: 4px solid #16a34a;">
+                            this link expires in <strong style="color: #14532d;">10 minutes</strong>. if you didn't request this, please ignore this email.
                         </div>
 
                         <div class="divider" style="height: 1px; background-color: #e2e8f0; margin: 32px 0;"></div>

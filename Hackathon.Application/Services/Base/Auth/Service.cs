@@ -266,14 +266,14 @@ public class Service : IAuthService
             new("IsVerified", user.IsVerified!.ToString()!.ToLower())
         };
 
-        var emailToken = _jwtService.GenerateEmailVerificationToken(claims, 2);
+        var emailToken = _jwtService.GenerateEmailVerificationToken(claims, 10);
 
         var emailVerification = new EmailVerifications
         {
             Id = Guid.NewGuid(),
             UserId = user.Id,
             TokenHash = emailToken,
-            ExpiredAt = DateTimeOffset.UtcNow.AddMinutes(5),
+            ExpiredAt = DateTimeOffset.UtcNow.AddMinutes(10),
             Status = EmailVerificationStatusEnum.Pending,
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
@@ -296,7 +296,7 @@ public class Service : IAuthService
             {
                 new("UserId", user.Id.ToString())
             };
-            var resetToken = _jwtService.GenerateEmailVerificationToken(claims, 2);
+            var resetToken = _jwtService.GenerateEmailVerificationToken(claims, 10);
             var now = DateTimeOffset.UtcNow;
 
             var resetPassword = new ResetPasswords
@@ -305,7 +305,7 @@ public class Service : IAuthService
                 UserId = user.Id,
                 TokenHash = resetToken,
                 IsUsed = false,
-                ExpiresAt = now.AddMinutes(2),
+                ExpiresAt = now.AddMinutes(10),
                 CreatedAt = now,
                 UpdatedAt = now
             };
