@@ -46,6 +46,9 @@ public class Service : IAuthService
 
     public async Task<RegisterResponse> Register(RegisterRequest request)
     {
+        if (string.IsNullOrWhiteSpace(request.Email))
+            throw new BadRequestException("Email Is Required");
+
         var existingUser = await _userRepository.GetByEmailAsync(request.Email.ToLower());
 
         if (existingUser != null)
@@ -145,6 +148,9 @@ public class Service : IAuthService
 
     public async Task<LoginResponse> Login(LoginRequest request)
     {
+        if (string.IsNullOrWhiteSpace(request.Email))
+            throw new BadRequestException(ErrMsg.Auth.InvalidEmailOrPassword);
+
         var user = await _userRepository.GetByEmailAsync(request.Email.Trim().ToLower());
 
         if (user == null)
