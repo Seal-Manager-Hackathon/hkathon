@@ -171,7 +171,7 @@ public class SubmissionRepository : ISubmissionRepository
             .OrderByDescending(rd => rd.Submissions
                 .OrderByDescending(s => s.SubmittedAt)
                 .SelectMany(s => s.Scores.Where(sc => sc.TotalScore.HasValue))
-                .Average(sc => (decimal?)sc.TotalScore))
+                .Average(sc => (decimal?)sc.TotalScore) ?? 0m)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
