@@ -401,10 +401,16 @@ public class Service : IRegisterTeamService
             rt.RejectionReason = rejectionReason;
 
         // Mở khóa team — có thể chỉnh sửa lại
+        // NHƯNG chỉ khi team chưa từng được Approved ở event khác
+        // (nếu đã active ở event khác rồi thì giữ CanEdit = false)
         var team = await _teamRepository.GetByIdAsync(rt.TeamId);
         if (team != null)
         {
-            team.CanEdit = true;
+            var hasOtherApproved = await _registerTeamRepository.HasOtherApprovedAsync(rt.TeamId, registerTeamId);
+            if (!hasOtherApproved)
+            {
+                team.CanEdit = true;
+            }
             team.UpdatedAt = DateTimeOffset.UtcNow;
             await _teamRepository.UpdateAsync(team);
         }
