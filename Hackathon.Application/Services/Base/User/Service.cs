@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
@@ -89,9 +90,15 @@ public class Service : IUserProfileService
             user.Address = request.Address;
         if (request.DateOfBirth.HasValue)
             user.DateOfBirth = request.DateOfBirth.Value;
-        if (request.StudentId != null && string.IsNullOrEmpty(user.StudentId))
+        if (request.StudentId != null)
         {
+            if (!string.IsNullOrEmpty(user.StudentId))
+                throw new BadRequestException("StudentId Cannot Be Changed Once Set");
+
             var normalizedId = request.StudentId.Trim().ToUpper();
+
+            if (!Regex.IsMatch(normalizedId, @"^[A-Z]{2}\d{6}$"))
+                throw new BadRequestException("StudentId Must Start With 2 Letters And End With 6 Digits");
 
             var existingUser = await _userRepository.GetByStudentIdAsync(normalizedId);
             if (existingUser != null && existingUser.Id != user.Id)
