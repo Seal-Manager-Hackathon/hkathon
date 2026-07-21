@@ -147,55 +147,32 @@ public class Service : IEventService
             return;
         }
 
-        // === Validate Status transitions ===
+        // ===== Ràng buộc thời gian cơ bản =====
+        var newStartTime = request.StartTime ?? ev.StartTime;
+        var newEndTime = request.EndTime ?? ev.EndTime;
+
+        if (newEndTime <= newStartTime && (request.EndTime.HasValue || request.StartTime.HasValue))
+            throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterStartTime);
+
+        // === Parse enums từ request ===
+        EventStatusEnum? parsedStatus = null;
         if (request.Status != null)
         {
             if (!Enum.TryParse<EventStatusEnum>(request.Status, true, out var status))
                 throw new BadRequestException("Invalid Status. Must be: Draft, Published, Closed");
-
-            // Ko cho hạ từ Published → Draft
-            if (status == EventStatusEnum.Draft && ev.Status == EventStatusEnum.Published)
-                throw new BadRequestException("Cannot Change Status From Published Back To Draft");
-
-            // Ko cho nhảy từ Draft → Closed
-            if (status == EventStatusEnum.Closed && ev.Status == EventStatusEnum.Draft)
-                throw new BadRequestException("Cannot Close A Draft Event Directly. Publish It First");
-
-            // Draft → Published: phải check setup complete
-            if (status == EventStatusEnum.Published && ev.Status == EventStatusEnum.Draft)
-            {
-                var setupCheck = await IsEventSetupComplete(request.EventId);
-                if (!setupCheck.IsComplete)
-                    throw new BadRequestException(
-                        $"Cannot Publish Event. Setup Not Complete. Missing: {string.Join(", ", setupCheck.MissingFields)}");
-            }
-
-            ev.Status = status;
+            parsedStatus = status;
         }
 
-        // ===== Ràng buộc thời gian cơ bản =====
-        // EndTime phải > StartTime (chỉ check nếu có cập nhật thời gian)
-        var startTime = request.StartTime ?? ev.StartTime;
-        var endTime = request.EndTime ?? ev.EndTime;
+        SeasonEnum? season = null;
+        if (!string.IsNullOrWhiteSpace(request.Season))
+        {
+            if (!Enum.TryParse<SeasonEnum>(request.Season, true, out var parsedSeason))
+                throw new BadRequestException("Invalid Season. Must be: Spring, Summer, Autumn, Winter");
+            season = parsedSeason;
+        }
 
-        // [Commented] StartTime phải > hiện tại — bỏ để dễ test
-        //if (startTime <= now && request.StartTime.HasValue)
-        //    throw new BadRequestException(ErrMsg.Event.StartTimeMustBeAfterNow);
-
-        if (endTime <= startTime && (request.EndTime.HasValue || request.StartTime.HasValue))
-            throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterStartTime);
-
-        // [Commented] RegisterLimitTime check — bỏ để dễ test
-        //var registerLimitTime = request.RegisterLimitTime ?? ev.RegisterLimitTime;
-        //if (registerLimitTime.HasValue)
-        //{
-        //    if (registerLimitTime.Value <= startTime && request.RegisterLimitTime.HasValue)
-        //        throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeAfterStartTime);
-        //    if (registerLimitTime.Value >= endTime && request.RegisterLimitTime.HasValue)
-        //        throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeBeforeEndTime);
-        //}
-
-        // === Update fields ===
+        // === Apply field updates BEFORE status transitions ===
+        // để IsEventSetupComplete thấy được dữ liệu mới từ request
         if (request.Name != null)
             ev.Name = request.Name;
         if (request.Description != null)
@@ -204,7 +181,6 @@ public class Service : IEventService
         {
             ev.StartTime = request.StartTime.Value;
 
-            // Cập nhật Year của leader board nếu đã có
             var leaderBoard = await _eventRepository.GetLeaderBoardByEventIdAsync(request.EventId);
             if (leaderBoard != null)
             {
@@ -224,10 +200,30 @@ public class Service : IEventService
         if (request.MaxMember.HasValue)
             ev.MaxMember = request.MaxMember;
         if (request.Season != null)
-        {
-            if (!Enum.TryParse<SeasonEnum>(request.Season, true, out var season))
-                throw new BadRequestException("Invalid Season. Must be: Spring, Summer, Autumn, Winter");
             ev.Season = season;
+
+        // === Validate Status transitions ===
+        if (parsedStatus.HasValue)
+        {
+            var status = parsedStatus.Value;
+
+            if (status == EventStatusEnum.Draft && ev.Status == EventStatusEnum.Published)
+                throw new BadRequestException("Cannot Change Status From Published Back To Draft");
+
+            if (status == EventStatusEnum.Closed && ev.Status == EventStatusEnum.Draft)
+                throw new BadRequestException("Cannot Close A Draft Event Directly. Publish It First");
+
+            // Draft → Published: phải check setup complete
+            // Lúc này ev đã có dữ liệu mới từ request → IsEventSetupComplete check đúng
+            if (status == EventStatusEnum.Published && ev.Status == EventStatusEnum.Draft)
+            {
+                var setupCheck = await IsEventSetupComplete(request.EventId);
+                if (!setupCheck.IsComplete)
+                    throw new BadRequestException(
+                        $"Cannot Publish Event. Setup Not Complete. Missing: {string.Join(", ", setupCheck.MissingFields)}");
+            }
+
+            ev.Status = status;
         }
 
         // IsDisable: Draft muốn show (IsDisable = false) → phải setup đủ
