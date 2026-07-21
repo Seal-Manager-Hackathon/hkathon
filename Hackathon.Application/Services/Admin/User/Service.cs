@@ -284,6 +284,7 @@ public class Service : IUserService
             HashPassword = _passwordService.HashPassword("string"),
             Role = role,
             IsVerified = true,
+            VerifyEmailAt = now,
             Status = UserStatusEnum.Active,
             AvatarUrl = $"https://robohash.org/{request.Email}",
             College = "FPT University",
