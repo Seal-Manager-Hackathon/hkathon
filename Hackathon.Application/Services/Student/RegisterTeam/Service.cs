@@ -371,6 +371,7 @@ public class Service : IRegisterTeamService
                 // Khi đăng ký lại phải khóa team lại
                 team.CanEdit = false;
                 team.UpdatedAt = DateTimeOffset.UtcNow;
+                await _teamRepository.UpdateAsync(team);
 
                 await _unitOfWork.SaveChangesAsync();
 
@@ -418,6 +419,7 @@ public class Service : IRegisterTeamService
         // Khóa team: không thể sửa thông tin hoặc kick member sau khi đã gửi đăng ký
         team.CanEdit = false;
         team.UpdatedAt = now;
+        await _teamRepository.UpdateAsync(team);
 
         await _registerTeamRepository.AddAsync(registerTeam);
         await _unitOfWork.SaveChangesAsync();
