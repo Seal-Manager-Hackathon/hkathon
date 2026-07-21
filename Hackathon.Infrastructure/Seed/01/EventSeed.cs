@@ -20,7 +20,7 @@ public static class EventSeed
                 LimitTeam = 20,
                 MinMember = 2,
                 MaxMember = 4,
-                Status = EventStatusEnum.Published,
+                Status = EventStatusEnum.Closed,
                 NumberRound = 2,
                 Season = SeasonEnum.Winter,
                 IsDisable = false,
@@ -29,14 +29,14 @@ public static class EventSeed
             },
 
             // 10 New Seed Events
-            CreateEvent(Guid.Parse("20000000-0000-0000-0000-000000000010"), "Tech Startup Challenge 2024", 2024, EventStatusEnum.Published, false),
-            CreateEvent(Guid.Parse("20000000-0000-0000-0000-000000000011"), "Green Innovators Cup 2024", 2024, EventStatusEnum.Published, false),
-            CreateEvent(Guid.Parse("20000000-0000-0000-0000-000000000012"), "Cyber Security Arena 2025", 2025, EventStatusEnum.Published, false),
-            CreateEvent(Guid.Parse("20000000-0000-0000-0000-000000000013"), "AI HackFest 2025", 2025, EventStatusEnum.Published, false),
-            CreateEvent(Guid.Parse("20000000-0000-0000-0000-000000000014"), "Web3 DevCon 2025", 2025, EventStatusEnum.Published, true), // Disabled event
-            CreateEvent(Guid.Parse("20000000-0000-0000-0000-000000000015"), "SEAL Coding Battle 2026", 2026, EventStatusEnum.Published, false),
-            CreateEvent(Guid.Parse("20000000-0000-0000-0000-000000000016"), "Cloud Builders Cup 2026", 2026, EventStatusEnum.Published, false),
-            CreateEvent(Guid.Parse("20000000-0000-0000-0000-000000000017"), "Data Science Hackathon 2026", 2026, EventStatusEnum.Published, true), // Disabled event
+            CreateEvent(Guid.Parse("20000000-0000-0000-0000-000000000010"), "Tech Startup Challenge 2024", 2024, EventStatusEnum.Closed, false),
+            CreateEvent(Guid.Parse("20000000-0000-0000-0000-000000000011"), "Green Innovators Cup 2024", 2024, EventStatusEnum.Closed, false),
+            CreateEvent(Guid.Parse("20000000-0000-0000-0000-000000000012"), "Cyber Security Arena 2025", 2025, EventStatusEnum.Closed, false),
+            CreateEvent(Guid.Parse("20000000-0000-0000-0000-000000000013"), "AI HackFest 2025", 2025, EventStatusEnum.Closed, false),
+            CreateEvent(Guid.Parse("20000000-0000-0000-0000-000000000014"), "Web3 DevCon 2025", 2025, EventStatusEnum.Closed, true), // Disabled event
+            CreateEvent(Guid.Parse("20000000-0000-0000-0000-000000000015"), "SEAL Coding Battle 2026", 2026, EventStatusEnum.Closed, false),
+            CreateEvent(Guid.Parse("20000000-0000-0000-0000-000000000016"), "Cloud Builders Cup 2026", 2026, EventStatusEnum.Closed, false),
+            CreateEvent(Guid.Parse("20000000-0000-0000-0000-000000000017"), "Data Science Hackathon 2026", 2026, EventStatusEnum.Closed, true), // Disabled event
             CreateEvent(Guid.Parse("20000000-0000-0000-0000-000000000018"), "IoT Smart City 2027", 2027, EventStatusEnum.Published, false),
             CreateEvent(Guid.Parse("20000000-0000-0000-0000-000000000019"), "Robotics Summit 2027", 2027, EventStatusEnum.Published, false)
         );
@@ -57,7 +57,7 @@ public static class EventSeed
             MinMember = 2,
             MaxMember = 5,
             Status = status,
-            NumberRound = 3,
+            NumberRound = 1,
             Season = SeasonEnum.Winter,
             IsDisable = isDisable,
             CreatedAt = SeedConstants.CreatedAt,

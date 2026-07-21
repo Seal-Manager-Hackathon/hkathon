@@ -15,7 +15,7 @@ public static class NotificationSeed
                 Id = Guid.Parse("70000000-0000-0000-0000-000000000001"),
                 TeamId = SeedConstants.GreenCodersTeamId,
                 UserId = SeedConstants.StudentMemberUserId,
-                LimitTime = SeedConstants.CreatedAt.AddDays(3),
+                LimitTime = new DateTimeOffset(2027, 1, 1, 0, 0, 0, TimeSpan.Zero),
                 Status = InvitationStatusEnum.Pending,
                 Description = "Seed invitation",
                 IsDisable = false,
@@ -41,7 +41,6 @@ public static class NotificationSeed
             {
                 Id = Guid.Parse("71000000-0000-0000-0000-000000000001"),
                 UserId = SeedConstants.StudentLeaderUserId,
-                TeamId = SeedConstants.SeedInnovatorsTeamId,
                 Title = "Registration approved",
                 Status = NotificationStatusEnum.Unread,
                 Description = "Your team registration has been approved",
@@ -52,16 +51,16 @@ public static class NotificationSeed
             },
 
             // 10 New Notifications
-            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000010"), Guid.Parse("10000000-0000-0000-0000-000000000010"), Guid.Parse("30000000-0000-0000-0000-000000000010"), "New Team Created"),
-            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000011"), Guid.Parse("10000000-0000-0000-0000-000000000011"), Guid.Parse("30000000-0000-0000-0000-000000000011"), "New Team Created"),
-            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000012"), Guid.Parse("10000000-0000-0000-0000-000000000012"), Guid.Parse("30000000-0000-0000-0000-000000000012"), "New Team Created"),
-            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000013"), Guid.Parse("10000000-0000-0000-0000-000000000013"), Guid.Parse("30000000-0000-0000-0000-000000000013"), "New Team Created"),
-            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000014"), Guid.Parse("10000000-0000-0000-0000-000000000014"), Guid.Parse("30000000-0000-0000-0000-000000000014"), "New Team Created"),
-            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000015"), Guid.Parse("10000000-0000-0000-0000-000000000015"), Guid.Parse("30000000-0000-0000-0000-000000000015"), "New Team Created"),
-            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000016"), Guid.Parse("10000000-0000-0000-0000-000000000016"), Guid.Parse("30000000-0000-0000-0000-000000000016"), "New Team Created"),
-            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000017"), Guid.Parse("10000000-0000-0000-0000-000000000017"), Guid.Parse("30000000-0000-0000-0000-000000000017"), "New Team Created"),
-            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000018"), Guid.Parse("10000000-0000-0000-0000-000000000018"), Guid.Parse("30000000-0000-0000-0000-000000000018"), "New Team Created"),
-            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000019"), Guid.Parse("10000000-0000-0000-0000-000000000019"), Guid.Parse("30000000-0000-0000-0000-000000000019"), "New Team Created")
+            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000010"), Guid.Parse("10000000-0000-0000-0000-000000000010"), "New Team Created"),
+            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000011"), Guid.Parse("10000000-0000-0000-0000-000000000011"), "New Team Created"),
+            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000012"), Guid.Parse("10000000-0000-0000-0000-000000000012"), "New Team Created"),
+            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000013"), Guid.Parse("10000000-0000-0000-0000-000000000013"), "New Team Created"),
+            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000014"), Guid.Parse("10000000-0000-0000-0000-000000000014"), "New Team Created"),
+            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000015"), Guid.Parse("10000000-0000-0000-0000-000000000015"), "New Team Created"),
+            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000016"), Guid.Parse("10000000-0000-0000-0000-000000000016"), "New Team Created"),
+            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000017"), Guid.Parse("10000000-0000-0000-0000-000000000017"), "New Team Created"),
+            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000018"), Guid.Parse("10000000-0000-0000-0000-000000000018"), "New Team Created"),
+            CreateNotification(Guid.Parse("71000000-0000-0000-0000-000000000019"), Guid.Parse("10000000-0000-0000-0000-000000000019"), "New Team Created")
         );
 
         modelBuilder.Entity<MentorNotifications>().HasData(
@@ -97,7 +96,7 @@ public static class NotificationSeed
             Id = id,
             TeamId = teamId,
             UserId = userId,
-            LimitTime = SeedConstants.CreatedAt.AddDays(3),
+            LimitTime = new DateTimeOffset(2027, 1, 1, 0, 0, 0, TimeSpan.Zero),
             Status = InvitationStatusEnum.Pending,
             Description = "Seed invitation detail",
             IsDisable = false,
@@ -106,13 +105,12 @@ public static class NotificationSeed
         };
     }
 
-    private static Notifications CreateNotification(Guid id, Guid userId, Guid teamId, string title)
+    private static Notifications CreateNotification(Guid id, Guid userId, string title)
     {
         return new Notifications
         {
             Id = id,
             UserId = userId,
-            TeamId = teamId,
             Title = title,
             Status = NotificationStatusEnum.Unread,
             Description = $"Notification for team activity in {title}",

@@ -289,6 +289,106 @@ namespace Hackathon.Infrastructure.Migrations
                         },
                         new
                         {
+                            Id = new Guid("40000000-0000-0000-0000-000000000040"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000010"),
+                            EventRoleId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            IsDisable = false,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000004")
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000041"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000011"),
+                            EventRoleId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            IsDisable = false,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000004")
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000042"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000012"),
+                            EventRoleId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            IsDisable = false,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000004")
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000043"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000013"),
+                            EventRoleId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            IsDisable = false,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000004")
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000044"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000014"),
+                            EventRoleId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            IsDisable = false,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000004")
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000045"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000015"),
+                            EventRoleId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            IsDisable = false,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000004")
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000046"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000016"),
+                            EventRoleId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            IsDisable = false,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000004")
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000047"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000017"),
+                            EventRoleId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            IsDisable = false,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000004")
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000048"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000018"),
+                            EventRoleId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            IsDisable = false,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000004")
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000049"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000019"),
+                            EventRoleId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            IsDisable = false,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000004")
+                        },
+                        new
+                        {
                             Id = new Guid("40000000-0000-0000-0000-000000000100"),
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             EventId = new Guid("20000000-0000-0000-0000-000000000100"),
@@ -586,6 +686,16 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-000000000294")
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000060"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000060"),
+                            EventRoleId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            IsDisable = true,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000004")
                         });
                 });
 
@@ -731,6 +841,96 @@ namespace Hackathon.Infrastructure.Migrations
                         {
                             Id = new Guid("41000000-0000-0000-0000-000000000019"),
                             AssignEventId = new Guid("40000000-0000-0000-0000-000000000019"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000019"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000040"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000040"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000010"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000041"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000041"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000011"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000042"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000042"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000012"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000043"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000043"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000013"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000044"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000044"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000014"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000045"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000045"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000015"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000046"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000046"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000016"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000047"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000047"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000017"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000048"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000048"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000018"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000049"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000049"),
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             TrackId = new Guid("24000000-0000-0000-0000-000000000019"),
@@ -915,6 +1115,33 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             TrackId = new Guid("24000000-0000-0000-0000-000000000204"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000300"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000100"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000101"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000301"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000120"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000101"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000060"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000060"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = true,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000060"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -1166,6 +1393,19 @@ namespace Hackathon.Infrastructure.Migrations
                             NumberOfAward = 1,
                             Prize = 3000000m,
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("26000000-0000-0000-0000-000000000060"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Soft-deleted award",
+                            EventId = new Guid("20000000-0000-0000-0000-000000000060"),
+                            IsDisable = true,
+                            LevelAward = 1,
+                            Name = "Deleted Award",
+                            NumberOfAward = 1,
+                            Prize = 1000m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -2017,6 +2257,17 @@ namespace Hackathon.Infrastructure.Migrations
                             Name = "Impact",
                             Score = 10m,
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("23000000-0000-0000-0000-000000000060"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CriteriaTemplateId = new Guid("22000000-0000-0000-0000-000000000060"),
+                            Description = "Soft-deleted criterion",
+                            IsDisable = true,
+                            Name = "Deleted Criterion",
+                            Score = 100m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -2060,7 +2311,7 @@ namespace Hackathon.Infrastructure.Migrations
                             Id = new Guid("22000000-0000-0000-0000-000000000001"),
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Criteria for idea validation",
-                            IsActive = false,
+                            IsActive = true,
                             IsDisable = false,
                             RoundId = new Guid("21000000-0000-0000-0000-000000000001"),
                             Title = "Idea Evaluation Template",
@@ -2071,7 +2322,7 @@ namespace Hackathon.Infrastructure.Migrations
                             Id = new Guid("22000000-0000-0000-0000-000000000002"),
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Criteria for final demo",
-                            IsActive = false,
+                            IsActive = true,
                             IsDisable = false,
                             RoundId = new Guid("21000000-0000-0000-0000-000000000002"),
                             Title = "Final Demo Evaluation Template",
@@ -2082,7 +2333,7 @@ namespace Hackathon.Infrastructure.Migrations
                             Id = new Guid("22000000-0000-0000-0000-000000000010"),
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Evaluation template details for Startup Pitch Template",
-                            IsActive = false,
+                            IsActive = true,
                             IsDisable = false,
                             RoundId = new Guid("21000000-0000-0000-0000-000000000010"),
                             Title = "Startup Pitch Template",
@@ -2093,7 +2344,7 @@ namespace Hackathon.Infrastructure.Migrations
                             Id = new Guid("22000000-0000-0000-0000-000000000011"),
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Evaluation template details for Green Tech Template",
-                            IsActive = false,
+                            IsActive = true,
                             IsDisable = false,
                             RoundId = new Guid("21000000-0000-0000-0000-000000000011"),
                             Title = "Green Tech Template",
@@ -2104,7 +2355,7 @@ namespace Hackathon.Infrastructure.Migrations
                             Id = new Guid("22000000-0000-0000-0000-000000000012"),
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Evaluation template details for SecOps Template",
-                            IsActive = false,
+                            IsActive = true,
                             IsDisable = false,
                             RoundId = new Guid("21000000-0000-0000-0000-000000000012"),
                             Title = "SecOps Template",
@@ -2115,7 +2366,7 @@ namespace Hackathon.Infrastructure.Migrations
                             Id = new Guid("22000000-0000-0000-0000-000000000013"),
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Evaluation template details for AI Evaluation Template",
-                            IsActive = false,
+                            IsActive = true,
                             IsDisable = false,
                             RoundId = new Guid("21000000-0000-0000-0000-000000000013"),
                             Title = "AI Evaluation Template",
@@ -2126,7 +2377,7 @@ namespace Hackathon.Infrastructure.Migrations
                             Id = new Guid("22000000-0000-0000-0000-000000000014"),
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Evaluation template details for Web3 Template",
-                            IsActive = false,
+                            IsActive = true,
                             IsDisable = false,
                             RoundId = new Guid("21000000-0000-0000-0000-000000000014"),
                             Title = "Web3 Template",
@@ -2137,7 +2388,7 @@ namespace Hackathon.Infrastructure.Migrations
                             Id = new Guid("22000000-0000-0000-0000-000000000015"),
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Evaluation template details for Algorithm Performance Template",
-                            IsActive = false,
+                            IsActive = true,
                             IsDisable = false,
                             RoundId = new Guid("21000000-0000-0000-0000-000000000015"),
                             Title = "Algorithm Performance Template",
@@ -2148,7 +2399,7 @@ namespace Hackathon.Infrastructure.Migrations
                             Id = new Guid("22000000-0000-0000-0000-000000000016"),
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Evaluation template details for Cloud Scaling Template",
-                            IsActive = false,
+                            IsActive = true,
                             IsDisable = false,
                             RoundId = new Guid("21000000-0000-0000-0000-000000000016"),
                             Title = "Cloud Scaling Template",
@@ -2159,7 +2410,7 @@ namespace Hackathon.Infrastructure.Migrations
                             Id = new Guid("22000000-0000-0000-0000-000000000017"),
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Evaluation template details for Data Science Evaluation Template",
-                            IsActive = false,
+                            IsActive = true,
                             IsDisable = false,
                             RoundId = new Guid("21000000-0000-0000-0000-000000000017"),
                             Title = "Data Science Evaluation Template",
@@ -2170,7 +2421,7 @@ namespace Hackathon.Infrastructure.Migrations
                             Id = new Guid("22000000-0000-0000-0000-000000000018"),
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Evaluation template details for Smart Grids Template",
-                            IsActive = false,
+                            IsActive = true,
                             IsDisable = false,
                             RoundId = new Guid("21000000-0000-0000-0000-000000000018"),
                             Title = "Smart Grids Template",
@@ -2181,7 +2432,7 @@ namespace Hackathon.Infrastructure.Migrations
                             Id = new Guid("22000000-0000-0000-0000-000000000019"),
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Evaluation template details for Robotics Control Template",
-                            IsActive = false,
+                            IsActive = true,
                             IsDisable = false,
                             RoundId = new Guid("21000000-0000-0000-0000-000000000019"),
                             Title = "Robotics Control Template",
@@ -2318,6 +2569,17 @@ namespace Hackathon.Infrastructure.Migrations
                             RoundId = new Guid("21000000-0000-0000-0000-000000000201"),
                             Title = "Backup Evaluation 2",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("22000000-0000-0000-0000-000000000060"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Soft-deleted criteria template",
+                            IsActive = false,
+                            IsDisable = true,
+                            RoundId = new Guid("21000000-0000-0000-0000-000000000060"),
+                            Title = "Deleted Template",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -2476,6 +2738,28 @@ namespace Hackathon.Infrastructure.Migrations
                             TokenHash = "verify-14000000-0000-0000-0000-000000000019",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-000000000019")
+                        },
+                        new
+                        {
+                            Id = new Guid("14000000-0000-0000-0000-000000000050"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            ExpiredAt = new DateTimeOffset(new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            Status = "Pending",
+                            TokenHash = "pending-verification-scenario",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000053")
+                        },
+                        new
+                        {
+                            Id = new Guid("14000000-0000-0000-0000-000000000051"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            ExpiredAt = new DateTimeOffset(new DateTime(2026, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            Status = "Expired",
+                            TokenHash = "expired-verification-scenario",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000054")
                         });
                 });
 
@@ -2598,7 +2882,7 @@ namespace Hackathon.Infrastructure.Migrations
                             RegisterLimitTime = new DateTimeOffset(new DateTime(2026, 6, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Season = 3,
                             StartTime = new DateTimeOffset(new DateTime(2026, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            Status = "Published",
+                            Status = "Closed",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -2612,11 +2896,11 @@ namespace Hackathon.Infrastructure.Migrations
                             MaxMember = 5,
                             MinMember = 2,
                             Name = "Tech Startup Challenge 2024",
-                            NumberRound = 3,
+                            NumberRound = 1,
                             RegisterLimitTime = new DateTimeOffset(new DateTime(2024, 6, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Season = 3,
                             StartTime = new DateTimeOffset(new DateTime(2024, 6, 15, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            Status = "Published",
+                            Status = "Closed",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -2630,11 +2914,11 @@ namespace Hackathon.Infrastructure.Migrations
                             MaxMember = 5,
                             MinMember = 2,
                             Name = "Green Innovators Cup 2024",
-                            NumberRound = 3,
+                            NumberRound = 1,
                             RegisterLimitTime = new DateTimeOffset(new DateTime(2024, 6, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Season = 3,
                             StartTime = new DateTimeOffset(new DateTime(2024, 6, 15, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            Status = "Published",
+                            Status = "Closed",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -2648,11 +2932,11 @@ namespace Hackathon.Infrastructure.Migrations
                             MaxMember = 5,
                             MinMember = 2,
                             Name = "Cyber Security Arena 2025",
-                            NumberRound = 3,
+                            NumberRound = 1,
                             RegisterLimitTime = new DateTimeOffset(new DateTime(2025, 6, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Season = 3,
                             StartTime = new DateTimeOffset(new DateTime(2025, 6, 15, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            Status = "Published",
+                            Status = "Closed",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -2666,11 +2950,11 @@ namespace Hackathon.Infrastructure.Migrations
                             MaxMember = 5,
                             MinMember = 2,
                             Name = "AI HackFest 2025",
-                            NumberRound = 3,
+                            NumberRound = 1,
                             RegisterLimitTime = new DateTimeOffset(new DateTime(2025, 6, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Season = 3,
                             StartTime = new DateTimeOffset(new DateTime(2025, 6, 15, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            Status = "Published",
+                            Status = "Closed",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -2684,11 +2968,11 @@ namespace Hackathon.Infrastructure.Migrations
                             MaxMember = 5,
                             MinMember = 2,
                             Name = "Web3 DevCon 2025",
-                            NumberRound = 3,
+                            NumberRound = 1,
                             RegisterLimitTime = new DateTimeOffset(new DateTime(2025, 6, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Season = 3,
                             StartTime = new DateTimeOffset(new DateTime(2025, 6, 15, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            Status = "Published",
+                            Status = "Closed",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -2702,11 +2986,11 @@ namespace Hackathon.Infrastructure.Migrations
                             MaxMember = 5,
                             MinMember = 2,
                             Name = "SEAL Coding Battle 2026",
-                            NumberRound = 3,
+                            NumberRound = 1,
                             RegisterLimitTime = new DateTimeOffset(new DateTime(2026, 6, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Season = 3,
                             StartTime = new DateTimeOffset(new DateTime(2026, 6, 15, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            Status = "Published",
+                            Status = "Closed",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -2720,11 +3004,11 @@ namespace Hackathon.Infrastructure.Migrations
                             MaxMember = 5,
                             MinMember = 2,
                             Name = "Cloud Builders Cup 2026",
-                            NumberRound = 3,
+                            NumberRound = 1,
                             RegisterLimitTime = new DateTimeOffset(new DateTime(2026, 6, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Season = 3,
                             StartTime = new DateTimeOffset(new DateTime(2026, 6, 15, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            Status = "Published",
+                            Status = "Closed",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -2738,11 +3022,11 @@ namespace Hackathon.Infrastructure.Migrations
                             MaxMember = 5,
                             MinMember = 2,
                             Name = "Data Science Hackathon 2026",
-                            NumberRound = 3,
+                            NumberRound = 1,
                             RegisterLimitTime = new DateTimeOffset(new DateTime(2026, 6, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Season = 3,
                             StartTime = new DateTimeOffset(new DateTime(2026, 6, 15, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            Status = "Published",
+                            Status = "Closed",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -2756,7 +3040,7 @@ namespace Hackathon.Infrastructure.Migrations
                             MaxMember = 5,
                             MinMember = 2,
                             Name = "IoT Smart City 2027",
-                            NumberRound = 3,
+                            NumberRound = 1,
                             RegisterLimitTime = new DateTimeOffset(new DateTime(2027, 6, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Season = 3,
                             StartTime = new DateTimeOffset(new DateTime(2027, 6, 15, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
@@ -2774,7 +3058,7 @@ namespace Hackathon.Infrastructure.Migrations
                             MaxMember = 5,
                             MinMember = 2,
                             Name = "Robotics Summit 2027",
-                            NumberRound = 3,
+                            NumberRound = 1,
                             RegisterLimitTime = new DateTimeOffset(new DateTime(2027, 6, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Season = 3,
                             StartTime = new DateTimeOffset(new DateTime(2027, 6, 15, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
@@ -2816,6 +3100,42 @@ namespace Hackathon.Infrastructure.Migrations
                             StartTime = new DateTimeOffset(new DateTime(2026, 8, 1, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
                             Status = "Published",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0000-0000-0000-000000000050"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Incomplete hidden draft used for setup and publish validation",
+                            EndTime = new DateTimeOffset(new DateTime(2027, 2, 10, 17, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            IsDisable = true,
+                            LimitTeam = 10,
+                            MaxMember = 4,
+                            MinMember = 2,
+                            Name = "Seed Draft Event",
+                            NumberRound = 0,
+                            RegisterLimitTime = new DateTimeOffset(new DateTime(2027, 1, 25, 23, 59, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            Season = 0,
+                            StartTime = new DateTimeOffset(new DateTime(2027, 2, 1, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            Status = "Draft",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0000-0000-0000-000000000060"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 12, 31, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            Description = "Soft-delete coverage graph",
+                            EndTime = new DateTimeOffset(new DateTime(2026, 1, 15, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            IsDisable = true,
+                            LimitTeam = 5,
+                            MaxMember = 4,
+                            MinMember = 1,
+                            Name = "Soft Deleted Event",
+                            NumberRound = 1,
+                            RegisterLimitTime = new DateTimeOffset(new DateTime(2026, 1, 5, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            Season = 3,
+                            StartTime = new DateTimeOffset(new DateTime(2026, 1, 10, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            Status = "Closed",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 1, 15, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
                         });
                 });
 
@@ -2864,7 +3184,7 @@ namespace Hackathon.Infrastructure.Migrations
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Seed invitation",
                             IsDisable = false,
-                            LimitTime = new DateTimeOffset(new DateTime(2026, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LimitTime = new DateTimeOffset(new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Status = "Pending",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000002"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
@@ -2876,7 +3196,7 @@ namespace Hackathon.Infrastructure.Migrations
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Seed invitation detail",
                             IsDisable = false,
-                            LimitTime = new DateTimeOffset(new DateTime(2026, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LimitTime = new DateTimeOffset(new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Status = "Pending",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000010"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
@@ -2888,7 +3208,7 @@ namespace Hackathon.Infrastructure.Migrations
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Seed invitation detail",
                             IsDisable = false,
-                            LimitTime = new DateTimeOffset(new DateTime(2026, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LimitTime = new DateTimeOffset(new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Status = "Pending",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000011"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
@@ -2900,7 +3220,7 @@ namespace Hackathon.Infrastructure.Migrations
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Seed invitation detail",
                             IsDisable = false,
-                            LimitTime = new DateTimeOffset(new DateTime(2026, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LimitTime = new DateTimeOffset(new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Status = "Pending",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000012"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
@@ -2912,7 +3232,7 @@ namespace Hackathon.Infrastructure.Migrations
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Seed invitation detail",
                             IsDisable = false,
-                            LimitTime = new DateTimeOffset(new DateTime(2026, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LimitTime = new DateTimeOffset(new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Status = "Pending",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000013"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
@@ -2924,7 +3244,7 @@ namespace Hackathon.Infrastructure.Migrations
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Seed invitation detail",
                             IsDisable = false,
-                            LimitTime = new DateTimeOffset(new DateTime(2026, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LimitTime = new DateTimeOffset(new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Status = "Pending",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000014"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
@@ -2936,7 +3256,7 @@ namespace Hackathon.Infrastructure.Migrations
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Seed invitation detail",
                             IsDisable = false,
-                            LimitTime = new DateTimeOffset(new DateTime(2026, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LimitTime = new DateTimeOffset(new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Status = "Pending",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000015"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
@@ -2948,7 +3268,7 @@ namespace Hackathon.Infrastructure.Migrations
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Seed invitation detail",
                             IsDisable = false,
-                            LimitTime = new DateTimeOffset(new DateTime(2026, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LimitTime = new DateTimeOffset(new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Status = "Pending",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000016"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
@@ -2960,7 +3280,7 @@ namespace Hackathon.Infrastructure.Migrations
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Seed invitation detail",
                             IsDisable = false,
-                            LimitTime = new DateTimeOffset(new DateTime(2026, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LimitTime = new DateTimeOffset(new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Status = "Pending",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000017"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
@@ -2972,7 +3292,7 @@ namespace Hackathon.Infrastructure.Migrations
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Seed invitation detail",
                             IsDisable = false,
-                            LimitTime = new DateTimeOffset(new DateTime(2026, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LimitTime = new DateTimeOffset(new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Status = "Pending",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000018"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
@@ -2984,11 +3304,47 @@ namespace Hackathon.Infrastructure.Migrations
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Seed invitation detail",
                             IsDisable = false,
-                            LimitTime = new DateTimeOffset(new DateTime(2026, 6, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            LimitTime = new DateTimeOffset(new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Status = "Pending",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000019"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-000000000019")
+                        },
+                        new
+                        {
+                            Id = new Guid("70000000-0000-0000-0000-000000000050"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Accepted invitation scenario",
+                            IsDisable = false,
+                            LimitTime = new DateTimeOffset(new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Status = "Accepted",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000050"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000055")
+                        },
+                        new
+                        {
+                            Id = new Guid("70000000-0000-0000-0000-000000000051"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Rejected invitation scenario",
+                            IsDisable = false,
+                            LimitTime = new DateTimeOffset(new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Status = "Rejected",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000050"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000056")
+                        },
+                        new
+                        {
+                            Id = new Guid("70000000-0000-0000-0000-000000000052"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Expired invitation scenario",
+                            IsDisable = false,
+                            LimitTime = new DateTimeOffset(new DateTime(2026, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Status = "Expired",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000050"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000057")
                         });
                 });
 
@@ -3035,7 +3391,7 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             LeaderBoardId = new Guid("60000000-0000-0000-0000-000000000001"),
                             LevelAward = 1,
-                            Score = 90m,
+                            Score = 175m,
                             TeamId = new Guid("30000000-0000-0000-0000-000000000001"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
@@ -3046,7 +3402,7 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             LeaderBoardId = new Guid("60000000-0000-0000-0000-000000000001"),
                             LevelAward = 2,
-                            Score = 82m,
+                            Score = 160m,
                             TeamId = new Guid("30000000-0000-0000-0000-000000000002"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
@@ -3166,7 +3522,6 @@ namespace Hackathon.Infrastructure.Migrations
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             LeaderBoardId = new Guid("60000000-0000-0000-0000-000000000100"),
-                            LevelAward = 1,
                             Score = 54.2m,
                             TeamId = new Guid("30000000-0000-0000-0000-000000000100"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
@@ -3177,7 +3532,6 @@ namespace Hackathon.Infrastructure.Migrations
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             LeaderBoardId = new Guid("60000000-0000-0000-0000-000000000100"),
-                            LevelAward = 2,
                             Score = 58.6m,
                             TeamId = new Guid("30000000-0000-0000-0000-000000000110"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
@@ -3188,7 +3542,8 @@ namespace Hackathon.Infrastructure.Migrations
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             LeaderBoardId = new Guid("60000000-0000-0000-0000-000000000100"),
-                            Score = 63.2m,
+                            LevelAward = 1,
+                            Score = 153.2m,
                             TeamId = new Guid("30000000-0000-0000-0000-000000000120"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
@@ -3208,6 +3563,7 @@ namespace Hackathon.Infrastructure.Migrations
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             LeaderBoardId = new Guid("60000000-0000-0000-0000-000000000100"),
+                            LevelAward = 2,
                             Score = 72.0m,
                             TeamId = new Guid("30000000-0000-0000-0000-000000000140"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
@@ -3266,7 +3622,7 @@ namespace Hackathon.Infrastructure.Migrations
                             EventId = new Guid("20000000-0000-0000-0000-000000000001"),
                             IsDisable = false,
                             IsLocked = false,
-                            IsPublished = false,
+                            IsPublished = true,
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Year = 2026
                         },
@@ -3277,7 +3633,7 @@ namespace Hackathon.Infrastructure.Migrations
                             EventId = new Guid("20000000-0000-0000-0000-000000000010"),
                             IsDisable = false,
                             IsLocked = false,
-                            IsPublished = false,
+                            IsPublished = true,
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Year = 2024
                         },
@@ -3288,7 +3644,7 @@ namespace Hackathon.Infrastructure.Migrations
                             EventId = new Guid("20000000-0000-0000-0000-000000000011"),
                             IsDisable = false,
                             IsLocked = false,
-                            IsPublished = false,
+                            IsPublished = true,
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Year = 2024
                         },
@@ -3299,7 +3655,7 @@ namespace Hackathon.Infrastructure.Migrations
                             EventId = new Guid("20000000-0000-0000-0000-000000000012"),
                             IsDisable = false,
                             IsLocked = false,
-                            IsPublished = false,
+                            IsPublished = true,
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Year = 2025
                         },
@@ -3310,7 +3666,7 @@ namespace Hackathon.Infrastructure.Migrations
                             EventId = new Guid("20000000-0000-0000-0000-000000000013"),
                             IsDisable = false,
                             IsLocked = false,
-                            IsPublished = false,
+                            IsPublished = true,
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Year = 2025
                         },
@@ -3321,7 +3677,7 @@ namespace Hackathon.Infrastructure.Migrations
                             EventId = new Guid("20000000-0000-0000-0000-000000000014"),
                             IsDisable = false,
                             IsLocked = false,
-                            IsPublished = false,
+                            IsPublished = true,
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Year = 2025
                         },
@@ -3332,7 +3688,7 @@ namespace Hackathon.Infrastructure.Migrations
                             EventId = new Guid("20000000-0000-0000-0000-000000000015"),
                             IsDisable = false,
                             IsLocked = false,
-                            IsPublished = false,
+                            IsPublished = true,
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Year = 2026
                         },
@@ -3343,7 +3699,7 @@ namespace Hackathon.Infrastructure.Migrations
                             EventId = new Guid("20000000-0000-0000-0000-000000000016"),
                             IsDisable = false,
                             IsLocked = false,
-                            IsPublished = false,
+                            IsPublished = true,
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Year = 2026
                         },
@@ -3354,7 +3710,7 @@ namespace Hackathon.Infrastructure.Migrations
                             EventId = new Guid("20000000-0000-0000-0000-000000000017"),
                             IsDisable = false,
                             IsLocked = false,
-                            IsPublished = false,
+                            IsPublished = true,
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Year = 2026
                         },
@@ -3365,7 +3721,7 @@ namespace Hackathon.Infrastructure.Migrations
                             EventId = new Guid("20000000-0000-0000-0000-000000000018"),
                             IsDisable = false,
                             IsLocked = false,
-                            IsPublished = false,
+                            IsPublished = true,
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Year = 2027
                         },
@@ -3376,7 +3732,7 @@ namespace Hackathon.Infrastructure.Migrations
                             EventId = new Guid("20000000-0000-0000-0000-000000000019"),
                             IsDisable = false,
                             IsLocked = false,
-                            IsPublished = false,
+                            IsPublished = true,
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Year = 2027
                         },
@@ -3387,8 +3743,30 @@ namespace Hackathon.Infrastructure.Migrations
                             EventId = new Guid("20000000-0000-0000-0000-000000000100"),
                             IsDisable = false,
                             IsLocked = false,
+                            IsPublished = true,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Year = 2026
+                        },
+                        new
+                        {
+                            Id = new Guid("60000000-0000-0000-0000-000000000200"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000200"),
+                            IsDisable = false,
+                            IsLocked = false,
                             IsPublished = false,
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Year = 2026
+                        },
+                        new
+                        {
+                            Id = new Guid("60000000-0000-0000-0000-000000000060"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000060"),
+                            IsDisable = true,
+                            IsLocked = false,
+                            IsPublished = false,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Year = 2026
                         });
                 });
@@ -3533,6 +3911,16 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Title = "Event Update Notification",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("72000000-0000-0000-0000-000000000060"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000060"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Soft-deleted mentor notification",
+                            IsDisable = true,
+                            Title = "Deleted mentor notification",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -3587,7 +3975,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Unread",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000001"),
                             Title = "Registration approved",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-000000000005")
@@ -3600,7 +3987,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Unread",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000010"),
                             Title = "New Team Created",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-000000000010")
@@ -3613,7 +3999,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Unread",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000011"),
                             Title = "New Team Created",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-000000000011")
@@ -3626,7 +4011,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Unread",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000012"),
                             Title = "New Team Created",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-000000000012")
@@ -3639,7 +4023,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Unread",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000013"),
                             Title = "New Team Created",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-000000000013")
@@ -3652,7 +4035,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Unread",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000014"),
                             Title = "New Team Created",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-000000000014")
@@ -3665,7 +4047,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Unread",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000015"),
                             Title = "New Team Created",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-000000000015")
@@ -3678,7 +4059,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Unread",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000016"),
                             Title = "New Team Created",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-000000000016")
@@ -3691,7 +4071,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Unread",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000017"),
                             Title = "New Team Created",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-000000000017")
@@ -3704,7 +4083,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Unread",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000018"),
                             Title = "New Team Created",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-000000000018")
@@ -3717,7 +4095,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Unread",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000019"),
                             Title = "New Team Created",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-000000000019")
@@ -3730,7 +4107,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Read",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000100"),
                             Title = "Registration Approved",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-0000000000c8")
@@ -3743,7 +4119,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Read",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000110"),
                             Title = "Registration Approved",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-0000000000cb")
@@ -3756,7 +4131,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Read",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000120"),
                             Title = "Registration Approved",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-0000000000ce")
@@ -3769,7 +4143,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Read",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000130"),
                             Title = "Registration Approved",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-0000000000d1")
@@ -3782,7 +4155,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Read",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000140"),
                             Title = "Registration Approved",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-0000000000d4")
@@ -3795,7 +4167,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Read",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000150"),
                             Title = "Registration Approved",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-0000000000d7")
@@ -3808,7 +4179,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Read",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000160"),
                             Title = "Registration Approved",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-0000000000da")
@@ -3821,7 +4191,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Read",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000170"),
                             Title = "Registration Approved",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-0000000000dd")
@@ -3834,7 +4203,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Read",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000180"),
                             Title = "Registration Approved",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-0000000000e0")
@@ -3847,7 +4215,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Read",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000190"),
                             Title = "Registration Approved",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-0000000000e3")
@@ -3860,7 +4227,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Unread",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000200"),
                             Title = "Registration Approved",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-0000000000f0")
@@ -3873,7 +4239,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Unread",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000210"),
                             Title = "Registration Approved",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-0000000000f3")
@@ -3886,7 +4251,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Unread",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000220"),
                             Title = "Registration Approved",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-0000000000f6")
@@ -3899,7 +4263,6 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Unread",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000230"),
                             Title = "Registration Approved",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-0000000000f9")
@@ -3912,10 +4275,67 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Unread",
                             TargetType = "Personal",
-                            TeamId = new Guid("30000000-0000-0000-0000-000000000240"),
                             Title = "Registration Approved",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-0000000000fc")
+                        },
+                        new
+                        {
+                            Id = new Guid("71000000-0000-0000-0000-000000000050"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Personal notification scenario",
+                            IsDisable = false,
+                            Status = "Unread",
+                            TargetType = "Personal",
+                            Title = "Personal scenario",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000055")
+                        },
+                        new
+                        {
+                            Id = new Guid("71000000-0000-0000-0000-000000000051"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Team notification scenario",
+                            IsDisable = false,
+                            Status = "Unread",
+                            TargetType = "Team",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000050"),
+                            Title = "Team scenario",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("71000000-0000-0000-0000-000000000052"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "System notification scenario",
+                            IsDisable = false,
+                            Status = "Read",
+                            TargetType = "System",
+                            Title = "System scenario",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("71000000-0000-0000-0000-000000000053"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Personal notification scenario",
+                            IsDisable = true,
+                            Status = "Unread",
+                            TargetType = "Personal",
+                            Title = "Deleted notification",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000056")
+                        },
+                        new
+                        {
+                            Id = new Guid("71000000-0000-0000-0000-000000000054"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "System notification scenario",
+                            IsDisable = false,
+                            Status = "Pending",
+                            TargetType = "System",
+                            Title = "Pending notification",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -4105,6 +4525,46 @@ namespace Hackathon.Infrastructure.Migrations
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserAgent = "Seed Agent",
                             UserId = new Guid("10000000-0000-0000-0000-000000000019")
+                        },
+                        new
+                        {
+                            Id = new Guid("12000000-0000-0000-0000-000000000050"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeviceLabel = "Scenario Device",
+                            ExpiredAt = new DateTimeOffset(new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IpAddress = "127.0.0.1",
+                            IsDisable = false,
+                            RefreshTokenHash = "refresh-50-scenario",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserAgent = "Seed Agent",
+                            UserId = new Guid("10000000-0000-0000-0000-000000000055")
+                        },
+                        new
+                        {
+                            Id = new Guid("12000000-0000-0000-0000-000000000051"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeviceLabel = "Scenario Device",
+                            ExpiredAt = new DateTimeOffset(new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IpAddress = "127.0.0.1",
+                            IsDisable = false,
+                            RefreshTokenHash = "refresh-51-scenario",
+                            RevokedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserAgent = "Seed Agent",
+                            UserId = new Guid("10000000-0000-0000-0000-000000000056")
+                        },
+                        new
+                        {
+                            Id = new Guid("12000000-0000-0000-0000-000000000052"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DeviceLabel = "Scenario Device",
+                            ExpiredAt = new DateTimeOffset(new DateTime(2026, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IpAddress = "127.0.0.1",
+                            IsDisable = false,
+                            RefreshTokenHash = "refresh-52-scenario",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserAgent = "Seed Agent",
+                            UserId = new Guid("10000000-0000-0000-0000-000000000057")
                         });
                 });
 
@@ -4170,6 +4630,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Approved",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000001"),
+                            TopicId = new Guid("25000000-0000-0000-0000-000000000001"),
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000001"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -4182,6 +4644,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Approved",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000002"),
+                            TopicId = new Guid("25000000-0000-0000-0000-000000000002"),
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000002"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -4194,6 +4658,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Approved",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000010"),
+                            TopicId = new Guid("25000000-0000-0000-0000-000000000010"),
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000010"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -4206,6 +4672,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Approved",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000011"),
+                            TopicId = new Guid("25000000-0000-0000-0000-000000000011"),
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000011"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -4218,6 +4686,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Approved",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000012"),
+                            TopicId = new Guid("25000000-0000-0000-0000-000000000012"),
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000012"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -4230,6 +4700,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Approved",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000013"),
+                            TopicId = new Guid("25000000-0000-0000-0000-000000000013"),
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000013"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -4242,6 +4714,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Approved",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000014"),
+                            TopicId = new Guid("25000000-0000-0000-0000-000000000014"),
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000014"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -4254,6 +4728,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Approved",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000015"),
+                            TopicId = new Guid("25000000-0000-0000-0000-000000000015"),
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000015"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -4266,6 +4742,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Approved",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000016"),
+                            TopicId = new Guid("25000000-0000-0000-0000-000000000016"),
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000016"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -4278,6 +4756,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Approved",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000017"),
+                            TopicId = new Guid("25000000-0000-0000-0000-000000000017"),
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000017"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -4290,6 +4770,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Approved",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000018"),
+                            TopicId = new Guid("25000000-0000-0000-0000-000000000018"),
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000018"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -4302,6 +4784,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Status = "Approved",
                             TeamId = new Guid("30000000-0000-0000-0000-000000000019"),
+                            TopicId = new Guid("25000000-0000-0000-0000-000000000019"),
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000019"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -4655,6 +5139,49 @@ namespace Hackathon.Infrastructure.Migrations
                             TopicId = new Guid("25000000-0000-0000-0000-000000000204"),
                             TrackId = new Guid("24000000-0000-0000-0000-000000000204"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("31000000-0000-0000-0000-000000000050"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Approved isolated score lifecycle scenario",
+                            EventId = new Guid("20000000-0000-0000-0000-000000000014"),
+                            IsBanned = false,
+                            IsDisable = false,
+                            Status = "Approved",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000050"),
+                            TopicId = new Guid("25000000-0000-0000-0000-000000000014"),
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000014"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("31000000-0000-0000-0000-000000000051"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Banned registration scenario",
+                            EventId = new Guid("20000000-0000-0000-0000-000000000018"),
+                            IsBanned = true,
+                            IsDisable = false,
+                            RejectionReason = "Seed policy violation",
+                            Status = "Banned",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000051"),
+                            TopicId = new Guid("25000000-0000-0000-0000-000000000018"),
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000018"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("31000000-0000-0000-0000-000000000060"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Soft-deleted registration",
+                            EventId = new Guid("20000000-0000-0000-0000-000000000060"),
+                            IsBanned = false,
+                            IsDisable = true,
+                            Status = "Approved",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000060"),
+                            TopicId = new Guid("25000000-0000-0000-0000-000000000060"),
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000060"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -4840,6 +5367,58 @@ namespace Hackathon.Infrastructure.Migrations
                             TypeReport = "Submission",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-000000000004")
+                        },
+                        new
+                        {
+                            Id = new Guid("73000000-0000-0000-0000-000000000050"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Report state coverage",
+                            IsDisable = false,
+                            Reason = "Report rejected after review",
+                            Status = "Reject",
+                            Title = "Reject report scenario",
+                            TypeReport = "Submission",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000004")
+                        },
+                        new
+                        {
+                            Id = new Guid("73000000-0000-0000-0000-000000000051"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Report state coverage",
+                            IsDisable = false,
+                            Reason = "Issue resolved by administrator",
+                            Status = "Resolved",
+                            Title = "Resolved report scenario",
+                            TypeReport = "Submission",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000004")
+                        },
+                        new
+                        {
+                            Id = new Guid("73000000-0000-0000-0000-000000000052"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Report state coverage",
+                            IsDisable = false,
+                            Reason = "Reporter canceled the request",
+                            Status = "Canceled",
+                            Title = "Canceled report scenario",
+                            TypeReport = "Submission",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000004")
+                        },
+                        new
+                        {
+                            Id = new Guid("73000000-0000-0000-0000-000000000053"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Report state coverage",
+                            IsDisable = true,
+                            Reason = "Soft-deleted report",
+                            Status = "Pending",
+                            Title = "Pending report scenario",
+                            TypeReport = "Submission",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000004")
                         });
                 });
 
@@ -4998,6 +5577,39 @@ namespace Hackathon.Infrastructure.Migrations
                             TokenHash = "reset-13000000-0000-0000-0000-000000000019",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-000000000019")
+                        },
+                        new
+                        {
+                            Id = new Guid("13000000-0000-0000-0000-000000000050"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            ExpiresAt = new DateTimeOffset(new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsUsed = false,
+                            TokenHash = "active-reset-scenario",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000053")
+                        },
+                        new
+                        {
+                            Id = new Guid("13000000-0000-0000-0000-000000000051"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            ExpiresAt = new DateTimeOffset(new DateTime(2027, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsUsed = true,
+                            TokenHash = "used-reset-scenario",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000055")
+                        },
+                        new
+                        {
+                            Id = new Guid("13000000-0000-0000-0000-000000000052"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            ExpiresAt = new DateTimeOffset(new DateTime(2026, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsUsed = false,
+                            TokenHash = "expired-reset-scenario",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000056")
                         });
                 });
 
@@ -5291,6 +5903,42 @@ namespace Hackathon.Infrastructure.Migrations
                             RegisterTeamId = new Guid("31000000-0000-0000-0000-000000000190"),
                             RoundId = new Guid("21000000-0000-0000-0000-000000000100"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("32000000-0000-0000-0000-000000000300"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 21, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            IsDisable = false,
+                            RegisterTeamId = new Guid("31000000-0000-0000-0000-000000000110"),
+                            RoundId = new Guid("21000000-0000-0000-0000-000000000101"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 21, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("32000000-0000-0000-0000-000000000301"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 21, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            IsDisable = false,
+                            RegisterTeamId = new Guid("31000000-0000-0000-0000-000000000120"),
+                            RoundId = new Guid("21000000-0000-0000-0000-000000000101"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 21, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("32000000-0000-0000-0000-000000000050"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            RegisterTeamId = new Guid("31000000-0000-0000-0000-000000000050"),
+                            RoundId = new Guid("21000000-0000-0000-0000-000000000014"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("32000000-0000-0000-0000-000000000060"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = true,
+                            RegisterTeamId = new Guid("31000000-0000-0000-0000-000000000060"),
+                            RoundId = new Guid("21000000-0000-0000-0000-000000000060"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -5349,7 +5997,7 @@ namespace Hackathon.Infrastructure.Migrations
                             Id = new Guid("21000000-0000-0000-0000-000000000001"),
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Submit and validate the idea",
-                            EndSubmission = new DateTimeOffset(new DateTime(2026, 6, 23, 23, 59, 59, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EndSubmission = new DateTimeOffset(new DateTime(2026, 6, 21, 12, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             EndTime = new DateTimeOffset(new DateTime(2026, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             EventId = new Guid("20000000-0000-0000-0000-000000000001"),
                             IsDisable = false,
@@ -5599,6 +6247,22 @@ namespace Hackathon.Infrastructure.Migrations
                             StartSubmission = new DateTimeOffset(new DateTime(2026, 8, 25, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
                             StartTime = new DateTimeOffset(new DateTime(2026, 8, 25, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("21000000-0000-0000-0000-000000000060"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 1, 9, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            Description = "Soft-deleted round",
+                            EndSubmission = new DateTimeOffset(new DateTime(2026, 1, 10, 20, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            EndTime = new DateTimeOffset(new DateTime(2026, 1, 11, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000060"),
+                            IsDisable = true,
+                            LimitTeam = 5,
+                            Name = "Deleted Round",
+                            RoundNo = 1,
+                            StartSubmission = new DateTimeOffset(new DateTime(2026, 1, 10, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2026, 1, 10, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 1, 11, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
                         });
                 });
 
@@ -5737,6 +6401,126 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Score = 42m,
                             ScoreId = new Guid("50000000-0000-0000-0000-000000000004"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000000010"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000040"),
+                            Comment = "Paging event evaluation",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000010"),
+                            IsDisable = false,
+                            Score = 85m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000010"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000000011"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000041"),
+                            Comment = "Paging event evaluation",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000011"),
+                            IsDisable = false,
+                            Score = 89m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000011"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000000012"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000042"),
+                            Comment = "Paging event evaluation",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000012"),
+                            IsDisable = false,
+                            Score = 91m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000012"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000000013"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000043"),
+                            Comment = "Paging event evaluation",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000013"),
+                            IsDisable = false,
+                            Score = 78m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000013"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000000014"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000044"),
+                            Comment = "Paging event evaluation",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000014"),
+                            IsDisable = false,
+                            Score = 88m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000014"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000000015"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000045"),
+                            Comment = "Paging event evaluation",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000015"),
+                            IsDisable = false,
+                            Score = 92m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000015"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000000016"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000046"),
+                            Comment = "Paging event evaluation",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000016"),
+                            IsDisable = false,
+                            Score = 87m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000016"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000000017"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000047"),
+                            Comment = "Paging event evaluation",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000017"),
+                            IsDisable = false,
+                            Score = 83m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000017"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000000018"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000048"),
+                            Comment = "Paging event evaluation",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000018"),
+                            IsDisable = false,
+                            Score = 95m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000018"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000000019"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000049"),
+                            Comment = "Paging event evaluation",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000019"),
+                            IsDisable = false,
+                            Score = 94m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000019"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
@@ -6098,6 +6882,150 @@ namespace Hackathon.Infrastructure.Migrations
                             Score = 10m,
                             ScoreId = new Guid("50000000-0000-0000-0000-000000000150"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000003000"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000110"),
+                            Comment = "Good final submission",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000105"),
+                            IsDisable = false,
+                            Score = 24m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000300"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000003010"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000110"),
+                            Comment = "Good final submission",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000106"),
+                            IsDisable = false,
+                            Score = 20m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000300"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000003020"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000110"),
+                            Comment = "Good final submission",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000107"),
+                            IsDisable = false,
+                            Score = 16m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000300"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000003030"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000110"),
+                            Comment = "Good final submission",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000108"),
+                            IsDisable = false,
+                            Score = 12m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000300"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000003040"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000110"),
+                            Comment = "Good final submission",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000109"),
+                            IsDisable = false,
+                            Score = 8m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000300"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000003100"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000300"),
+                            Comment = "Excellent final submission",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000105"),
+                            IsDisable = false,
+                            Score = 30m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000301"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000003110"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000300"),
+                            Comment = "Excellent final submission",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000106"),
+                            IsDisable = false,
+                            Score = 25m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000301"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000003120"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000300"),
+                            Comment = "Excellent final submission",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000107"),
+                            IsDisable = false,
+                            Score = 20m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000301"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000003130"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000300"),
+                            Comment = "Excellent final submission",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000108"),
+                            IsDisable = false,
+                            Score = 15m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000301"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000003140"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000300"),
+                            Comment = "Excellent final submission",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000109"),
+                            IsDisable = false,
+                            Score = 10m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000301"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000000051"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000044"),
+                            Comment = "Scenario score item",
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000014"),
+                            IsDisable = false,
+                            Score = 90m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000051"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("51000000-0000-0000-0000-000000000060"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000060"),
+                            Comment = "Scenario score item",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 1, 10, 10, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            CriteriaItemId = new Guid("23000000-0000-0000-0000-000000000060"),
+                            IsDisable = true,
+                            Score = 60m,
+                            ScoreId = new Guid("50000000-0000-0000-0000-000000000060"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 1, 10, 10, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
                         });
                 });
 
@@ -6196,6 +7124,126 @@ namespace Hackathon.Infrastructure.Migrations
                         },
                         new
                         {
+                            Id = new Guid("50000000-0000-0000-0000-000000000010"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000040"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsMock = false,
+                            IsRetake = false,
+                            SubmissionId = new Guid("33000000-0000-0000-0000-000000000010"),
+                            TotalScore = 85m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000011"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000041"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsMock = false,
+                            IsRetake = false,
+                            SubmissionId = new Guid("33000000-0000-0000-0000-000000000011"),
+                            TotalScore = 89m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000012"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000042"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsMock = false,
+                            IsRetake = false,
+                            SubmissionId = new Guid("33000000-0000-0000-0000-000000000012"),
+                            TotalScore = 91m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000013"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000043"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsMock = false,
+                            IsRetake = false,
+                            SubmissionId = new Guid("33000000-0000-0000-0000-000000000013"),
+                            TotalScore = 78m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000014"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000044"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsMock = false,
+                            IsRetake = false,
+                            SubmissionId = new Guid("33000000-0000-0000-0000-000000000014"),
+                            TotalScore = 88m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000015"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000045"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsMock = false,
+                            IsRetake = false,
+                            SubmissionId = new Guid("33000000-0000-0000-0000-000000000015"),
+                            TotalScore = 92m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000016"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000046"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsMock = false,
+                            IsRetake = false,
+                            SubmissionId = new Guid("33000000-0000-0000-0000-000000000016"),
+                            TotalScore = 87m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000017"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000047"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsMock = false,
+                            IsRetake = false,
+                            SubmissionId = new Guid("33000000-0000-0000-0000-000000000017"),
+                            TotalScore = 83m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000018"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000048"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsMock = false,
+                            IsRetake = false,
+                            SubmissionId = new Guid("33000000-0000-0000-0000-000000000018"),
+                            TotalScore = 95m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000019"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000049"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsMock = false,
+                            IsRetake = false,
+                            SubmissionId = new Guid("33000000-0000-0000-0000-000000000019"),
+                            TotalScore = 94m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
                             Id = new Guid("50000000-0000-0000-0000-000000000100"),
                             AssignTrackId = new Guid("41000000-0000-0000-0000-000000000100"),
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
@@ -6265,6 +7313,77 @@ namespace Hackathon.Infrastructure.Migrations
                             SubmissionId = new Guid("33000000-0000-0000-0000-000000000150"),
                             TotalScore = 50.4m,
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000300"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000110"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            IsDisable = false,
+                            IsMock = false,
+                            IsRetake = false,
+                            SubmissionId = new Guid("33000000-0000-0000-0000-000000000300"),
+                            TotalScore = 80m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000301"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000300"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            IsDisable = false,
+                            IsMock = false,
+                            IsRetake = false,
+                            SubmissionId = new Guid("33000000-0000-0000-0000-000000000300"),
+                            TotalScore = 100m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000050"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000044"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 11, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsMock = false,
+                            IsRetake = false,
+                            SubmissionId = new Guid("33000000-0000-0000-0000-000000000050"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 11, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000051"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000044"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsMock = false,
+                            IsRetake = true,
+                            RetakeFromScoreId = new Guid("50000000-0000-0000-0000-000000000050"),
+                            SubmissionId = new Guid("33000000-0000-0000-0000-000000000051"),
+                            TotalScore = 90m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000052"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000044"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 16, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsMock = true,
+                            IsRetake = false,
+                            SubmissionId = new Guid("33000000-0000-0000-0000-000000000052"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 16, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("50000000-0000-0000-0000-000000000060"),
+                            AssignTrackId = new Guid("41000000-0000-0000-0000-000000000060"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 1, 10, 10, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            IsDisable = true,
+                            IsMock = false,
+                            IsRetake = false,
+                            SubmissionId = new Guid("33000000-0000-0000-0000-000000000060"),
+                            TotalScore = 60m,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 1, 10, 10, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
                         });
                 });
 
@@ -6316,8 +7435,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000001"),
-                            Status = "Submitted",
-                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Status = "Graded",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 21, 10, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://seed.local/submissions/seed-innovators-idea"
                         },
@@ -6329,8 +7448,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000002"),
-                            Status = "Submitted",
-                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Status = "Graded",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 22, 10, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://seed.local/submissions/seed-innovators-final"
                         },
@@ -6342,8 +7461,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000003"),
-                            Status = "Submitted",
-                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Status = "Graded",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 21, 10, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://seed.local/submissions/green-coders-idea"
                         },
@@ -6355,8 +7474,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000004"),
-                            Status = "Submitted",
-                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Status = "Graded",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 22, 10, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://seed.local/submissions/green-coders-final"
                         },
@@ -6368,8 +7487,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000010"),
-                            Status = "Submitted",
-                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Status = "Graded",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2024, 6, 16, 12, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://seed.local/submissions/nexus-startups-idea"
                         },
@@ -6381,8 +7500,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000011"),
-                            Status = "Submitted",
-                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Status = "Graded",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2024, 6, 16, 12, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://seed.local/submissions/solar-energy-idea"
                         },
@@ -6394,8 +7513,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000012"),
-                            Status = "Submitted",
-                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Status = "Graded",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 12, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://seed.local/submissions/cyber-defenders-idea"
                         },
@@ -6407,8 +7526,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000013"),
-                            Status = "Submitted",
-                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Status = "Graded",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 12, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://seed.local/submissions/ai-makers-idea"
                         },
@@ -6420,8 +7539,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000014"),
-                            Status = "Submitted",
-                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Status = "Graded",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 12, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://seed.local/submissions/web3-validators-idea"
                         },
@@ -6433,8 +7552,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000015"),
-                            Status = "Submitted",
-                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Status = "Graded",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 16, 12, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://seed.local/submissions/seal-elite-idea"
                         },
@@ -6446,8 +7565,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000016"),
-                            Status = "Submitted",
-                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Status = "Graded",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 16, 12, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://seed.local/submissions/cloud-deployers-idea"
                         },
@@ -6459,8 +7578,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000017"),
-                            Status = "Submitted",
-                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Status = "Graded",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 16, 12, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://seed.local/submissions/data-analytics-idea"
                         },
@@ -6472,8 +7591,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000018"),
-                            Status = "Submitted",
-                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Status = "Graded",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2027, 6, 16, 12, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://seed.local/submissions/smart-grids-idea"
                         },
@@ -6485,8 +7604,8 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000019"),
-                            Status = "Submitted",
-                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 6, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Status = "Graded",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2027, 6, 16, 12, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://seed.local/submissions/robotics-pathfinder-idea"
                         },
@@ -6498,7 +7617,7 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000100"),
-                            Status = "Submitted",
+                            Status = "Graded",
                             SubmittedAt = new DateTimeOffset(new DateTime(2026, 7, 1, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://github.com/fpt-hackathon-2026/team-1-submission"
@@ -6511,7 +7630,7 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000110"),
-                            Status = "Submitted",
+                            Status = "Graded",
                             SubmittedAt = new DateTimeOffset(new DateTime(2026, 7, 1, 10, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://github.com/fpt-hackathon-2026/team-2-submission"
@@ -6524,7 +7643,7 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000120"),
-                            Status = "Submitted",
+                            Status = "Graded",
                             SubmittedAt = new DateTimeOffset(new DateTime(2026, 7, 1, 11, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://github.com/fpt-hackathon-2026/team-3-submission"
@@ -6537,7 +7656,7 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000130"),
-                            Status = "Submitted",
+                            Status = "Graded",
                             SubmittedAt = new DateTimeOffset(new DateTime(2026, 7, 1, 12, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://github.com/fpt-hackathon-2026/team-4-submission"
@@ -6550,7 +7669,7 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000140"),
-                            Status = "Submitted",
+                            Status = "Graded",
                             SubmittedAt = new DateTimeOffset(new DateTime(2026, 7, 1, 13, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://github.com/fpt-hackathon-2026/team-5-submission"
@@ -6563,7 +7682,7 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             IsRegrade = false,
                             RoundDetailId = new Guid("32000000-0000-0000-0000-000000000150"),
-                            Status = "Submitted",
+                            Status = "Graded",
                             SubmittedAt = new DateTimeOffset(new DateTime(2026, 7, 1, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://github.com/fpt-hackathon-2026/team-6-submission"
@@ -6619,6 +7738,71 @@ namespace Hackathon.Infrastructure.Migrations
                             SubmittedAt = new DateTimeOffset(new DateTime(2026, 7, 1, 18, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Url = "https://github.com/fpt-hackathon-2026/team-10-submission"
+                        },
+                        new
+                        {
+                            Id = new Guid("33000000-0000-0000-0000-000000000300"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 10, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            Description = "Round 2 final submission - FPT Mobile Knights",
+                            IsDisable = false,
+                            IsRegrade = false,
+                            RoundDetailId = new Guid("32000000-0000-0000-0000-000000000301"),
+                            Status = "Graded",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 10, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 25, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            Url = "https://github.com/fpt-hackathon-2026/team-3-final"
+                        },
+                        new
+                        {
+                            Id = new Guid("33000000-0000-0000-0000-000000000050"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 10, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Original submission before regrade",
+                            IsDisable = false,
+                            IsRegrade = false,
+                            RoundDetailId = new Guid("32000000-0000-0000-0000-000000000050"),
+                            Status = "Submitted",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 10, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 11, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Url = "https://seed.local/submissions/original-scenario"
+                        },
+                        new
+                        {
+                            Id = new Guid("33000000-0000-0000-0000-000000000051"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 12, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Regrade and retake scenario",
+                            IsDisable = false,
+                            IsRegrade = true,
+                            RoundDetailId = new Guid("32000000-0000-0000-0000-000000000050"),
+                            Status = "Graded",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 12, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 14, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Url = "https://seed.local/submissions/regrade-scenario"
+                        },
+                        new
+                        {
+                            Id = new Guid("33000000-0000-0000-0000-000000000052"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Mock score scenario",
+                            IsDisable = false,
+                            IsRegrade = false,
+                            RoundDetailId = new Guid("32000000-0000-0000-0000-000000000050"),
+                            Status = "Submitted",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2025, 6, 16, 16, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Url = "https://seed.local/submissions/mock-scenario"
+                        },
+                        new
+                        {
+                            Id = new Guid("33000000-0000-0000-0000-000000000060"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 1, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            Description = "Soft-deleted submission",
+                            IsDisable = true,
+                            IsRegrade = false,
+                            RoundDetailId = new Guid("32000000-0000-0000-0000-000000000060"),
+                            Status = "Graded",
+                            SubmittedAt = new DateTimeOffset(new DateTime(2026, 1, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 1, 10, 10, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
+                            Url = "https://seed.local/submissions/deleted"
                         });
                 });
 
@@ -7592,6 +8776,50 @@ namespace Hackathon.Infrastructure.Migrations
                             TeamId = new Guid("30000000-0000-0000-0000-000000000290"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-00000000010d")
+                        },
+                        new
+                        {
+                            Id = new Guid("30100000-0000-0000-0000-000000000050"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsLeader = true,
+                            Status = "Active",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000050"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000055")
+                        },
+                        new
+                        {
+                            Id = new Guid("30100000-0000-0000-0000-000000000051"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsLeader = false,
+                            Status = "Inactive",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000050"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000050")
+                        },
+                        new
+                        {
+                            Id = new Guid("30100000-0000-0000-0000-000000000052"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsLeader = true,
+                            Status = "Active",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000051"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000056")
+                        },
+                        new
+                        {
+                            Id = new Guid("30100000-0000-0000-0000-000000000060"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = true,
+                            IsLeader = true,
+                            Status = "Inactive",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000060"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000052")
                         });
                 });
 
@@ -7625,7 +8853,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000001"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "Seed Innovators",
@@ -7634,7 +8862,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000002"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "Green Coders",
@@ -7643,7 +8871,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000010"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "Nexus Startups",
@@ -7652,7 +8880,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000011"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "Solar Energy Coders",
@@ -7661,7 +8889,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000012"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "Cyber Defenders",
@@ -7670,7 +8898,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000013"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "AI Model Makers",
@@ -7679,7 +8907,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000014"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "Web3 Validators",
@@ -7688,7 +8916,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000015"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "SEAL Coders Elite",
@@ -7697,7 +8925,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000016"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "Cloud Deployers",
@@ -7706,7 +8934,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000017"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "Data Analytics Hackers",
@@ -7715,7 +8943,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000018"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "Smart Grids builders",
@@ -7724,7 +8952,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000019"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "Robotics Pathfinder Team",
@@ -7733,7 +8961,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000020"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "AI Mavericks",
@@ -7742,7 +8970,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000021"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "Eco Guardians",
@@ -7751,7 +8979,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000022"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "Code Visionaries",
@@ -7760,7 +8988,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000023"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "GreenTech Solutions",
@@ -7769,7 +8997,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000024"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "AI Builders",
@@ -7868,7 +9096,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000200"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "FPT Green AI",
@@ -7877,7 +9105,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000210"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "FPT Cyber Shield",
@@ -7886,7 +9114,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000220"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "FPT Game Dev",
@@ -7895,7 +9123,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000230"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "FPT E-Commerce",
@@ -7904,7 +9132,7 @@ namespace Hackathon.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("30000000-0000-0000-0000-000000000240"),
-                            CanEdit = true,
+                            CanEdit = false,
                             CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             IsDisable = false,
                             Name = "FPT ML Masters",
@@ -7954,6 +9182,33 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = false,
                             Name = "FPT Monitor Team",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0000-0000-0000-000000000050"),
+                            CanEdit = false,
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            Name = "State Coverage Team",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0000-0000-0000-000000000051"),
+                            CanEdit = false,
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            Name = "Banned Registration Team",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0000-0000-0000-000000000060"),
+                            CanEdit = true,
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = true,
+                            Name = "Soft Deleted Team",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -8208,6 +9463,16 @@ namespace Hackathon.Infrastructure.Migrations
                             Title = "System Monitoring Platform",
                             TrackId = new Guid("24000000-0000-0000-0000-000000000204"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("25000000-0000-0000-0000-000000000060"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Soft-deleted topic",
+                            IsDisable = true,
+                            Title = "Deleted Topic",
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000060"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -8487,6 +9752,17 @@ namespace Hackathon.Infrastructure.Migrations
                             MaxTeam = 2,
                             Title = "Cloud - DevOps",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("24000000-0000-0000-0000-000000000060"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Soft-deleted track",
+                            EventId = new Guid("20000000-0000-0000-0000-000000000060"),
+                            IsDisable = true,
+                            MaxTeam = 5,
+                            Title = "Deleted Track",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -8586,7 +9862,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "admin@seed.local",
                             FirstName = "Admin",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -8610,7 +9886,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "staff@seed.local",
                             FirstName = "Staff",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -8634,7 +9910,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "mentor@seed.local",
                             FirstName = "Mentor",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -8658,7 +9934,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "judge@seed.local",
                             FirstName = "Judge",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -8682,7 +9958,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "leader@seed.local",
                             FirstName = "Student",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -8706,7 +9982,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "member@seed.local",
                             FirstName = "Student",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -8730,7 +10006,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "green.leader@seed.local",
                             FirstName = "Green",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -8754,7 +10030,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "alex.jones@student.local",
                             FirstName = "Alex",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -8778,7 +10054,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "emma.watson@student.local",
                             FirstName = "Emma",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -8802,7 +10078,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "liam.smith@student.local",
                             FirstName = "Liam",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -8826,7 +10102,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "sophia.brown@student.local",
                             FirstName = "Sophia",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -8850,7 +10126,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "mason.davis@student.local",
                             FirstName = "Mason",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -8874,7 +10150,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "olivia.miller@student.local",
                             FirstName = "Olivia",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -8898,7 +10174,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "ethan.wilson@student.local",
                             FirstName = "Ethan",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -8922,7 +10198,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "ava.taylor@student.local",
                             FirstName = "Ava",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -8946,7 +10222,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "lucas.thomas@student.local",
                             FirstName = "Lucas",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -8970,7 +10246,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "mia.white@student.local",
                             FirstName = "Mia",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -8994,7 +10270,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "sarah.johnson@staff.local",
                             FirstName = "Sarah",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -9018,7 +10294,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "michael.chen@staff.local",
                             FirstName = "Michael",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -9042,7 +10318,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "emily.davis@staff.local",
                             FirstName = "Emily",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -9066,7 +10342,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "kevin.nguyen@staff.local",
                             FirstName = "Kevin",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -9090,7 +10366,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "lisa.taylor@staff.local",
                             FirstName = "Lisa",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -9114,7 +10390,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "robert.martin@lecturer.local",
                             FirstName = "Robert",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -9138,7 +10414,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "linda.clark@lecturer.local",
                             FirstName = "Linda",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -9162,7 +10438,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "david.lewis@lecturer.local",
                             FirstName = "David",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -9186,7 +10462,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "barbara.hall@lecturer.local",
                             FirstName = "Barbara",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -9210,7 +10486,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "james.allen@lecturer.local",
                             FirstName = "James",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://seed.local/profile.png",
                             IsDisable = false,
                             IsVerified = true,
@@ -9234,7 +10510,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "thanh.nguyen@demo.local",
                             FirstName = "Thanh",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/thanh.nguyen@demo.local",
                             IsDisable = false,
                             IsVerified = true,
@@ -9258,7 +10534,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "anh.pham@demo.local",
                             FirstName = "Anh",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/anh.pham@demo.local",
                             IsDisable = false,
                             IsVerified = true,
@@ -9282,7 +10558,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "minh.tran@demo.local",
                             FirstName = "Minh",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/minh.tran@demo.local",
                             IsDisable = false,
                             IsVerified = true,
@@ -9306,7 +10582,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "hoa.le@demo.local",
                             FirstName = "Hoa",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/hoa.le@demo.local",
                             IsDisable = false,
                             IsVerified = true,
@@ -9330,7 +10606,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "binh.hoang@demo.local",
                             FirstName = "Binh",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/binh.hoang@demo.local",
                             IsDisable = false,
                             IsVerified = true,
@@ -9354,7 +10630,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "lan.vu@demo.local",
                             FirstName = "Lan",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/lan.vu@demo.local",
                             IsDisable = false,
                             IsVerified = true,
@@ -9378,7 +10654,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "tuan.do@demo.local",
                             FirstName = "Tuan",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/tuan.do@demo.local",
                             IsDisable = false,
                             IsVerified = true,
@@ -9402,7 +10678,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "hieu.nguyen@demo.local",
                             FirstName = "Hieu",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/hieu.nguyen@demo.local",
                             IsDisable = false,
                             IsVerified = true,
@@ -9426,7 +10702,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "quynh.pham@demo.local",
                             FirstName = "Quynh",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/quynh.pham@demo.local",
                             IsDisable = false,
                             IsVerified = true,
@@ -9450,7 +10726,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "nam.hoang@demo.local",
                             FirstName = "Nam",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/nam.hoang@demo.local",
                             IsDisable = false,
                             IsVerified = true,
@@ -9474,7 +10750,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "khoa.le@demo.local",
                             FirstName = "Khoa",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/khoa.le@demo.local",
                             IsDisable = false,
                             IsVerified = true,
@@ -9498,7 +10774,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "thu.tran@demo.local",
                             FirstName = "Thu",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/thu.tran@demo.local",
                             IsDisable = false,
                             IsVerified = true,
@@ -9522,7 +10798,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "nguyenvanan@fpt.edu.vn",
                             FirstName = "Nguyen Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/nguyenvanan@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9546,7 +10822,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "tranthibich@fpt.edu.vn",
                             FirstName = "Tran Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/tranthibich@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9570,7 +10846,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "lehoangcuong@fpt.edu.vn",
                             FirstName = "Le Hoang",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/lehoangcuong@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9594,7 +10870,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "phamminhdung@fpt.edu.vn",
                             FirstName = "Pham Minh",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/phamminhdung@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9618,7 +10894,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "vothiem@fpt.edu.vn",
                             FirstName = "Vo Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/vothiem@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9642,7 +10918,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "dangvanphuoc@fpt.edu.vn",
                             FirstName = "Dang Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/dangvanphuoc@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9666,7 +10942,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "buithigiang@fpt.edu.vn",
                             FirstName = "Bui Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/buithigiang@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9690,7 +10966,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "doquochuy@fpt.edu.vn",
                             FirstName = "Do Quoc",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/doquochuy@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9714,7 +10990,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "hovanhung@fpt.edu.vn",
                             FirstName = "Ho Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/hovanhung@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9738,7 +11014,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "ngothihong@fpt.edu.vn",
                             FirstName = "Ngo Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/ngothihong@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9762,7 +11038,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "duongvankien@fpt.edu.vn",
                             FirstName = "Duong Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/duongvankien@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9786,7 +11062,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "lythilan@fpt.edu.vn",
                             FirstName = "Ly Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/lythilan@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9810,7 +11086,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "maithanhlong@fpt.edu.vn",
                             FirstName = "Mai Thanh",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/maithanhlong@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9834,7 +11110,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "luongthimai@fpt.edu.vn",
                             FirstName = "Luong Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/luongthimai@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9858,7 +11134,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "chuvanmanh@fpt.edu.vn",
                             FirstName = "Chu Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/chuvanmanh@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9882,7 +11158,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "caothingoc@fpt.edu.vn",
                             FirstName = "Cao Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/caothingoc@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9906,7 +11182,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "phanvannhan@fpt.edu.vn",
                             FirstName = "Phan Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/phanvannhan@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9930,7 +11206,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "tathioanh@fpt.edu.vn",
                             FirstName = "Ta Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/tathioanh@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9954,7 +11230,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "quachvanphat@fpt.edu.vn",
                             FirstName = "Quach Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/quachvanphat@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -9978,7 +11254,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "lathiquynh@fpt.edu.vn",
                             FirstName = "La Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/lathiquynh@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10002,7 +11278,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "suvanson@fpt.edu.vn",
                             FirstName = "Su Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/suvanson@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10026,7 +11302,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "lamthithanh@fpt.edu.vn",
                             FirstName = "Lam Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/lamthithanh@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10050,7 +11326,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "kieuvantien@fpt.edu.vn",
                             FirstName = "Kieu Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/kieuvantien@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10074,7 +11350,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "dinhthituyet@fpt.edu.vn",
                             FirstName = "Dinh Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/dinhthituyet@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10098,7 +11374,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "vuongvantrong@fpt.edu.vn",
                             FirstName = "Vuong Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/vuongvantrong@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10122,7 +11398,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "hathivan@fpt.edu.vn",
                             FirstName = "Ha Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/hathivan@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10146,7 +11422,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "khucvanxuyen@fpt.edu.vn",
                             FirstName = "Khuc Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/khucvanxuyen@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10170,7 +11446,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "daothiyen@fpt.edu.vn",
                             FirstName = "Dao Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/daothiyen@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10194,7 +11470,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "vuvanbinh@fpt.edu.vn",
                             FirstName = "Vu Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/vuvanbinh@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10218,7 +11494,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "lucthinhung@fpt.edu.vn",
                             FirstName = "Luc Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/lucthinhung@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10242,7 +11518,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "nguyenthianh@fpt.edu.vn",
                             FirstName = "Nguyen Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/nguyenthianh@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10266,7 +11542,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "tranvanbao@fpt.edu.vn",
                             FirstName = "Tran Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/tranvanbao@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10290,7 +11566,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "lethichi@fpt.edu.vn",
                             FirstName = "Le Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/lethichi@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10314,7 +11590,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "phamvandat@fpt.edu.vn",
                             FirstName = "Pham Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/phamvandat@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10338,7 +11614,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "vothidung@fpt.edu.vn",
                             FirstName = "Vo Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/vothidung@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10362,7 +11638,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "dangvanduy@fpt.edu.vn",
                             FirstName = "Dang Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/dangvanduy@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10386,7 +11662,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "buithiha@fpt.edu.vn",
                             FirstName = "Bui Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/buithiha@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10410,7 +11686,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "dovanhieu@fpt.edu.vn",
                             FirstName = "Do Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/dovanhieu@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10434,7 +11710,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "hothihue@fpt.edu.vn",
                             FirstName = "Ho Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/hothihue@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10458,7 +11734,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "ngovankhoa@fpt.edu.vn",
                             FirstName = "Ngo Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/ngovankhoa@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10482,7 +11758,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "duongthilai@fpt.edu.vn",
                             FirstName = "Duong Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/duongthilai@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10506,7 +11782,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "lyvanloc@fpt.edu.vn",
                             FirstName = "Ly Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/lyvanloc@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10530,7 +11806,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "maithimy@fpt.edu.vn",
                             FirstName = "Mai Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/maithimy@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10554,7 +11830,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "luongvannam@fpt.edu.vn",
                             FirstName = "Luong Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/luongvannam@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10578,7 +11854,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "chuthinga@fpt.edu.vn",
                             FirstName = "Chu Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/chuthinga@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10602,7 +11878,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "caovanphong@fpt.edu.vn",
                             FirstName = "Cao Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/caovanphong@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10626,7 +11902,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "phanthiphuong@fpt.edu.vn",
                             FirstName = "Phan Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/phanthiphuong@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10650,7 +11926,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "tavanquan@fpt.edu.vn",
                             FirstName = "Ta Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/tavanquan@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10674,7 +11950,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "quachthithao@fpt.edu.vn",
                             FirstName = "Quach Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/quachthithao@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10698,7 +11974,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "lavanthang@fpt.edu.vn",
                             FirstName = "La Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/lavanthang@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10722,7 +11998,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "suthithuy@fpt.edu.vn",
                             FirstName = "Su Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/suthithuy@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10746,7 +12022,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "lamvantung@fpt.edu.vn",
                             FirstName = "Lam Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/lamvantung@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10770,7 +12046,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "kieuthituoi@fpt.edu.vn",
                             FirstName = "Kieu Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/kieuthituoi@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10794,7 +12070,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "dinhvanvinh@fpt.edu.vn",
                             FirstName = "Dinh Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/dinhvanvinh@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10818,7 +12094,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "vuongthixuan@fpt.edu.vn",
                             FirstName = "Vuong Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/vuongthixuan@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10842,7 +12118,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "havany@fpt.edu.vn",
                             FirstName = "Ha Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/havany@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10866,7 +12142,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "khucthihanh@fpt.edu.vn",
                             FirstName = "Khuc Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/khucthihanh@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10890,7 +12166,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "daovanloi@fpt.edu.vn",
                             FirstName = "Dao Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/daovanloi@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10914,7 +12190,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "vuthilien@fpt.edu.vn",
                             FirstName = "Vu Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/vuthilien@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10938,7 +12214,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2002, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "lucvanhai@fpt.edu.vn",
                             FirstName = "Luc Van",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/lucvanhai@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10962,7 +12238,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "nguyen.thanh.tung@fpt.edu.vn",
                             FirstName = "Nguyen Thanh",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/nguyen.thanh.tung@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -10986,7 +12262,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "tran.le.hong@fpt.edu.vn",
                             FirstName = "Tran Le",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/tran.le.hong@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -11010,7 +12286,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "le.quoc.bao@fpt.edu.vn",
                             FirstName = "Le Quoc",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/le.quoc.bao@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -11034,7 +12310,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "pham.duc.minh@fpt.edu.vn",
                             FirstName = "Pham Duc",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/pham.duc.minh@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -11058,7 +12334,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "hoang.ngoc.son@fpt.edu.vn",
                             FirstName = "Hoang Ngoc",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/hoang.ngoc.son@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -11082,7 +12358,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "vo.tuan.kiet@fpt.edu.vn",
                             FirstName = "Vo Tuan",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/vo.tuan.kiet@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -11106,7 +12382,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "dang.thuy.linh@fpt.edu.vn",
                             FirstName = "Dang Thuy",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/dang.thuy.linh@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -11130,7 +12406,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "bui.cong.thanh@fpt.edu.vn",
                             FirstName = "Bui Cong",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/bui.cong.thanh@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -11154,7 +12430,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "do.hoang.yen@fpt.edu.vn",
                             FirstName = "Do Hoang",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/do.hoang.yen@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -11178,7 +12454,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "ngo.quang.trung@fpt.edu.vn",
                             FirstName = "Ngo Quang",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/ngo.quang.trung@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -11202,7 +12478,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "hoang.mai.anh@fpt.edu.vn",
                             FirstName = "Hoang Mai",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/hoang.mai.anh@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -11226,7 +12502,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "tran.minh.duc@fpt.edu.vn",
                             FirstName = "Tran Minh",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/tran.minh.duc@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -11250,7 +12526,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "le.phuong.tha@fpt.edu.vn",
                             FirstName = "Le Phuong",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/le.phuong.tha@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -11274,7 +12550,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "pham.quoc.huy@fpt.edu.vn",
                             FirstName = "Pham Quoc",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/pham.quoc.huy@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -11298,7 +12574,7 @@ namespace Hackathon.Infrastructure.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "dang.thi.thu@fpt.edu.vn",
                             FirstName = "Dang Thi",
-                            HashPassword = "$2a$11$wqDbJ4dZ8Fo58yY.ruDKQ.Yggy21O5Od502SAOhjrPH/Mkpnz8LPq",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
                             ImgUrl = "https://robohash.org/dang.thi.thu@fpt.edu.vn",
                             IsDisable = false,
                             IsVerified = true,
@@ -11310,6 +12586,198 @@ namespace Hackathon.Infrastructure.Migrations
                             StudentId = "STF010",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000050"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/inactive.scenario@seed.local",
+                            Bio = "Seed state coverage user",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "inactive.scenario@seed.local",
+                            FirstName = "Inactive",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/inactive.scenario@seed.local",
+                            IsDisable = false,
+                            IsVerified = true,
+                            LastName = "Scenario",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 2,
+                            Status = "Inactive",
+                            StudentId = "SCN50",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000051"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/banned.scenario@seed.local",
+                            BanReason = "Seed banned account",
+                            BannedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Bio = "Seed state coverage user",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "banned.scenario@seed.local",
+                            FirstName = "Banned",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/banned.scenario@seed.local",
+                            IsDisable = false,
+                            IsVerified = true,
+                            LastName = "Scenario",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 2,
+                            Status = "Banned",
+                            StudentId = "SCN51",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000052"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/deleted.scenario@seed.local",
+                            Bio = "Seed state coverage user",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "deleted.scenario@seed.local",
+                            FirstName = "Deleted",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/deleted.scenario@seed.local",
+                            IsDisable = true,
+                            IsVerified = true,
+                            LastName = "Scenario",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 2,
+                            Status = "Active",
+                            StudentId = "SCN52",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000053"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/pending.verify@seed.local",
+                            Bio = "Seed state coverage user",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "pending.verify@seed.local",
+                            FirstName = "Pending",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/pending.verify@seed.local",
+                            IsDisable = false,
+                            IsVerified = false,
+                            LastName = "Scenario",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 2,
+                            Status = "Active",
+                            StudentId = "SCN53",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000054"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/expired.verify@seed.local",
+                            Bio = "Seed state coverage user",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "expired.verify@seed.local",
+                            FirstName = "Expired",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/expired.verify@seed.local",
+                            IsDisable = false,
+                            IsVerified = false,
+                            LastName = "Scenario",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 2,
+                            Status = "Active",
+                            StudentId = "SCN54",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000055"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/accepted.invite@seed.local",
+                            Bio = "Seed state coverage user",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "accepted.invite@seed.local",
+                            FirstName = "Accepted",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/accepted.invite@seed.local",
+                            IsDisable = false,
+                            IsVerified = true,
+                            LastName = "Scenario",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 2,
+                            Status = "Active",
+                            StudentId = "SCN55",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000056"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/rejected.invite@seed.local",
+                            Bio = "Seed state coverage user",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "rejected.invite@seed.local",
+                            FirstName = "Rejected",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/rejected.invite@seed.local",
+                            IsDisable = false,
+                            IsVerified = true,
+                            LastName = "Scenario",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 2,
+                            Status = "Active",
+                            StudentId = "SCN56",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000057"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/expired.invite@seed.local",
+                            Bio = "Seed state coverage user",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "expired.invite@seed.local",
+                            FirstName = "ExpiredInvite",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/expired.invite@seed.local",
+                            IsDisable = false,
+                            IsVerified = true,
+                            LastName = "Scenario",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 2,
+                            Status = "Active",
+                            StudentId = "SCN57",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 

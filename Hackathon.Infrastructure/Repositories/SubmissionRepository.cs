@@ -162,13 +162,16 @@ public class SubmissionRepository : ISubmissionRepository
             && !rd.RegisterTeam.IsDisable
             && !rd.RegisterTeam.IsBanned);
 
+        // Chỉ lấy team đã nộp bài — chưa nộp ko hiển thị trong leaderboard
+        query = query.Where(rd => rd.Submissions.Any());
+
         var totalCount = await query.CountAsync();
 
         var roundDetails = await query
             .OrderByDescending(rd => rd.Submissions
                 .OrderByDescending(s => s.SubmittedAt)
-                .SelectMany(s => s.Scores)
-                .Average(sc => (decimal?)sc.TotalScore ?? 0))
+                .SelectMany(s => s.Scores.Where(sc => sc.TotalScore.HasValue))
+                .Average(sc => (decimal?)sc.TotalScore) ?? 0m)
             .Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();

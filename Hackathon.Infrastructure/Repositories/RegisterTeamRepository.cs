@@ -143,6 +143,9 @@ public class RegisterTeamRepository : IRegisterTeamRepository
                 && !rt.IsDisable
                 && !rt.IsBanned);
 
+        // Chỉ lấy team đã nộp bài ở ít nhất 1 round — chưa nộp ko hiển thị trong leaderboard
+        query = query.Where(rt => rt.RoundDetails.Any(rd => rd.Submissions.Any()));
+
         var totalCount = await query.CountAsync();
 
         var items = await query

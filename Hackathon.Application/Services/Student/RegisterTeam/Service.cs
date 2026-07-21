@@ -364,6 +364,7 @@ public class Service : IRegisterTeamService
                 // Reset rejected registration → Pending, clear rejection reason
                 existing.Status = RegisterTeamStatusEnum.Pending;
                 existing.RejectionReason = null;
+                existing.CreatedAt = DateTimeOffset.UtcNow;
                 existing.UpdatedAt = DateTimeOffset.UtcNow;
                 await _unitOfWork.SaveChangesAsync();
 

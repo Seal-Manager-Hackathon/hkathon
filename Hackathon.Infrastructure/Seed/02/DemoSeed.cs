@@ -51,11 +51,11 @@ public static class DemoSeed
 
         // ── Teams ──────────────────────────────────────────────
         modelBuilder.Entity<Teams>().HasData(
-            new Teams { Id = DemoTeam1Id, Name = "AI Mavericks", CanEdit = true, IsDisable = false, CreatedAt = SeedConstants.CreatedAt, UpdatedAt = SeedConstants.CreatedAt },
-            new Teams { Id = DemoTeam2Id, Name = "Eco Guardians", CanEdit = true, IsDisable = false, CreatedAt = SeedConstants.CreatedAt, UpdatedAt = SeedConstants.CreatedAt },
-            new Teams { Id = DemoTeam3Id, Name = "Code Visionaries", CanEdit = true, IsDisable = false, CreatedAt = SeedConstants.CreatedAt, UpdatedAt = SeedConstants.CreatedAt },
-            new Teams { Id = DemoTeam4Id, Name = "GreenTech Solutions", CanEdit = true, IsDisable = false, CreatedAt = SeedConstants.CreatedAt, UpdatedAt = SeedConstants.CreatedAt },
-            new Teams { Id = DemoTeam5Id, Name = "AI Builders", CanEdit = true, IsDisable = false, CreatedAt = SeedConstants.CreatedAt, UpdatedAt = SeedConstants.CreatedAt }
+            new Teams { Id = DemoTeam1Id, Name = "AI Mavericks", CanEdit = false, IsDisable = false, CreatedAt = SeedConstants.CreatedAt, UpdatedAt = SeedConstants.CreatedAt },
+            new Teams { Id = DemoTeam2Id, Name = "Eco Guardians", CanEdit = false, IsDisable = false, CreatedAt = SeedConstants.CreatedAt, UpdatedAt = SeedConstants.CreatedAt },
+            new Teams { Id = DemoTeam3Id, Name = "Code Visionaries", CanEdit = false, IsDisable = false, CreatedAt = SeedConstants.CreatedAt, UpdatedAt = SeedConstants.CreatedAt },
+            new Teams { Id = DemoTeam4Id, Name = "GreenTech Solutions", CanEdit = false, IsDisable = false, CreatedAt = SeedConstants.CreatedAt, UpdatedAt = SeedConstants.CreatedAt },
+            new Teams { Id = DemoTeam5Id, Name = "AI Builders", CanEdit = false, IsDisable = false, CreatedAt = SeedConstants.CreatedAt, UpdatedAt = SeedConstants.CreatedAt }
         );
 
         // ── TeamDetails ────────────────────────────────────────

@@ -168,7 +168,9 @@ public class LeaderboardHelper
         foreach (var ev in events)
         {
             var approvedTeams = ev.RegisterTeams
-                .Where(rt => rt.Status == RegisterTeamStatusEnum.Approved && !rt.IsDisable && !rt.IsBanned);
+                .Where(rt => rt.Status == RegisterTeamStatusEnum.Approved && !rt.IsDisable && !rt.IsBanned)
+                // Chỉ lấy team đã nộp bài ở ít nhất 1 round — chưa nộp ko hiển thị trong leaderboard
+                .Where(rt => rt.RoundDetails.Any(rd => rd.Submissions.Any()));
 
             foreach (var rt in approvedTeams)
             {
