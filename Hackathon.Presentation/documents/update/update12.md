@@ -3,6 +3,8 @@
 > Phạm vi: toàn bộ 27 entity trong `Hackathon.Domain/Entities/`, tất cả seed tại `Hackathon.Infrastructure/Seed/01/`, `Seed/02/`, và thứ tự đăng ký seed trong `AppDbContext.OnModelCreating`.
 >
 > GitNexus MCP đã được sử dụng để đối chiếu `SeedFPTData`, `SeedLeaderBoards`, `CreateRegisterTeam`, các flow leaderboard, đăng ký team, nộp bài, chấm điểm và invitation. Endpoint GitNexus chuẩn ban đầu bị health hook chặn `spawn EINVAL`; plugin GitNexus endpoint hoạt động nhưng cảnh báo FTS index thiếu, vì vậy kết quả bên dưới còn được xác nhận trực tiếp từ source code.
+>
+> **Trạng thái 21/07/2026:** Đây là kết quả audit trước khi sửa. Các lỗi P0–P3 bên dưới đã được xử lý trong seed source; xem [VI. Trạng thái sau cập nhật](#vi-trạng-thái-sau-cập-nhật). Migration và database update chưa được tạo/chạy trong thay đổi này.
 
 ---
 
@@ -420,5 +422,31 @@ Seed 01 và FPTSeed tạo `LeaderBoardDetails` với Score/LevelAward tĩnh. Tuy
 
 - ❌ “10 RegisterTeams paging mặc định Pending” — **sai**. GitNexus và source xác nhận chúng được set `Approved`.
 - ❌ “Seed 01 có 12 LeaderBoards” — **sai**. Seed 01 có 11; cộng 1 FPT Event 1 mới là 12 hiện có.
-- ❌ “Events có đủ Published, Draft, Closed” — **sai**. Hiện chỉ có Published.
-- ❌ “Các entity khác đều đủ” — chỉ đúng về việc entity có record; không đúng về trạng thái và quan hệ nghiệp vụ.
+- ❌ “Events có đủ Published, Draft, Closed” — **sai tại thời điểm audit**. Seed sau cập nhật đã bổ sung/chuẩn hóa đủ ba trạng thái.
+- ❌ “Các entity khác đều đủ” — chỉ đúng về việc entity có record; không đúng về trạng thái và quan hệ nghiệp vụ tại thời điểm audit.
+
+---
+
+# VI. Trạng thái sau cập nhật
+
+| Nhóm | Thay đổi đã thực hiện |
+| --- | --- |
+| Leaderboard | Public hóa leaderboard dùng cho happy path; thêm leaderboard unpublished cho FPT Event 2; đồng bộ snapshot score với event score nhiều round. |
+| RegisterTeam | Approved registrations có Track/Topic hợp lệ; không dựng GUID bằng substring; approved teams bị khóa `CanEdit = false`. |
+| Event/Round | Paging event dùng `NumberRound = 1`; event lịch sử chuyển `Closed`; thêm Draft và soft-deleted event scenario; sửa submission window SEAL core. |
+| Criteria | Seed 01 có đúng một active template trên mỗi round; backup/deleted templates vẫn inactive có chủ đích. |
+| Submission/Score | Submission có score mang `Graded`; paging timestamps nằm trong round; paging events có Judge assignment, Score và ScoreItems. |
+| FPT Round 2 | Giữ team chỉ ở Round 1 để test advance; thêm team Round 2 chưa submit để test revert; thêm team Round 2 đã chấm để test event score nhiều round. |
+| Multi-judge | Mobile final submission có ba assigned judges, hai scores (80 và 100), judge chưa chấm không tham gia AVG. |
+| Notification | Personal chỉ có UserId; bổ sung Team/System, Read/Unread và disabled notification scenarios. |
+| State coverage | Bổ sung Inactive/Banned/disabled user, inactive member, banned/deleted registration, Draft/Closed/deleted event graph, deleted assignment/submission/score/report. |
+| Invitation/Report/Auth | Bổ sung Accepted/Rejected/Expired invitation; Reject/Resolved/Canceled report; Pending/Expired verification; active/used/expired reset; active/revoked/expired refresh. |
+| Regrade/Retake/Mock | Bổ sung một submission tách biệt có regrade, retake link và mock score; registration bị banned nên không làm sai leaderboard chuẩn. |
+| Mật khẩu seed | Giữ cơ chế cũ: mật khẩu mặc định `string`, hash bằng BCrypt Enhanced SHA256 với Pepper trong `SeedHelper`. BCrypt dùng random salt nên cần review kỹ các `UpdateData` của user khi tạo migration. |
+
+## Việc người chạy migration cần làm
+
+1. Tạo migration mới từ model hiện tại; không sửa migration cũ đã áp dụng.
+2. Review migration: thay đổi seed chỉ nên tạo `InsertData`, `UpdateData`, `DeleteData`; không nên có schema operation ngoài ý muốn.
+3. Chạy `dotnet ef migrations has-pending-model-changes` sau khi tạo migration; kết quả mong đợi là không còn pending model changes.
+4. Backup database trước khi chạy `database update`, vì model-managed data có thể update các record seed hiện hữu.

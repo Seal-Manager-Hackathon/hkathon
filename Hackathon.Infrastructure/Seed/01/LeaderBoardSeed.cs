@@ -13,6 +13,7 @@ public static class LeaderBoardSeed
                 Id = SeedConstants.LeaderBoardId,
                 EventId = SeedConstants.SealHackathonEventId,
                 Year = 2026,
+                IsPublished = true,
                 IsDisable = false,
                 CreatedAt = SeedConstants.CreatedAt,
                 UpdatedAt = SeedConstants.CreatedAt
@@ -37,7 +38,7 @@ public static class LeaderBoardSeed
                 Id = Guid.Parse("61000000-0000-0000-0000-000000000001"),
                 LeaderBoardId = SeedConstants.LeaderBoardId,
                 TeamId = SeedConstants.SeedInnovatorsTeamId,
-                Score = 90m,
+                Score = 175m,
                 LevelAward = 1,
                 IsDisable = false,
                 CreatedAt = SeedConstants.CreatedAt,
@@ -48,7 +49,7 @@ public static class LeaderBoardSeed
                 Id = Guid.Parse("61000000-0000-0000-0000-000000000002"),
                 LeaderBoardId = SeedConstants.LeaderBoardId,
                 TeamId = SeedConstants.GreenCodersTeamId,
-                Score = 82m,
+                Score = 160m,
                 LevelAward = 2,
                 IsDisable = false,
                 CreatedAt = SeedConstants.CreatedAt,
@@ -76,6 +77,7 @@ public static class LeaderBoardSeed
             Id = id,
             EventId = eventId,
             Year = year,
+            IsPublished = true,
             IsDisable = false,
             CreatedAt = SeedConstants.CreatedAt,
             UpdatedAt = SeedConstants.CreatedAt

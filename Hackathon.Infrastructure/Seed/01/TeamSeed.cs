@@ -14,7 +14,7 @@ public static class TeamSeed
             {
                 Id = SeedConstants.SeedInnovatorsTeamId,
                 Name = "Seed Innovators",
-                CanEdit = true,
+                CanEdit = false,
                 IsDisable = false,
                 CreatedAt = SeedConstants.CreatedAt,
                 UpdatedAt = SeedConstants.CreatedAt
@@ -23,7 +23,7 @@ public static class TeamSeed
             {
                 Id = SeedConstants.GreenCodersTeamId,
                 Name = "Green Coders",
-                CanEdit = true,
+                CanEdit = false,
                 IsDisable = false,
                 CreatedAt = SeedConstants.CreatedAt,
                 UpdatedAt = SeedConstants.CreatedAt
@@ -66,6 +66,8 @@ public static class TeamSeed
                 Id = SeedConstants.SeedInnovatorsRegisterTeamId,
                 TeamId = SeedConstants.SeedInnovatorsTeamId,
                 EventId = SeedConstants.SealHackathonEventId,
+                TrackId = SeedConstants.AiTrackId,
+                TopicId = SeedConstants.AiTopicId,
                 Description = "Seed Innovators registration",
                 Status = RegisterTeamStatusEnum.Approved,
                 IsBanned = false,
@@ -78,6 +80,8 @@ public static class TeamSeed
                 Id = SeedConstants.GreenCodersRegisterTeamId,
                 TeamId = SeedConstants.GreenCodersTeamId,
                 EventId = SeedConstants.SealHackathonEventId,
+                TrackId = SeedConstants.GreenTrackId,
+                TopicId = SeedConstants.GreenTopicId,
                 Description = "Green Coders registration",
                 Status = RegisterTeamStatusEnum.Approved,
                 IsBanned = false,
@@ -87,16 +91,16 @@ public static class TeamSeed
             },
 
             // 10 RegisterTeams connecting new teams to new events
-            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000010"), Guid.Parse("30000000-0000-0000-0000-000000000010"), Guid.Parse("20000000-0000-0000-0000-000000000010")),
-            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000011"), Guid.Parse("30000000-0000-0000-0000-000000000011"), Guid.Parse("20000000-0000-0000-0000-000000000011")),
-            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000012"), Guid.Parse("30000000-0000-0000-0000-000000000012"), Guid.Parse("20000000-0000-0000-0000-000000000012")),
-            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000013"), Guid.Parse("30000000-0000-0000-0000-000000000013"), Guid.Parse("20000000-0000-0000-0000-000000000013")),
-            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000014"), Guid.Parse("30000000-0000-0000-0000-000000000014"), Guid.Parse("20000000-0000-0000-0000-000000000014")),
-            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000015"), Guid.Parse("30000000-0000-0000-0000-000000000015"), Guid.Parse("20000000-0000-0000-0000-000000000015")),
-            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000016"), Guid.Parse("30000000-0000-0000-0000-000000000016"), Guid.Parse("20000000-0000-0000-0000-000000000016")),
-            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000017"), Guid.Parse("30000000-0000-0000-0000-000000000017"), Guid.Parse("20000000-0000-0000-0000-000000000017")),
-            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000018"), Guid.Parse("30000000-0000-0000-0000-000000000018"), Guid.Parse("20000000-0000-0000-0000-000000000018")),
-            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000019"), Guid.Parse("30000000-0000-0000-0000-000000000019"), Guid.Parse("20000000-0000-0000-0000-000000000019"))
+            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000010"), Guid.Parse("30000000-0000-0000-0000-000000000010"), Guid.Parse("20000000-0000-0000-0000-000000000010"), Guid.Parse("24000000-0000-0000-0000-000000000010"), Guid.Parse("25000000-0000-0000-0000-000000000010")),
+            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000011"), Guid.Parse("30000000-0000-0000-0000-000000000011"), Guid.Parse("20000000-0000-0000-0000-000000000011"), Guid.Parse("24000000-0000-0000-0000-000000000011"), Guid.Parse("25000000-0000-0000-0000-000000000011")),
+            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000012"), Guid.Parse("30000000-0000-0000-0000-000000000012"), Guid.Parse("20000000-0000-0000-0000-000000000012"), Guid.Parse("24000000-0000-0000-0000-000000000012"), Guid.Parse("25000000-0000-0000-0000-000000000012")),
+            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000013"), Guid.Parse("30000000-0000-0000-0000-000000000013"), Guid.Parse("20000000-0000-0000-0000-000000000013"), Guid.Parse("24000000-0000-0000-0000-000000000013"), Guid.Parse("25000000-0000-0000-0000-000000000013")),
+            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000014"), Guid.Parse("30000000-0000-0000-0000-000000000014"), Guid.Parse("20000000-0000-0000-0000-000000000014"), Guid.Parse("24000000-0000-0000-0000-000000000014"), Guid.Parse("25000000-0000-0000-0000-000000000014")),
+            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000015"), Guid.Parse("30000000-0000-0000-0000-000000000015"), Guid.Parse("20000000-0000-0000-0000-000000000015"), Guid.Parse("24000000-0000-0000-0000-000000000015"), Guid.Parse("25000000-0000-0000-0000-000000000015")),
+            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000016"), Guid.Parse("30000000-0000-0000-0000-000000000016"), Guid.Parse("20000000-0000-0000-0000-000000000016"), Guid.Parse("24000000-0000-0000-0000-000000000016"), Guid.Parse("25000000-0000-0000-0000-000000000016")),
+            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000017"), Guid.Parse("30000000-0000-0000-0000-000000000017"), Guid.Parse("20000000-0000-0000-0000-000000000017"), Guid.Parse("24000000-0000-0000-0000-000000000017"), Guid.Parse("25000000-0000-0000-0000-000000000017")),
+            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000018"), Guid.Parse("30000000-0000-0000-0000-000000000018"), Guid.Parse("20000000-0000-0000-0000-000000000018"), Guid.Parse("24000000-0000-0000-0000-000000000018"), Guid.Parse("25000000-0000-0000-0000-000000000018")),
+            CreateRegisterTeam(Guid.Parse("31000000-0000-0000-0000-000000000019"), Guid.Parse("30000000-0000-0000-0000-000000000019"), Guid.Parse("20000000-0000-0000-0000-000000000019"), Guid.Parse("24000000-0000-0000-0000-000000000019"), Guid.Parse("25000000-0000-0000-0000-000000000019"))
         );
     }
 
@@ -106,20 +110,22 @@ public static class TeamSeed
         {
             Id = id,
             Name = name,
-            CanEdit = true,
+            CanEdit = false,
             IsDisable = false,
             CreatedAt = SeedConstants.CreatedAt,
             UpdatedAt = SeedConstants.CreatedAt
         };
     }
 
-    private static RegisterTeams CreateRegisterTeam(Guid id, Guid teamId, Guid eventId)
+    private static RegisterTeams CreateRegisterTeam(Guid id, Guid teamId, Guid eventId, Guid trackId, Guid topicId)
     {
         return new RegisterTeams
         {
             Id = id,
             TeamId = teamId,
             EventId = eventId,
+            TrackId = trackId,
+            TopicId = topicId,
             Description = "Paging team registration",
             Status = RegisterTeamStatusEnum.Approved,
             IsBanned = false,

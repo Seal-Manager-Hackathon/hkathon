@@ -528,7 +528,7 @@ public static class FPTSeed
         for (int i = 0; i < 10; i++)
         {
             var teamId = Guid.Parse($"30000000-0000-0000-0000-0000000002{i:X1}0");
-            e2Teams.Add(new Teams { Id = teamId, Name = e2TeamNames[i], CanEdit = true, IsDisable = false, CreatedAt = Now, UpdatedAt = Now });
+            e2Teams.Add(new Teams { Id = teamId, Name = e2TeamNames[i], CanEdit = e2Statuses[i] != RegisterTeamStatusEnum.Approved, IsDisable = false, CreatedAt = Now, UpdatedAt = Now });
 
             var memberIds = new Guid[]
             {
@@ -589,13 +589,45 @@ public static class FPTSeed
                 RoundDetailId = rdId,
                 Url = $"https://github.com/fpt-hackathon-2026/team-{i + 1}-submission",
                 Description = $"Round 1 submission - {e1TeamNames[i]}",
-                Status = SubmissionStatusEnum.Submitted,
+                Status = i < 6 ? SubmissionStatusEnum.Graded : SubmissionStatusEnum.Submitted,
                 SubmittedAt = new DateTimeOffset(2026, 7, 1, 9 + i, 0, 0, TimeSpan.FromHours(7)),
                 IsDisable = false,
                 CreatedAt = Now,
                 UpdatedAt = Now
             });
         }
+
+        // Round 2 scenarios: team 1 can still advance, team 2 can revert, team 3 has completed the final round.
+        e1RoundDetails.Add(new RoundDetails
+        {
+            Id = Guid.Parse("32000000-0000-0000-0000-000000000300"),
+            RoundId = Event1Round2Id,
+            RegisterTeamId = Guid.Parse("31000000-0000-0000-0000-000000000110"),
+            IsDisable = false,
+            CreatedAt = new DateTimeOffset(2026, 7, 21, 8, 0, 0, TimeSpan.FromHours(7)),
+            UpdatedAt = new DateTimeOffset(2026, 7, 21, 8, 0, 0, TimeSpan.FromHours(7))
+        });
+        e1RoundDetails.Add(new RoundDetails
+        {
+            Id = Guid.Parse("32000000-0000-0000-0000-000000000301"),
+            RoundId = Event1Round2Id,
+            RegisterTeamId = Guid.Parse("31000000-0000-0000-0000-000000000120"),
+            IsDisable = false,
+            CreatedAt = new DateTimeOffset(2026, 7, 21, 8, 0, 0, TimeSpan.FromHours(7)),
+            UpdatedAt = new DateTimeOffset(2026, 7, 21, 8, 0, 0, TimeSpan.FromHours(7))
+        });
+        e1Submissions.Add(new Submissions
+        {
+            Id = Guid.Parse("33000000-0000-0000-0000-000000000300"),
+            RoundDetailId = Guid.Parse("32000000-0000-0000-0000-000000000301"),
+            Url = "https://github.com/fpt-hackathon-2026/team-3-final",
+            Description = "Round 2 final submission - FPT Mobile Knights",
+            Status = SubmissionStatusEnum.Graded,
+            SubmittedAt = new DateTimeOffset(2026, 7, 25, 10, 0, 0, TimeSpan.FromHours(7)),
+            IsDisable = false,
+            CreatedAt = new DateTimeOffset(2026, 7, 25, 10, 0, 0, TimeSpan.FromHours(7)),
+            UpdatedAt = new DateTimeOffset(2026, 7, 25, 14, 0, 0, TimeSpan.FromHours(7))
+        });
 
         modelBuilder.Entity<RoundDetails>().HasData(e1RoundDetails);
         modelBuilder.Entity<Submissions>().HasData(e1Submissions);
@@ -736,12 +768,32 @@ public static class FPTSeed
             });
         }
 
+        // Additional judges on the Mobile track for multi-judge averaging.
+        assignTracks.Add(new AssignTracks
+        {
+            Id = Guid.Parse("41000000-0000-0000-0000-000000000300"),
+            AssignEventId = Guid.Parse("40000000-0000-0000-0000-000000000100"),
+            TrackId = Ev1TrackMobileId,
+            IsDisable = false,
+            CreatedAt = Now,
+            UpdatedAt = Now
+        });
+        assignTracks.Add(new AssignTracks
+        {
+            Id = Guid.Parse("41000000-0000-0000-0000-000000000301"),
+            AssignEventId = Guid.Parse("40000000-0000-0000-0000-000000000120"),
+            TrackId = Ev1TrackMobileId,
+            IsDisable = false,
+            CreatedAt = Now,
+            UpdatedAt = Now
+        });
+
         modelBuilder.Entity<AssignEvents>().HasData(assignEvents);
         modelBuilder.Entity<AssignTracks>().HasData(assignTracks);
 
         // ──────────────────────────────────────────────────────────
         //  SCORES + SCOREITEMS (Event 1 Round 1 — 2 teams per track)
-        //  2 judges per track score the teams
+        //  One judge per track scores Round 1; Round 2 adds a multi-judge Mobile scenario.
         // ──────────────────────────────────────────────────────────
 
         // For simplicity: the judge assigned to each track scores both teams in their track
@@ -812,6 +864,55 @@ public static class FPTSeed
             }
         }
 
+        var round2ScoreData = new[]
+        {
+            new
+            {
+                ScoreId = Guid.Parse("50000000-0000-0000-0000-000000000300"),
+                AssignTrackId = Guid.Parse("41000000-0000-0000-0000-000000000110"),
+                ItemScores = new decimal[] { 24m, 20m, 16m, 12m, 8m }
+            },
+            new
+            {
+                ScoreId = Guid.Parse("50000000-0000-0000-0000-000000000301"),
+                AssignTrackId = Guid.Parse("41000000-0000-0000-0000-000000000300"),
+                ItemScores = new decimal[] { 30m, 25m, 20m, 15m, 10m }
+            }
+        };
+
+        for (int judgeIndex = 0; judgeIndex < round2ScoreData.Length; judgeIndex++)
+        {
+            var scoreData = round2ScoreData[judgeIndex];
+            judgeScores.Add(new Scores
+            {
+                Id = scoreData.ScoreId,
+                SubmissionId = Guid.Parse("33000000-0000-0000-0000-000000000300"),
+                AssignTrackId = scoreData.AssignTrackId,
+                IsRetake = false,
+                TotalScore = scoreData.ItemScores.Sum(),
+                IsMock = false,
+                IsDisable = false,
+                CreatedAt = new DateTimeOffset(2026, 7, 25, 14 + judgeIndex, 0, 0, TimeSpan.FromHours(7)),
+                UpdatedAt = new DateTimeOffset(2026, 7, 25, 14 + judgeIndex, 0, 0, TimeSpan.FromHours(7))
+            });
+
+            for (int itemIndex = 0; itemIndex < e1r2items.Length; itemIndex++)
+            {
+                judgeScoreItems.Add(new ScoreItems
+                {
+                    Id = Guid.Parse($"51000000-0000-0000-0000-000000003{judgeIndex}{itemIndex}0"),
+                    ScoreId = scoreData.ScoreId,
+                    CriteriaItemId = e1r2items[itemIndex].id,
+                    AssignTrackId = scoreData.AssignTrackId,
+                    Score = scoreData.ItemScores[itemIndex],
+                    Comment = judgeIndex == 0 ? "Good final submission" : "Excellent final submission",
+                    IsDisable = false,
+                    CreatedAt = new DateTimeOffset(2026, 7, 25, 14 + judgeIndex, 0, 0, TimeSpan.FromHours(7)),
+                    UpdatedAt = new DateTimeOffset(2026, 7, 25, 14 + judgeIndex, 0, 0, TimeSpan.FromHours(7))
+                });
+            }
+        }
+
         modelBuilder.Entity<Scores>().HasData(judgeScores);
         modelBuilder.Entity<ScoreItems>().HasData(judgeScoreItems);
 
@@ -819,7 +920,8 @@ public static class FPTSeed
         //  LEADERBOARDS + DETAILS (Event 1 only)
         // ──────────────────────────────────────────────────────────
         modelBuilder.Entity<LeaderBoards>().HasData(
-            new LeaderBoards { Id = Event1LeaderBoardId, EventId = Event1Id, Year = 2026, IsDisable = false, CreatedAt = Now, UpdatedAt = Now }
+            new LeaderBoards { Id = Event1LeaderBoardId, EventId = Event1Id, Year = 2026, IsPublished = true, IsDisable = false, CreatedAt = Now, UpdatedAt = Now },
+            new LeaderBoards { Id = Event2LeaderBoardId, EventId = Event2Id, Year = 2026, IsPublished = false, IsDisable = false, CreatedAt = Now, UpdatedAt = Now }
         );
 
         // Only teams that submitted AND got scored appear
@@ -829,13 +931,16 @@ public static class FPTSeed
             var teamId = Guid.Parse($"30000000-0000-0000-0000-0000000001{i:X1}0");
             var scoreId = Guid.Parse($"50000000-0000-0000-0000-0000000001{i:X1}0");
             var score = judgeScores.FirstOrDefault(s => s.Id == scoreId)?.TotalScore ?? 0;
+            if (i == 2)
+                score += round2ScoreData.Average(x => x.ItemScores.Sum());
+
             leaderBoardDetails.Add(new LeaderBoardDetails
             {
                 Id = Guid.Parse($"61000000-0000-0000-0000-0000000001{i:X1}0"),
                 LeaderBoardId = Event1LeaderBoardId,
                 TeamId = teamId,
                 Score = score,
-                LevelAward = i < 1 ? 1 : i < 2 ? 2 : null,
+                LevelAward = i == 2 ? 1 : i == 4 ? 2 : null,
                 IsDisable = false,
                 CreatedAt = Now,
                 UpdatedAt = Now
@@ -856,7 +961,6 @@ public static class FPTSeed
             {
                 Id = Guid.Parse($"71000000-0000-0000-0000-0000000001{i:X1}0"),
                 UserId = leaderUserId,
-                TeamId = teamId,
                 Title = "Registration Approved",
                 Status = NotificationStatusEnum.Read,
                 Description = $"Team {e1TeamNames[i]} has been approved to participate in SEAL Hackathon 2026 - Spring.",
@@ -875,7 +979,6 @@ public static class FPTSeed
             {
                 Id = Guid.Parse($"71000000-0000-0000-0000-0000000002{i:X1}0"),
                 UserId = leaderUserId,
-                TeamId = teamId,
                 Title = "Registration Approved",
                 Status = NotificationStatusEnum.Unread,
                 Description = $"Team {e2TeamNames[i]} has been approved to participate in SEAL Hackathon 2026 - Summer.",
