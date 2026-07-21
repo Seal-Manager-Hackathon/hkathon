@@ -369,10 +369,12 @@ public class Service : IRegisterTeamService
 
                 // Khi bị reject team mới được mở khóa (CanEdit = true).
                 // Khi đăng ký lại phải khóa team lại
-                team.CanEdit = false;
-                team.UpdatedAt = DateTimeOffset.UtcNow;
-                await _teamRepository.UpdateAsync(team);
+                // Dùng existing.Team vì nó đã được Include từ RegisterTeam query — tránh duplicate tracking
+                var existingTeam = existing.Team ?? team;
+                existingTeam.CanEdit = false;
+                existingTeam.UpdatedAt = DateTimeOffset.UtcNow;
 
+                await _registerTeamRepository.UpdateAsync(existing);
                 await _unitOfWork.SaveChangesAsync();
 
                 return new CreateRegisterTeamResponse
