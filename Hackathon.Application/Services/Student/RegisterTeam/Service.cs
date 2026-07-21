@@ -366,6 +366,12 @@ public class Service : IRegisterTeamService
                 existing.RejectionReason = null;
                 existing.CreatedAt = DateTimeOffset.UtcNow;
                 existing.UpdatedAt = DateTimeOffset.UtcNow;
+
+                // Khi bị reject team mới được mở khóa (CanEdit = true).
+                // Khi đăng ký lại phải khóa team lại
+                team.CanEdit = false;
+                team.UpdatedAt = DateTimeOffset.UtcNow;
+
                 await _unitOfWork.SaveChangesAsync();
 
                 return new CreateRegisterTeamResponse
