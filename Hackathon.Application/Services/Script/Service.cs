@@ -48,35 +48,27 @@ public class Service : IScriptService
         if (!domain.StartsWith("@"))
             domain = "@" + domain;
 
+        var prefix = request.StudentIdPrefix.Trim().ToUpper();
+        if (prefix.Length != 2)
+            throw new BadRequestException("StudentIdPrefix Must Be Exactly 2 Characters");
+        // Chỉ check email theo prefix để tìm số thứ tự — không gộp với studentId/phone
         var existingEmails = await _userRepository.GetEmailsByPrefixAsync(request.EmailPrefix, domain);
-        var existingStudentIds = await _userRepository.GetStudentIdsByPrefixAsync("SE");
-        var existingPhoneNumbers = await _userRepository.GetPhoneNumbersByPrefixAsync("09");
+        var existingStudentIdSet = (await _userRepository.GetStudentIdsByPrefixAsync(prefix)).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var existingPhoneSet = (await _userRepository.GetPhoneNumbersByPrefixAsync("09")).ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-        // Parse số thứ tự từ các field đã tồn tại
-        var existingNumbers = new HashSet<int>();
-
-        void ParseNumbers(IEnumerable<string> items, string removePrefix, string? removeSuffix = null)
+        // Tìm số thứ tự tiếp theo dựa trên email cùng prefix
+        var usedEmailNumbers = new HashSet<int>();
+        foreach (var email in existingEmails)
         {
-            foreach (var item in items)
-            {
-                var numStr = item;
-                if (!string.IsNullOrEmpty(removePrefix))
-                    numStr = numStr.Replace(removePrefix, "", StringComparison.OrdinalIgnoreCase);
-                if (removeSuffix != null)
-                    numStr = numStr.Replace(removeSuffix, "", StringComparison.OrdinalIgnoreCase);
-                // Trim leading zeros
-                numStr = numStr.TrimStart('0');
-                if (int.TryParse(numStr, out var num))
-                    existingNumbers.Add(num);
-            }
+            var numStr = email
+                .Replace(request.EmailPrefix, "", StringComparison.OrdinalIgnoreCase)
+                .Replace(domain, "", StringComparison.OrdinalIgnoreCase);
+            if (int.TryParse(numStr, out var num))
+                usedEmailNumbers.Add(num);
         }
 
-        ParseNumbers(existingEmails, request.EmailPrefix, domain);
-        ParseNumbers(existingStudentIds, "SE");
-        ParseNumbers(existingPhoneNumbers, "09");
-
         var nextSeq = 1;
-        while (existingNumbers.Contains(nextSeq))
+        while (usedEmailNumbers.Contains(nextSeq))
             nextSeq++;
 
         var now = DateTimeOffset.UtcNow;
@@ -84,8 +76,20 @@ public class Service : IScriptService
 
         for (var i = 0; i < request.Count; i++)
         {
-            while (existingNumbers.Contains(nextSeq))
+            // Skip nếu email, studentId hoặc phone đã tồn tại
+            while (true)
+            {
+                var testEmail = $"{request.EmailPrefix}{nextSeq}{domain}";
+                var testStudentId = $"{prefix}{nextSeq:D6}";
+                var testPhone = $"09{nextSeq:D8}";
+
+                if (!usedEmailNumbers.Contains(nextSeq)
+                    && !existingStudentIdSet.Contains(testStudentId)
+                    && !existingPhoneSet.Contains(testPhone))
+                    break;
+
                 nextSeq++;
+            }
 
             var seq = nextSeq;
             nextSeq++;
@@ -94,8 +98,11 @@ public class Service : IScriptService
             var firstName = $"{request.FirstName} {seq}";
             var lastName = $"{request.LastName} {seq}";
             var rawPassword = "string";
-            var studentId = $"SE{seq:D6}";
+            var studentId = $"{prefix}{seq:D6}";
             var phoneNumber = $"09{seq:D8}";
+
+            existingStudentIdSet.Add(studentId);
+            existingPhoneSet.Add(phoneNumber);
 
             var user = new Users
             {
@@ -117,7 +124,7 @@ public class Service : IScriptService
             };
 
             createdUsers.Add(user);
-            existingNumbers.Add(seq);
+            usedEmailNumbers.Add(seq);
         }
 
         foreach (var user in createdUsers)

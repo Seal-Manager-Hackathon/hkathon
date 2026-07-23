@@ -16,6 +16,8 @@ public class BulkCreateUsersRequest
 
     public string EmailDomain { get; set; } = "@gmail.com";
 
+    public string StudentIdPrefix { get; set; } = "SE";
+
     [Required(ErrorMessage = "FirstName Is Required")]
     public string FirstName { get; set; } = null!;
 
