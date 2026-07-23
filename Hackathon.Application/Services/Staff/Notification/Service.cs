@@ -318,6 +318,7 @@ public class Service : INotificationService
             throw new NotFoundException("Notification Not Found");
 
         if (notification.TargetType != NotificationTargetTypeEnum.System
+            && notification.TargetType != NotificationTargetTypeEnum.Team
             && notification.UserId != currentUserId.Value)
             throw new ForbiddenException("You Do Not Have Access to This Notification");
 
@@ -366,6 +367,7 @@ public class Service : INotificationService
             throw new NotFoundException("Notification Not Found");
 
         if (notification.TargetType != NotificationTargetTypeEnum.System
+            && notification.TargetType != NotificationTargetTypeEnum.Team
             && notification.UserId != currentUserId.Value)
             throw new ForbiddenException("You Do Not Have Access to This Notification");
 
