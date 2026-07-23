@@ -25,3 +25,15 @@ public class BulkCreateUsersRequest
     public int PageIndex { get; set; } = 1;
     public int PageSize { get; set; } = 20;
 }
+
+public class BulkCreateTeamRequest
+{
+    [Required(ErrorMessage = "LeaderEmail Is Required")]
+    [EmailAddress(ErrorMessage = "Invalid Email Format")]
+    public string LeaderEmail { get; set; } = null!;
+
+    [Required(ErrorMessage = "TeamName Is Required")]
+    public string TeamName { get; set; } = null!;
+
+    public List<string> MemberEmails { get; set; } = new();
+}

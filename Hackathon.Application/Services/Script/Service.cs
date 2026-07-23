@@ -3,6 +3,8 @@ using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
 using Hackathon.Domain.Entities;
+using Hackathon.Domain.Enums.Invitation;
+using Hackathon.Domain.Enums.TeamDetail;
 using Hackathon.Domain.Enums.User;
 using ErrMsg = Hackathon.Application.Exceptions.ErrorMessage;
 
@@ -13,17 +15,23 @@ public class Service : IScriptService
     private readonly IUserRepository _userRepository;
     private readonly IPasswordService _passwordService;
     private readonly IAuthorizationService _authorizationService;
+    private readonly ITeamRepository _teamRepository;
+    private readonly IInvitationRepository _invitationRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public Service(
         IUserRepository userRepository,
         IPasswordService passwordService,
         IAuthorizationService authorizationService,
+        ITeamRepository teamRepository,
+        IInvitationRepository invitationRepository,
         IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
         _passwordService = passwordService;
         _authorizationService = authorizationService;
+        _teamRepository = teamRepository;
+        _invitationRepository = invitationRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -140,6 +148,114 @@ public class Service : IScriptService
             TotalCount = totalCount,
             PageIndex = request.PageIndex,
             PageSize = request.PageSize
+        };
+    }
+
+    public async Task<BulkCreateTeamResponse> BulkCreateTeam(BulkCreateTeamRequest request)
+    {
+        _authorizationService.Authorize(RoleEnum.Admin);
+
+        // 1. Tìm leader user
+        var leader = await _userRepository.GetByEmailAsync(request.LeaderEmail.Trim().ToLower());
+        if (leader == null)
+            throw new NotFoundException($"Leader With Email '{request.LeaderEmail}' Not Found");
+        if (leader.IsDisable)
+            throw new BadRequestException("Leader User Is Disabled");
+
+        // 2. Check tên team không trùng
+        var existingTeam = await _teamRepository.GetByNameAsync(request.TeamName);
+        if (existingTeam != null)
+            throw new BadRequestException("Team Name Already Exists");
+
+        // 3. Tạo team
+        var now = DateTimeOffset.UtcNow;
+        var team = new Teams
+        {
+            Id = Guid.NewGuid(),
+            Name = request.TeamName,
+            CanEdit = true,
+            CreatedAt = now,
+            UpdatedAt = now
+        };
+        await _teamRepository.AddAsync(team);
+
+        // 4. Thêm leader làm thành viên
+        var leaderDetail = new TeamDetails
+        {
+            Id = Guid.NewGuid(),
+            TeamId = team.Id,
+            UserId = leader.Id,
+            IsLeader = true,
+            Status = TeamDetailStatusEnum.Active,
+            CreatedAt = now,
+            UpdatedAt = now
+        };
+        await _teamRepository.AddTeamDetailAsync(leaderDetail);
+        await _unitOfWork.SaveChangesAsync();
+
+        // 5. Mời và chấp nhận từng member
+        var members = new List<(Users User, TeamDetails Detail)>
+        {
+            (leader, leaderDetail)
+        };
+
+        foreach (var memberEmail in request.MemberEmails)
+        {
+            var memberUser = await _userRepository.GetByEmailAsync(memberEmail.Trim().ToLower());
+            if (memberUser == null)
+                throw new NotFoundException($"Member With Email '{memberEmail}' Not Found");
+            if (memberUser.IsDisable)
+                throw new BadRequestException($"Member '{memberEmail}' Is Disabled");
+
+            // Kiểm tra chưa là member
+            var existingMembers = await _teamRepository.GetTeamMembersAsync(team.Id);
+            if (existingMembers.Any(m => m.UserId == memberUser.Id && !m.IsDisable))
+                throw new BadRequestException($"User '{memberEmail}' Is Already a Member of This Team");
+
+            // Tạo invitation
+            var invitation = new Invitations
+            {
+                Id = Guid.NewGuid(),
+                TeamId = team.Id,
+                UserId = memberUser.Id,
+                Status = InvitationStatusEnum.Accepted,
+                Description = $"System created: {leader.Email} invited {memberUser.Email} to join {team.Name}",
+                LimitTime = now.AddDays(15),
+                CreatedAt = now,
+                UpdatedAt = now
+            };
+            await _invitationRepository.AddAsync(invitation);
+
+            // Thêm thẳng member vào team (không cần chờ accept)
+            var memberDetail = new TeamDetails
+            {
+                Id = Guid.NewGuid(),
+                TeamId = team.Id,
+                UserId = memberUser.Id,
+                IsLeader = false,
+                Status = TeamDetailStatusEnum.Active,
+                CreatedAt = now,
+                UpdatedAt = now
+            };
+            await _teamRepository.AddTeamDetailAsync(memberDetail);
+
+            members.Add((memberUser, memberDetail));
+        }
+
+        await _unitOfWork.SaveChangesAsync();
+
+        return new BulkCreateTeamResponse
+        {
+            TeamId = team.Id,
+            TeamName = team.Name,
+            Members = members.Select(m => new TeamMemberItem
+            {
+                UserId = m.User.Id,
+                Email = m.User.Email,
+                FirstName = m.User.FirstName,
+                LastName = m.User.LastName,
+                IsLeader = m.Detail.IsLeader
+            }).ToList()
         };
     }
 }

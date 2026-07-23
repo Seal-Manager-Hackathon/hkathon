@@ -19,3 +19,19 @@ public class BulkCreateUserItem
     public string StudentId { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
 }
+
+public class BulkCreateTeamResponse
+{
+    public Guid TeamId { get; set; }
+    public string TeamName { get; set; } = null!;
+    public List<TeamMemberItem> Members { get; set; } = new();
+}
+
+public class TeamMemberItem
+{
+    public Guid UserId { get; set; }
+    public string Email { get; set; } = null!;
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public bool IsLeader { get; set; }
+}
