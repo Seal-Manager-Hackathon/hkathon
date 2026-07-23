@@ -16,6 +16,9 @@ public class LecturerScoreController : ControllerBase
         _scoreService = scoreService;
     }
 
+    /// <summary>
+    /// Chi tiết một lượt chấm điểm.
+    /// </summary>
     [HttpGet("scores/{scoreId:guid}")]
     public async Task<IActionResult> GetScoreDetail(Guid scoreId)
     {
@@ -23,6 +26,9 @@ public class LecturerScoreController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Danh sách các lượt chấm điểm của các giám khảo cho bài nộp.
+    /// </summary>
     [HttpGet("submissions/{submissionId:guid}/grader-scores")]
     public async Task<IActionResult> GetSubmissionGraderScores(Guid submissionId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
     {
@@ -30,6 +36,9 @@ public class LecturerScoreController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Danh sách điểm tiêu chí cụ thể.
+    /// </summary>
     [HttpGet("scores/{scoreId:guid}/items")]
     public async Task<IActionResult> GetScoreItems(Guid scoreId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
     {
@@ -37,6 +46,9 @@ public class LecturerScoreController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Điểm của đội đăng ký trong round.
+    /// </summary>
     [HttpGet("rounds/{roundId:guid}/register-teams/{registerTeamId:guid}/scores")]
     public async Task<IActionResult> GetTeamRoundScore(Guid roundId, Guid registerTeamId)
     {
@@ -44,6 +56,9 @@ public class LecturerScoreController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Chi tiết điểm một tiêu chí.
+    /// </summary>
     [HttpGet("score-items/{scoreItemId:guid}")]
     public async Task<IActionResult> GetScoreItemDetail(Guid scoreItemId)
     {

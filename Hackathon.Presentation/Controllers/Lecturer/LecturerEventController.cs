@@ -20,6 +20,9 @@ public class LecturerEventController : ControllerBase
         _submissionService = submissionService;
     }
 
+    /// <summary>
+    /// Sự kiện mới nhất.
+    /// </summary>
     [HttpGet("events/recent")]
     public async Task<IActionResult> GetRecentEvents()
     {
@@ -27,6 +30,9 @@ public class LecturerEventController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RecentEventsFetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Đếm số lượng sự kiện.
+    /// </summary>
     [HttpGet("events/count")]
     public async Task<IActionResult> GetEventCount([FromQuery] GetEventCountRequest request)
     {
@@ -34,6 +40,9 @@ public class LecturerEventController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.EventCountFetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Danh sách sự kiện giảng viên phụ trách.
+    /// </summary>
     [HttpGet("events")]
     public async Task<IActionResult> GetLecturerEvents([FromQuery] LecturerEvent.GetLecturerEventsRequest request)
     {
@@ -41,6 +50,9 @@ public class LecturerEventController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Sự kiện được gán cho giảng viên.
+    /// </summary>
     [HttpGet("events/my-lecturer")]
     public async Task<IActionResult> GetLecturerAssignEvents([FromQuery] LecturerEvent.GetLecturerEventsRequest request)
     {
@@ -48,6 +60,9 @@ public class LecturerEventController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Chi tiết sự kiện.
+    /// </summary>
     [HttpGet("events/{eventId:guid}")]
     public async Task<IActionResult> GetLecturerEventDetail(Guid eventId)
     {
@@ -55,6 +70,9 @@ public class LecturerEventController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Danh sách bài nộp trong sự kiện.
+    /// </summary>
     [HttpGet("events/{eventId:guid}/submissions")]
     public async Task<IActionResult> GetSubmissions(Guid eventId, [FromQuery] GetLecturerSubmissionsRequest request)
     {
@@ -63,6 +81,9 @@ public class LecturerEventController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Chi tiết bài nộp.
+    /// </summary>
     [HttpGet("submissions/{submissionId:guid}")]
     public async Task<IActionResult> GetSubmissionDetail(Guid submissionId)
     {

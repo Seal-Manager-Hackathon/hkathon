@@ -16,6 +16,9 @@ public class LecturerLeaderboardController : ControllerBase
         _leaderboardService = leaderboardService;
     }
 
+    /// <summary>
+    /// Bảng xếp hạng của event.
+    /// </summary>
     [HttpGet("events/{eventId:guid}/leaderboard")]
     public async Task<IActionResult> GetEventLeaderboard(Guid eventId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
     {
@@ -23,6 +26,9 @@ public class LecturerLeaderboardController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Bảng xếp hạng của round.
+    /// </summary>
     [HttpGet("rounds/{roundId:guid}/leaderboard")]
     public async Task<IActionResult> GetRoundLeaderboard(Guid roundId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
     {
@@ -30,6 +36,9 @@ public class LecturerLeaderboardController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Bảng xếp hạng theo năm (chapter).
+    /// </summary>
     [HttpGet("events/chapter/{year:int}/leaderboard")]
     public async Task<IActionResult> GetChapterLeaderboard(int year, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
     {

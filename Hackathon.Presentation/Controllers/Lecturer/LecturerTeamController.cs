@@ -16,6 +16,9 @@ public class LecturerTeamController : ControllerBase
         _teamService = teamService;
     }
 
+    /// <summary>
+    /// Danh sách nhóm.
+    /// </summary>
     [HttpGet("teams")]
     public async Task<IActionResult> GetTeams([FromQuery] GetTeamsRequest request)
     {
@@ -23,6 +26,9 @@ public class LecturerTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.TeamsFetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Chi tiết nhóm.
+    /// </summary>
     [HttpGet("teams/{teamId:guid}")]
     public async Task<IActionResult> GetTeamDetail(Guid teamId)
     {
@@ -30,6 +36,9 @@ public class LecturerTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.TeamDetailFetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Các sự kiện nhóm tham gia.
+    /// </summary>
     [HttpGet("teams/{teamId:guid}/events")]
     public async Task<IActionResult> GetTeamEvents(Guid teamId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
     {
@@ -37,6 +46,9 @@ public class LecturerTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Các nhóm tạo gần đây.
+    /// </summary>
     [HttpGet("teams/recent")]
     public async Task<IActionResult> GetRecentTeams()
     {
@@ -44,6 +56,9 @@ public class LecturerTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Số lượng nhóm.
+    /// </summary>
     [HttpGet("teams/count")]
     public async Task<IActionResult> GetTeamCount([FromQuery] GetTeamCountRequest request)
     {

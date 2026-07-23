@@ -16,6 +16,9 @@ public class LecturerNotificationController : ControllerBase
         _notificationService = notificationService;
     }
 
+    /// <summary>
+    /// Xem danh sách thông báo.
+    /// </summary>
     [HttpGet("notifications")]
     public async Task<IActionResult> GetNotifications([FromQuery] GetNotificationsRequest request)
     {
@@ -23,6 +26,9 @@ public class LecturerNotificationController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Số lượng thông báo.
+    /// </summary>
     [HttpGet("notifications/count")]
     public async Task<IActionResult> GetNotificationCount()
     {
@@ -30,6 +36,9 @@ public class LecturerNotificationController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Thông báo gần đây.
+    /// </summary>
     [HttpGet("notifications/recent")]
     public async Task<IActionResult> GetRecentNotifications()
     {
@@ -37,6 +46,9 @@ public class LecturerNotificationController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Đếm thông báo chưa đọc.
+    /// </summary>
     [HttpGet("notifications/unread-count")]
     public async Task<IActionResult> GetMyUnreadCount()
     {
@@ -44,6 +56,9 @@ public class LecturerNotificationController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Chi tiết thông báo.
+    /// </summary>
     [HttpGet("notifications/{notificationId:guid}")]
     public async Task<IActionResult> GetNotificationDetail(Guid notificationId)
     {
@@ -51,6 +66,9 @@ public class LecturerNotificationController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Đánh dấu đã đọc.
+    /// </summary>
     [HttpPost("notifications/{notificationId:guid}/read")]
     public async Task<IActionResult> ReadNotification(Guid notificationId)
     {
@@ -58,6 +76,9 @@ public class LecturerNotificationController : ControllerBase
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Đọc tất cả thông báo.
+    /// </summary>
     [HttpPost("notifications/read-all")]
     public async Task<IActionResult> ReadAllNotifications()
     {

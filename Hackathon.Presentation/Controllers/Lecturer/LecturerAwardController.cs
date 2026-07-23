@@ -16,6 +16,9 @@ public class LecturerAwardController : ControllerBase
         _awardService = awardService;
     }
 
+    /// <summary>
+    /// Giải thưởng trong event.
+    /// </summary>
     [HttpGet("events/{eventId:guid}/awards")]
     public async Task<IActionResult> GetAwards(Guid eventId, [FromQuery] GetAwardsRequest request)
     {
@@ -24,6 +27,9 @@ public class LecturerAwardController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Chi tiết giải thưởng.
+    /// </summary>
     [HttpGet("awards/{awardId:guid}")]
     public async Task<IActionResult> GetAwardDetail(Guid awardId)
     {

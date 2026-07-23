@@ -16,6 +16,9 @@ public class LecturerCriteriaTemplateController : ControllerBase
         _criteriaTemplateService = criteriaTemplateService;
     }
 
+    /// <summary>
+    /// Mẫu tiêu chí chấm điểm của vòng.
+    /// </summary>
     [HttpGet("rounds/{roundId:guid}/criteria-templates")]
     public async Task<IActionResult> GetCriteriaTemplatesByRound(Guid roundId, [FromQuery] GetCriteriaTemplatesByRoundRequest request)
     {
@@ -24,6 +27,9 @@ public class LecturerCriteriaTemplateController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Chi tiết mẫu tiêu chí.
+    /// </summary>
     [HttpGet("criteria-templates/{templateId:guid}")]
     public async Task<IActionResult> GetCriteriaTemplateDetail(Guid templateId)
     {
@@ -31,6 +37,9 @@ public class LecturerCriteriaTemplateController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Các tiêu chí cụ thể trong mẫu.
+    /// </summary>
     [HttpGet("criteria-templates/{templateId:guid}/criteria-items")]
     public async Task<IActionResult> GetCriteriaItemsByTemplate(Guid templateId, [FromQuery] GetCriteriaItemsByTemplateRequest request)
     {
@@ -39,6 +48,9 @@ public class LecturerCriteriaTemplateController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Chi tiết một tiêu chí cụ thể.
+    /// </summary>
     [HttpGet("criteria-items/{itemId:guid}")]
     public async Task<IActionResult> GetCriteriaItemDetail(Guid itemId)
     {

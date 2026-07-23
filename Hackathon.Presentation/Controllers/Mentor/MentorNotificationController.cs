@@ -16,6 +16,9 @@ public class MentorNotificationController : ControllerBase
         _mentorNotificationService = mentorNotificationService;
     }
 
+    /// <summary>
+    /// Xem các track trong event.
+    /// </summary>
     [HttpGet("events/{eventId:guid}/tracks")]
     public async Task<IActionResult> GetTracksByEvent(Guid eventId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
     {
@@ -23,6 +26,9 @@ public class MentorNotificationController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Gửi thông báo đến track được phụ trách.
+    /// </summary>
     [HttpPost("tracks/{trackId:guid}/mentor-notifications")]
     public async Task<IActionResult> SendTrackNotification(Guid trackId, [FromBody] SendTrackNotificationRequest request)
     {
@@ -30,6 +36,9 @@ public class MentorNotificationController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Created, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Lấy danh sách thông báo đã gửi trong track.
+    /// </summary>
     [HttpGet("tracks/{trackId:guid}/mentor-notifications")]
     public async Task<IActionResult> GetTrackNotifications(Guid trackId, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
     {
@@ -37,6 +46,9 @@ public class MentorNotificationController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Chi tiết thông báo của mentor.
+    /// </summary>
     [HttpGet("mentor-notifications/{mentorNotificationId:guid}")]
     public async Task<IActionResult> GetMentorNotificationDetail(Guid mentorNotificationId)
     {
@@ -44,6 +56,9 @@ public class MentorNotificationController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Cập nhật thông báo.
+    /// </summary>
     [HttpPatch("mentor-notifications/{mentorNotificationId:guid}")]
     public async Task<IActionResult> UpdateMentorNotification(Guid mentorNotificationId, [FromBody] UpdateMentorNotificationRequest request)
     {
@@ -51,6 +66,9 @@ public class MentorNotificationController : ControllerBase
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Xóa thông báo (soft-delete).
+    /// </summary>
     [HttpPost("mentor-notifications/{mentorNotificationId:guid}/delete")]
     public async Task<IActionResult> DeleteMentorNotification(Guid mentorNotificationId)
     {
@@ -58,6 +76,9 @@ public class MentorNotificationController : ControllerBase
         return Ok(ApiResponseFactory.Success<object?>(null, message: SuccessMessage.Common.Updated, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Phục hồi thông báo đã xóa.
+    /// </summary>
     [HttpPost("mentor-notifications/{mentorNotificationId:guid}/restore")]
     public async Task<IActionResult> RestoreMentorNotification(Guid mentorNotificationId)
     {

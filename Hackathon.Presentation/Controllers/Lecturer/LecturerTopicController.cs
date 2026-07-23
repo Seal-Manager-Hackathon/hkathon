@@ -16,6 +16,9 @@ public class LecturerTopicController : ControllerBase
         _topicService = topicService;
     }
 
+    /// <summary>
+    /// Danh sách topic thuộc track.
+    /// </summary>
     [HttpGet("tracks/{trackId:guid}/topics")]
     public async Task<IActionResult> GetTopicsByTrack(Guid trackId, [FromQuery] GetTopicsByTrackRequest request)
     {
@@ -24,6 +27,9 @@ public class LecturerTopicController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Chi tiết topic.
+    /// </summary>
     [HttpGet("topics/{topicId:guid}")]
     public async Task<IActionResult> GetTopicDetail(Guid topicId)
     {
