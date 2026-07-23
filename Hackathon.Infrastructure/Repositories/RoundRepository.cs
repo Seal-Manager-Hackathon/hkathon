@@ -35,7 +35,11 @@ public class RoundRepository : IRoundRepository
 
     public async Task<int> CountTeamsInRoundAsync(Guid roundId)
         => await _context.Set<RoundDetails>()
-            .CountAsync(rd => rd.RoundId == roundId);
+            .Include(rd => rd.RegisterTeam)
+            .CountAsync(rd => rd.RoundId == roundId
+                && !rd.IsDisable
+                && !rd.RegisterTeam.IsDisable
+                && !rd.RegisterTeam.IsBanned);
 
     public async Task AddRoundDetailAsync(RoundDetails roundDetail)
         => await _context.Set<RoundDetails>().AddAsync(roundDetail);
