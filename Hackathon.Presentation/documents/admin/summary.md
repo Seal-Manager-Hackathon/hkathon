@@ -89,6 +89,15 @@
 
 ---
 
+## ⚡ Script (Bulk Operations)
+**Controller:** `AdminScriptController` | **Service:** `Services/Admin/Script/`
+
+| Method | Route | Chức năng |
+|--------|-------|-----------|
+| POST | `/script/bulk-create-users` | Tạo nhanh N tài khoản user cùng role, email tự động đánh số (kiểm tra trùng) |
+
+---
+
 ## 📢 Notification
 **Controller:** `AdminNotificationController` | **Service:** `Services/Admin/Notification/`
 

@@ -174,6 +174,33 @@ public class UserRepository : IUserRepository
         return (items, totalCount);
     }
 
+    public async Task<List<string>> GetEmailsByPrefixAsync(string prefix, string domain)
+    {
+        var pattern = $"{prefix}%{domain}";
+        return await _context.Users
+            .Where(u => EF.Functions.ILike(u.Email, pattern))
+            .Select(u => u.Email)
+            .ToListAsync();
+    }
+
+    public async Task<List<string>> GetStudentIdsByPrefixAsync(string prefix)
+    {
+        var pattern = $"{prefix}%";
+        return await _context.Users
+            .Where(u => EF.Functions.ILike(u.StudentId, pattern))
+            .Select(u => u.StudentId)
+            .ToListAsync();
+    }
+
+    public async Task<List<string>> GetPhoneNumbersByPrefixAsync(string prefix)
+    {
+        var pattern = $"{prefix}%";
+        return await _context.Users
+            .Where(u => EF.Functions.ILike(u.PhoneNumber, pattern))
+            .Select(u => u.PhoneNumber)
+            .ToListAsync();
+    }
+
     public async Task<List<Users>> GetAllAsync()
         => await _context.Users.ToListAsync();
 

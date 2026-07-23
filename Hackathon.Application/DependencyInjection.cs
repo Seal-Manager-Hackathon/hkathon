@@ -4,6 +4,7 @@ using Hackathon.Application.Services.Base;
 using Hackathon.Application.Services.Judge;
 using Hackathon.Application.Services.Lecturer;
 using Hackathon.Application.Services.Mentor;
+using Hackathon.Application.Services.Script;
 using Hackathon.Application.Services.Staff;
 using Hackathon.Application.Services.Student;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,7 @@ public static class DependencyInjection
         services.AddScoped<LeaderboardHelper>();
         services.AddAdminServices();
         services.AddBaseServices();
+        services.AddScriptServices();
         services.AddStaffServices();
         services.AddLecturerServices();
         services.AddMentorServices();

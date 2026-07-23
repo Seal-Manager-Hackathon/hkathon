@@ -111,5 +111,6 @@ public static class SuccessMessage
         public const string TeamLocked = "Team Locked Successfully";
         public const string TeamUnlocked = "Team Unlocked Successfully";
         public const string TeamLeaderChanged = "Team Leader Changed Successfully";
+        public const string UsersBulkCreated = "Users Bulk Created Successfully";
     }
 }
