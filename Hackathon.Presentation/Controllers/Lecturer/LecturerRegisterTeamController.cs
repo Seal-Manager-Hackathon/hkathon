@@ -19,6 +19,9 @@ public class LecturerRegisterTeamController : ControllerBase
         _submissionService = submissionService;
     }
 
+    /// <summary>
+    /// Đội đăng ký trong sự kiện.
+    /// </summary>
     [HttpGet("events/{eventId:guid}/register-teams")]
     public async Task<IActionResult> GetRegisterTeams(Guid eventId, [FromQuery] GetRegisterTeamsRequest request)
     {
@@ -27,6 +30,9 @@ public class LecturerRegisterTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RegisterTeamsFetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Chi tiết đội đăng ký.
+    /// </summary>
     [HttpGet("register-teams/{registerTeamId:guid}")]
     public async Task<IActionResult> GetRegisterTeamDetail(Guid registerTeamId)
     {
@@ -34,6 +40,9 @@ public class LecturerRegisterTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RegisterTeamDetailFetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Các lượt đăng ký sự kiện của một nhóm (team).
+    /// </summary>
     [HttpGet("teams/{teamId:guid}/register-teams")]
     public async Task<IActionResult> GetRegisterTeamsByTeam(Guid teamId, [FromQuery] GetRegisterTeamsByTeamRequest request)
     {
@@ -41,6 +50,9 @@ public class LecturerRegisterTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RegisterTeamsFetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Các sự kiện của người dùng tham gia.
+    /// </summary>
     [HttpGet("users/{userId:guid}/events")]
     public async Task<IActionResult> GetUserEvents(Guid userId, [FromQuery] GetUserEventsRequest request)
     {
@@ -48,6 +60,9 @@ public class LecturerRegisterTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Đội đăng ký thuộc track (lọc round).
+    /// </summary>
     [HttpGet("tracks/{trackId:guid}/register-teams")]
     public async Task<IActionResult> GetRegisterTeamsByTrack(
         Guid trackId,
@@ -59,6 +74,9 @@ public class LecturerRegisterTeamController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RegisterTeamsFetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Các bài nộp của đội đăng ký (lọc round).
+    /// </summary>
     [HttpGet("register-teams/{registerTeamId:guid}/submissions")]
     public async Task<IActionResult> GetSubmissionsByRegisterTeam(
         Guid registerTeamId,
@@ -71,7 +89,7 @@ public class LecturerRegisterTeamController : ControllerBase
     }
 
     /// <summary>
-    /// Kiểm tra 1 register team còn đang thi đấu ko, kèm track/topic/round hiện tại
+    /// Trạng thái thi đấu hiện tại của đội.
     /// </summary>
     [HttpGet("register-teams/{registerTeamId:guid}/competition-status")]
     public async Task<IActionResult> GetCompetitionStatus(Guid registerTeamId)

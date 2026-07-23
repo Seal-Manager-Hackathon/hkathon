@@ -1,41 +1,23 @@
-using Microsoft.Extensions.Configuration;
-
-namespace Hackathon.Infrastructure.Seed;
+﻿namespace Hackathon.Infrastructure.Seed;
 
 public static class SeedHelper
 {
-    private static string? _cachedPepper;
-    private static string? _cachedHash;
-
     /// <summary>
-    /// BCrypt EnhancedHash (SHA256) of password "string" + Pepper,
-    /// shared by all seed users — same hash mechanism as IPasswordService during login/register.
-    /// Pepper is read from appsettings.json (SecurityOptions.Pepper).
-    /// Hash is cached after the first call.
+    /// Fixed BCrypt EnhancedHash (SHA256) of the password "string" + Pepper
+    /// (Pepper = SecurityOptions:Pepper, the value used by the live application).
+    ///
+    /// Hardcoded on purpose so EF Core HasData seed values stay deterministic across
+    /// migration generations. BCrypt uses a random salt, so computing the hash at
+    /// design time would yield a different value every run and EF would emit an
+    /// UpdateData for every seed user on each new migration. This constant is the
+    /// exact hash already frozen in the Initial migration, so existing seed rows
+    /// never churn and new seed rows share the same valid hash.
+    ///
+    /// Runtime login/registration is unaffected: IPasswordService recomputes BCrypt
+    /// with the live pepper from configuration and compares against this stored hash.
     /// </summary>
-    public static string HashDefaultPassword()
-    {
-        if (_cachedHash != null) return _cachedHash;
-        var pepper = GetSeedPepper();
-        _cachedHash = BCrypt.Net.BCrypt.EnhancedHashPassword("string" + pepper, hashType: BCrypt.Net.HashType.SHA256);
-        return _cachedHash;
-    }
+    private const string SeedPasswordHash =
+        "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze";
 
-    private static string GetSeedPepper()
-    {
-        if (_cachedPepper != null) return _cachedPepper;
-
-        var config = new ConfigurationBuilder()
-            .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile("appsettings.json", optional: true)
-            .AddEnvironmentVariables()
-            .Build();
-
-        _cachedPepper = config["SecurityOptions:Pepper"]
-            ?? throw new InvalidOperationException(
-                "Missing SecurityOptions:Pepper in configuration. " +
-                "Set it in appsettings.json or environment variable SecurityOptions__Pepper.");
-
-        return _cachedPepper;
-    }
+    public static string HashDefaultPassword() => SeedPasswordHash;
 }

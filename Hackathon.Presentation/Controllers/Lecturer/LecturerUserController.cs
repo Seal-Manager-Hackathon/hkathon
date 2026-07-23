@@ -17,6 +17,9 @@ public class LecturerUserController : ControllerBase
         _userService = userService;
     }
 
+    /// <summary>
+    /// Danh sách người dùng mới đăng ký.
+    /// </summary>
     [HttpGet("users/recent")]
     public async Task<IActionResult> GetRecentUsers()
     {
@@ -24,6 +27,9 @@ public class LecturerUserController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.RecentUsersFetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Đếm số lượng người dùng.
+    /// </summary>
     [HttpGet("users/count")]
     public async Task<IActionResult> GetUserCount([FromQuery] AdminUser.GetUserCountRequest request)
     {
@@ -31,6 +37,9 @@ public class LecturerUserController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Admin.UserCountFetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Danh sách tất cả người dùng.
+    /// </summary>
     [HttpGet("users")]
     public async Task<IActionResult> GetUsers([FromQuery] AdminUser.GetAllUsersRequest request)
     {
@@ -38,6 +47,9 @@ public class LecturerUserController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Chi tiết người dùng.
+    /// </summary>
     [HttpGet("users/{userId:guid}")]
     public async Task<IActionResult> GetUserDetail(Guid userId)
     {

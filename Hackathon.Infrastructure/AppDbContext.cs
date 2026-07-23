@@ -272,5 +272,6 @@ public class AppDbContext : DbContext
         modelBuilder.SeedDemoData();
         modelBuilder.SeedFPTData();
         modelBuilder.SeedScenarioData();
+        modelBuilder.SeedFinTechEventData();
     }
 }
