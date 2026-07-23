@@ -239,6 +239,16 @@ public class Service : ITeamService
         if (targetMember.IsLeader)
             throw new BadRequestException("Cannot Kick the Team Leader");
 
+        // Check team không có registration nào đang pending/approved
+        // — nếu đã đăng ký dù chưa duyệt cũng ko được kick member
+        var (activeRegistrations, _) = await _registerTeamRepository.GetByTeamIdAsync(
+            teamId, null, false, 1, int.MaxValue);
+        var hasAnyRegistration = activeRegistrations.Any(rt =>
+            rt.Status == Domain.Enums.RegisterTeam.RegisterTeamStatusEnum.Pending
+            || rt.Status == Domain.Enums.RegisterTeam.RegisterTeamStatusEnum.Approved);
+        if (hasAnyRegistration)
+            throw new BadRequestException("Cannot Kick Member While Team Has a Pending or Approved Registration");
+
         // Xóa cứng TeamDetails — người bị kick không còn trong team nữa
         await _teamRepository.DeleteTeamDetailAsync(targetMember);
         await _unitOfWork.SaveChangesAsync();
@@ -419,6 +429,15 @@ public class Service : ITeamService
         // Leader cannot leave — must disband or change leader first
         if (myMember.IsLeader)
             throw new BadRequestException("Team Leader Cannot Leave the Team. Please Change Leader First or Disband the Team.");
+
+        // Check team không có registration nào đang pending/approved
+        var (activeRegistrations, _) = await _registerTeamRepository.GetByTeamIdAsync(
+            teamId, null, false, 1, int.MaxValue);
+        var hasAnyRegistration = activeRegistrations.Any(rt =>
+            rt.Status == Domain.Enums.RegisterTeam.RegisterTeamStatusEnum.Pending
+            || rt.Status == Domain.Enums.RegisterTeam.RegisterTeamStatusEnum.Approved);
+        if (hasAnyRegistration)
+            throw new BadRequestException("Cannot Leave Team While Team Has a Pending or Approved Registration");
 
         var now = DateTimeOffset.UtcNow;
         myMember.IsDisable = true;

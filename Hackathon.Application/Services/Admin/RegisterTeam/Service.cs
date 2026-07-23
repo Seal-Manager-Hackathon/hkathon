@@ -496,13 +496,12 @@ public class Service : IRegisterTeamService
             rt.RejectionReason = rejectionReason;
 
         // Mở khóa team — có thể chỉnh sửa lại
-        // NHƯNG chỉ khi team chưa từng được Approved ở event khác
-        // (nếu đã active ở event khác rồi thì giữ CanEdit = false)
+        // NHƯNG chỉ khi team ko còn registration pending/approved/banned ở event khác
         var team = await _teamRepository.GetByIdAsync(rt.TeamId);
         if (team != null)
         {
-            var hasOtherApproved = await _registerTeamRepository.HasOtherApprovedAsync(rt.TeamId, registerTeamId);
-            if (!hasOtherApproved)
+            var hasOtherActive = await _registerTeamRepository.HasOtherActiveRegistrationAsync(rt.TeamId, registerTeamId);
+            if (!hasOtherActive)
             {
                 team.CanEdit = true;
             }

@@ -39,11 +39,13 @@ public class RegisterTeamRepository : IRegisterTeamRepository
         return Task.CompletedTask;
     }
 
-    public async Task<bool> HasOtherApprovedAsync(Guid teamId, Guid excludeRegisterTeamId)
+    public async Task<bool> HasOtherActiveRegistrationAsync(Guid teamId, Guid excludeRegisterTeamId)
         => await _context.Set<RegisterTeams>()
             .AnyAsync(rt => rt.TeamId == teamId
                 && rt.Id != excludeRegisterTeamId
-                && rt.Status == RegisterTeamStatusEnum.Approved);
+                && (rt.Status == RegisterTeamStatusEnum.Pending
+                    || rt.Status == RegisterTeamStatusEnum.Approved
+                    || rt.Status == RegisterTeamStatusEnum.Banned));
 
     public async Task<(List<RegisterTeams> Items, int TotalCount)> GetApprovedByUserIdAsync(Guid userId, string? keyword, int pageIndex, int pageSize)
     {
