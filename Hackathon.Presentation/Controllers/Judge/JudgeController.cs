@@ -176,10 +176,7 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// <summary>
     /// Lấy điểm chi tiết do chính Judge chấm cho một bài nộp.
-    /// </summary>
-    [HttpGet("submissions/{submissionId:guid}/my-score")]
     /// </summary>
     [HttpGet("submissions/{submissionId:guid}/my-score")]
     public async Task<IActionResult> GetMyScoreBySubmission(Guid submissionId)
