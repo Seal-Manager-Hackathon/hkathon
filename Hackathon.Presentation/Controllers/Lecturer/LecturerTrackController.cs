@@ -19,6 +19,9 @@ public class LecturerTrackController : ControllerBase
         _submissionService = submissionService;
     }
 
+    /// <summary>
+    /// Lấy danh sách track trong event.
+    /// </summary>
     [HttpGet("events/{eventId:guid}/tracks")]
     public async Task<IActionResult> GetTracksByEvent(Guid eventId, [FromQuery] GetTracksByEventRequest request)
     {
@@ -27,6 +30,9 @@ public class LecturerTrackController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Xem chi tiết track.
+    /// </summary>
     [HttpGet("tracks/{trackId:guid}")]
     public async Task<IActionResult> GetTrackDetail(Guid trackId)
     {
@@ -34,6 +40,9 @@ public class LecturerTrackController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Bài nộp thuộc track.
+    /// </summary>
     [HttpGet("tracks/{trackId:guid}/submissions")]
     public async Task<IActionResult> GetSubmissionsByTrack(
         Guid trackId,
@@ -44,6 +53,9 @@ public class LecturerTrackController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Track được phân công cho giảng viên.
+    /// </summary>
     [HttpGet("events/{eventId:guid}/my-tracks")]
     public async Task<IActionResult> GetMyAssignedTracks(
         Guid eventId,

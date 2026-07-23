@@ -16,6 +16,9 @@ public class MentorRegisterTeamController : ControllerBase
         _registerTeamService = registerTeamService;
     }
 
+    /// <summary>
+    /// Danh sách đội đăng ký thuộc track (lọc từ khóa, phân trang).
+    /// </summary>
     [HttpGet("tracks/{trackId:guid}/register-teams")]
     public async Task<IActionResult> GetRegisterTeamsByTrack(Guid trackId, [FromQuery] string? keyword, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10)
     {

@@ -17,7 +17,7 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Lấy danh sách track được phân công trong 1 event (giống Mentor)
+    /// Lấy danh sách track được phân công trong 1 event.
     /// </summary>
     [HttpGet("events/{eventId:guid}/tracks")]
     public async Task<IActionResult> GetMyTracks(Guid eventId)
@@ -27,7 +27,7 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Submissions trong 1 track, có filter round + isGraded
+    /// Submissions trong 1 track (lọc theo round, trạng thái đã chấm hay chưa, phân trang).
     /// </summary>
     [HttpGet("tracks/{trackId:guid}/submissions")]
     public async Task<IActionResult> GetTrackSubmissions(
@@ -42,7 +42,7 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Danh sách submissions trong event (myscope = bài được phân công theo track), filter track + round + status
+    /// Danh sách bài nộp được phân công chấm theo track trong 1 event (lọc track, round, status, phân trang).
     /// </summary>
     [HttpGet("events/{eventId:guid}/myscope")]
     public async Task<IActionResult> GetMyScope(
@@ -58,7 +58,7 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Tiêu chí chấm điểm cho 1 submission
+    /// Tiêu chí chấm điểm của 1 bài nộp.
     /// </summary>
     [HttpGet("submissions/{submissionId:guid}/criteria")]
     public async Task<IActionResult> GetSubmissionCriteria(Guid submissionId)
@@ -68,7 +68,7 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Chi tiết 1 bài nộp — giống Admin, auth Judge
+    /// Xem chi tiết bài nộp.
     /// </summary>
     [HttpGet("submissions/{submissionId:guid}")]
     public async Task<IActionResult> GetSubmissionDetail(Guid submissionId)
@@ -78,7 +78,7 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Chấm điểm 1 bài nộp
+    /// Chấm điểm cho bài nộp.
     /// </summary>
     [HttpPost("submissions/{submissionId:guid}/scores")]
     public async Task<IActionResult> SubmitScore(Guid submissionId, [FromBody] SubmitScoreRequest request)
@@ -88,7 +88,7 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Sửa toàn bộ điểm cho submission — tự tìm score của judge hiện tại
+    /// Cập nhật toàn bộ điểm của Judge hiện tại cho bài nộp.
     /// </summary>
     [HttpPatch("submissions/{submissionId:guid}/scores")]
     public async Task<IActionResult> UpdateScoreBySubmission(
@@ -102,7 +102,7 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Sửa 1 item điểm riêng lẻ (ko cần scoreId trên route)
+    /// Sửa một tiêu chí điểm riêng lẻ.
     /// </summary>
     [HttpPatch("score-items/{scoreItemId:guid}")]
     public async Task<IActionResult> UpdateScoreItem(Guid scoreItemId, [FromBody] UpdateScoreItemRequest request)
@@ -112,7 +112,7 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Danh sách bài nộp kèm điểm judge đã chấm trong 1 event, filter theo round, track, isGraded
+    /// Danh sách bài nộp kèm điểm Judge đã chấm trong event (lọc round, track, đã chấm/chưa, phân trang).
     /// </summary>
     [HttpGet("events/{eventId:guid}/scores/me")]
     public async Task<IActionResult> GetMyScores(
@@ -128,7 +128,7 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Score items (điểm từng tiêu chí) của 1 lượt chấm — giống Admin, auth Judge
+    /// Xem chi tiết điểm từng tiêu chí của một lượt chấm.
     /// </summary>
     [HttpGet("scores/{scoreId:guid}/items")]
     public async Task<IActionResult> GetScoreItems(
@@ -141,7 +141,7 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Submissions per round cho 1 register team — last submission + judge score status
+    /// Lấy bài nộp cuối cùng kèm trạng thái chấm điểm của đội đăng ký qua các round.
     /// </summary>
     [HttpGet("register-teams/{registerTeamId:guid}/submissions")]
     public async Task<IActionResult> GetRegisterTeamSubmissions(Guid registerTeamId)
@@ -151,8 +151,7 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Submissions trong 1 round, lọc theo track (nếu có) và isGraded (đã chấm/chưa). Nếu ko truyền trackId -> lấy hết track judge được phân công.
-    /// Mỗi team chỉ lấy bài nộp cuối cùng trong round.
+    /// Xem bài nộp cuối cùng của các đội trong một round (lọc track, đã chấm/chưa).
     /// </summary>
     [HttpGet("rounds/{roundId:guid}/submissions")]
     public async Task<IActionResult> GetSubmissionsByRound(
@@ -167,7 +166,7 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Chi tiết 1 score item — giống Admin, auth Judge
+    /// Xem chi tiết điểm của một tiêu chí cụ thể.
     /// </summary>
     [HttpGet("score-items/{scoreItemId:guid}")]
     public async Task<IActionResult> GetScoreItemDetail(Guid scoreItemId)
@@ -177,7 +176,10 @@ public class JudgeController : ControllerBase
     }
 
     /// <summary>
-    /// Diem cua chinh judge cho 1 submission — scoreId, assignTrackId, totalScore, scoreItems
+    /// <summary>
+    /// Lấy điểm chi tiết do chính Judge chấm cho một bài nộp.
+    /// </summary>
+    [HttpGet("submissions/{submissionId:guid}/my-score")]
     /// </summary>
     [HttpGet("submissions/{submissionId:guid}/my-score")]
     public async Task<IActionResult> GetMyScoreBySubmission(Guid submissionId)

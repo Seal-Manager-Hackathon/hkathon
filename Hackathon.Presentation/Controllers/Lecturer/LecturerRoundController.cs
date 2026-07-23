@@ -16,6 +16,9 @@ public class LecturerRoundController : ControllerBase
         _roundService = roundService;
     }
 
+    /// <summary>
+    /// Vòng thi trong sự kiện.
+    /// </summary>
     [HttpGet("events/{eventId:guid}/rounds")]
     public async Task<IActionResult> GetRounds(Guid eventId, [FromQuery] GetRoundsRequest request)
     {
@@ -24,6 +27,9 @@ public class LecturerRoundController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Số vòng đấu lớn nhất của event.
+    /// </summary>
     [HttpGet("events/{eventId:guid}/rounds/max-round-no")]
     public async Task<IActionResult> GetMaxRoundNo(Guid eventId)
     {
@@ -31,6 +37,9 @@ public class LecturerRoundController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Chi tiết vòng thi.
+    /// </summary>
     [HttpGet("rounds/{roundId:guid}")]
     public async Task<IActionResult> GetRoundDetail(Guid roundId)
     {

@@ -16,6 +16,9 @@ public class LecturerAssignController : ControllerBase
         _assignService = assignService;
     }
 
+    /// <summary>
+    /// Danh sách nhân sự được phân công trong sự kiện.
+    /// </summary>
     [HttpGet("events/{eventId:guid}/assign")]
     public async Task<IActionResult> GetAssignedUsers(Guid eventId, [FromQuery] GetAssignedUsersRequest request)
     {
@@ -23,6 +26,9 @@ public class LecturerAssignController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Thông tin phân công của chính giảng viên trong event.
+    /// </summary>
     [HttpGet("events/{eventId:guid}/my-assignment")]
     public async Task<IActionResult> GetLecturerAssignedInfo(Guid eventId)
     {
@@ -30,6 +36,9 @@ public class LecturerAssignController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Danh sách staff khả dụng để phân công.
+    /// </summary>
     [HttpGet("events/{eventId:guid}/staff/available")]
     public async Task<IActionResult> GetAvailableStaff(Guid eventId, [FromQuery] GetAvailableUserRequest request)
     {
@@ -38,6 +47,9 @@ public class LecturerAssignController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Danh sách giảng viên khả dụng để phân công.
+    /// </summary>
     [HttpGet("events/{eventId:guid}/lecturers/available")]
     public async Task<IActionResult> GetAvailableLecturer(Guid eventId, [FromQuery] GetAvailableUserRequest request)
     {

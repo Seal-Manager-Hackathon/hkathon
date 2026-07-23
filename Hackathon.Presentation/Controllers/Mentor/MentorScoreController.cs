@@ -16,6 +16,9 @@ public class MentorScoreController : ControllerBase
         _scoreService = scoreService;
     }
 
+    /// <summary>
+    /// Lấy điểm của đội đăng ký trong một vòng đấu cụ thể.
+    /// </summary>
     [HttpGet("rounds/{roundId:guid}/register-teams/{registerTeamId:guid}/scores")]
     public async Task<IActionResult> GetTeamRoundScore(Guid roundId, Guid registerTeamId)
     {
@@ -23,6 +26,9 @@ public class MentorScoreController : ControllerBase
         return Ok(ApiResponseFactory.Success(result, message: SuccessMessage.Common.Fetched, traceId: HttpContext.TraceIdentifier));
     }
 
+    /// <summary>
+    /// Xem toàn bộ điểm của đội đăng ký.
+    /// </summary>
     [HttpGet("register-teams/{registerTeamId:guid}/scores")]
     public async Task<IActionResult> GetRegisterTeamScores(Guid registerTeamId)
     {
