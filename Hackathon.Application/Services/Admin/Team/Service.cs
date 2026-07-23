@@ -90,6 +90,15 @@ public class Service : ITeamService
 
         await _teamRepository.UpdateAsync(team);
         await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification Team — các thành viên trong team có thể thấy
+        var notification = NotificationHelper.Create(
+            NotificationTargetTypeEnum.Team,
+            "Team Disabled",
+            $"Your team {team.Name} has been disabled by administrator.",
+            teamId: teamId);
+        await _notificationRepository.AddAsync(notification);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task RestoreTeam(Guid teamId)
@@ -103,6 +112,15 @@ public class Service : ITeamService
         team.IsDisable = false;
 
         await _teamRepository.UpdateAsync(team);
+        await _unitOfWork.SaveChangesAsync();
+
+        // Gửi notification Team — các thành viên trong team có thể thấy
+        var notification = NotificationHelper.Create(
+            NotificationTargetTypeEnum.Team,
+            "Team Restored",
+            $"Your team {team.Name} has been restored by administrator.",
+            teamId: teamId);
+        await _notificationRepository.AddAsync(notification);
         await _unitOfWork.SaveChangesAsync();
     }
 

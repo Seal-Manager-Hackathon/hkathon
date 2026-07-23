@@ -38,6 +38,8 @@
 | Method | API | Service | Nội dung | Target |
 |--------|-----|---------|----------|--------|
 | POST | teams/{teamId}/change-leader | ChangeLeader | You are now the leader of team {TênTeam} | Personal → new leader |
+| POST | teams/{teamId}/delete | DeleteTeam | Your team {TênTeam} has been disabled by administrator. | Team → teamId |
+| POST | teams/{teamId}/restore | RestoreTeam | Your team {TênTeam} has been restored by administrator. | Team → teamId |
 
 ## API Notification (đọc/sửa)
 | Method | API | Service | Mục đích |

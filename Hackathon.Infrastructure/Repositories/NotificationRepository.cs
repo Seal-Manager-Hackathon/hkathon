@@ -56,7 +56,9 @@ public class NotificationRepository : INotificationRepository
     {
         var query = _context.Notifications
             .Where(n => !n.IsDisable
-                && (n.UserId == userId || n.TargetType == NotificationTargetTypeEnum.System));
+                && (n.UserId == userId
+                    || n.TargetType == NotificationTargetTypeEnum.System
+                    || n.TargetType == NotificationTargetTypeEnum.Team));
 
         if (!string.IsNullOrWhiteSpace(keyword))
         {
