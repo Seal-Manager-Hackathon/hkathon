@@ -51,12 +51,11 @@ public class Service : IScriptService
         var prefix = request.StudentIdPrefix.Trim().ToUpper();
         if (prefix.Length != 2)
             throw new BadRequestException("StudentIdPrefix Must Be Exactly 2 Characters");
-        // Chỉ check email theo prefix để tìm số thứ tự — không gộp với studentId/phone
+        // Chỉ check email theo prefix để tìm số thứ tự
         var existingEmails = await _userRepository.GetEmailsByPrefixAsync(request.EmailPrefix, domain);
         var existingStudentIdSet = (await _userRepository.GetStudentIdsByPrefixAsync(prefix)).ToHashSet(StringComparer.OrdinalIgnoreCase);
-        var existingPhoneSet = (await _userRepository.GetPhoneNumbersByPrefixAsync("09")).ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-        // Tìm số thứ tự tiếp theo dựa trên email cùng prefix
+        // Tìm các số email đã dùng theo cùng prefix
         var usedEmailNumbers = new HashSet<int>();
         foreach (var email in existingEmails)
         {
@@ -67,42 +66,33 @@ public class Service : IScriptService
                 usedEmailNumbers.Add(num);
         }
 
-        var nextSeq = 1;
-        while (usedEmailNumbers.Contains(nextSeq))
-            nextSeq++;
-
         var now = DateTimeOffset.UtcNow;
         var createdUsers = new List<Users>();
 
         for (var i = 0; i < request.Count; i++)
         {
-            // Skip nếu email, studentId hoặc phone đã tồn tại
-            while (true)
-            {
-                var testEmail = $"{request.EmailPrefix}{nextSeq}{domain}";
-                var testStudentId = $"{prefix}{nextSeq:D6}";
-                var testPhone = $"09{nextSeq:D8}";
+            // Tìm số email bé nhất chưa dùng
+            var emailSeq = 1;
+            while (usedEmailNumbers.Contains(emailSeq))
+                emailSeq++;
 
-                if (!usedEmailNumbers.Contains(nextSeq)
-                    && !existingStudentIdSet.Contains(testStudentId)
-                    && !existingPhoneSet.Contains(testPhone))
-                    break;
-
-                nextSeq++;
-            }
-
-            var seq = nextSeq;
-            nextSeq++;
-
-            var email = $"{request.EmailPrefix}{seq}{domain}";
-            var firstName = $"{request.FirstName} {seq}";
-            var lastName = $"{request.LastName} {seq}";
+            var email = $"{request.EmailPrefix}{emailSeq}{domain}";
+            var firstName = $"{request.FirstName} {emailSeq}";
+            var lastName = $"{request.LastName} {emailSeq}";
             var rawPassword = "string";
-            var studentId = $"{prefix}{seq:D6}";
-            var phoneNumber = $"09{seq:D8}";
 
+            // StudentId: tìm số bé nhất từ emailSeq trở đi chưa bị trùng
+            var sidSeq = emailSeq;
+            var studentId = $"{prefix}{sidSeq:D6}";
+            while (existingStudentIdSet.Contains(studentId))
+            {
+                sidSeq++;
+                studentId = $"{prefix}{sidSeq:D6}";
+            }
+            var phoneNumber = $"09{sidSeq:D8}";
+
+            usedEmailNumbers.Add(emailSeq);
             existingStudentIdSet.Add(studentId);
-            existingPhoneSet.Add(phoneNumber);
 
             var user = new Users
             {
@@ -124,7 +114,7 @@ public class Service : IScriptService
             };
 
             createdUsers.Add(user);
-            usedEmailNumbers.Add(seq);
+            usedEmailNumbers.Add(emailSeq);
         }
 
         foreach (var user in createdUsers)
