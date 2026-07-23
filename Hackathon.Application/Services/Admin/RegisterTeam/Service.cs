@@ -497,7 +497,8 @@ public class Service : IRegisterTeamService
 
         // Mở khóa team — có thể chỉnh sửa lại
         // NHƯNG chỉ khi team ko còn registration pending/approved/banned ở event khác
-        var team = await _teamRepository.GetByIdAsync(rt.TeamId);
+        // Dùng rt.Team (đã Include) thay vì query riêng — tránh duplicate tracking
+        var team = rt.Team;
         if (team != null)
         {
             var hasOtherActive = await _registerTeamRepository.HasOtherActiveRegistrationAsync(rt.TeamId, registerTeamId);
