@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hackathon.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260721014541_Initial")]
+    [Migration("20260723145311_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -699,6 +699,76 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = true,
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-000000000004")
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000070"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000070"),
+                            EventRoleId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            IsDisable = false,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000070")
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000071"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000070"),
+                            EventRoleId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            IsDisable = false,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000071")
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000072"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000070"),
+                            EventRoleId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            IsDisable = false,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000072")
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000073"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000070"),
+                            EventRoleId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            IsDisable = false,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000073")
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000074"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000070"),
+                            EventRoleId = new Guid("66666666-6666-6666-6666-666666666666"),
+                            IsDisable = false,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000074")
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000075"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000070"),
+                            EventRoleId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            IsDisable = false,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000075")
+                        },
+                        new
+                        {
+                            Id = new Guid("40000000-0000-0000-0000-000000000076"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000070"),
+                            EventRoleId = new Guid("77777777-7777-7777-7777-777777777777"),
+                            IsDisable = false,
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000076")
                         });
                 });
 
@@ -1145,6 +1215,87 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = true,
                             TrackId = new Guid("24000000-0000-0000-0000-000000000060"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000070"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000070"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000070"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000071"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000071"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000071"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000072"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000072"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000072"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000073"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000073"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000070"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000074"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000073"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000071"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000075"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000073"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000072"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000076"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000074"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000070"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000077"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000074"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000071"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("41000000-0000-0000-0000-000000000078"),
+                            AssignEventId = new Guid("40000000-0000-0000-0000-000000000074"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000072"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -3139,6 +3290,24 @@ namespace Hackathon.Infrastructure.Migrations
                             StartTime = new DateTimeOffset(new DateTime(2026, 1, 10, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
                             Status = "Closed",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 1, 15, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("20000000-0000-0000-0000-000000000070"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "FinTech & Web3 Hackathon 2026 là cuộc thi lập trình 48 giờ quy mô toàn quốc, thi đấu trên ba mảng: Thanh toán & Ngân hàng số, DeFi & Smart Contract, và Hạ tầng Web3 & Bảo mật. Các đội sẽ trải qua hai vòng: vòng Đề án & Chế tạo mẫu (Prototyping) và vòng Trình diễn & Bảo vệ (Final Demo). Mỗi track có ba chủ đề gợi mở để các đội lựa chọn, được cố vấn chuyên môn bởi các mentor giàu kinh nghiệm và đánh giá bởi hội đồng giám khảo trên cả ba track. Sự kiện mở đăng ký cho tối đa 30 đội, mỗi đội 2-4 thành viên.",
+                            EndTime = new DateTimeOffset(new DateTime(2026, 10, 12, 12, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            LimitTeam = 30,
+                            MaxMember = 4,
+                            MinMember = 2,
+                            Name = "FinTech & Web3 Hackathon 2026",
+                            NumberRound = 2,
+                            RegisterLimitTime = new DateTimeOffset(new DateTime(2026, 10, 5, 16, 59, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Season = 2,
+                            StartTime = new DateTimeOffset(new DateTime(2026, 10, 10, 1, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Status = "Published",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -5185,6 +5354,48 @@ namespace Hackathon.Infrastructure.Migrations
                             TopicId = new Guid("25000000-0000-0000-0000-000000000060"),
                             TrackId = new Guid("24000000-0000-0000-0000-000000000060"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("31000000-0000-0000-0000-000000000070"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "PayForge xây dựng cổng thanh toán xuyên biên giới tích hợp đa ví, giảm chi phí giao dịch 40% so với cổng truyền thống.",
+                            EventId = new Guid("20000000-0000-0000-0000-000000000070"),
+                            IsBanned = false,
+                            IsDisable = false,
+                            Status = "Approved",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000070"),
+                            TopicId = new Guid("25000000-0000-0000-0000-000000000070"),
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000070"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("31000000-0000-0000-0000-000000000071"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "DeFiApe triển khai giao thức cho vay phi tập trung với hồ sơ quá mức tự động và mô hình quản lý rủi ro dựa trên dữ liệu on-chain.",
+                            EventId = new Guid("20000000-0000-0000-0000-000000000070"),
+                            IsBanned = false,
+                            IsDisable = false,
+                            Status = "Approved",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000071"),
+                            TopicId = new Guid("25000000-0000-0000-0000-000000000073"),
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000071"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("31000000-0000-0000-0000-000000000072"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "ChainGuard phát triển giải pháp ví đa chữ ký với cơ chế khôi phục xã hội (social recovery) giúp người dùng chống mất cắp và khôi phục truy cập an toàn.",
+                            EventId = new Guid("20000000-0000-0000-0000-000000000070"),
+                            IsBanned = false,
+                            IsDisable = false,
+                            Status = "Pending",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000072"),
+                            TopicId = new Guid("25000000-0000-0000-0000-000000000076"),
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000072"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -6266,6 +6477,38 @@ namespace Hackathon.Infrastructure.Migrations
                             StartSubmission = new DateTimeOffset(new DateTime(2026, 1, 10, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
                             StartTime = new DateTimeOffset(new DateTime(2026, 1, 10, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 1, 11, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("21000000-0000-0000-0000-000000000070"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Vòng 1 — Các đội trình bày ý tưởng, chọn chủ đề trong track đã đăng ký và chế tạo nguyên mẫu (prototype) trong vòng 48 giờ. Mentor phụ trách track sẽ hỗ trợ định hướng kỹ thuật. Nộp bài trước 12:00 trưa ngày hôm sau.",
+                            EndSubmission = new DateTimeOffset(new DateTime(2026, 10, 11, 3, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EndTime = new DateTimeOffset(new DateTime(2026, 10, 11, 1, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000070"),
+                            IsDisable = false,
+                            LimitTeam = 30,
+                            Name = "Ideation & Prototyping",
+                            RoundNo = 1,
+                            StartSubmission = new DateTimeOffset(new DateTime(2026, 10, 10, 3, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2026, 10, 10, 1, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("21000000-0000-0000-0000-000000000071"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Vòng 2 — Các đội xuất sắc trình diễn sản phẩm hoàn thiện và bảo vệ trước hội đồng giám khảo. Cả hai giám khảo sẽ chấm điểm trên cả ba track theo cùng bộ tiêu chí. Nộp bản final trước 12:00 trưa ngày diễn ra.",
+                            EndSubmission = new DateTimeOffset(new DateTime(2026, 10, 12, 9, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EndTime = new DateTimeOffset(new DateTime(2026, 10, 12, 12, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            EventId = new Guid("20000000-0000-0000-0000-000000000070"),
+                            IsDisable = false,
+                            LimitTeam = 15,
+                            Name = "Final Demo & Pitch",
+                            RoundNo = 2,
+                            StartSubmission = new DateTimeOffset(new DateTime(2026, 10, 11, 3, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            StartTime = new DateTimeOffset(new DateTime(2026, 10, 11, 1, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -8823,6 +9066,72 @@ namespace Hackathon.Infrastructure.Migrations
                             TeamId = new Guid("30000000-0000-0000-0000-000000000060"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             UserId = new Guid("10000000-0000-0000-0000-000000000052")
+                        },
+                        new
+                        {
+                            Id = new Guid("30100000-0000-0000-0000-000000000070"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsLeader = true,
+                            Status = "Active",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000070"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000077")
+                        },
+                        new
+                        {
+                            Id = new Guid("30100000-0000-0000-0000-000000000071"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsLeader = false,
+                            Status = "Active",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000070"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000078")
+                        },
+                        new
+                        {
+                            Id = new Guid("30100000-0000-0000-0000-000000000072"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsLeader = true,
+                            Status = "Active",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000071"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000079")
+                        },
+                        new
+                        {
+                            Id = new Guid("30100000-0000-0000-0000-000000000073"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsLeader = false,
+                            Status = "Active",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000071"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000080")
+                        },
+                        new
+                        {
+                            Id = new Guid("30100000-0000-0000-0000-000000000074"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsLeader = true,
+                            Status = "Active",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000072"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000081")
+                        },
+                        new
+                        {
+                            Id = new Guid("30100000-0000-0000-0000-000000000075"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            IsLeader = false,
+                            Status = "Active",
+                            TeamId = new Guid("30000000-0000-0000-0000-000000000072"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            UserId = new Guid("10000000-0000-0000-0000-000000000082")
                         });
                 });
 
@@ -9212,6 +9521,33 @@ namespace Hackathon.Infrastructure.Migrations
                             IsDisable = true,
                             Name = "Soft Deleted Team",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0000-0000-0000-000000000070"),
+                            CanEdit = false,
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            Name = "PayForge",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0000-0000-0000-000000000071"),
+                            CanEdit = false,
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            Name = "DeFiApe",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("30000000-0000-0000-0000-000000000072"),
+                            CanEdit = false,
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            IsDisable = false,
+                            Name = "ChainGuard",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -9476,6 +9812,96 @@ namespace Hackathon.Infrastructure.Migrations
                             Title = "Deleted Topic",
                             TrackId = new Guid("24000000-0000-0000-0000-000000000060"),
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("25000000-0000-0000-0000-000000000070"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Cổng thanh toán xuyên biên giới tối ưu chi phí giao dịch và tốc độ thanh toán liên ngân hàng quốc tế.",
+                            IsDisable = false,
+                            Title = "Cross-Border Payment Gateway",
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000070"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("25000000-0000-0000-0000-000000000071"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Bộ API nhúng dịch vụ tài chính (thanh toán, ví, cấp tín dụng) trực tiếp vào nền tảng phi tài chính.",
+                            IsDisable = false,
+                            Title = "Embedded Finance APIs",
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000070"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("25000000-0000-0000-0000-000000000072"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Luồng onboarding số với eKYC, phát hiện gian lận và trải nghiệm người dùng mới mượt mà.",
+                            IsDisable = false,
+                            Title = "Digital KYC & Onboarding",
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000070"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("25000000-0000-0000-0000-000000000073"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Giao thức cho vay/mượn phi tập trung với hồ sơ quá mức và quản lý rủi ro tự động.",
+                            IsDisable = false,
+                            Title = "Decentralized Lending Protocol",
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000071"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("25000000-0000-0000-0000-000000000074"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Thị trường tạo lập tự động với tối ưu thanh khoản và giảm trượt giá.",
+                            IsDisable = false,
+                            Title = "Automated Market Maker (AMM)",
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000071"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("25000000-0000-0000-0000-000000000075"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Bot tự động rà soát lỗ hổng smart contract và đề xuất bản vá trước khi triển khai.",
+                            IsDisable = false,
+                            Title = "Smart Contract Audit Bot",
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000071"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("25000000-0000-0000-0000-000000000076"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Cơ chế bảo mật và khôi phục ví đa chữ ký, chống mất cắp và khôi phục truy cập cho người dùng.",
+                            IsDisable = false,
+                            Title = "Wallet Security & Recovery",
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000072"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("25000000-0000-0000-0000-000000000077"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Giải pháp mở rộng quy mô Layer-2 giảm phí và tăng thông lượng giao dịch.",
+                            IsDisable = false,
+                            Title = "Layer-2 Scaling Solution",
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000072"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("25000000-0000-0000-0000-000000000078"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Hệ thống định danh phi tập trung cho phép người dùng tự quản trị danh tính và quyền riêng tư.",
+                            IsDisable = false,
+                            Title = "Decentralized Identity (DID)",
+                            TrackId = new Guid("24000000-0000-0000-0000-000000000072"),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -9766,6 +10192,39 @@ namespace Hackathon.Infrastructure.Migrations
                             MaxTeam = 5,
                             Title = "Deleted Track",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("24000000-0000-0000-0000-000000000070"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Giải pháp thanh toán xuyên biên giới, ngân hàng nhúng (embedded finance) và onboarding số cho người dùng mới.",
+                            EventId = new Guid("20000000-0000-0000-0000-000000000070"),
+                            IsDisable = false,
+                            MaxTeam = 10,
+                            Title = "Payments & Digital Banking",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("24000000-0000-0000-0000-000000000071"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Giao thức cho phi tập trung, thị trường tự động (AMM) và công cụ kiểm toán/bảo mật smart contract.",
+                            EventId = new Guid("20000000-0000-0000-0000-000000000070"),
+                            IsDisable = false,
+                            MaxTeam = 10,
+                            Title = "DeFi & Smart Contracts",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("24000000-0000-0000-0000-000000000072"),
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Hạ tầng Web3: bảo mật ví, mở rộng quy mô (Layer-2) và định danh phi tập trung (DID).",
+                            EventId = new Guid("20000000-0000-0000-0000-000000000070"),
+                            IsDisable = false,
+                            MaxTeam = 10,
+                            Title = "Web3 Infrastructure & Security",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
@@ -12781,6 +13240,318 @@ namespace Hackathon.Infrastructure.Migrations
                             StudentId = "SCN57",
                             UpdatedAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000070"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/bao.trinh@lecturer.seed.local",
+                            Bio = "Mentor for Payments & Digital Banking track",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "bao.trinh@lecturer.seed.local",
+                            FirstName = "Quoc Bao",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/bao.trinh@lecturer.seed.local",
+                            IsDisable = false,
+                            IsVerified = true,
+                            LastName = "Trinh",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 3,
+                            Status = "Active",
+                            StudentId = "LECT070",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000071"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/ha.nguyen@lecturer.seed.local",
+                            Bio = "Mentor for DeFi & Smart Contracts track",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "ha.nguyen@lecturer.seed.local",
+                            FirstName = "Thanh Ha",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/ha.nguyen@lecturer.seed.local",
+                            IsDisable = false,
+                            IsVerified = true,
+                            LastName = "Nguyen",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 3,
+                            Status = "Active",
+                            StudentId = "LECT071",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000072"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/duc.le@lecturer.seed.local",
+                            Bio = "Mentor for Web3 Infrastructure & Security track",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "duc.le@lecturer.seed.local",
+                            FirstName = "Minh Duc",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/duc.le@lecturer.seed.local",
+                            IsDisable = false,
+                            IsVerified = true,
+                            LastName = "Le",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 3,
+                            Status = "Active",
+                            StudentId = "LECT072",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000073"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/tuananh.pham@lecturer.seed.local",
+                            Bio = "Judge evaluating all FinTech & Web3 tracks",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "tuananh.pham@lecturer.seed.local",
+                            FirstName = "Tuan Anh",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/tuananh.pham@lecturer.seed.local",
+                            IsDisable = false,
+                            IsVerified = true,
+                            LastName = "Pham",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 3,
+                            Status = "Active",
+                            StudentId = "LECT073",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000074"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/hong.tran@lecturer.seed.local",
+                            Bio = "Judge evaluating all FinTech & Web3 tracks",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "hong.tran@lecturer.seed.local",
+                            FirstName = "Thi Hong",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/hong.tran@lecturer.seed.local",
+                            IsDisable = false,
+                            IsVerified = true,
+                            LastName = "Tran",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 3,
+                            Status = "Active",
+                            StudentId = "LECT074",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000075"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/long.vu@staff.seed.local",
+                            Bio = "Event operations staff",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "long.vu@staff.seed.local",
+                            FirstName = "Hoang Long",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/long.vu@staff.seed.local",
+                            IsDisable = false,
+                            IsVerified = true,
+                            LastName = "Vu",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 1,
+                            Status = "Active",
+                            StudentId = "STF070",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000076"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/mai.dang@staff.seed.local",
+                            Bio = "Event operations staff",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "mai.dang@staff.seed.local",
+                            FirstName = "Thi Mai",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/mai.dang@staff.seed.local",
+                            IsDisable = false,
+                            IsVerified = true,
+                            LastName = "Dang",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 1,
+                            Status = "Active",
+                            StudentId = "STF071",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000077"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/minh.pham@student.seed.local",
+                            Bio = "PayForge team leader",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "minh.pham@student.seed.local",
+                            FirstName = "Cong Minh",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/minh.pham@student.seed.local",
+                            IsDisable = false,
+                            IsVerified = true,
+                            LastName = "Pham",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 2,
+                            Status = "Active",
+                            StudentId = "STU070",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000078"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/linh.do@student.seed.local",
+                            Bio = "PayForge team member",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "linh.do@student.seed.local",
+                            FirstName = "Thu Linh",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/linh.do@student.seed.local",
+                            IsDisable = false,
+                            IsVerified = true,
+                            LastName = "Do",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 2,
+                            Status = "Active",
+                            StudentId = "STU071",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000079"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/kien.tran@student.seed.local",
+                            Bio = "DeFiApe team leader",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "kien.tran@student.seed.local",
+                            FirstName = "Van Kien",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/kien.tran@student.seed.local",
+                            IsDisable = false,
+                            IsVerified = true,
+                            LastName = "Tran",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 2,
+                            Status = "Active",
+                            StudentId = "STU072",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000080"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/quynh.vo@student.seed.local",
+                            Bio = "DeFiApe team member",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "quynh.vo@student.seed.local",
+                            FirstName = "Ngoc Quynh",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/quynh.vo@student.seed.local",
+                            IsDisable = false,
+                            IsVerified = true,
+                            LastName = "Vo",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 2,
+                            Status = "Active",
+                            StudentId = "STU073",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000081"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/hung.bui@student.seed.local",
+                            Bio = "ChainGuard team leader",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "hung.bui@student.seed.local",
+                            FirstName = "Quoc Hung",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/hung.bui@student.seed.local",
+                            IsDisable = false,
+                            IsVerified = true,
+                            LastName = "Bui",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 2,
+                            Status = "Active",
+                            StudentId = "STU074",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
+                        },
+                        new
+                        {
+                            Id = new Guid("10000000-0000-0000-0000-000000000082"),
+                            Address = "Seed address",
+                            AvatarUrl = "https://robohash.org/trang.ngo@student.seed.local",
+                            Bio = "ChainGuard team member",
+                            College = "FPT University",
+                            CreatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Email = "trang.ngo@student.seed.local",
+                            FirstName = "Hai Trang",
+                            HashPassword = "$2a$11$FTrHahxSf5lojw6joRVC3.ArTfL/2tspZvqA/5i3FeZH1k.ATyvze",
+                            ImgUrl = "https://robohash.org/trang.ngo@student.seed.local",
+                            IsDisable = false,
+                            IsVerified = true,
+                            LastName = "Ngo",
+                            LinkUrl = "",
+                            PhoneNumber = "0900000000",
+                            Role = 2,
+                            Status = "Active",
+                            StudentId = "STU075",
+                            UpdatedAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            VerifyEmailAt = new DateTimeOffset(new DateTime(2026, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
