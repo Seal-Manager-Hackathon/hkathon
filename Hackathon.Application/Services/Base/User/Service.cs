@@ -92,9 +92,6 @@ public class Service : IUserProfileService
             user.DateOfBirth = request.DateOfBirth.Value;
         if (request.StudentId != null)
         {
-            if (!string.IsNullOrEmpty(user.StudentId))
-                throw new BadRequestException("StudentId Cannot Be Changed Once Set");
-
             var normalizedId = request.StudentId.Trim().ToUpper();
 
             if (!Regex.IsMatch(normalizedId, @"^[A-Z]{2}\d{6}$"))
@@ -104,7 +101,9 @@ public class Service : IUserProfileService
             if (existingUser != null && existingUser.Id != user.Id)
                 throw new BadRequestException("StudentId Already Exists");
 
-            user.StudentId = normalizedId;
+            // Nếu user đã có StudentId thì không ghi đè
+            if (string.IsNullOrEmpty(user.StudentId))
+                user.StudentId = normalizedId;
         }
         if (request.ImgUrl != null)
             user.ImgUrl = request.ImgUrl;
