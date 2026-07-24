@@ -743,6 +743,14 @@ public class Service : IRegisterTeamService
                 throw new BadRequestException("Topic Does Not Belong To The Specified Track");
         }
 
+        // Check MaxTeam của track — chỉ tính approved teams, không tính chính rt nếu đã gán track này
+        if (track.MaxTeam.HasValue && rt.TrackId != request.TrackId)
+        {
+            var currentCount = await _registerTeamRepository.CountByTrackIdAsync(request.TrackId);
+            if (currentCount >= track.MaxTeam.Value)
+                throw new BadRequestException("Track Has Reached Maximum Number Of Teams. Cannot Assign More Teams");
+        }
+
         rt.TrackId = request.TrackId;
         rt.TopicId = request.TopicId;
         rt.UpdatedAt = DateTimeOffset.UtcNow;
