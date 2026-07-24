@@ -24,6 +24,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPatch("me")]
+    [DisableRequestSizeLimit]
     public async Task<IActionResult> UpdateProfile([FromForm] UpdateProfileRequest request)
     {
         await _userProfileService.UpdateProfile(request);
@@ -31,6 +32,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("avatar")]
+    [DisableRequestSizeLimit]
     public async Task<IActionResult> UpdateAvatar(IFormFile file)
     {
         if (file == null || file.Length == 0)
