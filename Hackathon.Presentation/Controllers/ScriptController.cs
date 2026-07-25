@@ -2,11 +2,15 @@ using Hackathon.Application.Common;
 using Hackathon.Application.Common.Models;
 using Hackathon.Application.Services.Script;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Hackathon.Presentation.Extentions;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace Hackathon.Presentation.Controllers;
 
 [Route("api/v1/script")]
 [ApiController]
+[Authorize(Policy = JwtExtensions.AdminPolicy)]
 public class ScriptController : ControllerBase
 {
     private readonly IScriptService _scriptService;
@@ -20,6 +24,7 @@ public class ScriptController : ControllerBase
     /// Tạo nhanh số lượng tài khoản user theo role, prefix email.
     /// </summary>
     [HttpPost("bulk-create-users")]
+    [EnableRateLimiting("heavy")]
     public async Task<IActionResult> BulkCreateUsers([FromBody] BulkCreateUsersRequest request)
     {
         var result = await _scriptService.BulkCreateUsers(request);
@@ -30,6 +35,7 @@ public class ScriptController : ControllerBase
     /// Tạo team với leader và danh sách member theo email.
     /// </summary>
     [HttpPost("bulk-create-team")]
+    [EnableRateLimiting("heavy")]
     public async Task<IActionResult> BulkCreateTeam([FromBody] BulkCreateTeamRequest request)
     {
         var result = await _scriptService.BulkCreateTeam(request);

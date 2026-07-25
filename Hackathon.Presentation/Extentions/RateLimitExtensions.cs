@@ -1,8 +1,8 @@
-﻿using System.Text.Json;
-using System.Threading.RateLimiting;
+﻿using System.Threading.RateLimiting;
+using Hackathon.Application.Common.Models;
 using Hackathon.Application.Exceptions;
 
-namespace Hackathon.Presentation.Extensions;
+namespace Hackathon.Presentation.Extentions;
 
 public static class RateLimitExtensions
 {
@@ -12,21 +12,41 @@ public static class RateLimitExtensions
         {
             options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 
-            options.OnRejected = async (context, _) =>
+            options.OnRejected = async (context, cancellationToken) =>
             {
-                context.HttpContext.Response.Headers["Retry-After"] = "60";
-
-                var errorResponse = new
+                // Lấy thời gian còn lại thực tế do limiter tính cho partition hiện tại.
+                // Các limiter built-in (Sliding/Fixed/TokenBucket) ghi metadata "RETRY_AFTER" (TimeSpan).
+                TimeSpan retryAfter = TimeSpan.Zero;
+                if (context.Lease is not null
+                    && context.Lease.TryGetMetadata("RETRY_AFTER", out var retryMetadata)
+                    && retryMetadata is TimeSpan retryTimespan)
                 {
-                    title = "Too Many Requests",
-                    status = 429,
-                    message = ErrorMessage.Common.TooManyRequestsRetryAfter60S,
-                    timestampUtc = DateTime.UtcNow
-                };
+                    retryAfter = retryTimespan;
+                }
 
-                context.HttpContext.Response.ContentType = "application/json";
-                await context.HttpContext.Response
-                    .WriteAsync(JsonSerializer.Serialize(errorResponse), cancellationToken: _);
+                // Countdown cần ít nhất 1 giây để có ý nghĩa.
+                var retryAfterSeconds = Math.Max(1, (int)Math.Ceiling(retryAfter.TotalSeconds));
+                var retryAtUtc = DateTime.UtcNow.AddSeconds(retryAfterSeconds);
+
+                var httpContext = context.HttpContext;
+                httpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+                httpContext.Response.Headers["Retry-After"] = retryAfterSeconds.ToString();
+
+                // Khớp convention ErrorResponse của dự án (camelCase qua WriteAsJsonAsync),
+                // đặt thông tin đếm ngược vào trường cấu trúc `error`.
+                var response = ApiResponseFactory.Error(
+                    title: "Too Many Requests",
+                    status: StatusCodes.Status429TooManyRequests,
+                    message: string.Format(ErrorMessage.Common.TooManyRequestsRetryAfter, retryAfterSeconds),
+                    error: new
+                    {
+                        retryAfterSeconds = retryAfterSeconds,
+                        retryAfter = $"{retryAfterSeconds}s",
+                        retryAtUtc = retryAtUtc
+                    },
+                    traceId: httpContext.TraceIdentifier);
+
+                await httpContext.Response.WriteAsJsonAsync(response, cancellationToken: cancellationToken);
             };
 
             // Global rate limiter applied to all endpoints
@@ -37,8 +57,8 @@ public static class RateLimitExtensions
                     ?? "anonymous",
                     _ => new SlidingWindowRateLimiterOptions
                     {
-                        PermitLimit = 250,
-                        Window = TimeSpan.FromSeconds(1),
+                        PermitLimit = 500,
+                        Window = TimeSpan.FromSeconds(5),
                         SegmentsPerWindow = 6,
                         QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
                         QueueLimit = 0
@@ -64,7 +84,7 @@ public static class RateLimitExtensions
                     context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
                     _ => new FixedWindowRateLimiterOptions
                     {
-                        PermitLimit = 5,
+                        PermitLimit = 20,
                         Window = TimeSpan.FromMinutes(1),
                         QueueLimit = 0
                     }));

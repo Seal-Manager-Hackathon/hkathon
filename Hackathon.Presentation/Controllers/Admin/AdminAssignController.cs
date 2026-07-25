@@ -2,11 +2,14 @@ using Hackathon.Application.Common;
 using Hackathon.Application.Common.Models;
 using Hackathon.Application.Services.Admin.Assign;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Hackathon.Presentation.Extentions;
 
 namespace Hackathon.Presentation.Controllers.Admin;
 
 [Route("api/v1/admin/assign")]
 [ApiController]
+[Authorize(Policy = JwtExtensions.AdminPolicy)]
 public class AdminAssignController : ControllerBase
 {
     private readonly IAssignService _assignService;

@@ -1,4 +1,4 @@
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Hackathon.Application.Common.Interfaces;
 using Hackathon.Application.Common.IRepository;
 using Hackathon.Application.Exceptions;
@@ -133,7 +133,8 @@ public class Service : IAuthService
 
         var claims = new List<Claim>
         {
-            new("UserId", user.Id.ToString())
+            new("UserId", user.Id.ToString()),
+            new(ClaimTypes.Role, user.Role.ToString())
         };
 
         var accessToken = _jwtService.GenerateAccessToken(claims);
@@ -198,7 +199,8 @@ public class Service : IAuthService
 
         var claims = new List<Claim>
         {
-            new("UserId", user.Id.ToString())
+            new("UserId", user.Id.ToString()),
+            new(ClaimTypes.Role, user.Role.ToString())
         };
 
         var accessToken = _jwtService.GenerateAccessToken(claims);
@@ -417,7 +419,8 @@ public class Service : IAuthService
         // Generate new access token
         var claims = new List<Claim>
         {
-            new("UserId", storedToken.User.Id.ToString())
+            new("UserId", storedToken.User.Id.ToString()),
+            new(ClaimTypes.Role, storedToken.User.Role.ToString())
         };
         var newAccessToken = _jwtService.GenerateAccessToken(claims);
 

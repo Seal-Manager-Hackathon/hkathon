@@ -2,6 +2,7 @@ using Hackathon.Application.Common;
 using Hackathon.Application.Common.Models;
 using Hackathon.Application.Services.Base.Auth;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace Hackathon.Presentation.Controllers;
 
@@ -17,6 +18,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
+    [EnableRateLimiting("login")]
     public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
         var result = await _authService.Register(request);
@@ -24,6 +26,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("verify-email")]
+    [EnableRateLimiting("login")]
     public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailRequest request)
     {
         var result = await _authService.VerifyEmail(request);
@@ -31,6 +34,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
+    [EnableRateLimiting("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         var result = await _authService.Login(request);
@@ -45,6 +49,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("forgot-password")]
+    [EnableRateLimiting("login")]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
     {
         await _authService.ForgotPassword(request);
@@ -52,6 +57,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("reset-password")]
+    [EnableRateLimiting("login")]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
     {
         await _authService.ResetPassword(request);
@@ -59,6 +65,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("change-password")]
+    [EnableRateLimiting("login")]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
     {
         await _authService.ChangePassword(request);
@@ -66,6 +73,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("refresh-token")]
+    [EnableRateLimiting("login")]
     public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
     {
         var result = await _authService.RefreshToken(request);

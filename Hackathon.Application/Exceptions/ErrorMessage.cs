@@ -13,7 +13,7 @@ public static class ErrorMessage
     public static class Common
     {
         public const string UnexpectedError = "An Unexpected Error Occurred";
-        public const string TooManyRequestsRetryAfter60S = "Too Many Requests Retry After 60s";
+        public const string TooManyRequestsRetryAfter = "Too Many Requests Retry After {0}S";
         public const string InvalidRequestData = "Invalid Request Data";
         public const string InvalidJsonFormat = "Invalid Json Format";
         public const string InvalidEnumValue = "Invalid Enum Value";

@@ -20,6 +20,7 @@ builder.Services.Configure<FormOptions>(options =>
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddJwtServices(builder.Configuration);
+builder.Services.ConfigureRateLimiter();
 
 builder.Services.AddTransient<GlobalExceptionHandlerMiddleware>();
 
@@ -48,6 +49,12 @@ var app = builder.Build();
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 app.UseCors();
+
+// Rate limiting must run early (after CORS, before auth/endpoints) to shield the app from DDoS/abuse.
+app.UseRateLimiter();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseSwaggerAPI();
 
