@@ -304,15 +304,15 @@ public class Service : IRegisterTeamService
         if (rt.Status != RegisterTeamStatusEnum.Pending)
             throw new BadRequestException("Only Pending Register Team Can Be Approved");
 
-        // [Commented] Check event time window — bỏ check để dễ test
-        //var ev = await _eventRepository.GetByIdAsync(rt.EventId);
-        //if (ev != null)
-        //{
-        //    if (ev.StartTime.HasValue && DateTimeOffset.UtcNow < ev.StartTime.Value)
-        //        throw new BadRequestException("Cannot Approve Before Event Starts");
-        //    if (ev.EndTime.HasValue && DateTimeOffset.UtcNow >= ev.EndTime.Value)
-        //        throw new BadRequestException("Cannot Approve After Event Has Ended");
-        //}
+        // Check thời gian approve: phải trong khoảng [StartTime, RegisterLimitTime)
+        var staffEv = await _eventRepository.GetByIdAsync(rt.EventId);
+        if (staffEv != null)
+        {
+            if (staffEv.StartTime.HasValue && DateTimeOffset.UtcNow < staffEv.StartTime.Value)
+                throw new BadRequestException("Cannot Approve Before Event Starts");
+            if (staffEv.RegisterLimitTime.HasValue && DateTimeOffset.UtcNow >= staffEv.RegisterLimitTime.Value)
+                throw new BadRequestException("Cannot Approve After Registration Period Has Ended");
+        }
 
         var firstRound = await _roundRepository.GetFirstRoundByEventIdAsync(rt.EventId);
 

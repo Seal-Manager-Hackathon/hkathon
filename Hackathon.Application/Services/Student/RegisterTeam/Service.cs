@@ -343,11 +343,11 @@ public class Service : IRegisterTeamService
         if (ev.MaxMember.HasValue && activeMembers.Count > ev.MaxMember.Value)
             throw new BadRequestException($"Team Cannot Have More Than {ev.MaxMember.Value} Active Members To Register For This Event");
 
-        // [Commented] Check registration is within the allowed time window — bỏ check để dễ test
-        //if (ev.RegisterLimitTime.HasValue && DateTimeOffset.UtcNow >= ev.RegisterLimitTime.Value)
-        //    throw new BadRequestException("Registration Period Has Ended. Cannot Register At This Time.");
-        //if (ev.StartTime.HasValue && DateTimeOffset.UtcNow < ev.StartTime.Value)
-        //    throw new BadRequestException("Registration Has Not Started Yet. Cannot Register Before Event Starts.");
+        // Check thời gian đăng ký: phải trong khoảng [StartTime, RegisterLimitTime)
+        if (ev.StartTime.HasValue && DateTimeOffset.UtcNow < ev.StartTime.Value)
+            throw new BadRequestException("Registration Has Not Started Yet. Cannot Register Before Event Starts.");
+        if (ev.RegisterLimitTime.HasValue && DateTimeOffset.UtcNow >= ev.RegisterLimitTime.Value)
+            throw new BadRequestException("Registration Period Has Ended. Cannot Register At This Time.");
 
         // Check team is not already registered to this event
         var existingRegister = await _registerTeamRepository.GetByEventIdAndTeamIdAsync(

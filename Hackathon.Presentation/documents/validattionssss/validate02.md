@@ -115,6 +115,7 @@ Event được coi là setup đủ khi có:
 ### `POST /api/v1/admin/register-teams/{registerTeamId}/approve` — `ApproveRegisterTeam`
 
 - Chỉ approve registration `Pending`.
+- **🟡 Thời gian approve phải nằm trong `[StartTime, RegisterLimitTime)`:** `now < StartTime` → `Cannot Approve Before Event Starts`; `now >= RegisterLimitTime` → `Cannot Approve After Registration Period Has Ended`.
 - Nếu round đầu có `LimitTeam`, số team trong round phải nhỏ hơn giới hạn.
 - Không approve nếu bất kỳ member **không disabled** của team đã thuộc một registration Approved khác trong cùng event.
 - Khi approve: `Status = Approved`, khóa team (`CanEdit = false`) và tự thêm team vào round đầu nếu có.
@@ -411,6 +412,7 @@ Mọi mutation bên dưới có thêm assignment guard theo event của register
 ### `POST /api/v1/staff/register-teams/{registerTeamId}/approve` — `ApproveRegisterTeam`
 
 - Chỉ Pending.
+- **🟡 Thời gian approve phải nằm trong `[StartTime, RegisterLimitTime)`** (giống Admin).
 - Round 1 không được full.
 - Không có member không-disabled đã Approved ở team khác cùng event.
 - Thành công khóa team và thêm vào round đầu nếu có.
@@ -622,6 +624,7 @@ Mọi mutation bên dưới có thêm assignment guard theo event của register
 
 - Chỉ leader có `IsDisable = false` của team được đăng ký; method này không kiểm tra `TeamDetail.Status` của leader.
 - Event không được Draft hoặc Closed.
+- **🟡 Thời gian đăng ký phải nằm trong `[StartTime, RegisterLimitTime)`:** `now < StartTime` → `Registration Has Not Started Yet`; `now >= RegisterLimitTime` → `Registration Period Has Ended`.
 - Số active members phải nằm trong `[Event.MinMember, Event.MaxMember]` khi các limit có giá trị.
 - Nếu registration cũ Banned: chặn đăng ký lại.
 - Nếu registration cũ Rejected: tái sử dụng record, set Pending và xóa rejection reason.

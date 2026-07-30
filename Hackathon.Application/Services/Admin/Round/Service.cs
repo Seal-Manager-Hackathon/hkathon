@@ -100,7 +100,7 @@ public class Service : IRoundService
         if (ev.EndTime.HasValue && request.EndTime > ev.EndTime.Value)
             throw new BadRequestException(ErrMsg.Round.RoundTimeMustBeWithinEventTime);
 
-        // // StartTime của round phải >= RegisterLimitTime của event
+        // [Commented] StartTime của round phải >= RegisterLimitTime của event — bỏ check để dễ test
         // if (ev.RegisterLimitTime.HasValue && request.StartTime < ev.RegisterLimitTime.Value)
         //     throw new BadRequestException(ErrMsg.Round.StartTimeMustBeAfterRegisterLimitTime);
 
@@ -108,7 +108,7 @@ public class Service : IRoundService
         var maxRoundNo = await _roundRepository.GetMaxRoundNoAsync(request.EventId);
         var newRoundNo = (maxRoundNo ?? 0) + 1;
 
-        // Check previous round endTime
+        // Check previous round endTime (chỉ check khi RoundNo > 1)
         if (newRoundNo > 1)
         {
             var prevRound = await _roundRepository.GetByEventIdAndRoundNoAsync(request.EventId, newRoundNo - 1);
@@ -184,7 +184,7 @@ public class Service : IRoundService
         //if (ev.RegisterLimitTime.HasValue && startTime.Value < ev.RegisterLimitTime.Value)
         //    throw new BadRequestException(ErrMsg.Round.StartTimeMustBeAfterRegisterLimitTime);
 
-        // Check previous round (RoundNo - 1): StartTime >= EndTime of previous round — giữ lại
+        // Check previous round (RoundNo - 1): StartTime >= EndTime of previous round (chỉ check khi RoundNo > 1)
         if (round.RoundNo.HasValue && round.RoundNo.Value > 1)
         {
             var prevRound = await _roundRepository.GetByEventIdAndRoundNoAsync(round.EventId, round.RoundNo.Value - 1);

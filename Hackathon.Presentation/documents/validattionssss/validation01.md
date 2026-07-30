@@ -210,7 +210,17 @@ if (round.RoundNo.HasValue && round.RoundNo.Value > 1)
 **API:** `POST /api/v1/admin/register-teams/{registerTeamId}/approve`
 **File:** `Hackathon.Application/Services/Admin/RegisterTeam/Service.cs`
 **Hàm:** `ApproveRegisterTeam`
-**Check bị comment:** Event time window, Round1 start check (giữ nguyên)
+
+**🟡 Check active (vừa uncomment):**
+```csharp
+// Check thời gian approve: phải trong khoảng [StartTime, RegisterLimitTime)
+if (ev.StartTime.HasValue && DateTimeOffset.UtcNow < ev.StartTime.Value)
+    throw new BadRequestException("Cannot Approve Before Event Starts");
+if (ev.RegisterLimitTime.HasValue && DateTimeOffset.UtcNow >= ev.RegisterLimitTime.Value)
+    throw new BadRequestException("Cannot Approve After Registration Period Has Ended");
+```
+
+**Còn check bị comment:** Round1 start check (giữ nguyên)
 
 ### 8. RejectRegisterTeam
 **API:** `POST /api/v1/admin/register-teams/{registerTeamId}/reject`
@@ -328,15 +338,14 @@ if (updateItemEv != null && updateItemEv.EndTime.HasValue && DateTimeOffset.UtcN
 **API:** `POST /api/v1/student/register-events`
 **File:** `Hackathon.Application/Services/Student/RegisterTeam/Service.cs`
 **Hàm:** `CreateRegisterTeam`
-> **Không thay đổi** — đã comment `RegisterLimitTime` + `StartTime` từ trước
 
-**Check bị comment:**
+**🟡 Check active (vừa uncomment):**
 ```csharp
-// [Commented] Check registration is within the allowed time window — bỏ check để dễ test
-//if (ev.RegisterLimitTime.HasValue && DateTimeOffset.UtcNow >= ev.RegisterLimitTime.Value)
-//    throw new BadRequestException("Registration Period Has Ended. Cannot Register At This Time.");
-//if (ev.StartTime.HasValue && DateTimeOffset.UtcNow < ev.StartTime.Value)
-//    throw new BadRequestException("Registration Has Not Started Yet. Cannot Register Before Event Starts.");
+// Check thời gian đăng ký: phải trong khoảng [StartTime, RegisterLimitTime)
+if (ev.StartTime.HasValue && DateTimeOffset.UtcNow < ev.StartTime.Value)
+    throw new BadRequestException("Registration Has Not Started Yet. Cannot Register Before Event Starts.");
+if (ev.RegisterLimitTime.HasValue && DateTimeOffset.UtcNow >= ev.RegisterLimitTime.Value)
+    throw new BadRequestException("Registration Period Has Ended. Cannot Register At This Time.");
 ```
 
 **✅ Giữ lại từ trước:**
@@ -390,8 +399,9 @@ if (ev.Status == EventStatusEnum.Draft || ev.Status == EventStatusEnum.Closed)
 | 4 | Admin PATCH UpdateRound | ❌ Commented | 🟡 EndTime > StartTime + 🟡 Previous round check | Next round/LimitTeam/RegisterLimit vẫn comment |
 | 5 | Admin POST SwapRound | ❌ Commented | ❌ Commented | Không đổi |
 | 6 | Admin POST EndRound | ❌ Commented | ❌ Commented | Không đổi |
-| 7-10 | Admin RegisterTeam các API | ❌ Commented | ❌ Commented | Không đổi |
-| 18 | Student POST CreateRegisterTeam | ❌ Commented | ❌ Commented | Đã comment từ trước |
+| 7 | Admin ApproveRegisterTeam | ❌ Commented | 🟡 [StartTime, RegisterLimitTime) | **Vừa uncomment** (dùng RegisterLimitTime thay EndTime) |
+| 8-10 | Admin RegisterTeam các API khác | ❌ Commented | ❌ Commented | Không đổi |
+| 18 | Student POST CreateRegisterTeam | ❌ Commented | 🟡 [StartTime, RegisterLimitTime) | **Vừa uncomment** |
 | 19 | Student POST CreateSubmission | ✅ Active | ❌ Commented | **Vừa comment** StartSubmission/EndSubmission |
 | 20 | Judge POST SubmitScore | ❌ Commented | 🟡 round.EndSubmission ↑ + event.EndTime ↓ | **Vừa uncomment** |
 | 21 | Judge UpdateScore | ❌ Commented | 🟡 round.EndSubmission ↑ + event.EndTime ↓ | **Vừa uncomment** (nội bộ) |
