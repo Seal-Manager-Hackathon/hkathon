@@ -153,6 +153,13 @@ public class Service : ISubmissionService
         if (roundDetail == null || roundDetail.IsDisable)
             throw new BadRequestException("Team Is Not Registered in This Round");
 
+        // Validate URL: phải là link GitHub hoặc Google Drive
+        var url = request.Url.Trim().ToLower();
+        var isGithub = url.Contains("github.com/");
+        var isGoogleDrive = url.Contains("drive.google.com/");
+        if (!isGithub && !isGoogleDrive)
+            throw new BadRequestException("Submission Url Must Be A Github Or Google Drive Link");
+
         // [Commented] Check submission time window — bỏ để dễ test
         //var now = DateTimeOffset.UtcNow;
         //if (round.StartSubmission.HasValue && now < round.StartSubmission.Value)

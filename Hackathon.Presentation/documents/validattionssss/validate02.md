@@ -647,6 +647,7 @@ Mọi mutation bên dưới có thêm assignment guard theo event của register
 - Chỉ leader có `IsDisable = false` và `Status = Active` được submit.
 - Round phải thuộc cùng event.
 - Team phải có active `RoundDetail` trong round.
+- **🟡 URL phải là link GitHub hoặc Google Drive:** chứa `github.com/` hoặc `drive.google.com/`; sai trả `Submission Url Must Be A Github Or Google Drive Link`.
 - Mỗi call tạo một submission mới; không có duplicate/upsert guard.
 
 ## 6. Notification
