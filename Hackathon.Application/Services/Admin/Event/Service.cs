@@ -35,15 +35,19 @@ public class Service : IEventService
         if (request.EndTime <= request.StartTime)
             throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterStartTime);
 
-        // [Commented] RegisterLimitTime check — bỏ để dễ test
-        //if (request.RegisterLimitTime.HasValue)
-        //{
-        //    if (request.RegisterLimitTime.Value <= request.StartTime)
-        //        throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeAfterStartTime);
+        // EndTime không được nằm trong quá khứ
+        if (request.EndTime <= now)
+            throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterNow);
 
-        //    if (request.RegisterLimitTime.Value >= request.EndTime)
-        //        throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeBeforeEndTime);
-        //}
+        // RegisterLimitTime phải nằm trong [StartTime, EndTime]
+        if (request.RegisterLimitTime.HasValue)
+        {
+            if (request.RegisterLimitTime.Value <= request.StartTime)
+                throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeAfterStartTime);
+
+            if (request.RegisterLimitTime.Value >= request.EndTime)
+                throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeBeforeEndTime);
+        }
 
         SeasonEnum? season = null;
         if (!string.IsNullOrWhiteSpace(request.Season))
@@ -153,6 +157,21 @@ public class Service : IEventService
 
         if (newEndTime <= newStartTime && (request.EndTime.HasValue || request.StartTime.HasValue))
             throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterStartTime);
+
+        // EndTime không được nằm trong quá khứ (chỉ check khi đang đổi EndTime)
+        if (request.EndTime.HasValue && request.EndTime.Value <= now)
+            throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterNow);
+
+        // RegisterLimitTime phải nằm trong [StartTime, EndTime]
+        var newRegisterLimitTime = request.RegisterLimitTime ?? ev.RegisterLimitTime;
+        if (newRegisterLimitTime.HasValue)
+        {
+            if (newRegisterLimitTime.Value <= newStartTime)
+                throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeAfterStartTime);
+
+            if (newRegisterLimitTime.Value >= newEndTime)
+                throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeBeforeEndTime);
+        }
 
         // === Parse enums từ request ===
         EventStatusEnum? parsedStatus = null;

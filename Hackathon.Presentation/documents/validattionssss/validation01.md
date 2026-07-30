@@ -19,22 +19,25 @@
 
 **🟡 Check active (vừa uncomment):**
 ```csharp
-// EndTime phải > StartTime (event có thời gian kết thúc sau thời gian bắt đầu)
+// EndTime phải > StartTime
 if (request.EndTime <= request.StartTime)
     throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterStartTime);
+
+// EndTime không được nằm trong quá khứ
+if (request.EndTime <= now)
+    throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterNow);
+
+// RegisterLimitTime phải nằm trong [StartTime, EndTime]
+if (request.RegisterLimitTime.HasValue)
+{
+    if (request.RegisterLimitTime.Value <= request.StartTime)
+        throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeAfterStartTime);
+    if (request.RegisterLimitTime.Value >= request.EndTime)
+        throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeBeforeEndTime);
+}
 ```
 
-**Check bị comment:**
-```csharp
-// [Commented] RegisterLimitTime check — bỏ để dễ test
-//if (request.RegisterLimitTime.HasValue)
-//{
-//    if (request.RegisterLimitTime.Value <= request.StartTime)
-//        throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeAfterStartTime);
-//    if (request.RegisterLimitTime.Value >= request.EndTime)
-//        throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeBeforeEndTime);
-//}
-```
+**Không còn check:** StartTime > now (cho phép StartTime ở quá khứ). RegisterLimitTime không cần > now.
 
 ### 2. UpdateEvent
 **API:** `PATCH /api/v1/admin/events/{eventId}`
@@ -43,29 +46,28 @@ if (request.EndTime <= request.StartTime)
 
 **🟡 Check active (vừa uncomment):**
 ```csharp
-// EndTime phải > StartTime (chỉ check nếu có cập nhật thời gian)
-var startTime = request.StartTime ?? ev.StartTime;
-var endTime = request.EndTime ?? ev.EndTime;
-if (endTime <= startTime && (request.EndTime.HasValue || request.StartTime.HasValue))
+// EndTime phải > StartTime
+var newStartTime = request.StartTime ?? ev.StartTime;
+var newEndTime = request.EndTime ?? ev.EndTime;
+if (newEndTime <= newStartTime && (request.EndTime.HasValue || request.StartTime.HasValue))
     throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterStartTime);
+
+// EndTime không được nằm trong quá khứ (chỉ check khi đang đổi EndTime)
+if (request.EndTime.HasValue && request.EndTime.Value <= now)
+    throw new BadRequestException(ErrMsg.Event.EndTimeMustBeAfterNow);
+
+// RegisterLimitTime phải nằm trong [StartTime, EndTime]
+var newRegisterLimitTime = request.RegisterLimitTime ?? ev.RegisterLimitTime;
+if (newRegisterLimitTime.HasValue)
+{
+    if (newRegisterLimitTime.Value <= newStartTime)
+        throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeAfterStartTime);
+    if (newRegisterLimitTime.Value >= newEndTime)
+        throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeBeforeEndTime);
+}
 ```
 
-**Check bị comment:**
-```csharp
-// [Commented] StartTime phải > hiện tại — bỏ để dễ test
-//if (startTime <= now && request.StartTime.HasValue)
-//    throw new BadRequestException(ErrMsg.Event.StartTimeMustBeAfterNow);
-
-// [Commented] RegisterLimitTime check — bỏ để dễ test
-//var registerLimitTime = request.RegisterLimitTime ?? ev.RegisterLimitTime;
-//if (registerLimitTime.HasValue)
-//{
-//    if (registerLimitTime.Value <= startTime && request.RegisterLimitTime.HasValue)
-//        throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeAfterStartTime);
-//    if (registerLimitTime.Value >= endTime && request.RegisterLimitTime.HasValue)
-//        throw new BadRequestException(ErrMsg.Event.RegisterLimitTimeMustBeBeforeEndTime);
-//}
-```
+**Không còn check:** StartTime > now (cho phép StartTime ở quá khứ). RegisterLimitTime không cần > now.
 
 ---
 
@@ -259,10 +261,56 @@ Các service sau đã được kiểm tra và **không có bất kỳ check th�
 
 ## VI. Judge
 
-> **Không cần sửa** — tất cả check thời gian đã được comment từ trước:
-> - `SubmitScore`: round.EndTime + event.EndTime check ✅ đã comment
-> - `UpdateScore`: event ended check ✅ đã comment
-> - `UpdateScoreItem`: event ended check ✅ đã comment
+### 1. SubmitScore
+**API:** `POST /api/v1/judge/submissions/{submissionId}/scores`
+**File:** `Hackathon.Application/Services/Judge/Service.cs`
+**Hàm:** `SubmitScore`
+
+**🟡 Check active (vừa uncomment):**
+```csharp
+// Judge chỉ được chấm sau khi round hết thời gian nộp bài (EndSubmission)
+if (round.EndSubmission.HasValue && DateTimeOffset.UtcNow <= round.EndSubmission.Value)
+    throw new BadRequestException("Round Submission Period Has Not Ended Yet. Cannot Grade Before Submission End Time.");
+
+// Judge không được chấm sau khi event đã kết thúc
+var judgeEv = await _eventRepository.GetByIdAsync(registerTeam.EventId);
+if (judgeEv != null && judgeEv.EndTime.HasValue && DateTimeOffset.UtcNow >= judgeEv.EndTime.Value)
+    throw new BadRequestException("Event Has Ended. Cannot Grade.");
+```
+
+### 2. UpdateScore
+**API:** Nội bộ (gọi qua `UpdateScoreBySubmission` hoặc `UpdateScore`)
+**File:** `Hackathon.Application/Services/Judge/Service.cs`
+**Hàm:** `UpdateScore`
+
+**🟡 Check active (vừa uncomment):**
+```csharp
+// round.EndSubmission chưa qua → lỗi; event.EndTime đã qua → lỗi
+var updateScoreRound = score.Submission?.RoundDetail?.Round;
+if (updateScoreRound?.EndSubmission.HasValue == true && DateTimeOffset.UtcNow <= updateScoreRound.EndSubmission.Value)
+    throw new BadRequestException("Round Submission Period Has Not Ended Yet. Cannot Update Score Before Submission End Time.");
+
+var updateScoreEv = await _eventRepository.GetByIdAsync(updateScoreRt.EventId);
+if (updateScoreEv != null && updateScoreEv.EndTime.HasValue && DateTimeOffset.UtcNow >= updateScoreEv.EndTime.Value)
+    throw new BadRequestException("Event Has Ended. Cannot Update Score.");
+```
+
+### 3. UpdateScoreItem
+**API:** `PATCH /api/v1/judge/score-items/{scoreItemId}`
+**File:** `Hackathon.Application/Services/Judge/Service.cs`
+**Hàm:** `UpdateScoreItem`
+
+**🟡 Check active (vừa uncomment):**
+```csharp
+// round.EndSubmission chưa qua → lỗi; event.EndTime đã qua → lỗi
+var updateItemRound = scoreItem.ScoreEntity?.Submission?.RoundDetail?.Round;
+if (updateItemRound?.EndSubmission.HasValue == true && DateTimeOffset.UtcNow <= updateItemRound.EndSubmission.Value)
+    throw new BadRequestException("Round Submission Period Has Not Ended Yet. Cannot Update Score Item Before Submission End Time.");
+
+var updateItemEv = await _eventRepository.GetByIdAsync(updateItemRt.EventId);
+if (updateItemEv != null && updateItemEv.EndTime.HasValue && DateTimeOffset.UtcNow >= updateItemEv.EndTime.Value)
+    throw new BadRequestException("Event Has Ended. Cannot Update Score Item.");
+```
 
 ---
 
@@ -336,8 +384,8 @@ if (ev.Status == EventStatusEnum.Draft || ev.Status == EventStatusEnum.Closed)
 
 | # | API | Trước | Sau | Ghi chú |
 |---|-----|-------|-----|---------|
-| 1 | Admin POST CreateEvent | ❌ Commented | 🟡 EndTime > StartTime | RegisterLimitTime vẫn comment |
-| 2 | Admin PATCH UpdateEvent | ❌ Commented | 🟡 EndTime > StartTime | StartTime>now + RegisterLimitTime vẫn comment |
+| 1 | Admin POST CreateEvent | ❌ Commented | 🟡 EndTime > StartTime + EndTime > now + RegisterLimitTime | StartTime có thể ở quá khứ |
+| 2 | Admin PATCH UpdateEvent | ❌ Commented | 🟡 EndTime > StartTime + EndTime > now + RegisterLimitTime | StartTime có thể ở quá khứ |
 | 3 | Admin POST CreateRound | ❌ Commented | 🟡 EndTime > StartTime | Submission/LimitTeam/RegisterLimit vẫn comment |
 | 4 | Admin PATCH UpdateRound | ❌ Commented | 🟡 EndTime > StartTime + 🟡 Previous round check | Next round/LimitTeam/RegisterLimit vẫn comment |
 | 5 | Admin POST SwapRound | ❌ Commented | ❌ Commented | Không đổi |
@@ -345,6 +393,9 @@ if (ev.Status == EventStatusEnum.Draft || ev.Status == EventStatusEnum.Closed)
 | 7-10 | Admin RegisterTeam các API | ❌ Commented | ❌ Commented | Không đổi |
 | 18 | Student POST CreateRegisterTeam | ❌ Commented | ❌ Commented | Đã comment từ trước |
 | 19 | Student POST CreateSubmission | ✅ Active | ❌ Commented | **Vừa comment** StartSubmission/EndSubmission |
+| 20 | Judge POST SubmitScore | ❌ Commented | 🟡 round.EndSubmission ↑ + event.EndTime ↓ | **Vừa uncomment** |
+| 21 | Judge UpdateScore | ❌ Commented | 🟡 round.EndSubmission ↑ + event.EndTime ↓ | **Vừa uncomment** (nội bộ) |
+| 22 | Judge PATCH UpdateScoreItem | ❌ Commented | 🟡 round.EndSubmission ↑ + event.EndTime ↓ | **Vừa uncomment** |
 
 > 🟡 = vừa uncomment (active), ❌ = commented, ✅ = đã active từ trước
 

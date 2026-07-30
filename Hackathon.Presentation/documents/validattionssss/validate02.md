@@ -17,6 +17,9 @@
 ### `POST /api/v1/admin/events` — `CreateEvent`
 
 - `EndTime` phải lớn hơn `StartTime`; sai trả `End Time Must Be After Start Time`.
+- **🟡 `EndTime` không được nằm trong quá khứ** (`EndTime <= now`); sai trả `End Time Must Be After Current Time`.
+- **🟡 `RegisterLimitTime` phải nằm trong `[StartTime, EndTime]`**: `RegisterLimitTime <= StartTime` → `Register Limit Time Must Be After Start Time`; `RegisterLimitTime >= EndTime` → `Register Limit Time Must Be Before End Time`.
+- `StartTime` có thể ở quá khứ (không check).
 - Event mới luôn được tạo với `Status = Draft`, `IsDisable = true`, `NumberRound = 0`.
 
 ### `GET /api/v1/admin/events/{eventId}/setup-check` — `IsEventSetupComplete`
@@ -39,6 +42,8 @@ Event được coi là setup đủ khi có:
 - Không cho `Draft -> Closed`: phải publish trước.
 - `Draft -> Published` chỉ thành công khi setup-check đầy đủ; lỗi liệt kê các field còn thiếu.
 - Nếu request đổi `StartTime` hoặc `EndTime`, giá trị sau merge phải thỏa `EndTime > StartTime`.
+- **🟡 Nếu đổi `EndTime`, không được nằm trong quá khứ** (`EndTime <= now`).
+- **🟡 `RegisterLimitTime` sau merge phải nằm trong `[StartTime, EndTime]`**.
 - Bật hiển thị Draft (`IsDisable = false`) cũng yêu cầu setup-check đầy đủ.
 - Đổi `StartTime` cập nhật `Year` của leaderboard đã tồn tại.
 - Nếu event chưa có leaderboard và đã có `StartTime`, tự tạo leaderboard với `Year = StartTime.Year`, `IsPublished = true`.
@@ -148,6 +153,7 @@ Event được coi là setup đủ khi có:
 
 - Track phải thuộc cùng event với register team.
 - Nếu có Topic, Topic phải thuộc Track được chọn.
+- **🟡 Nếu Track có `MaxTeam` và đây là track mới (khác track cũ):** đếm số Approved team hiện tại trong track; nếu đạt `MaxTeam` → lỗi `Track Has Reached Maximum Number Of Teams. Cannot Assign More Teams`.
 - Ghi đè `TrackId` và `TopicId` hiện tại.
 
 ### `POST /api/v1/admin/register-teams/{registerTeamId}/remove-track-topic` — `RemoveTrackTopic`
@@ -438,6 +444,7 @@ Mọi mutation bên dưới có thêm assignment guard theo event của register
 
 - Track phải cùng event với RegisterTeam.
 - Topic phải thuộc Track được chọn.
+- **🟡 Nếu Track có `MaxTeam` và đây là track mới:** đếm Approved team hiện tại; đầy → lỗi `Track Has Reached Maximum Number Of Teams. Cannot Assign More Teams`.
 
 ### `POST /api/v1/staff/register-teams/{registerTeamId}/remove-track-topic` — `RemoveTrackTopic`
 
@@ -741,6 +748,8 @@ Mọi mutation bên dưới có thêm assignment guard theo event của register
 - RegisterTeam phải xác định được Track.
 - Judge phải được assign Track đó.
 - Round phải có CriteriaTemplate active.
+- **🟡 Round phải đã hết thời gian nộp bài (`EndSubmission`):** nếu `EndSubmission` có giá trị và `now <= EndSubmission` → lỗi `Round Submission Period Has Not Ended Yet. Cannot Grade Before Submission End Time.`
+- **🟡 Event chưa kết thúc:** nếu `Event.EndTime` có giá trị và `now >= EndTime` → lỗi `Event Has Ended. Cannot Grade.`
 - Request phải chứa tất cả active CriteriaItems; thiếu trả tên các criteria còn thiếu.
 - Nếu judge đã có Score cho submission: thay toàn bộ old ScoreItems bằng items mới và tính lại TotalScore.
 - Nếu chưa có: tạo Score mới.
@@ -751,12 +760,14 @@ Mọi mutation bên dưới có thêm assignment guard theo event của register
 
 - Tìm Score của current judge trên submission; chưa chấm thì NotFound.
 - Gọi method nội bộ `UpdateScore(scoreId, ...)`.
+- **🟡 Round `EndSubmission` chưa qua → lỗi; Event `EndTime` đã qua → lỗi** (giống `SubmitScore`).
 - Chỉ update CriteriaItems được gửi, giữ item không gửi.
 - Tính lại TotalScore bằng tổng toàn bộ ScoreItems và giữ Submission = Graded.
 
 ### `PATCH /api/v1/judge/score-items/{scoreItemId}` — `UpdateScoreItem`
 
 - ScoreItem phải thuộc current judge.
+- **🟡 Round `EndSubmission` chưa qua → lỗi; Event `EndTime` đã qua → lỗi** (giống `SubmitScore`).
 - Chỉ đổi Score/Comment nếu request có giá trị.
 - Tính lại TotalScore của parent Score.
 
