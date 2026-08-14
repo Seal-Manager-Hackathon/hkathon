@@ -39,7 +39,7 @@ Cần một instance **PostgreSQL** đang chạy (tải tại <https://www.postg
 ### 3. Tải mã nguồn
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Seal-Manager-Hackathon/hkathon.git
 cd hkathon
 ```
 
